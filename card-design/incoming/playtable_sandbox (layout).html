@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Archmage Ascension — Visual Sandbox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/tokens.css">
+<style>
+  html, body { margin:0; padding:0; min-height:100%; }
+  body {
+    background: var(--page-bg);
+    color: var(--page-text);
+    overflow:hidden;
+  }
+
+  body[data-surface="velvet"] {
+    background:
+      radial-gradient(ellipse at 50% 34%, rgba(200,168,74,.06) 0%, rgba(200,168,74,.02) 22%, transparent 56%),
+      radial-gradient(ellipse at 18% 22%, rgba(122,96,168,.08) 0%, transparent 48%),
+      radial-gradient(ellipse at 84% 18%, rgba(88,62,126,.08) 0%, transparent 42%),
+      linear-gradient(180deg, #120d1c 0%, #0a0810 58%, #05040a 100%);
+  }
+  body[data-surface="obsidian"] {
+    background:
+      radial-gradient(circle at 50% 35%, rgba(255,255,255,.025) 0%, transparent 28%),
+      linear-gradient(180deg, #101014 0%, #06060a 100%);
+  }
+  body[data-surface="wood"] {
+    background:
+      repeating-linear-gradient(90deg, rgba(48,28,14,.34) 0 34px, rgba(28,16,8,.34) 34px 68px),
+      linear-gradient(180deg, #2a1b12 0%, #170f0a 100%);
+  }
+  body[data-surface="parchment"] {
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,255,255,.04) 0%, transparent 24%),
+      radial-gradient(circle at 68% 76%, rgba(0,0,0,.04) 0%, transparent 26%),
+      linear-gradient(180deg, #1a1512 0%, #0f0c0a 100%);
+  }
+
+  .shell {
+    height: 100vh;
+    display:grid;
+    grid-template-columns: minmax(0, 1fr) 348px;
+  }
+
+  .main {
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+  }
+
+  .topbar {
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:18px;
+    padding:16px 24px 14px;
+    border-bottom:1px solid rgba(90,72,120,.35);
+    background:linear-gradient(180deg, rgba(18,10,28,.86), rgba(10,8,16,.62));
+    backdrop-filter: blur(8px);
+  }
+  .brand { display:flex; gap:14px; align-items:flex-start; }
+  .brand .glyph { color:var(--gold); font-size:18px; line-height:1; padding-top:2px; }
+  .brand .name {
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:#c8b8e8;
+  }
+  .brand .sub {
+    font-family:var(--font-body);
+    font-style:italic;
+    font-size:14px;
+    color:var(--page-text-soft);
+    margin-top:3px;
+  }
+  .status {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    justify-content:flex-end;
+  }
+  .chip {
+    padding:6px 10px;
+    border:1px solid rgba(90,72,120,.38);
+    border-radius:999px;
+    background:rgba(18,10,28,.45);
+    font-family:var(--font-display);
+    font-size:9px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--page-text-soft);
+    white-space:nowrap;
+  }
+
+  .workspace {
+    flex:1;
+    min-height:0;
+    display:grid;
+    grid-template-rows: minmax(0,1fr) 220px;
+    gap:0;
+  }
+
+  .scenes {
+    min-height:0;
+    overflow:auto;
+    padding:22px 24px 18px;
+  }
+  .scene-grid {
+    display:grid;
+    gap:18px;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .scene-grid.compare {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .panel {
+    min-width:0;
+    border:1px solid rgba(74,56,104,.38);
+    border-radius:16px;
+    background:linear-gradient(180deg, rgba(18,10,28,.78), rgba(8,7,14,.78));
+    box-shadow:0 18px 42px rgba(0,0,0,.28), inset 0 0 0 1px rgba(200,168,74,.03);
+    overflow:hidden;
+  }
+  .panel-head {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    padding:13px 16px 11px;
+    border-bottom:1px solid rgba(74,56,104,.32);
+    background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,0));
+  }
+  .panel-title {
+    font-family:var(--font-display);
+    font-size:11px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .panel-sub {
+    font-family:var(--font-body);
+    font-style:italic;
+    font-size:12px;
+    color:var(--page-text-soft);
+  }
+  .scene-body {
+    min-height:440px;
+    padding:18px 16px 20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:auto;
+  }
+
+  .scene-stage {
+    width:100%;
+    min-height:380px;
+    border-radius:18px;
+    border:1px solid rgba(200,168,74,.08);
+    background:
+      radial-gradient(ellipse at 50% 50%, rgba(200,168,74,.035) 0%, transparent 58%),
+      linear-gradient(180deg, rgba(255,255,255,.012), rgba(255,255,255,0));
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .stage-etch {
+    position:absolute;
+    inset:16px;
+    border:1px solid rgba(200,168,74,.06);
+    border-radius:14px;
+    pointer-events:none;
+  }
+  .stage-ring {
+    position:absolute;
+    width:min(520px, 62vw);
+    aspect-ratio:1;
+    border-radius:50%;
+    border:1px solid rgba(200,168,74,.05);
+    pointer-events:none;
+  }
+
+  .cards-row, .cards-grid, .tableau-wrap, .strip-wrap, .single-wrap {
+    position:relative;
+    z-index:1;
+  }
+  .cards-row {
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:14px;
+    flex-wrap:wrap;
+    padding:28px 18px;
+  }
+  .cards-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, max-content));
+    justify-content:center;
+    gap:16px 14px;
+    width:100%;
+    padding:24px 16px;
+  }
+  .tableau-wrap {
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+    align-items:center;
+    width:100%;
+    padding:26px 14px;
+  }
+  .tableau-row {
+    display:flex;
+    align-items:flex-end;
+    gap:10px;
+  }
+  .strip-wrap {
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding:34px 18px;
+    width:100%;
+  }
+  .single-wrap {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:18px;
+  }
+  .hand-scene {
+    position:relative;
+    width:100%;
+    min-height:400px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    overflow:visible;
+    padding:16px 10px 34px;
+  }
+
+  .fan-card, .plain-card {
+    position:relative;
+    flex:0 0 auto;
+    transition:transform .22s cubic-bezier(.2,.8,.2,1), filter .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s;
+    filter:drop-shadow(0 6px 12px rgba(0,0,0,.45));
+  }
+  .fan-card.hoverable:hover,
+  .plain-card.hoverable:hover {
+    transform:translateY(-8px);
+    filter:drop-shadow(0 14px 26px rgba(0,0,0,.55));
+    z-index:20 !important;
+  }
+  .fan-card svg, .plain-card svg { display:block; }
+  .card-meta {
+    margin-top:8px;
+    text-align:center;
+    font-family:var(--font-display);
+    font-size:9px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--page-dim-deeper);
+  }
+  .panel-tag {
+    padding:4px 8px;
+    border:1px solid rgba(90,72,120,.34);
+    border-radius:999px;
+    font-family:var(--font-display);
+    font-size:8px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--page-text-soft);
+  }
+
+  .inspector {
+    border-top:1px solid rgba(74,56,104,.32);
+    background:linear-gradient(180deg, rgba(10,8,16,.88), rgba(6,5,10,.96));
+    display:grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    min-height:0;
+  }
+  .inspect-card {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:18px 12px;
+    border-right:1px solid rgba(74,56,104,.28);
+  }
+  .inspect-meta {
+    padding:18px 18px 14px;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .inspect-title {
+    font-family:var(--font-display);
+    font-size:12px;
+    letter-spacing:.24em;
+    text-transform:uppercase;
+    color:var(--gold);
+  }
+  .inspect-name {
+    font-family:var(--font-display);
+    font-size:18px;
+    letter-spacing:.08em;
+    color:#dbcdf5;
+  }
+  .inspect-copy {
+    font-family:var(--font-body);
+    font-size:14px;
+    line-height:1.45;
+    color:var(--page-text-soft);
+    max-width:74ch;
+  }
+  .inspect-grid {
+    display:grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap:10px;
+  }
+  .inspect-stat {
+    padding:10px 11px;
+    border:1px solid rgba(74,56,104,.32);
+    border-radius:10px;
+    background:rgba(18,10,28,.32);
+  }
+  .inspect-stat .k {
+    font-family:var(--font-display);
+    font-size:8px;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--page-dim-deeper);
+    margin-bottom:6px;
+  }
+  .inspect-stat .v {
+    font-family:var(--font-display);
+    font-size:12px;
+    letter-spacing:.08em;
+    color:var(--page-text);
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  .rail {
+    min-height:0;
+    overflow:auto;
+    border-left:1px solid rgba(74,56,104,.38);
+    background:linear-gradient(180deg,#120a1c,#09070f 48%, #07060b 100%);
+    padding:22px 18px 22px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .rail-title {
+    font-family:var(--font-display);
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--gold);
+    padding-bottom:12px;
+    border-bottom:1px solid rgba(74,56,104,.32);
+  }
+  .rail-copy {
+    font-family:var(--font-body);
+    font-style:italic;
+    font-size:13px;
+    line-height:1.45;
+    color:var(--page-text-soft);
+  }
+  .control-group {
+    padding:14px 14px 12px;
+    border:1px solid rgba(74,56,104,.30);
+    border-radius:14px;
+    background:rgba(18,10,28,.30);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .group-title {
+    font-family:var(--font-display);
+    font-size:9px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--page-dim-deeper);
+  }
+  .seg-btns, .seg-stack {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .seg-btn, .toggle, .ghost-btn {
+    border-radius:8px;
+    border:1px solid rgba(74,56,104,.40);
+    background:rgba(10,8,16,.44);
+    color:var(--page-text-soft);
+    font-family:var(--font-display);
+    font-size:9px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    padding:7px 9px;
+    cursor:pointer;
+    transition:all .18s ease;
+  }
+  .seg-btn:hover, .toggle:hover, .ghost-btn:hover {
+    border-color:rgba(200,168,74,.46);
+    color:var(--page-text);
+  }
+  .seg-btn.active, .toggle.active {
+    border-color:var(--gold);
+    background:rgba(200,168,74,.12);
+    color:var(--gold);
+  }
+  .control-row {
+    display:grid;
+    grid-template-columns: 1fr auto;
+    align-items:center;
+    gap:10px;
+  }
+  .control-row label {
+    font-family:var(--font-display);
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--page-text-soft);
+  }
+  .value-chip {
+    min-width:52px;
+    text-align:right;
+    font-family:var(--font-display);
+    font-size:10px;
+    letter-spacing:.08em;
+    color:#d8cdb8;
+  }
+  input[type="range"] {
+    width:100%;
+    accent-color: var(--gold);
+  }
+  select, .num-input {
+    width:100%;
+    padding:8px 10px;
+    border-radius:8px;
+    border:1px solid rgba(74,56,104,.38);
+    background:#0f0c15;
+    color:var(--page-text);
+    font-family:var(--font-body);
+    font-size:14px;
+  }
+  .inline-grid {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px;
+  }
+  .tiny-note {
+    font-family:var(--font-body);
+    font-size:12px;
+    color:var(--page-dim);
+    line-height:1.35;
+  }
+
+  .hidden { display:none !important; }
+
+  #diag {
+    position:fixed; top:10px; left:10px; right:10px; z-index:2000;
+    background:#2a0a0a; border:1px solid #e8304a; color:#ffcfcf;
+    padding:12px 16px; border-radius:6px; font-family:monospace;
+    font-size:12px; display:none; white-space:pre-wrap; max-height:40vh; overflow:auto;
+  }
+
+  @media (max-width: 1220px){
+    .shell { grid-template-columns: minmax(0,1fr) 320px; }
+    .inspector { grid-template-columns: 190px minmax(0,1fr); }
+  }
+  @media (max-width: 980px){
+    .shell {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0,1fr) auto;
+      height:auto;
+      min-height:100vh;
+    }
+    .rail { border-left:0; border-top:1px solid rgba(74,56,104,.38); }
+    .workspace { grid-template-rows: minmax(0,1fr) auto; }
+    .scene-grid.compare { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-surface="velvet">
+<div id="diag"></div>
+<div id="app"></div>
+
+<script src="lib/cards.js"></script>
+<script src="connectors/bloom-soft.js"></script>
+<script src="connectors/parallelogram.js"></script>
+<script src="connectors/notch.js"></script>
+<script src="connectors/triangle.js"></script>
+<script src="connectors/beacon.js"></script>
+<script src="art/sigil.js"></script>
+<script src="art/ritual.js"></script>
+<script src="art/glyph.js"></script>
+<script src="art/emblem.js"></script>
+<script src="art/runic.js"></script>
+<script src="art/crystalline.js"></script>
+<script src="art/engraved.js"></script>
+
+<script>
+(function(){
+  'use strict';
+
+  function showDiag(msg){
+    var el = document.getElementById('diag');
+    if (!el) return;
+    el.style.display = 'block';
+    el.textContent = (el.textContent ? el.textContent + '\n' : '') + msg;
+  }
+  window.addEventListener('error', function(e){
+    showDiag('⚠ ' + (e.message || e.error) + ' (' + (e.filename||'') + ':' + (e.lineno||'') + ')');
+  });
+
+  if (!window.ArchmageCards) {
+    showDiag('ArchmageCards engine did not load.');
+    return;
+  }
+
+  var ALL_CONNECTORS = Object.keys(window.AA_CONNECTORS || {});
+  var ALL_ART = Object.keys(window.AA_ART || {});
+  var ALL_LAYOUTS = Object.keys(window.ArchmageCards.LayoutVariants || {});
+
+  if (!ALL_CONNECTORS.length) showDiag('No connectors registered.');
+  if (!ALL_ART.length) showDiag('No art variants registered.');
+
+  var ENERGY_ORDER = ['radiance','void','flux','aether'];
+  var SURFACES = ['velvet','obsidian','wood','parchment'];
+  var SCENES = ['single','row','hand','tableau','strip','sampler'];
+  var CARD_PRESETS = ['focus-card','focus-sequence','same-value','same-current-mixed','mixed-currents','low-values','high-values','with-wild','all-currents'];
+
+  var state = {
+    scene: 'hand',
+    cardPreset: 'mixed-currents',
+    focusEnergy: 'radiance',
+    focusValue: 7,
+    surface: 'velvet',
+    compare: false,
+    showLabels: false,
+    hoverLift: true,
+    cardCount: 7,
+    scale: 0.56,
+    overlap: 74,
+    fanSpread: 13,
+    rowGap: 14,
+    singleArtScale: 1,
+    primary: createVariantState('bloom-soft', 'sigil', 'classic'),
+    secondary: createVariantState('beacon', 'glyph', 'regal'),
+    inspect: {
+      card: { e:'radiance', v:7, label:'Radiance 7' },
+      panel: 'A'
+    }
+  };
+
+  function pickInitial(wanted, list){
+    return list.indexOf(wanted) !== -1 ? wanted : list[0];
+  }
+
+  function createVariantState(connector, art, layout){
+    return {
+      connector: pickInitial(connector, ALL_CONNECTORS),
+      art: pickInitial(art, ALL_ART),
+      layout: pickInitial(layout, ALL_LAYOUTS),
+      layoutFx: {
+        cornerGlyph: false,
+        cornerLift: false,
+        connectorPlacement: 'same',
+        separator: 'none',
+        mirroredLabel: false,
+        allCorners: false,
+        innerFrame: false,
+        cornerScale: 1,
+        centreScale: 1
+      }
+    };
+  }
+
+  function cloneVariantState(variant){
+    return {
+      connector: variant.connector,
+      art: variant.art,
+      layout: variant.layout,
+      layoutFx: {
+        cornerGlyph: !!variant.layoutFx.cornerGlyph,
+        cornerLift: !!variant.layoutFx.cornerLift,
+        connectorPlacement: variant.layoutFx.connectorPlacement,
+        separator: variant.layoutFx.separator,
+        mirroredLabel: !!variant.layoutFx.mirroredLabel,
+        allCorners: !!variant.layoutFx.allCorners,
+        innerFrame: !!variant.layoutFx.innerFrame,
+        cornerScale: variant.layoutFx.cornerScale,
+        centreScale: variant.layoutFx.centreScale
+      }
+    };
+  }
+
+  function cardLabel(card){
+    if (card.e === 'wild' || card.v === 0) return 'Wild';
+    return card.e.charAt(0).toUpperCase() + card.e.slice(1) + ' ' + card.v;
+  }
+
+  function clamp(n, lo, hi){ return Math.max(lo, Math.min(hi, n)); }
+  function wrapValue(v){
+    while (v < 1) v += 20;
+    while (v > 20) v -= 20;
+    return v;
+  }
+  function makeCardSpec(v, e, idx){
+    return { key: e + '-' + v + '-' + idx, v: v, e: e };
+  }
+
+  function generateCards(){
+    var cards = [];
+    var e = state.focusEnergy;
+    var v = state.focusValue;
+    switch (state.cardPreset) {
+      case 'focus-card':
+        cards = [makeCardSpec(v, e, 0)];
+        break;
+      case 'focus-sequence':
+        for (var i = -2; i <= 4; i++) cards.push(makeCardSpec(wrapValue(v + i), e, i + 2));
+        break;
+      case 'same-value':
+        ENERGY_ORDER.forEach(function(en, i){ cards.push(makeCardSpec(v, en, i)); });
+        cards.push({ key:'wild-same', v:0, e:'wild' });
+        break;
+      case 'same-current-mixed':
+        [2,5,8,11,14,17,20].forEach(function(base, i){ cards.push(makeCardSpec(base, e, i)); });
+        break;
+      case 'mixed-currents':
+        for (var j = 0; j < 8; j++) cards.push(makeCardSpec(wrapValue(v - 1 + j), ENERGY_ORDER[j % ENERGY_ORDER.length], j));
+        break;
+      case 'low-values':
+        for (var k = 1; k <= 8; k++) cards.push(makeCardSpec(k, ENERGY_ORDER[(k - 1) % 4], k));
+        break;
+      case 'high-values':
+        for (var h = 13; h <= 20; h++) cards.push(makeCardSpec(h, ENERGY_ORDER[(h - 13) % 4], h));
+        break;
+      case 'with-wild':
+        cards = [
+          makeCardSpec(wrapValue(v-1), e, 0),
+          makeCardSpec(v, ENERGY_ORDER[(ENERGY_ORDER.indexOf(e)+1)%4], 1),
+          { key:'wild-mid', v:0, e:'wild' },
+          makeCardSpec(wrapValue(v+1), e, 2),
+          makeCardSpec(v, ENERGY_ORDER[(ENERGY_ORDER.indexOf(e)+2)%4], 3),
+          makeCardSpec(wrapValue(v+2), ENERGY_ORDER[(ENERGY_ORDER.indexOf(e)+3)%4], 4)
+        ];
+        break;
+      case 'all-currents':
+        cards = [
+          makeCardSpec(v, 'radiance', 0),
+          makeCardSpec(v, 'void', 1),
+          makeCardSpec(v, 'flux', 2),
+          makeCardSpec(v, 'aether', 3),
+          makeCardSpec(wrapValue(v+1), 'radiance', 4),
+          makeCardSpec(wrapValue(v+2), 'void', 5),
+          makeCardSpec(wrapValue(v+3), 'flux', 6),
+          makeCardSpec(wrapValue(v+4), 'aether', 7)
+        ];
+        break;
+      default:
+        cards = [makeCardSpec(v, e, 0)];
+    }
+    return cards.slice(0, Math.max(1, state.cardCount));
+  }
+
+  function getSceneCards(){
+    var cards = generateCards();
+    if (state.scene === 'single') return [cards[0]];
+    if (state.scene === 'row') return cards.slice(0, Math.min(4, cards.length));
+    if (state.scene === 'strip') return cards.slice(0, Math.min(5, cards.length));
+    if (state.scene === 'sampler') {
+      return [
+        makeCardSpec(state.focusValue, 'radiance', 0),
+        makeCardSpec(state.focusValue, 'void', 1),
+        makeCardSpec(state.focusValue, 'flux', 2),
+        makeCardSpec(state.focusValue, 'aether', 3),
+        { key:'wild-sampler', v:0, e:'wild' }
+      ];
+    }
+    return cards;
+  }
+
+  function buildTableauRows(cards){
+    if (cards.length <= 3) return [cards];
+    var rows = [];
+    var i = 0;
+    while (i < cards.length) {
+      rows.push(cards.slice(i, i + (rows.length === 0 ? 3 : 4)));
+      i += rows[rows.length - 1].length;
+    }
+    return rows;
+  }
+
+  function renderCard(card, variant, scale, hoverable, panelKey){
+    var wrap = document.createElement('div');
+    wrap.className = 'plain-card' + (hoverable ? ' hoverable' : '');
+    var html = (card.e === 'wild' || card.v === 0)
+      ? window.ArchmageCards.makeWildCard({ scale: scale, connector: variant.connector, art: variant.art, layout: variant.layout, layoutFx: variant.layoutFx })
+      : window.ArchmageCards.makeCard(card.v, card.e, { scale: scale, connector: variant.connector, art: variant.art, layout: variant.layout, layoutFx: variant.layoutFx });
+    wrap.innerHTML = html;
+    wrap.addEventListener('mouseenter', function(){ setInspect(card, panelKey); });
+    if (!state.hoverLift) wrap.classList.remove('hoverable');
+    return wrap;
+  }
+
+  function renderLabeledCard(card, variant, scale, hoverable, panelKey){
+    var outer = document.createElement('div');
+    outer.style.display = 'flex';
+    outer.style.flexDirection = 'column';
+    outer.style.alignItems = 'center';
+    outer.style.gap = '0';
+    outer.appendChild(renderCard(card, variant, scale, hoverable, panelKey));
+    if (state.showLabels) outer.appendChild(el('div', { class:'card-meta', text: cardLabel(card) }));
+    return outer;
+  }
+
+  function renderSceneContent(cards, variant, panelKey){
+    if (state.scene === 'single') {
+      var s = el('div', { class:'single-wrap' });
+      s.appendChild(renderLabeledCard(cards[0], variant, state.scale * 1.18 * state.singleArtScale, true, panelKey));
+      return s;
+    }
+
+    if (state.scene === 'row') {
+      var row = el('div', { class:'cards-row' });
+      cards.forEach(function(card){ row.appendChild(renderLabeledCard(card, variant, state.scale, true, panelKey)); });
+      return row;
+    }
+
+    if (state.scene === 'sampler') {
+      var grid = el('div', { class:'cards-grid' });
+      cards.forEach(function(card){ grid.appendChild(renderLabeledCard(card, variant, state.scale * 0.92, true, panelKey)); });
+      return grid;
+    }
+
+    if (state.scene === 'tableau') {
+      var table = el('div', { class:'tableau-wrap' });
+      buildTableauRows(cards).forEach(function(rowCards, idx){
+        var rowEl = el('div', { class:'tableau-row' });
+        rowEl.style.gap = (idx === 0 ? state.rowGap : Math.max(8, state.rowGap - 2)) + 'px';
+        rowCards.forEach(function(card){ rowEl.appendChild(renderLabeledCard(card, variant, state.scale * 0.94, true, panelKey)); });
+        table.appendChild(rowEl);
+      });
+      return table;
+    }
+
+    if (state.scene === 'strip') {
+      var strip = el('div', { class:'strip-wrap' });
+      var host = document.createElement('div');
+      host.style.display = 'flex';
+      host.style.alignItems = 'flex-end';
+      cards.forEach(function(card, idx){
+        var cardWrap = renderLabeledCard(card, variant, state.scale, true, panelKey);
+        if (idx < cards.length - 1) cardWrap.style.marginRight = '-' + state.overlap + 'px';
+        cardWrap.style.position = 'relative';
+        cardWrap.style.zIndex = String(idx + 1);
+        strip.appendChild(cardWrap);
+      });
+      return strip;
+    }
+
+    var hand = el('div', { class:'hand-scene' });
+    var N = cards.length;
+    var mid = (N - 1) / 2;
+    var maxStep = Math.max(34, 126 - state.overlap);
+    cards.forEach(function(card, i){
+      var rot = (i - mid) * state.fanSpread;
+      var x = (i - mid) * maxStep;
+      var yLift = Math.abs(i - mid) * 2.5;
+      var slot = renderLabeledCard(card, variant, state.scale, true, panelKey);
+      slot.classList.remove('plain-card');
+      slot.style.position = 'absolute';
+      slot.style.left = 'calc(50% + ' + x + 'px)';
+      slot.style.bottom = yLift + 'px';
+      slot.style.transform = 'translateX(-50%) rotate(' + rot + 'deg)';
+      slot.style.transformOrigin = '50% 140%';
+      slot.style.zIndex = String(i + 1);
+      if (state.hoverLift) {
+        slot.addEventListener('mouseenter', function(){
+          slot.style.transform = 'translateX(-50%) rotate(' + rot + 'deg) translateY(-26px)';
+          slot.style.zIndex = String(50 + i);
+          setInspect(card, panelKey);
+        });
+        slot.addEventListener('mouseleave', function(){
+          slot.style.transform = 'translateX(-50%) rotate(' + rot + 'deg)';
+          slot.style.zIndex = String(i + 1);
+        });
+      }
+      hand.appendChild(slot);
+    });
+    return hand;
+  }
+
+  function setInspect(card, panelKey){
+    state.inspect = {
+      card: card,
+      panel: panelKey
+    };
+    renderInspector();
+  }
+
+  function getPanelSubtitle(variant){
+    var extras = [];
+    if (variant.layoutFx.cornerGlyph) extras.push('corner glyph');
+    if (variant.layoutFx.separator !== 'none') extras.push(variant.layoutFx.separator + ' separator');
+    if (variant.layoutFx.connectorPlacement !== 'same') extras.push(variant.layoutFx.connectorPlacement + ' connectors');
+    return [variant.layout, variant.connector, variant.art].concat(extras.slice(0,2)).join(' · ');
+  }
+
+  function buildPanel(title, variant, cards, panelKey){
+    var panel = el('section', { class:'panel' });
+    panel.appendChild(el('div', { class:'panel-head' }, [
+      el('div', null, [
+        el('div', { class:'panel-title', text: title }),
+        el('div', { class:'panel-sub', text: getPanelSubtitle(variant) })
+      ]),
+      el('div', { class:'panel-tag', text: panelKey === 'A' ? 'Primary' : 'Compare' })
+    ]));
+
+    var body = el('div', { class:'scene-body' });
+    var stage = el('div', { class:'scene-stage' });
+    stage.appendChild(el('div', { class:'stage-etch' }));
+    stage.appendChild(el('div', { class:'stage-ring' }));
+    stage.appendChild(renderSceneContent(cards, variant, panelKey));
+    body.appendChild(stage);
+    panel.appendChild(body);
+    return panel;
+  }
+
+  function updateBodySurface(){
+    document.body.setAttribute('data-surface', state.surface);
+  }
+
+  function el(tag, attrs, children){
+    var node = document.createElement(tag);
+    if (attrs) for (var k in attrs) {
+      if (k === 'class') node.className = attrs[k];
+      else if (k === 'text') node.textContent = attrs[k];
+      else if (k === 'html') node.innerHTML = attrs[k];
+      else if (k === 'style') for (var s in attrs[k]) node.style[s] = attrs[k][s];
+      else if (k.indexOf('on') === 0) node.addEventListener(k.slice(2), attrs[k]);
+      else node.setAttribute(k, attrs[k]);
+    }
+    if (children) children.forEach(function(child){ if (child) node.appendChild(child); });
+    return node;
+  }
+
+  function segButtons(options, active, onPick){
+    var host = el('div', { class:'seg-btns' });
+    options.forEach(function(opt){
+      host.appendChild(el('button', {
+        class:'seg-btn' + (opt === active ? ' active' : ''),
+        text: opt,
+        onclick: function(){ onPick(opt); }
+      }));
+    });
+    return host;
+  }
+
+  function makeRange(label, min, max, step, value, format, onInput){
+    var wrap = el('div');
+    var chip;
+    wrap.appendChild(el('div', { class:'control-row' }, [
+      el('label', { text: label }),
+      chip = el('div', { class:'value-chip', text: format(value) })
+    ]));
+    var input = el('input', {
+      type:'range', min:String(min), max:String(max), step:String(step), value:String(value)
+    });
+    input.addEventListener('input', function(ev){ chip.textContent = format(parseFloat(ev.target.value)); });
+    input.addEventListener('change', function(ev){ onInput(parseFloat(ev.target.value)); });
+    wrap.appendChild(input);
+    return wrap;
+  }
+
+  function makeSelect(label, options, value, onChange){
+    var wrap = el('div');
+    wrap.appendChild(el('div', { class:'group-title', text: label }));
+    var select = document.createElement('select');
+    options.forEach(function(opt){
+      var o = document.createElement('option');
+      o.value = opt;
+      o.textContent = opt;
+      if (opt === value) o.selected = true;
+      select.appendChild(o);
+    });
+    select.addEventListener('change', function(){ onChange(select.value); });
+    wrap.appendChild(select);
+    return wrap;
+  }
+
+
+  function makeVariantControls(title, variant, onChange){
+    var group = el('div', { class:'control-group' });
+    group.appendChild(el('div', { class:'group-title', text:title }));
+    group.appendChild(makeSelect('Connector', ALL_CONNECTORS, variant.connector, function(v){ variant.connector = v; onChange(); }));
+    group.appendChild(makeSelect('Energy art', ALL_ART, variant.art, function(v){ variant.art = v; onChange(); }));
+    group.appendChild(makeSelect('Layout', ALL_LAYOUTS, variant.layout, function(v){ variant.layout = v; onChange(); }));
+
+    group.appendChild(el('div', { class:'group-title', text:'Connector placement' }));
+    group.appendChild(segButtons(['same','mirrored','left-only'], variant.layoutFx.connectorPlacement, function(v){ variant.layoutFx.connectorPlacement = v; onChange(); }));
+
+    group.appendChild(el('div', { class:'group-title', text:'Separator margin' }));
+    group.appendChild(segButtons(['none','line','band'], variant.layoutFx.separator, function(v){ variant.layoutFx.separator = v; onChange(); }));
+
+    group.appendChild(el('div', { class:'seg-stack' }, [
+      el('button', {
+        class:'toggle' + (variant.layoutFx.cornerGlyph ? ' active' : ''),
+        text: variant.layoutFx.cornerGlyph ? 'Corner glyph on' : 'Corner glyph off',
+        onclick:function(){ variant.layoutFx.cornerGlyph = !variant.layoutFx.cornerGlyph; onChange(); }
+      }),
+      el('button', {
+        class:'toggle' + (variant.layoutFx.cornerLift ? ' active' : ''),
+        text: variant.layoutFx.cornerLift ? 'Corner lift on' : 'Corner lift off',
+        onclick:function(){ variant.layoutFx.cornerLift = !variant.layoutFx.cornerLift; onChange(); }
+      }),
+      el('button', {
+        class:'toggle' + (variant.layoutFx.allCorners ? ' active' : ''),
+        text: variant.layoutFx.allCorners ? 'Four corners on' : 'Four corners off',
+        onclick:function(){ variant.layoutFx.allCorners = !variant.layoutFx.allCorners; onChange(); }
+      }),
+      el('button', {
+        class:'toggle' + (variant.layoutFx.mirroredLabel ? ' active' : ''),
+        text: variant.layoutFx.mirroredLabel ? 'Top label on' : 'Top label off',
+        onclick:function(){ variant.layoutFx.mirroredLabel = !variant.layoutFx.mirroredLabel; onChange(); }
+      }),
+      el('button', {
+        class:'toggle' + (variant.layoutFx.innerFrame ? ' active' : ''),
+        text: variant.layoutFx.innerFrame ? 'Inner frame on' : 'Inner frame off',
+        onclick:function(){ variant.layoutFx.innerFrame = !variant.layoutFx.innerFrame; onChange(); }
+      })
+    ]));
+
+    group.appendChild(makeRange('Corner scale', 0.8, 1.5, 0.05, variant.layoutFx.cornerScale, function(n){ return n.toFixed(2) + '×'; }, function(v){ variant.layoutFx.cornerScale = v; onChange(); }));
+    group.appendChild(makeRange('Centre scale', 0.8, 1.5, 0.05, variant.layoutFx.centreScale, function(n){ return n.toFixed(2) + '×'; }, function(v){ variant.layoutFx.centreScale = v; onChange(); }));
+    group.appendChild(el('div', { class:'tiny-note', text:'These are sandbox layout experiments: corner prominence, top-quarter readability, connector structure, and inner framing.' }));
+    return group;
+  }
+
+  function renderInspector(){
+    var host = document.getElementById('inspector');
+    if (!host) return;
+    host.innerHTML = '';
+    var variant = state.inspect.panel === 'B' && state.compare ? state.secondary : state.primary;
+    var card = state.inspect.card;
+    var cardHtml = (card.e === 'wild' || card.v === 0)
+      ? window.ArchmageCards.makeWildCard({ scale: 0.72, connector: variant.connector, art: variant.art, layout: variant.layout, layoutFx: variant.layoutFx })
+      : window.ArchmageCards.makeCard(card.v, card.e, { scale: 0.72, connector: variant.connector, art: variant.art, layout: variant.layout, layoutFx: variant.layoutFx });
+    host.appendChild(el('div', { class:'inspect-card', html: cardHtml }));
+
+    var copy = card.e === 'wild'
+      ? 'Convergence preview. Useful for checking whether the wild still reads as disciplined synthesis rather than a fifth suit.'
+      : 'Inspecting how the current, layout, connector, and artwork read when the card is isolated at a larger size.';
+
+    host.appendChild(el('div', { class:'inspect-meta' }, [
+      el('div', { class:'inspect-title', text:'Inspection' }),
+      el('div', { class:'inspect-name', text: cardLabel(card) + ' · panel ' + state.inspect.panel }),
+      el('div', { class:'inspect-copy', text: copy }),
+      el('div', { class:'inspect-grid' }, [
+        stat('Current', card.e === 'wild' ? 'wild' : card.e),
+        stat('Value', card.v === 0 ? 'wild' : String(card.v)),
+        stat('Layout', variant.layout),
+        stat('Art', variant.art),
+        stat('Connector', variant.connector),
+        stat('Scale', state.scale.toFixed(2) + '×'),
+        stat('Scene', state.scene),
+        stat('Surface', state.surface)
+      ])
+    ]));
+  }
+
+  function stat(key, value){
+    return el('div', { class:'inspect-stat' }, [
+      el('div', { class:'k', text:key }),
+      el('div', { class:'v', text:value })
+    ]);
+  }
+
+
+  function snapshotScroll(){
+    var rail = document.querySelector('.rail');
+    var scenes = document.querySelector('.scenes');
+    return {
+      rail: rail ? rail.scrollTop : 0,
+      scenes: scenes ? scenes.scrollTop : 0
+    };
+  }
+
+  function restoreScroll(pos){
+    requestAnimationFrame(function(){
+      var rail = document.querySelector('.rail');
+      var scenes = document.querySelector('.scenes');
+      if (rail) rail.scrollTop = pos.rail || 0;
+      if (scenes) scenes.scrollTop = pos.scenes || 0;
+      requestAnimationFrame(function(){
+        if (rail) rail.scrollTop = pos.rail || 0;
+        if (scenes) scenes.scrollTop = pos.scenes || 0;
+      });
+    });
+  }
+
+  function rerender(){
+    var pos = snapshotScroll();
+    buildApp();
+    restoreScroll(pos);
+  }
+
+  function buildApp(){
+    updateBodySurface();
+
+    var cards = getSceneCards();
+    if (!cards.length) cards = [makeCardSpec(state.focusValue, state.focusEnergy, 0)];
+    if (!state.inspect.card || !cards.some(function(c){ return c.key === state.inspect.card.key; })) {
+      state.inspect.card = cards[0];
+      state.inspect.panel = 'A';
+    }
+
+    var app = document.getElementById('app');
+    app.innerHTML = '';
+
+    var shell = el('div', { class:'shell' });
+    var main = el('div', { class:'main' });
+    var rail = el('aside', { class:'rail' });
+
+    main.appendChild(el('header', { class:'topbar' }, [
+      el('div', { class:'brand' }, [
+        el('span', { class:'glyph', text:'✦' }),
+        el('div', null, [
+          el('div', { class:'name', text:'Archmage Ascension' }),
+          el('div', { class:'sub', text:'Visual sandbox — compare layouts, overlap, surfaces, and card families in realistic table arrangements.' })
+        ])
+      ]),
+      el('div', { class:'status' }, [
+        el('div', { class:'chip', text:'scene · ' + state.scene }),
+        el('div', { class:'chip', text:'cards · ' + state.cardPreset }),
+        el('div', { class:'chip', text:'surface · ' + state.surface }),
+        el('div', { class:'chip', text:'compare · ' + (state.compare ? 'on' : 'off') })
+      ])
+    ]));
+
+    var workspace = el('div', { class:'workspace' });
+    var scenesWrap = el('div', { class:'scenes' });
+    var sceneGrid = el('div', { class:'scene-grid' + (state.compare ? ' compare' : '') });
+    sceneGrid.appendChild(buildPanel('Scene A', state.primary, cards, 'A'));
+    if (state.compare) sceneGrid.appendChild(buildPanel('Scene B', state.secondary, cards, 'B'));
+    scenesWrap.appendChild(sceneGrid);
+    workspace.appendChild(scenesWrap);
+    workspace.appendChild(el('section', { class:'inspector', id:'inspector' }));
+    main.appendChild(workspace);
+
+    rail.appendChild(el('div', { class:'rail-title', text:'Sandbox controls' }));
+    rail.appendChild(el('div', { class:'rail-copy', text:'This version is for visual judgement, not gameplay. The controls change composition, overlap, and card rendering so you can test what actually reads on the table.' }));
+
+    rail.appendChild(el('div', { class:'control-group' }, [
+      el('div', { class:'group-title', text:'Scene preset' }),
+      segButtons(SCENES, state.scene, function(v){ state.scene = v; rerender(); }),
+      el('div', { class:'tiny-note', text:'Single card, clean row, fan in hand, tableau rows, heavy overlap strip, or quick current sampler.' })
+    ]));
+
+    rail.appendChild(el('div', { class:'control-group' }, [
+      el('div', { class:'group-title', text:'Card family' }),
+      segButtons(CARD_PRESETS, state.cardPreset, function(v){ state.cardPreset = v; rerender(); }),
+      makeSelect('Focus current', ENERGY_ORDER, state.focusEnergy, function(v){ state.focusEnergy = v; rerender(); }),
+      makeRange('Focus value', 1, 20, 1, state.focusValue, function(n){ return String(Math.round(n)); }, function(v){ state.focusValue = Math.round(v); rerender(); }),
+      makeRange('Card count', 1, 10, 1, state.cardCount, function(n){ return String(Math.round(n)); }, function(v){ state.cardCount = Math.round(v); rerender(); })
+    ]));
+
+    rail.appendChild(makeVariantControls('Design A', state.primary, buildApp));
+
+    rail.appendChild(el('div', { class:'control-group' }, [
+      el('div', { class:'group-title', text:'Compare' }),
+      el('div', { class:'seg-stack' }, [
+        el('button', {
+          class:'toggle' + (state.compare ? ' active' : ''),
+          text: state.compare ? 'Compare on' : 'Compare off',
+          onclick:function(){ state.compare = !state.compare; rerender(); }
+        }),
+        el('button', {
+          class:'ghost-btn',
+          text:'Swap A / B',
+          onclick:function(){
+            var tmp = cloneVariantState(state.primary);
+            state.primary = cloneVariantState(state.secondary);
+            state.secondary = tmp;
+            rerender();
+          }
+        })
+      ]),
+      el('div', { class:'tiny-note', text:'Use compare when you want layout choices to fight directly against each other on the same hand or table scene.' })
+    ]));
+
+    if (state.compare) {
+      rail.appendChild(makeVariantControls('Design B', state.secondary, buildApp));
+    }
+
+    rail.appendChild(el('div', { class:'control-group' }, [
+      el('div', { class:'group-title', text:'Composition' }),
+      makeRange('Card scale', 0.36, 0.92, 0.02, state.scale, function(n){ return n.toFixed(2) + '×'; }, function(v){ state.scale = v; rerender(); }),
+      makeRange('Overlap', 26, 120, 2, state.overlap, function(n){ return Math.round(n) + ' px'; }, function(v){ state.overlap = Math.round(v); rerender(); }),
+      makeRange('Fan rotation', 4, 22, 1, state.fanSpread, function(n){ return Math.round(n) + '°'; }, function(v){ state.fanSpread = Math.round(v); rerender(); }),
+      makeRange('Row gap', 4, 24, 1, state.rowGap, function(n){ return Math.round(n) + ' px'; }, function(v){ state.rowGap = Math.round(v); rerender(); }),
+      makeRange('Single zoom', 0.8, 1.45, 0.05, state.singleArtScale, function(n){ return n.toFixed(2) + '×'; }, function(v){ state.singleArtScale = v; rerender(); })
+    ]));
+
+    rail.appendChild(el('div', { class:'control-group' }, [
+      el('div', { class:'group-title', text:'Presentation' }),
+      segButtons(SURFACES, state.surface, function(v){ state.surface = v; rerender(); }),
+      el('div', { class:'seg-stack' }, [
+        el('button', {
+          class:'toggle' + (state.showLabels ? ' active' : ''),
+          text: state.showLabels ? 'Labels on' : 'Labels off',
+          onclick:function(){ state.showLabels = !state.showLabels; rerender(); }
+        }),
+        el('button', {
+          class:'toggle' + (state.hoverLift ? ' active' : ''),
+          text: state.hoverLift ? 'Hover lift on' : 'Hover lift off',
+          onclick:function(){ state.hoverLift = !state.hoverLift; rerender(); }
+        })
+      ]),
+      el('div', { class:'tiny-note', text:'Surface and hover states change how luminous or legible the cards feel in practice, especially when overlapped.' })
+    ]));
+
+    shell.appendChild(main);
+    shell.appendChild(rail);
+    app.appendChild(shell);
+    renderInspector();
+  }
+
+  buildApp();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+--- export_strict_ratio.js
++++ export_windows_pdf_fix.js
+@@ -258,7 +258,7 @@
+ // Run with: node export-cs3/export.js --pdf
+ // Requires: pip install cairosvg --break-system-packages
+ if (args.includes('--pdf')) {
+-  const { execSync } = require('child_process');
++  const { spawnSync } = require('child_process');
+   const PDF_DIR = path.join(__dirname, 'pdf-cards');
+   fs.mkdirSync(PDF_DIR, { recursive: true });
+   console.log('\nConverting SVGs to PDF...');
+@@ -329,5 +329,64 @@
+     [print(' ', e) for e in errors]
+     sys.exit(1)
+ `;
+-  execSync(`python3 -c ${JSON.stringify(script)}`, { stdio: 'inherit' });
+-}
++
++  // Write the Python helper to disk instead of passing it via `python -c`.
++  // This avoids Windows command-line quoting issues and makes failures easier
++  // to debug. On Windows, prefer the Python launcher (`py -3`) because
++  // `python3` often resolves to the Microsoft Store app-execution alias.
++  const helperPath = path.join(__dirname, '_convert_svg_cards_to_pdf.py');
++  fs.writeFileSync(helperPath, script, 'utf8');
++
++  const candidates = [];
++  if (process.env.PYTHON) {
++    candidates.push({ label: process.env.PYTHON, cmd: process.env.PYTHON, args: [helperPath] });
++  }
++  if (process.platform === 'win32') {
++    candidates.push({ label: 'py -3', cmd: 'py', args: ['-3', helperPath] });
++    candidates.push({ label: 'python', cmd: 'python', args: [helperPath] });
++  } else {
++    candidates.push({ label: 'python3', cmd: 'python3', args: [helperPath] });
++    candidates.push({ label: 'python', cmd: 'python', args: [helperPath] });
++  }
++
++  const attempted = [];
++  let lastStatus = null;
++  let success = false;
++
++  for (const candidate of candidates) {
++    attempted.push(candidate.label);
++    const result = spawnSync(candidate.cmd, candidate.args, { stdio: 'inherit', shell: false });
++
++    if (result.error && result.error.code === 'ENOENT') {
++      continue;
++    }
++
++    // Windows app-execution aliases commonly return 9009 for missing Python.
++    // Treat that like "not found" and try the next candidate.
++    if (result.status === 9009) {
++      lastStatus = result.status;
++      continue;
++    }
++
++    lastStatus = result.status;
++    if (result.status === 0) {
++      success = true;
++      break;
++    }
++
++    // Non-zero status usually means Python ran but cairosvg/pypdf is missing
++    // or conversion failed. Trying another Python can still help if one env has
++    // the packages installed, so continue through the candidates.
++  }
++
++  if (!success) {
++    console.error('\nPDF conversion failed. SVG export succeeded, but no PDFs were produced.');
++    console.error('Tried Python commands: ' + attempted.join(', '));
++    console.error('Last exit status: ' + (lastStatus === null ? 'not started' : lastStatus));
++    console.error('\nOn Windows, install/use Python and the PDF packages, then rerun the same command:');
++    console.error('  py -3 -m pip install cairosvg pypdf');
++    console.error('  node export.js --connector ' + CONNECTOR + ' --art ' + ART + ' --layout ' + LAYOUT + ' --pdf' + (BLEED_MM === 0 ? ' --no-bleed' : ''));
++    console.error('\nThe generated SVGs are already in export-cs3/svg-cards/ and have the printed ratio shown above.');
++    process.exit(lastStatus && lastStatus !== 9009 ? lastStatus : 1);
++  }
++}

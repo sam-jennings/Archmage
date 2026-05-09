@@ -1,0 +1,615 @@
+{
+  "exportedAt": "2026-05-04T14:53:21.058Z",
+  "connector": "beacon",
+  "art": "mixed",
+  "layout": "classic",
+  "scale": 3,
+  "cards": [
+    {
+      "id": "radiance-01",
+      "energy": "radiance",
+      "value": 1,
+      "file": "svg-cards/radiance-01.svg"
+    },
+    {
+      "id": "radiance-02",
+      "energy": "radiance",
+      "value": 2,
+      "file": "svg-cards/radiance-02.svg"
+    },
+    {
+      "id": "radiance-03",
+      "energy": "radiance",
+      "value": 3,
+      "file": "svg-cards/radiance-03.svg"
+    },
+    {
+      "id": "radiance-04",
+      "energy": "radiance",
+      "value": 4,
+      "file": "svg-cards/radiance-04.svg"
+    },
+    {
+      "id": "radiance-05",
+      "energy": "radiance",
+      "value": 5,
+      "file": "svg-cards/radiance-05.svg"
+    },
+    {
+      "id": "radiance-06",
+      "energy": "radiance",
+      "value": 6,
+      "file": "svg-cards/radiance-06.svg"
+    },
+    {
+      "id": "radiance-07",
+      "energy": "radiance",
+      "value": 7,
+      "file": "svg-cards/radiance-07.svg"
+    },
+    {
+      "id": "radiance-08",
+      "energy": "radiance",
+      "value": 8,
+      "file": "svg-cards/radiance-08.svg"
+    },
+    {
+      "id": "radiance-09",
+      "energy": "radiance",
+      "value": 9,
+      "file": "svg-cards/radiance-09.svg"
+    },
+    {
+      "id": "radiance-10",
+      "energy": "radiance",
+      "value": 10,
+      "file": "svg-cards/radiance-10.svg"
+    },
+    {
+      "id": "radiance-11",
+      "energy": "radiance",
+      "value": 11,
+      "file": "svg-cards/radiance-11.svg"
+    },
+    {
+      "id": "radiance-12",
+      "energy": "radiance",
+      "value": 12,
+      "file": "svg-cards/radiance-12.svg"
+    },
+    {
+      "id": "radiance-13",
+      "energy": "radiance",
+      "value": 13,
+      "file": "svg-cards/radiance-13.svg"
+    },
+    {
+      "id": "radiance-14",
+      "energy": "radiance",
+      "value": 14,
+      "file": "svg-cards/radiance-14.svg"
+    },
+    {
+      "id": "radiance-15",
+      "energy": "radiance",
+      "value": 15,
+      "file": "svg-cards/radiance-15.svg"
+    },
+    {
+      "id": "radiance-16",
+      "energy": "radiance",
+      "value": 16,
+      "file": "svg-cards/radiance-16.svg"
+    },
+    {
+      "id": "radiance-17",
+      "energy": "radiance",
+      "value": 17,
+      "file": "svg-cards/radiance-17.svg"
+    },
+    {
+      "id": "radiance-18",
+      "energy": "radiance",
+      "value": 18,
+      "file": "svg-cards/radiance-18.svg"
+    },
+    {
+      "id": "radiance-19",
+      "energy": "radiance",
+      "value": 19,
+      "file": "svg-cards/radiance-19.svg"
+    },
+    {
+      "id": "radiance-20",
+      "energy": "radiance",
+      "value": 20,
+      "file": "svg-cards/radiance-20.svg"
+    },
+    {
+      "id": "void-01",
+      "energy": "void",
+      "value": 1,
+      "file": "svg-cards/void-01.svg"
+    },
+    {
+      "id": "void-02",
+      "energy": "void",
+      "value": 2,
+      "file": "svg-cards/void-02.svg"
+    },
+    {
+      "id": "void-03",
+      "energy": "void",
+      "value": 3,
+      "file": "svg-cards/void-03.svg"
+    },
+    {
+      "id": "void-04",
+      "energy": "void",
+      "value": 4,
+      "file": "svg-cards/void-04.svg"
+    },
+    {
+      "id": "void-05",
+      "energy": "void",
+      "value": 5,
+      "file": "svg-cards/void-05.svg"
+    },
+    {
+      "id": "void-06",
+      "energy": "void",
+      "value": 6,
+      "file": "svg-cards/void-06.svg"
+    },
+    {
+      "id": "void-07",
+      "energy": "void",
+      "value": 7,
+      "file": "svg-cards/void-07.svg"
+    },
+    {
+      "id": "void-08",
+      "energy": "void",
+      "value": 8,
+      "file": "svg-cards/void-08.svg"
+    },
+    {
+      "id": "void-09",
+      "energy": "void",
+      "value": 9,
+      "file": "svg-cards/void-09.svg"
+    },
+    {
+      "id": "void-10",
+      "energy": "void",
+      "value": 10,
+      "file": "svg-cards/void-10.svg"
+    },
+    {
+      "id": "void-11",
+      "energy": "void",
+      "value": 11,
+      "file": "svg-cards/void-11.svg"
+    },
+    {
+      "id": "void-12",
+      "energy": "void",
+      "value": 12,
+      "file": "svg-cards/void-12.svg"
+    },
+    {
+      "id": "void-13",
+      "energy": "void",
+      "value": 13,
+      "file": "svg-cards/void-13.svg"
+    },
+    {
+      "id": "void-14",
+      "energy": "void",
+      "value": 14,
+      "file": "svg-cards/void-14.svg"
+    },
+    {
+      "id": "void-15",
+      "energy": "void",
+      "value": 15,
+      "file": "svg-cards/void-15.svg"
+    },
+    {
+      "id": "void-16",
+      "energy": "void",
+      "value": 16,
+      "file": "svg-cards/void-16.svg"
+    },
+    {
+      "id": "void-17",
+      "energy": "void",
+      "value": 17,
+      "file": "svg-cards/void-17.svg"
+    },
+    {
+      "id": "void-18",
+      "energy": "void",
+      "value": 18,
+      "file": "svg-cards/void-18.svg"
+    },
+    {
+      "id": "void-19",
+      "energy": "void",
+      "value": 19,
+      "file": "svg-cards/void-19.svg"
+    },
+    {
+      "id": "void-20",
+      "energy": "void",
+      "value": 20,
+      "file": "svg-cards/void-20.svg"
+    },
+    {
+      "id": "flux-01",
+      "energy": "flux",
+      "value": 1,
+      "file": "svg-cards/flux-01.svg"
+    },
+    {
+      "id": "flux-02",
+      "energy": "flux",
+      "value": 2,
+      "file": "svg-cards/flux-02.svg"
+    },
+    {
+      "id": "flux-03",
+      "energy": "flux",
+      "value": 3,
+      "file": "svg-cards/flux-03.svg"
+    },
+    {
+      "id": "flux-04",
+      "energy": "flux",
+      "value": 4,
+      "file": "svg-cards/flux-04.svg"
+    },
+    {
+      "id": "flux-05",
+      "energy": "flux",
+      "value": 5,
+      "file": "svg-cards/flux-05.svg"
+    },
+    {
+      "id": "flux-06",
+      "energy": "flux",
+      "value": 6,
+      "file": "svg-cards/flux-06.svg"
+    },
+    {
+      "id": "flux-07",
+      "energy": "flux",
+      "value": 7,
+      "file": "svg-cards/flux-07.svg"
+    },
+    {
+      "id": "flux-08",
+      "energy": "flux",
+      "value": 8,
+      "file": "svg-cards/flux-08.svg"
+    },
+    {
+      "id": "flux-09",
+      "energy": "flux",
+      "value": 9,
+      "file": "svg-cards/flux-09.svg"
+    },
+    {
+      "id": "flux-10",
+      "energy": "flux",
+      "value": 10,
+      "file": "svg-cards/flux-10.svg"
+    },
+    {
+      "id": "flux-11",
+      "energy": "flux",
+      "value": 11,
+      "file": "svg-cards/flux-11.svg"
+    },
+    {
+      "id": "flux-12",
+      "energy": "flux",
+      "value": 12,
+      "file": "svg-cards/flux-12.svg"
+    },
+    {
+      "id": "flux-13",
+      "energy": "flux",
+      "value": 13,
+      "file": "svg-cards/flux-13.svg"
+    },
+    {
+      "id": "flux-14",
+      "energy": "flux",
+      "value": 14,
+      "file": "svg-cards/flux-14.svg"
+    },
+    {
+      "id": "flux-15",
+      "energy": "flux",
+      "value": 15,
+      "file": "svg-cards/flux-15.svg"
+    },
+    {
+      "id": "flux-16",
+      "energy": "flux",
+      "value": 16,
+      "file": "svg-cards/flux-16.svg"
+    },
+    {
+      "id": "flux-17",
+      "energy": "flux",
+      "value": 17,
+      "file": "svg-cards/flux-17.svg"
+    },
+    {
+      "id": "flux-18",
+      "energy": "flux",
+      "value": 18,
+      "file": "svg-cards/flux-18.svg"
+    },
+    {
+      "id": "flux-19",
+      "energy": "flux",
+      "value": 19,
+      "file": "svg-cards/flux-19.svg"
+    },
+    {
+      "id": "flux-20",
+      "energy": "flux",
+      "value": 20,
+      "file": "svg-cards/flux-20.svg"
+    },
+    {
+      "id": "aether-01",
+      "energy": "aether",
+      "value": 1,
+      "file": "svg-cards/aether-01.svg"
+    },
+    {
+      "id": "aether-02",
+      "energy": "aether",
+      "value": 2,
+      "file": "svg-cards/aether-02.svg"
+    },
+    {
+      "id": "aether-03",
+      "energy": "aether",
+      "value": 3,
+      "file": "svg-cards/aether-03.svg"
+    },
+    {
+      "id": "aether-04",
+      "energy": "aether",
+      "value": 4,
+      "file": "svg-cards/aether-04.svg"
+    },
+    {
+      "id": "aether-05",
+      "energy": "aether",
+      "value": 5,
+      "file": "svg-cards/aether-05.svg"
+    },
+    {
+      "id": "aether-06",
+      "energy": "aether",
+      "value": 6,
+      "file": "svg-cards/aether-06.svg"
+    },
+    {
+      "id": "aether-07",
+      "energy": "aether",
+      "value": 7,
+      "file": "svg-cards/aether-07.svg"
+    },
+    {
+      "id": "aether-08",
+      "energy": "aether",
+      "value": 8,
+      "file": "svg-cards/aether-08.svg"
+    },
+    {
+      "id": "aether-09",
+      "energy": "aether",
+      "value": 9,
+      "file": "svg-cards/aether-09.svg"
+    },
+    {
+      "id": "aether-10",
+      "energy": "aether",
+      "value": 10,
+      "file": "svg-cards/aether-10.svg"
+    },
+    {
+      "id": "aether-11",
+      "energy": "aether",
+      "value": 11,
+      "file": "svg-cards/aether-11.svg"
+    },
+    {
+      "id": "aether-12",
+      "energy": "aether",
+      "value": 12,
+      "file": "svg-cards/aether-12.svg"
+    },
+    {
+      "id": "aether-13",
+      "energy": "aether",
+      "value": 13,
+      "file": "svg-cards/aether-13.svg"
+    },
+    {
+      "id": "aether-14",
+      "energy": "aether",
+      "value": 14,
+      "file": "svg-cards/aether-14.svg"
+    },
+    {
+      "id": "aether-15",
+      "energy": "aether",
+      "value": 15,
+      "file": "svg-cards/aether-15.svg"
+    },
+    {
+      "id": "aether-16",
+      "energy": "aether",
+      "value": 16,
+      "file": "svg-cards/aether-16.svg"
+    },
+    {
+      "id": "aether-17",
+      "energy": "aether",
+      "value": 17,
+      "file": "svg-cards/aether-17.svg"
+    },
+    {
+      "id": "aether-18",
+      "energy": "aether",
+      "value": 18,
+      "file": "svg-cards/aether-18.svg"
+    },
+    {
+      "id": "aether-19",
+      "energy": "aether",
+      "value": 19,
+      "file": "svg-cards/aether-19.svg"
+    },
+    {
+      "id": "aether-20",
+      "energy": "aether",
+      "value": 20,
+      "file": "svg-cards/aether-20.svg"
+    },
+    {
+      "id": "echo-01",
+      "energy": "echo",
+      "value": 1,
+      "file": "svg-cards/echo-01.svg"
+    },
+    {
+      "id": "echo-02",
+      "energy": "echo",
+      "value": 2,
+      "file": "svg-cards/echo-02.svg"
+    },
+    {
+      "id": "echo-03",
+      "energy": "echo",
+      "value": 3,
+      "file": "svg-cards/echo-03.svg"
+    },
+    {
+      "id": "echo-04",
+      "energy": "echo",
+      "value": 4,
+      "file": "svg-cards/echo-04.svg"
+    },
+    {
+      "id": "echo-05",
+      "energy": "echo",
+      "value": 5,
+      "file": "svg-cards/echo-05.svg"
+    },
+    {
+      "id": "echo-06",
+      "energy": "echo",
+      "value": 6,
+      "file": "svg-cards/echo-06.svg"
+    },
+    {
+      "id": "echo-07",
+      "energy": "echo",
+      "value": 7,
+      "file": "svg-cards/echo-07.svg"
+    },
+    {
+      "id": "echo-08",
+      "energy": "echo",
+      "value": 8,
+      "file": "svg-cards/echo-08.svg"
+    },
+    {
+      "id": "echo-09",
+      "energy": "echo",
+      "value": 9,
+      "file": "svg-cards/echo-09.svg"
+    },
+    {
+      "id": "echo-10",
+      "energy": "echo",
+      "value": 10,
+      "file": "svg-cards/echo-10.svg"
+    },
+    {
+      "id": "echo-11",
+      "energy": "echo",
+      "value": 11,
+      "file": "svg-cards/echo-11.svg"
+    },
+    {
+      "id": "echo-12",
+      "energy": "echo",
+      "value": 12,
+      "file": "svg-cards/echo-12.svg"
+    },
+    {
+      "id": "echo-13",
+      "energy": "echo",
+      "value": 13,
+      "file": "svg-cards/echo-13.svg"
+    },
+    {
+      "id": "echo-14",
+      "energy": "echo",
+      "value": 14,
+      "file": "svg-cards/echo-14.svg"
+    },
+    {
+      "id": "echo-15",
+      "energy": "echo",
+      "value": 15,
+      "file": "svg-cards/echo-15.svg"
+    },
+    {
+      "id": "echo-16",
+      "energy": "echo",
+      "value": 16,
+      "file": "svg-cards/echo-16.svg"
+    },
+    {
+      "id": "echo-17",
+      "energy": "echo",
+      "value": 17,
+      "file": "svg-cards/echo-17.svg"
+    },
+    {
+      "id": "echo-18",
+      "energy": "echo",
+      "value": 18,
+      "file": "svg-cards/echo-18.svg"
+    },
+    {
+      "id": "echo-19",
+      "energy": "echo",
+      "value": 19,
+      "file": "svg-cards/echo-19.svg"
+    },
+    {
+      "id": "echo-20",
+      "energy": "echo",
+      "value": 20,
+      "file": "svg-cards/echo-20.svg"
+    },
+    {
+      "id": "wild-00",
+      "energy": "wild",
+      "value": 0,
+      "file": "svg-cards/wild-00.svg"
+    }
+  ]
+}

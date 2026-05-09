@@ -1,0 +1,15 @@
+# Obsidian workspace settings (personal, not project files)
+.obsidian/
+
+# Internal Claude/Cowork tooling artifacts
+.codex-viewport-check/
+
+# Generated outputs / scratch work
+outputs/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini

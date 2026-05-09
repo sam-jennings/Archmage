@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archmage Ascension — Card Review Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #06040e;
+    color: #7a6a50;
+    font-family: 'Cinzel', serif;
+    overflow-x: auto;
+  }
+  ::-webkit-scrollbar { height: 6px; background: #0a0816; }
+  ::-webkit-scrollbar-thumb { background: #2a1e0e; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ══════════════════════════════════════════════════════════════
+// GEOMETRY
+// ══════════════════════════════════════════════════════════════
+const PPM    = 3;          // display pixels per mm
+const BLEED  = 3;          // mm
+const CW     = 68;         // full-bleed card width mm
+const CH     = 94;         // full-bleed card height mm
+
+const mm  = v => v * PPM;                        // mm → px
+const tp  = v => mm(v + BLEED);                  // trim-relative mm → card px
+
+const BEACON_Y = {
+  1:11.00, 2:14.47, 3:17.95, 4:21.42, 5:24.89,
+  6:28.37, 7:31.84, 8:35.32, 9:38.79, 10:42.26,
+  11:45.74,12:49.21,13:52.68,14:56.16,15:59.63,
+  16:63.11,17:66.58,18:70.05,19:73.53,20:77.00
+};
+
+const CURRENTS = {
+  radiance: {
+    label:'RADIANCE', color:'#F5C518', dim:'#C8961A',
+    main:'uploads/radiance_main.PNG', pip:'uploads/radiance_pip2.PNG',
+    frameHue:10,  beaconHue:null,   // null = keep native warm gold
+  },
+  void: {
+    label:'VOID', color:'#C060F0', dim:'#6A0DAD',
+    main:'uploads/void_main.PNG', pip:'uploads/void_pip2.PNG',
+    frameHue:235, beaconHue:225,
+  },
+  flux: {
+    label:'FLUX', color:'#00C8B4', dim:'#008878',
+    main:'uploads/flux_main.PNG', pip:'uploads/flux_pip2.PNG',
+    frameHue:140, beaconHue:135,
+  },
+  aether: {
+    label:'AETHER', color:'#E8304A', dim:'#C8203A',
+    main:'uploads/aether_main.PNG', pip:'uploads/aether_pip2.PNG',
+    frameHue:315, beaconHue:315,
+  },
+};
+
+// ══════════════════════════════════════════════════════════════
+// IMAGE PROCESSING  (canvas-based background removal)
+// ══════════════════════════════════════════════════════════════
+const _cache = {};
+
+function _processCanvas(src, procId, pixelFn) {
+  const key = src + '|' + procId;
+  if (_cache[key]) return _cache[key];
+  const p = new Promise(resolve => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width  = img.naturalWidth  || 512;
+      c.height = img.naturalHeight || 512;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const id = ctx.getImageData(0, 0, c.width, c.height);
+      pixelFn(id.data);
+      ctx.putImageData(id, 0, 0);
+      resolve(c.toDataURL());
+    };
+    img.onerror = () => resolve(src);
+    img.src = src;
+  });
+  _cache[key] = p;
+  return p;
+}
+
+// Helpers
+function _hsl(r, g, b) {
+  const max = Math.max(r,g,b), min = Math.min(r,g,b);
+  const l = (max + min) / 2;
+  const s = max === min ? 0 : (max - min) / (1 - Math.abs(2*l - 1));
+  return [l, s];
+}
+
+// Processor A: remove near-white / low-saturation-bright (colored sigils on checker)
+function procSigil(data) {
+  const LT = 0.82, ST = 0.15;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i+3] < 4) continue;
+    const r=data[i]/255, g=data[i+1]/255, b=data[i+2]/255;
+    const [l, s] = _hsl(r,g,b);
+    if (l > LT && s < ST) {
+      const fade = Math.min(1, ((l-LT)/(1-LT))*1.6 + Math.max(0,(ST-s)/ST)*0.4);
+      data[i+3] = Math.max(0, Math.round(data[i+3] * (1 - fade)));
+    }
+  }
+}
+
+// Processor B: remove neutral-bright, keep warm glow  (radiance sigil + beacon)
+function procGlow(data) {
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i+3] < 4) continue;
+    const r=data[i]/255, g=data[i+1]/255, b=data[i+2]/255;
+    const max = Math.max(r,g,b), min = Math.min(r,g,b);
+    const l   = (max + min) / 2;
+    const warmth = r - b;             // positive = warm/golden
+    if (l > 0.87 && warmth < 0.07) {
+      const fade = Math.min(1, ((l-0.87)/0.13)*1.5 + Math.max(0,(0.07-warmth)/0.07)*0.5);
+      data[i+3] = Math.max(0, Math.round(data[i+3] * (1 - fade)));
+    }
+  }
+}
+
+// Processor C: remove white bg then invert remaining → bright lines on transparent
+function procBorder(data) {
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i+3] < 4) continue;
+    const r=data[i]/255, g=data[i+1]/255, b=data[i+2]/255;
+    const [l, s] = _hsl(r,g,b);
+    if (l > 0.87 && s < 0.09) {
+      data[i+3] = 0;
+    } else {
+      // Invert: dark/mid lines → bright lines
+      data[i]   = 255 - data[i];
+      data[i+1] = 255 - data[i+1];
+      data[i+2] = 255 - data[i+2];
+    }
+  }
+}
+
+function useProcessed(src, procId, fn) {
+  const [url, setUrl] = useState(null);
+  useEffect(() => {
+    if (!src) return;
+    let live = true;
+    _processCanvas(src, procId, fn).then(u => { if (live) setUrl(u); });
+    return () => { live = false; };
+  }, [src, procId]);
+  return url;
+}
+
+// ══════════════════════════════════════════════════════════════
+// CARD COMPONENT
+// ══════════════════════════════════════════════════════════════
+function Card({ currentKey, value, showGuides = false }) {
+  const cur = CURRENTS[currentKey];
+  const W = mm(CW), H = mm(CH);
+  const BP = mm(BLEED);
+
+  // Processed image URLs
+  const isRadiance = currentKey === 'radiance';
+  const sigil  = useProcessed(cur.main, isRadiance ? 'glow' : 'sigil', isRadiance ? procGlow : procSigil);
+  const pip    = useProcessed(cur.pip,  'sigil', procSigil);
+  const border = useProcessed('uploads/main_border_template.png', 'border', procBorder);
+  const beacon = useProcessed('uploads/beacon_template.png', 'glow', procGlow);
+
+  // Beacon layout
+  const bSz   = mm(5.5);
+  const bY    = tp(BEACON_Y[value]);
+  const bLx   = tp(3.2)  - bSz / 2;
+  const bRx   = tp(58.8) - bSz / 2;
+  const bTopY = bY       - bSz / 2;
+
+  // Sigil box (trim-relative → card-relative)
+  const sL = tp(7), sT = tp(12), sW = mm(48), sH = mm(64);
+
+  // Number + name positions
+  const nX = tp(31), nY = tp(44);
+  const lX = tp(10), lY = tp(75), lW = mm(42), lH = mm(6);
+
+  // Pip positions
+  const pSz = mm(10);
+  const pTx = tp(4.2),  pTy = tp(4.2);
+  const pBx = tp(47.8), pBy = tp(73.8);
+
+  // CSS filters
+  const frameF = `sepia(1) hue-rotate(${cur.frameHue}deg) saturate(2.8) brightness(1.35)`;
+  const beaconF = cur.beaconHue === null
+    ? 'brightness(1.3) saturate(1.2)'
+    : `hue-rotate(${cur.beaconHue}deg) saturate(1.6) brightness(1.1)`;
+
+  const tShadow = '0 0 5px rgba(0,0,0,0.98), 0 1px 3px rgba(0,0,0,1), 0 0 2px #000';
+  const nGlow   = `0 0 14px ${cur.dim}cc, 0 0 28px ${cur.dim}55, 0 1px 4px #000, 0 0 2px #000`;
+
+  // Pip group (called as function, not component, to avoid hooks-in-loop)
+  function renderPip(bot) {
+    return (
+      <div style={{
+        position:'absolute',
+        left: bot ? pBx : pTx,
+        top:  bot ? pBy : pTy,
+        width: pSz, height: pSz,
+        transform: bot ? 'rotate(180deg)' : undefined,
+        zIndex: 6,
+      }}>
+        {pip && (
+          <img src={pip} style={{
+            position:'absolute', inset:0, width:'100%', height:'100%',
+            objectFit:'contain', mixBlendMode:'screen',
+          }} alt="" />
+        )}
+        <div style={{
+          position:'absolute', inset:0,
+          display:'flex', alignItems:'center', justifyContent:'center',
+          fontFamily:"'Cinzel',serif", fontWeight:700,
+          fontSize: mm(3.8), lineHeight:1,
+          color: cur.color, textShadow: tShadow,
+          zIndex:2,
+        }}>
+          {value}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      position:'relative', width:W, height:H, flexShrink:0,
+      overflow:'hidden', borderRadius: mm(2.5),
+      boxShadow:`0 16px 48px rgba(0,0,0,0.92), 0 4px 12px rgba(0,0,0,0.85), 0 0 0 1px rgba(255,255,255,0.03)`,
+    }}>
+
+      {/* ── 1. Background ── */}
+      <img src="uploads/card_background.png" alt="" style={{
+        position:'absolute', inset:0, width:'100%', height:'100%',
+        objectFit:'fill', display:'block',
+      }} />
+
+      {/* ── 2. Shadow / depth frame (multiply = white→transparent, dark→darker) ── */}
+      <img src="uploads/border_shadow_template.png" alt="" style={{
+        position:'absolute', inset:0, width:'100%', height:'100%',
+        objectFit:'fill', mixBlendMode:'multiply', opacity:0.92,
+      }} />
+
+      {/* ── 3. Tinted linework border ── */}
+      {border && (
+        <img src={border} alt="" style={{
+          position:'absolute', inset:0, width:'100%', height:'100%',
+          objectFit:'fill', filter:frameF,
+          mixBlendMode:'screen', opacity:0.88,
+        }} />
+      )}
+
+      {/* ── 4. Main sigil ── */}
+      {sigil && (
+        <img src={sigil} alt="" style={{
+          position:'absolute', left:sL, top:sT, width:sW, height:sH,
+          objectFit:'contain', mixBlendMode:'screen',
+        }} />
+      )}
+
+      {/* ── 5. Left beacon ── */}
+      {beacon && (
+        <img src={beacon} alt="" style={{
+          position:'absolute', left:bLx, top:bTopY,
+          width:bSz, height:bSz, filter:beaconF,
+        }} />
+      )}
+
+      {/* ── 6. Right beacon ── */}
+      {beacon && (
+        <img src={beacon} alt="" style={{
+          position:'absolute', left:bRx, top:bTopY,
+          width:bSz, height:bSz, filter:beaconF,
+        }} />
+      )}
+
+      {/* ── 7. Central value number ── */}
+      <div style={{
+        position:'absolute', left:nX, top:nY,
+        transform:'translate(-50%,-50%)',
+        fontFamily:"'Cinzel',serif", fontWeight:700,
+        fontSize:mm(14), lineHeight:1,
+        color:cur.color, textShadow:nGlow,
+        userSelect:'none', zIndex:7,
+        letterSpacing:'-0.02em',
+      }}>
+        {value}
+      </div>
+
+      {/* ── 8. Current label ── */}
+      <div style={{
+        position:'absolute', left:lX, top:lY,
+        width:lW, height:lH,
+        display:'flex', alignItems:'center', justifyContent:'center',
+        fontFamily:"'Cinzel',serif", fontWeight:400,
+        fontSize:mm(2.7), letterSpacing:'0.3em',
+        color:cur.dim, textShadow:tShadow,
+        userSelect:'none', zIndex:7,
+      }}>
+        {cur.label}
+      </div>
+
+      {/* ── 9+10. Top-left pip ── */}
+      {renderPip(false)}
+
+      {/* ── 11. Bottom-right pip (180°) ── */}
+      {renderPip(true)}
+
+      {/* ── Guides overlay ── */}
+      {showGuides && (
+        <svg style={{ position:'absolute', inset:0, pointerEvents:'none', zIndex:99 }}
+          width={W} height={H}>
+          {/* Trim boundary */}
+          <rect x={BP} y={BP} width={W-2*BP} height={H-2*BP}
+            fill="none" stroke="rgba(255,190,40,0.70)"
+            strokeWidth="0.7" strokeDasharray="4 2.5" />
+          {/* Safe zone (4mm inside trim) */}
+          <rect
+            x={BP+mm(4)} y={BP+mm(4)}
+            width={W-2*(BP+mm(4))} height={H-2*(BP+mm(4))}
+            fill="none" stroke="rgba(40,220,100,0.50)"
+            strokeWidth="0.5" strokeDasharray="2 3.5" />
+          {/* Bleed corner ticks */}
+          {[
+            [0, 0, mm(2.5), 0, 0, mm(2.5)],
+            [W, 0, W-mm(2.5), 0, W, mm(2.5)],
+            [W, H, W-mm(2.5), H, W, H-mm(2.5)],
+            [0, H, mm(2.5), H, 0, H-mm(2.5)],
+          ].map(([ax,ay,bx,by,cx,cy], i) => (
+            <g key={i} stroke="rgba(255,70,70,0.45)" strokeWidth="0.6">
+              <line x1={ax} y1={ay} x2={bx} y2={by} />
+              <line x1={ax} y1={ay} x2={cx} y2={cy} />
+            </g>
+          ))}
+        </svg>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// REVIEW BOARD
+// ══════════════════════════════════════════════════════════════
+function ReviewBoard() {
+  const [guides, setGuides] = useState(true);
+
+  const rows = [
+    {
+      id: 'row1',
+      label: 'ROW 1 — Cross-Current Sample',
+      sub: 'Radiance 1 · Void 4 · Flux 7 · Aether 20',
+      cards: [
+        { k:'radiance', v:1  },
+        { k:'void',     v:4  },
+        { k:'flux',     v:7  },
+        { k:'aether',   v:20 },
+      ],
+    },
+    {
+      id: 'row2',
+      label: 'ROW 2 — Same Value Across All Currents',
+      sub: 'Radiance 10 · Void 10 · Flux 10 · Aether 10',
+      cards: [
+        { k:'radiance', v:10 },
+        { k:'void',     v:10 },
+        { k:'flux',     v:10 },
+        { k:'aether',   v:10 },
+      ],
+    },
+    {
+      id: 'row3',
+      label: 'ROW 3 — Radiance Beacon Progression',
+      sub: '1 → 4 → 7 → 10 → 13 → 16 → 20',
+      cards: [1,4,7,10,13,16,20].map(v => ({ k:'radiance', v })),
+    },
+  ];
+
+  return (
+    <div style={{
+      padding: '48px 52px 64px',
+      minWidth: 'max-content',
+      background: '#06040e',
+    }}>
+
+      {/* ── Header ── */}
+      <div style={{
+        display:'flex', alignItems:'flex-end',
+        justifyContent:'space-between', marginBottom:44,
+        borderBottom:'1px solid rgba(255,255,255,0.04)',
+        paddingBottom:20,
+      }}>
+        <div>
+          <div style={{
+            fontSize:9, letterSpacing:'0.55em', color:'#2e2014',
+            marginBottom:8, textTransform:'uppercase',
+          }}>
+            Archmage Ascension · Card Design System
+          </div>
+          <div style={{
+            fontSize:24, letterSpacing:'0.16em', color:'#8a7050',
+            fontFamily:"'Cinzel',serif", fontWeight:400,
+          }}>
+            Card Review Board
+          </div>
+        </div>
+        <label style={{
+          display:'flex', alignItems:'center', gap:9, cursor:'pointer',
+          fontSize:9, letterSpacing:'0.35em', color:'#2e2014',
+          paddingBottom:2,
+        }}>
+          <input
+            type="checkbox" checked={guides}
+            onChange={e => setGuides(e.target.checked)}
+            style={{ accentColor:'#8a7050', width:13, height:13 }}
+          />
+          SHOW GUIDES
+        </label>
+      </div>
+
+      {/* ── Card rows ── */}
+      {rows.map(row => (
+        <div key={row.id} style={{ marginBottom:56 }}>
+          <div style={{
+            display:'flex', alignItems:'baseline', gap:16,
+            marginBottom:16, paddingBottom:8,
+            borderBottom:'1px solid rgba(255,255,255,0.035)',
+          }}>
+            <div style={{
+              fontSize:9, letterSpacing:'0.35em', color:'#3a2a18',
+              textTransform:'uppercase',
+            }}>
+              {row.label}
+            </div>
+            <div style={{ fontSize:9, letterSpacing:'0.2em', color:'#221810' }}>
+              {row.sub}
+            </div>
+          </div>
+          <div style={{ display:'flex', gap:16 }}>
+            {row.cards.map((c, i) => (
+              <Card key={i} currentKey={c.k} value={c.v} showGuides={guides} />
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {/* ── Legend ── */}
+      <div style={{
+        display:'flex', gap:28, alignItems:'center',
+        fontSize:9, letterSpacing:'0.2em', color:'#1e1408',
+        paddingTop:20, borderTop:'1px solid rgba(255,255,255,0.025)',
+      }}>
+        <span>
+          <span style={{ color:'rgba(255,190,40,0.70)' }}>— — </span>
+          Trim 62 × 88 mm
+        </span>
+        <span>
+          <span style={{ color:'rgba(40,220,100,0.50)' }}>- - </span>
+          Safe Zone 54 × 80 mm
+        </span>
+        <span style={{ color:'rgba(255,70,70,0.45)' }}>┘ Bleed corners</span>
+        <span>Full bleed 68 × 94 mm · 3 mm bleed all sides · Display at 3 px/mm</span>
+      </div>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<ReviewBoard />);
+</script>
+</body>
+</html>

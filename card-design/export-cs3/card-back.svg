@@ -1,0 +1,344 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="756" height="1074" viewBox="0 0 756 1074">
+  <defs>
+    <clipPath id="cb-clip"><rect width="756" height="1074" rx="36" ry="36"/></clipPath>
+
+    <!-- Deep parchment-dark background — warmer than the card faces -->
+    <linearGradient id="cb-bg" x1="0" y1="0" x2="0.3" y2="1">
+      <stop offset="0%" stop-color="#0e0c0a"/>
+      <stop offset="100%" stop-color="#13110e"/>
+    </linearGradient>
+
+    <!-- Central radial warmth — very subtle -->
+    <radialGradient id="cb-radwarm" cx="50%" cy="46%" r="55%">
+      <stop offset="0%" stop-color="#c8a050" stop-opacity=".06"/>
+      <stop offset="60%" stop-color="#3a2800" stop-opacity=".03"/>
+      <stop offset="100%" stop-color="#0e0c0a" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Glow filter for key lines -->
+    <filter id="f-glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3.5" flood-color="#d4a840" flood-opacity=".55"/>
+    </filter>
+    <filter id="f-glow-sm" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#d4a840" flood-opacity=".40"/>
+    </filter>
+    <filter id="f-glow-soft" x="-60%" y="-60%" width="220%" height="220%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#c8a050" flood-opacity=".30"/>
+    </filter>
+  </defs>
+
+  <g clip-path="url(#cb-clip)">
+
+    <!-- ══ BACKGROUND ══════════════════════════════════════════════ -->
+    <rect width="756" height="1074" fill="url(#cb-bg)"/>
+    <rect width="756" height="1074" fill="url(#cb-radwarm)"/>
+
+    <!-- ══ OUTER BORDER — double inset rule ═══════════════════════ -->
+    <rect x="18" y="18" width="720" height="1038" rx="28" ry="28"
+          fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1.5"/>
+    <rect x="30" y="30" width="696" height="1014" rx="22" ry="22"
+          fill="none" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+
+    <!-- ══ CORNER ORNAMENTS — four identical, rotated ═════════════
+         Each corner: a small triangle/chevron frame with a diamond pip
+         at the apex, suggestive of arcane compass points             -->
+
+    <!-- Top-left corner ornament -->
+    <g transform="translate(66,66)">
+      <line x1="0" y1="-40" x2="-40" y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="0" y1="-40" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="-40" y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="40"  y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="-40" y1="0" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".30" stroke-width="1"/>
+      <!-- diamond pip -->
+      <polygon points="0,-11 8,0 0,11 -8,0" fill="#c8a050" opacity=".80" filter="url(#f-glow-sm)"/>
+      <!-- small corner cross-hairs -->
+      <line x1="-52" y1="-8"  x2="-52" y2="8"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-60" y1="0"   x2="-44" y2="0"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-8"  y1="-52" x2="8"   y2="-52" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="0"   y1="-60" x2="0"   y2="-44" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+    </g>
+    <!-- Top-right corner ornament -->
+    <g transform="translate(690,66) scale(-1,1)">
+      <line x1="0" y1="-40" x2="-40" y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="0" y1="-40" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="-40" y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="40"  y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="-40" y1="0" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".30" stroke-width="1"/>
+      <polygon points="0,-11 8,0 0,11 -8,0" fill="#c8a050" opacity=".80" filter="url(#f-glow-sm)"/>
+      <line x1="-52" y1="-8"  x2="-52" y2="8"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-60" y1="0"   x2="-44" y2="0"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-8"  y1="-52" x2="8"   y2="-52" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="0"   y1="-60" x2="0"   y2="-44" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+    </g>
+    <!-- Bottom-left corner ornament -->
+    <g transform="translate(66,1008) scale(1,-1)">
+      <line x1="0" y1="-40" x2="-40" y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="0" y1="-40" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="-40" y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="40"  y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="-40" y1="0" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".30" stroke-width="1"/>
+      <polygon points="0,-11 8,0 0,11 -8,0" fill="#c8a050" opacity=".80" filter="url(#f-glow-sm)"/>
+      <line x1="-52" y1="-8"  x2="-52" y2="8"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-60" y1="0"   x2="-44" y2="0"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-8"  y1="-52" x2="8"   y2="-52" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="0"   y1="-60" x2="0"   y2="-44" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+    </g>
+    <!-- Bottom-right corner ornament -->
+    <g transform="translate(690,1008) scale(-1,-1)">
+      <line x1="0" y1="-40" x2="-40" y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="0" y1="-40" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".50" stroke-width="1.2"/>
+      <line x1="-40" y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="40"  y1="0" x2="0"   y2="40" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <line x1="-40" y1="0" x2="40"  y2="0"  stroke="#c8a050" stroke-opacity=".30" stroke-width="1"/>
+      <polygon points="0,-11 8,0 0,11 -8,0" fill="#c8a050" opacity=".80" filter="url(#f-glow-sm)"/>
+      <line x1="-52" y1="-8"  x2="-52" y2="8"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-60" y1="0"   x2="-44" y2="0"  stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="-8"  y1="-52" x2="8"   y2="-52" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+      <line x1="0"   y1="-60" x2="0"   y2="-44" stroke="#c8a050" stroke-opacity=".35" stroke-width="1"/>
+    </g>
+
+    <!-- ══ VERTICAL SPINE — the page's central axis ═══════════════ -->
+    <line x1="378" y1="130" x2="378" y2="944"
+          stroke="#c8a050" stroke-opacity=".12" stroke-width="1"/>
+    <!-- Horizontal cross-axis -->
+    <line x1="110" y1="537" x2="646" y2="537"
+          stroke="#c8a050" stroke-opacity=".12" stroke-width="1"/>
+
+    <!-- ══ UPPER PANEL — a contained arcane diagram zone ══════════
+         Bounded box with inner content (top third of card)           -->
+
+    <!-- Upper panel frame -->
+    <rect x="90" y="120" width="576" height="300" rx="4" ry="4"
+          fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+    <!-- Panel inner inset -->
+    <rect x="98" y="128" width="560" height="284" rx="2" ry="2"
+          fill="none" stroke="#c8a050" stroke-opacity=".10" stroke-width="1"/>
+
+    <!-- Diagonal cross-lines inside upper panel -->
+    <line x1="90"  y1="120" x2="666" y2="420" stroke="#c8a050" stroke-opacity=".08" stroke-width="1"/>
+    <line x1="666" y1="120" x2="90"  y2="420" stroke="#c8a050" stroke-opacity=".08" stroke-width="1"/>
+
+    <!-- Upper panel: central nested diamond (Aether lattice-feel) -->
+    <g transform="translate(378,270)">
+      <!-- Outer diamond -->
+      <polygon points="0,-120 130,0 0,120 -130,0"
+               fill="none" stroke="#c8a050" stroke-opacity=".30" stroke-width="1.2"/>
+      <!-- Mid diamond, rotated 45° -->
+      <polygon points="0,-85 85,0 0,85 -85,0" transform="rotate(45)"
+               fill="none" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <!-- Inner diamond -->
+      <polygon points="0,-55 55,0 0,55 -55,0"
+               fill="none" stroke="#c8a050" stroke-opacity=".35" stroke-width="1.2"/>
+      <!-- Innermost, rotated -->
+      <polygon points="0,-32 32,0 0,32 -32,0" transform="rotate(45)"
+               fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+
+      <!-- Diagonal struts outer→inner -->
+      <line x1="0" y1="-120" x2="0"   y2="-55"  stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="130" y1="0"  x2="55"  y2="0"    stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="0"   y1="120" x2="0"  y2="55"   stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="-130" y1="0" x2="-55" y2="0"    stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <!-- Diagonal struts (45° axes) -->
+      <line x1="92" y1="-92"  x2="39" y2="-39"  stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="92" y1="92"   x2="39" y2="39"   stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="-92" y1="92"  x2="-39" y2="39"  stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="-92" y1="-92" x2="-39" y2="-39" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+
+      <!-- Midpoint notches on outer diamond edges -->
+      <line x1="-65" y1="-60" x2="-55" y2="-50" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <line x1="55"  y1="-50" x2="65"  y2="-60" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <line x1="65"  y1="60"  x2="55"  y2="50"  stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <line x1="-55" y1="50"  x2="-65" y2="60"  stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+
+      <!-- Central node: filled diamond + ring -->
+      <circle r="20" fill="#0e0c0a"/>
+      <circle r="20" fill="none" stroke="#c8a050" stroke-opacity=".60" stroke-width="1.5"/>
+      <circle r="9"  fill="none" stroke="#c8a050" stroke-opacity=".70" stroke-width="1.2" filter="url(#f-glow-sm)"/>
+      <polygon points="0,-6 5,0 0,6 -5,0" fill="#d4a840" opacity=".90" filter="url(#f-glow-sm)"/>
+    </g>
+
+    <!-- ══ MIDDLE DIVIDER BAND ═════════════════════════════════════ -->
+    <!-- Thick ruled band — like a chapter heading separator -->
+    <line x1="90"  y1="450" x2="666" y2="450" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+    <line x1="90"  y1="456" x2="666" y2="456" stroke="#c8a050" stroke-opacity=".15" stroke-width="1"/>
+    <line x1="90"  y1="624" x2="666" y2="624" stroke="#c8a050" stroke-opacity=".15" stroke-width="1"/>
+    <line x1="90"  y1="630" x2="666" y2="630" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+
+    <!-- Divider end terminals (small horizontal tick-brackets) -->
+    <line x1="90"  y1="444" x2="90"  y2="462" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+    <line x1="666" y1="444" x2="666" y2="462" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+    <line x1="90"  y1="618" x2="90"  y2="636" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+    <line x1="666" y1="618" x2="666" y2="636" stroke="#c8a050" stroke-opacity=".45" stroke-width="1.5"/>
+
+    <!-- ══ CENTRAL BAND — main ritual circle ══════════════════════
+         Centred at 378, 537 — the heart of the card
+         Deliberately NOT a copy of the front card's sigil:
+         uses a hexagram-star scaffold, with 6-fold symmetry        -->
+    <g transform="translate(378,537)">
+
+      <!-- Outer bounding circle -->
+      <circle r="156" fill="none" stroke="#c8a050" stroke-opacity=".18" stroke-width="1.2"/>
+
+      <!-- Six-pointed star scaffold (two overlapping triangles) -->
+      <!-- Triangle 1 (point up) -->
+      <polygon points="0,-135 116.9,67.5 -116.9,67.5"
+               fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <!-- Triangle 2 (point down) -->
+      <polygon points="0,135 -116.9,-67.5 116.9,-67.5"
+               fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+
+      <!-- Inner hexagon (connecting the 6 star inner intersections) -->
+      <!-- intersections at r≈78: 0°=top, 60° steps -->
+      <polygon points="0,-78 67.5,-39 67.5,39 0,78 -67.5,39 -67.5,-39"
+               fill="none" stroke="#c8a050" stroke-opacity=".35" stroke-width="1.2"/>
+
+      <!-- Second inner hexagon, rotated 30° (tighter) -->
+      <polygon points="0,-52 45,-26 45,26 0,52 -45,26 -45,-26" transform="rotate(30)"
+               fill="none" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+
+      <!-- Radial spokes from centre to outer circle — 12 spokes (every 30°) -->
+      <line x1="0"     y1="-156"  x2="0"     y2="-78"   stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="78"    y1="-135.1" x2="39"   y2="-67.5"  stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="135.1" y1="-78"   x2="67.5"  y2="-39"   stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="156"   y1="0"     x2="78"    y2="0"      stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="135.1" y1="78"    x2="67.5"  y2="39"    stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="78"    y1="135.1" x2="39"    y2="67.5"   stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="0"     y1="156"   x2="0"     y2="78"    stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="-78"   y1="135.1" x2="-39"   y2="67.5"  stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="-135.1" y1="78"  x2="-67.5"  y2="39"    stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="-156"  y1="0"    x2="-78"    y2="0"     stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+      <line x1="-135.1" y1="-78" x2="-67.5"  y2="-39"   stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+      <line x1="-78"   y1="-135.1" x2="-39"  y2="-67.5"  stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+
+      <!-- Small node pips at each of the 6 outer star points -->
+      <circle cx="0"      cy="-135" r="4.5" fill="#0e0c0a"/>
+      <circle cx="0"      cy="-135" r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+      <circle cx="116.9"  cy="67.5" r="4.5" fill="#0e0c0a"/>
+      <circle cx="116.9"  cy="67.5" r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+      <circle cx="-116.9" cy="67.5" r="4.5" fill="#0e0c0a"/>
+      <circle cx="-116.9" cy="67.5" r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+      <circle cx="0"      cy="135"  r="4.5" fill="#0e0c0a"/>
+      <circle cx="0"      cy="135"  r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+      <circle cx="-116.9" cy="-67.5" r="4.5" fill="#0e0c0a"/>
+      <circle cx="-116.9" cy="-67.5" r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+      <circle cx="116.9"  cy="-67.5" r="4.5" fill="#0e0c0a"/>
+      <circle cx="116.9"  cy="-67.5" r="4.5" fill="none" stroke="#d4a840" stroke-opacity=".70" stroke-width="1.2"/>
+
+      <!-- Inner 6 hexagon vertex pips (smaller) -->
+      <circle cx="0"    cy="-78" r="3" fill="#0e0c0a"/>
+      <circle cx="0"    cy="-78" r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+      <circle cx="67.5" cy="-39" r="3" fill="#0e0c0a"/>
+      <circle cx="67.5" cy="-39" r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+      <circle cx="67.5" cy="39"  r="3" fill="#0e0c0a"/>
+      <circle cx="67.5" cy="39"  r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+      <circle cx="0"    cy="78"  r="3" fill="#0e0c0a"/>
+      <circle cx="0"    cy="78"  r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+      <circle cx="-67.5" cy="39" r="3" fill="#0e0c0a"/>
+      <circle cx="-67.5" cy="39" r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+      <circle cx="-67.5" cy="-39" r="3" fill="#0e0c0a"/>
+      <circle cx="-67.5" cy="-39" r="3" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1"/>
+
+      <!-- Inner circle + core -->
+      <circle r="36" fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <circle r="22" fill="#0e0c0a"/>
+      <circle r="22" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1.5" filter="url(#f-glow-soft)"/>
+      <circle r="10" fill="none" stroke="#d4a840" stroke-opacity=".80" stroke-width="1.2"/>
+
+      <!-- Core kite / 4-pointed star mark — the convergence symbol -->
+      <g filter="url(#f-glow)">
+        <polygon points="0,-15 4,-4 15,0 4,4 0,15 -4,4 -15,0 -4,-4"
+                 fill="#d4a840" opacity=".92"/>
+      </g>
+    </g>
+
+    <!-- ══ LOWER PANEL — mirror structure of upper panel ══════════ -->
+    <!-- Lower panel frame -->
+    <rect x="90" y="654" width="576" height="300" rx="4" ry="4"
+          fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+    <rect x="98" y="662" width="560" height="284" rx="2" ry="2"
+          fill="none" stroke="#c8a050" stroke-opacity=".10" stroke-width="1"/>
+
+    <!-- Diagonal cross-lines inside lower panel -->
+    <line x1="90"  y1="654" x2="666" y2="954" stroke="#c8a050" stroke-opacity=".08" stroke-width="1"/>
+    <line x1="666" y1="654" x2="90"  y2="954" stroke="#c8a050" stroke-opacity=".08" stroke-width="1"/>
+
+    <!-- Lower panel: 4-fold nested squares (ritual containment grid) -->
+    <g transform="translate(378,804)">
+      <!-- Outer square, 45°-rotated (diamond orientation) -->
+      <rect x="-120" y="-120" width="240" height="240" transform="rotate(45)"
+            fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1.2"/>
+      <!-- Second square, axis-aligned -->
+      <rect x="-90" y="-90" width="180" height="180"
+            fill="none" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <!-- Third square, rotated -->
+      <rect x="-65" y="-65" width="130" height="130" transform="rotate(45)"
+            fill="none" stroke="#c8a050" stroke-opacity=".28" stroke-width="1"/>
+      <!-- Fourth square -->
+      <rect x="-46" y="-46" width="92" height="92"
+            fill="none" stroke="#c8a050" stroke-opacity=".22" stroke-width="1"/>
+      <!-- Fifth -->
+      <rect x="-28" y="-28" width="56" height="56" transform="rotate(45)"
+            fill="none" stroke="#c8a050" stroke-opacity=".30" stroke-width="1"/>
+
+      <!-- Orthogonal cross-hair through the whole panel -->
+      <line x1="-120" y1="0" x2="120" y2="0" stroke="#c8a050" stroke-opacity=".18" stroke-width=".8"/>
+      <line x1="0" y1="-120" x2="0"  y2="120" stroke="#c8a050" stroke-opacity=".18" stroke-width=".8"/>
+      <!-- 45° diagonals -->
+      <line x1="-85" y1="-85" x2="85"  y2="85"  stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+      <line x1="85"  y1="-85" x2="-85" y2="85"  stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+      <!-- Midpoint pips on outer diamond edges -->
+      <circle cx="0"    cy="-120" r="4"  fill="#0e0c0a"/>
+      <circle cx="0"    cy="-120" r="4"  fill="none" stroke="#d4a840" stroke-opacity=".65" stroke-width="1.2"/>
+      <circle cx="120"  cy="0"    r="4"  fill="#0e0c0a"/>
+      <circle cx="120"  cy="0"    r="4"  fill="none" stroke="#d4a840" stroke-opacity=".65" stroke-width="1.2"/>
+      <circle cx="0"    cy="120"  r="4"  fill="#0e0c0a"/>
+      <circle cx="0"    cy="120"  r="4"  fill="none" stroke="#d4a840" stroke-opacity=".65" stroke-width="1.2"/>
+      <circle cx="-120" cy="0"    r="4"  fill="#0e0c0a"/>
+      <circle cx="-120" cy="0"    r="4"  fill="none" stroke="#d4a840" stroke-opacity=".65" stroke-width="1.2"/>
+
+      <!-- Central node -->
+      <circle r="22" fill="#0e0c0a"/>
+      <circle r="22" fill="none" stroke="#c8a050" stroke-opacity=".55" stroke-width="1.5"/>
+      <circle r="10" fill="none" stroke="#d4a840" stroke-opacity=".75" stroke-width="1.2"/>
+      <polygon points="0,-7 5,0 0,7 -5,0" fill="#d4a840" opacity=".88" filter="url(#f-glow-sm)"/>
+    </g>
+
+    <!-- ══ FINE ANNOTATION LINES — margin notes feel ══════════════
+         Short horizontal ruled lines in both side margins, like a
+         ritual text with marginal calculations                      -->
+    <!-- Left margin annotation lines -->
+    <line x1="42" y1="160" x2="82" y2="160" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="42" y1="172" x2="72" y2="172" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="184" x2="78" y2="184" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="196" x2="70" y2="196" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+    <line x1="42" y1="490" x2="82" y2="490" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="42" y1="502" x2="72" y2="502" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="514" x2="78" y2="514" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="526" x2="70" y2="526" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+    <line x1="42" y1="870" x2="82" y2="870" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="42" y1="882" x2="72" y2="882" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="894" x2="78" y2="894" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="42" y1="906" x2="70" y2="906" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+    <!-- Right margin annotation lines (mirrored) -->
+    <line x1="714" y1="160" x2="674" y2="160" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="714" y1="172" x2="684" y2="172" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="184" x2="678" y2="184" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="196" x2="686" y2="196" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+    <line x1="714" y1="490" x2="674" y2="490" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="714" y1="502" x2="684" y2="502" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="514" x2="678" y2="514" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="526" x2="686" y2="526" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+    <line x1="714" y1="870" x2="674" y2="870" stroke="#c8a050" stroke-opacity=".20" stroke-width=".8"/>
+    <line x1="714" y1="882" x2="684" y2="882" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="894" x2="678" y2="894" stroke="#c8a050" stroke-opacity=".14" stroke-width=".8"/>
+    <line x1="714" y1="906" x2="686" y2="906" stroke="#c8a050" stroke-opacity=".10" stroke-width=".8"/>
+
+  </g>
+</svg>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archmage Ascension — Master Style Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #06040e; color: #7a6a50; font-family: 'Cinzel', serif; }
+  ::-webkit-scrollbar { width:6px; height:6px; background:#06040e; }
+  ::-webkit-scrollbar-thumb { background:#1e1408; border-radius:3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// ══════════════════════════════════════════════════════════
+// GEOMETRY (shared with review board)
+// ══════════════════════════════════════════════════════════
+const PPM   = 3;
+const BLEED = 3;
+const CW    = 68;
+const CH    = 94;
+const mm    = v => v * PPM;
+const tp    = v => mm(v + BLEED);
+
+const BEACON_Y = {
+  1:11.00,2:14.47,3:17.95,4:21.42,5:24.89,
+  6:28.37,7:31.84,8:35.32,9:38.79,10:42.26,
+  11:45.74,12:49.21,13:52.68,14:56.16,15:59.63,
+  16:63.11,17:66.58,18:70.05,19:73.53,20:77.00
+};
+
+const CURRENTS = {
+  radiance:{ label:'RADIANCE', color:'#F5C518', dim:'#C8961A', hex:['#F5C518','#C8961A'],
+    main:'uploads/radiance_main.PNG', pip:'uploads/radiance_pip2.PNG', frameHue:10,  beaconHue:null },
+  void:    { label:'VOID',     color:'#C060F0', dim:'#6A0DAD', hex:['#C060F0','#6A0DAD'],
+    main:'uploads/void_main.PNG',    pip:'uploads/void_pip2.PNG',    frameHue:235, beaconHue:225 },
+  flux:    { label:'FLUX',     color:'#00C8B4', dim:'#008878', hex:['#00C8B4','#008878'],
+    main:'uploads/flux_main.PNG',    pip:'uploads/flux_pip2.PNG',    frameHue:140, beaconHue:135 },
+  aether:  { label:'AETHER',   color:'#E8304A', dim:'#C8203A', hex:['#E8304A','#C8203A'],
+    main:'uploads/aether_main.PNG',  pip:'uploads/aether_pip2.PNG',  frameHue:315, beaconHue:315 },
+};
+
+// ══════════════════════════════════════════════════════════
+// IMAGE PROCESSING
+// ══════════════════════════════════════════════════════════
+const _cache = {};
+function _hsl(r,g,b){ const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,s=mx===mn?0:(mx-mn)/(1-Math.abs(2*l-1));return[l,s]; }
+
+function processCanvas(src, id, fn) {
+  const k=src+'|'+id; if(_cache[k]) return _cache[k];
+  const p=new Promise(res=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.naturalWidth||512;c.height=img.naturalHeight||512;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);const d=ctx.getImageData(0,0,c.width,c.height);fn(d.data);ctx.putImageData(d,0,0);res(c.toDataURL());};img.onerror=()=>res(src);img.src=src;});
+  return(_cache[k]=p);
+}
+function procSigil(data){const LT=0.82,ST=0.15;for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const[l,s]=_hsl(r,g,b);if(l>LT&&s<ST){const fade=Math.min(1,((l-LT)/(1-LT))*1.6+Math.max(0,(ST-s)/ST)*0.4);data[i+3]=Math.max(0,Math.round(data[i+3]*(1-fade)));}}}
+function procGlow(data){for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const l=(Math.max(r,g,b)+Math.min(r,g,b))/2,w=r-b;if(l>0.87&&w<0.07){const fade=Math.min(1,((l-0.87)/0.13)*1.5+Math.max(0,(0.07-w)/0.07)*0.5);data[i+3]=Math.max(0,Math.round(data[i+3]*(1-fade)));}}}
+function procBorder(data){for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const[l,s]=_hsl(r,g,b);if(l>0.87&&s<0.09){data[i+3]=0;}else{data[i]=255-data[i];data[i+1]=255-data[i+1];data[i+2]=255-data[i+2];}}}
+
+function useImg(src,id,fn){const[url,setUrl]=useState(null);useEffect(()=>{if(!src)return;let live=true;processCanvas(src,id,fn).then(u=>{if(live)setUrl(u);});return()=>{live=false;};},[src,id]);return url;}
+
+// ══════════════════════════════════════════════════════════
+// CARD (same as review board, minor size tweak)
+// ══════════════════════════════════════════════════════════
+function Card({ currentKey, value, scale=1 }) {
+  const cur = CURRENTS[currentKey];
+  const W = mm(CW)*scale, H = mm(CH)*scale;
+  const s = v => mm(v)*scale;
+  const t = v => tp(v)*scale;
+
+  const isR = currentKey==='radiance';
+  const sigil  = useImg(cur.main,  isR?'glow':'sigil', isR?procGlow:procSigil);
+  const pip    = useImg(cur.pip,   'sigil', procSigil);
+  const border = useImg('uploads/main_border_template.png','border',procBorder);
+  const beacon = useImg('uploads/beacon_template.png','glow',procGlow);
+
+  const bSz=s(5.5), bY=t(BEACON_Y[value]);
+  const bLx=t(3.2)-bSz/2, bRx=t(58.8)-bSz/2, bTy=bY-bSz/2;
+  const frameF=`sepia(1) hue-rotate(${cur.frameHue}deg) saturate(2.8) brightness(1.35)`;
+  const beaconF=cur.beaconHue===null?'brightness(1.3) saturate(1.2)':`hue-rotate(${cur.beaconHue}deg) saturate(1.6) brightness(1.1)`;
+  const tS='0 0 5px rgba(0,0,0,.98),0 1px 3px #000';
+  const nG=`0 0 14px ${cur.dim}cc,0 0 28px ${cur.dim}55,0 1px 4px #000`;
+
+  const pip_sz=s(10);
+  function rpip(bot){return(
+    <div style={{position:'absolute',left:bot?t(47.8):t(4.2),top:bot?t(73.8):t(4.2),width:pip_sz,height:pip_sz,transform:bot?'rotate(180deg)':undefined,zIndex:6}}>
+      {pip&&<img src={pip} alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',mixBlendMode:'screen'}}/>}
+      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:s(3.8),lineHeight:1,color:cur.color,textShadow:tS,zIndex:2}}>{value}</div>
+    </div>
+  );}
+
+  return (
+    <div style={{position:'relative',width:W,height:H,flexShrink:0,overflow:'hidden',borderRadius:s(2.5),boxShadow:'0 16px 48px rgba(0,0,0,.92),0 4px 12px rgba(0,0,0,.85)'}}>
+      <img src="uploads/card_background.png" alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill'}}/>
+      <img src="uploads/border_shadow_template.png" alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',mixBlendMode:'multiply',opacity:.92}}/>
+      {border&&<img src={border} alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',filter:frameF,mixBlendMode:'screen',opacity:.88}}/>}
+      {sigil&&<img src={sigil} alt="" style={{position:'absolute',left:t(7),top:t(12),width:s(48),height:s(64),objectFit:'contain',mixBlendMode:'screen'}}/>}
+      {beacon&&<img src={beacon} alt="" style={{position:'absolute',left:bLx,top:bTy,width:bSz,height:bSz,filter:beaconF}}/>}
+      {beacon&&<img src={beacon} alt="" style={{position:'absolute',left:bRx,top:bTy,width:bSz,height:bSz,filter:beaconF}}/>}
+      <div style={{position:'absolute',left:t(31),top:t(44),transform:'translate(-50%,-50%)',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:s(14),lineHeight:1,color:cur.color,textShadow:nG,userSelect:'none',zIndex:7}}>{value}</div>
+      <div style={{position:'absolute',left:t(10),top:t(75),width:s(42),height:s(6),display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:400,fontSize:s(2.7),letterSpacing:'0.3em',color:cur.dim,textShadow:tS,userSelect:'none',zIndex:7}}>{cur.label}</div>
+      {rpip(false)}{rpip(true)}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// ANATOMY DIAGRAM
+// ══════════════════════════════════════════════════════════
+function AnatomyCard() {
+  const W = mm(CW), H = mm(CH), BP = mm(BLEED);
+  const cur = CURRENTS.radiance;
+
+  const sigil  = useImg(cur.main, 'glow', procGlow);
+  const pip    = useImg(cur.pip,  'sigil', procSigil);
+  const border = useImg('uploads/main_border_template.png','border',procBorder);
+  const beacon = useImg('uploads/beacon_template.png','glow',procGlow);
+
+  const bSz=mm(5.5), bY=tp(BEACON_Y[7]);
+  const bLx=tp(3.2)-bSz/2, bRx=tp(58.8)-bSz/2, bTy=bY-bSz/2;
+  const pip_sz=mm(10);
+
+  const callouts = [
+    { id:'bg',     x:W*0.5,  y:H*0.35, cx:W+40,  cy:H*0.12, label:'① Background', sub:'card_background.png · full bleed' },
+    { id:'shadow', x:W*0.15, y:H*0.92, cx:-10,   cy:H*0.92, label:'② Shadow frame', sub:'border_shadow_template.png · multiply', align:'right' },
+    { id:'border', x:W*0.5,  y:BP,     cx:W+40,  cy:H*0.28, label:'③ Tinted border', sub:'main_border_template.png · screen · hue-shifted' },
+    { id:'sigil',  x:W*0.5,  y:H*0.5,  cx:W+40,  cy:H*0.48, label:'④ Main sigil', sub:'radiance_main.PNG · screen · glow-bg removed' },
+    { id:'beacon', x:bLx+bSz/2, y:bTy+bSz/2, cx:-10, cy:H*0.38, label:'⑤⑥ Beacons', sub:'beacon_template.png · colorized · value-mapped Y', align:'right' },
+    { id:'num',    x:tp(31), y:tp(44), cx:W+40,  cy:H*0.65, label:'⑦ Value number', sub:'Cinzel 700 · 14 mm · glow shadow' },
+    { id:'name',   x:tp(31), y:tp(78), cx:W+40,  cy:H*0.82, label:'⑧ Current name', sub:'Cinzel 400 · 2.7 mm · letter-spaced 0.3em' },
+    { id:'pip',    x:tp(4.2)+pip_sz/2, y:tp(4.2)+pip_sz/2, cx:-10, cy:H*0.08, label:'⑨⑩ Corner pip + value', sub:'pip2.PNG · screen · 10×10 mm box', align:'right' },
+    { id:'pipr',   x:tp(47.8)+pip_sz/2, y:tp(73.8)+pip_sz/2, cx:W+40, cy:H*0.96, label:'⑪ Bottom-right pip', sub:'rotated 180° · playing-card convention' },
+  ];
+
+  return (
+    <div style={{ position:'relative', width: W+320, height: H+40 }}>
+      {/* Card */}
+      <div style={{ position:'absolute', left:0, top:20 }}>
+        <div style={{ position:'relative', width:W, height:H, overflow:'hidden', borderRadius:mm(2.5), boxShadow:'0 16px 48px rgba(0,0,0,.92)' }}>
+          <img src="uploads/card_background.png" alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill' }}/>
+          <img src="uploads/border_shadow_template.png" alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',mixBlendMode:'multiply',opacity:.92 }}/>
+          {border&&<img src={border} alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',filter:`sepia(1) hue-rotate(10deg) saturate(2.8) brightness(1.35)`,mixBlendMode:'screen',opacity:.88 }}/>}
+          {/* Guides */}
+          <svg style={{ position:'absolute',inset:0,pointerEvents:'none',zIndex:99 }} width={W} height={H}>
+            <rect x={BP} y={BP} width={W-2*BP} height={H-2*BP} fill="none" stroke="rgba(255,190,40,0.5)" strokeWidth="0.7" strokeDasharray="4 2.5"/>
+            <rect x={BP+mm(4)} y={BP+mm(4)} width={W-2*(BP+mm(4))} height={H-2*(BP+mm(4))} fill="none" stroke="rgba(40,220,100,0.35)" strokeWidth="0.5" strokeDasharray="2 3.5"/>
+          </svg>
+          {sigil&&<img src={sigil} alt="" style={{ position:'absolute',left:tp(7),top:tp(12),width:mm(48),height:mm(64),objectFit:'contain',mixBlendMode:'screen' }}/>}
+          {beacon&&<img src={beacon} alt="" style={{ position:'absolute',left:bLx,top:bTy,width:bSz,height:bSz,filter:'brightness(1.3) saturate(1.2)' }}/>}
+          {beacon&&<img src={beacon} alt="" style={{ position:'absolute',left:bRx,top:bTy,width:bSz,height:bSz,filter:'brightness(1.3) saturate(1.2)' }}/>}
+          <div style={{ position:'absolute',left:tp(31),top:tp(44),transform:'translate(-50%,-50%)',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(14),lineHeight:1,color:'#F5C518',textShadow:`0 0 14px #C8961Acc,0 0 28px #C8961A55,0 1px 4px #000`,userSelect:'none',zIndex:7 }}>7</div>
+          <div style={{ position:'absolute',left:tp(10),top:tp(75),width:mm(42),height:mm(6),display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:400,fontSize:mm(2.7),letterSpacing:'0.3em',color:'#C8961A',textShadow:'0 0 5px rgba(0,0,0,.98)',userSelect:'none',zIndex:7 }}>RADIANCE</div>
+          {/* Pips */}
+          <div style={{ position:'absolute',left:tp(4.2),top:tp(4.2),width:mm(10),height:mm(10),zIndex:6 }}>
+            {pip&&<img src={pip} alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',mixBlendMode:'screen' }}/>}
+            <div style={{ position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(3.8),lineHeight:1,color:'#F5C518',textShadow:'0 0 5px rgba(0,0,0,.98)',zIndex:2 }}>7</div>
+          </div>
+          <div style={{ position:'absolute',left:tp(47.8),top:tp(73.8),width:mm(10),height:mm(10),transform:'rotate(180deg)',zIndex:6 }}>
+            {pip&&<img src={pip} alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',mixBlendMode:'screen' }}/>}
+            <div style={{ position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(3.8),lineHeight:1,color:'#F5C518',textShadow:'0 0 5px rgba(0,0,0,.98)',zIndex:2 }}>7</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Callout lines + labels */}
+      <svg style={{ position:'absolute', inset:0, pointerEvents:'none', overflow:'visible' }} width={W+320} height={H+40}>
+        {callouts.map(c => {
+          const px=c.x, py=c.y+20;
+          const tx=c.cx<0 ? c.cx+8 : c.cx, ty=c.cy+20;
+          const midX=(px+tx)/2;
+          return (
+            <g key={c.id}>
+              <circle cx={px} cy={py} r="3" fill="rgba(180,140,60,0.6)" />
+              <polyline
+                points={`${px},${py} ${midX},${py} ${midX},${ty} ${tx},${ty}`}
+                fill="none" stroke="rgba(120,90,40,0.4)" strokeWidth="0.7"
+              />
+            </g>
+          );
+        })}
+      </svg>
+
+      {/* Label text */}
+      {callouts.map(c => {
+        const right = c.align === 'right';
+        const lx = right ? 0 : W+48;
+        const ly = c.cy+20;
+        return (
+          <div key={c.id+'lbl'} style={{
+            position:'absolute',
+            left: right ? -4 : lx,
+            top: ly-18,
+            width: 200,
+            textAlign: right ? 'right' : 'left',
+          }}>
+            <div style={{ fontSize:9, fontWeight:700, letterSpacing:'0.15em', color:'#a08050', lineHeight:1.4 }}>{c.label}</div>
+            <div style={{ fontSize:8, letterSpacing:'0.08em', color:'#4a3820', lineHeight:1.5, marginTop:1, whiteSpace:'nowrap' }}>{c.sub}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// BEACON GUIDE
+// ══════════════════════════════════════════════════════════
+function BeaconGuide() {
+  const W = mm(CW), H = mm(CH), BP = mm(BLEED);
+  const beacon = useImg('uploads/beacon_template.png','glow',procGlow);
+  const bSz = mm(5.5);
+  const bLx = tp(3.2) - bSz/2;
+
+  const vals = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+  return (
+    <div style={{ position:'relative', width:W+120, height:H }}>
+      {/* Card silhouette */}
+      <div style={{ position:'absolute', left:0, top:0, width:W, height:H, overflow:'hidden', borderRadius:mm(2.5), background:'#0e0b18', border:'1px solid rgba(255,255,255,0.04)' }}>
+        {/* Trim + safe guides */}
+        <svg style={{position:'absolute',inset:0}} width={W} height={H}>
+          <rect x={BP} y={BP} width={W-2*BP} height={H-2*BP} fill="none" stroke="rgba(255,190,40,0.25)" strokeWidth="0.6" strokeDasharray="3 2"/>
+          <rect x={BP+mm(4)} y={BP+mm(4)} width={W-2*(BP+mm(4))} height={H-2*(BP+mm(4))} fill="none" stroke="rgba(40,220,100,0.15)" strokeWidth="0.5" strokeDasharray="2 3"/>
+        </svg>
+        {vals.map(v => (
+          beacon && <img key={v} src={beacon} alt="" style={{
+            position:'absolute',
+            left: bLx,
+            top: tp(BEACON_Y[v]) - bSz/2,
+            width: bSz, height: bSz,
+            filter:'brightness(1.3) saturate(1.2)',
+          }}/>
+        ))}
+      </div>
+      {/* Value labels on right */}
+      {vals.map(v => {
+        const yPx = tp(BEACON_Y[v]);
+        return (
+          <div key={v} style={{
+            position:'absolute',
+            left: W + 10,
+            top: yPx - 6,
+            display:'flex', alignItems:'center', gap:8,
+          }}>
+            <div style={{ width:16, height:1, background:'rgba(120,90,40,0.4)' }}/>
+            <div style={{ fontSize:8, color: v%5===0?'#a08050':'#3a2a18', letterSpacing:'0.15em', fontWeight: v%5===0?700:400 }}>
+              {v}{v%5===0?` · ${BEACON_Y[v]} mm`:''}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// SECTION WRAPPER
+// ══════════════════════════════════════════════════════════
+function Section({ title, subtitle, children, minHeight }) {
+  return (
+    <div style={{ marginBottom:56 }}>
+      <div style={{ marginBottom:20, paddingBottom:10, borderBottom:'1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ fontSize:9, letterSpacing:'0.45em', color:'#2a1e10', marginBottom:5 }}>
+          {title}
+        </div>
+        {subtitle && <div style={{ fontSize:11, letterSpacing:'0.18em', color:'#5a4a30', fontWeight:400 }}>{subtitle}</div>}
+      </div>
+      <div style={{ minHeight }}>{children}</div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// LAYER ORDER DIAGRAM
+// ══════════════════════════════════════════════════════════
+const LAYERS = [
+  { n:'①', name:'card_background.png',           role:'Dark marble substrate · full bleed · no blend',              color:'#3a2a1a' },
+  { n:'②', name:'border_shadow_template.png',    role:'Depth vignette · mix-blend-mode: multiply · white → clear',  color:'#2e2030' },
+  { n:'③', name:'main_border_template.png',      role:'Linework frame · inverted → bright · sepia+hue-rotate filter · screen blend', color:'#1e2e20' },
+  { n:'④', name:'[current]_main.PNG',            role:'Central sigil · white-bg removed · mix-blend-mode: screen',  color:'#2a1a30' },
+  { n:'⑤⑥', name:'beacon_template.png × 2',   role:'Value indicator orbs · warm-bg removed · hue-rotated · y pos from table', color:'#1a2a30' },
+  { n:'⑦', name:'Value number',                  role:'Cinzel 700 · 14 mm · trim-relative (31, 44) · glow textShadow', color:'#2a2010' },
+  { n:'⑧', name:'Current name',                  role:'Cinzel 400 · 2.7 mm · trim-relative (10–52, 75–81) · 0.3em spacing', color:'#2a1818' },
+  { n:'⑨⑩', name:'Top-left pip + value',       role:'pip2.PNG · 10×10 mm · trim (4.2, 4.2) · value number centered', color:'#1e2820' },
+  { n:'⑪', name:'Bottom-right pip + value',      role:'Duplicate of ⑨⑩ · rotate(180deg) · trim (47.8, 73.8)',       color:'#281e10' },
+];
+
+function LayerDiagram() {
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:4, maxWidth:780 }}>
+      {LAYERS.map((l, i) => (
+        <div key={i} style={{
+          display:'flex', alignItems:'center', gap:14,
+          padding:'8px 14px',
+          background: `rgba(255,255,255,0.018)`,
+          border:'1px solid rgba(255,255,255,0.04)',
+          borderRadius:3,
+        }}>
+          <div style={{ width:28, fontSize:11, color:'#a08050', letterSpacing:'0.05em', flexShrink:0, textAlign:'center' }}>{l.n}</div>
+          <div style={{ width:220, fontSize:9, fontWeight:700, color:'#6a5a3a', letterSpacing:'0.12em', flexShrink:0 }}>{l.name}</div>
+          <div style={{ fontSize:8, color:'#3a2a1a', letterSpacing:'0.08em', lineHeight:1.5 }}>{l.role}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// COLOUR PALETTE
+// ══════════════════════════════════════════════════════════
+function Palette() {
+  const keys = ['radiance','void','flux','aether'];
+  return (
+    <div style={{ display:'flex', gap:32 }}>
+      {keys.map(k => {
+        const c = CURRENTS[k];
+        return (
+          <div key={k} style={{ width:160 }}>
+            <div style={{ marginBottom:10 }}>
+              {c.hex.map((h, i) => (
+                <div key={i} style={{
+                  height: i===0 ? 48 : 32,
+                  background: h,
+                  borderRadius: i===0 ? '4px 4px 0 0' : '0 0 4px 4px',
+                  boxShadow: i===0 ? `0 0 20px ${h}66` : 'none',
+                }}/>
+              ))}
+            </div>
+            <div style={{ fontSize:10, letterSpacing:'0.25em', color:c.color, marginBottom:6 }}>{c.label}</div>
+            <div style={{ fontSize:8, letterSpacing:'0.1em', color:'#3a2a1a', lineHeight:1.8 }}>
+              {c.hex[0]} · Highlight<br/>
+              {c.hex[1]} · Midtone<br/>
+            </div>
+            <div style={{ marginTop:8, fontSize:8, letterSpacing:'0.1em', color:'#2a1a10', lineHeight:1.8 }}>
+              Frame: hue-rotate({c.frameHue}deg)<br/>
+              {c.beaconHue !== null ? `Beacon: hue-rotate(${c.beaconHue}deg)` : 'Beacon: native warm gold'}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* Shared / Neutral */}
+      <div style={{ width:160, paddingLeft:24, borderLeft:'1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ height:48, background:'#12111a', borderRadius:'4px 4px 0 0', border:'1px solid rgba(255,255,255,0.06)' }}/>
+        <div style={{ height:32, background:'#1e1a2e', borderRadius:'0 0 4px 4px', border:'1px solid rgba(255,255,255,0.04)' }}/>
+        <div style={{ fontSize:10, letterSpacing:'0.25em', color:'#5a5070', marginTop:10, marginBottom:6 }}>SHARED</div>
+        <div style={{ fontSize:8, letterSpacing:'0.1em', color:'#3a2a1a', lineHeight:1.8 }}>
+          #12111a · Background base<br/>
+          #1e1a2e · Background deep<br/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// TYPOGRAPHY
+// ══════════════════════════════════════════════════════════
+function Typography() {
+  const rows = [
+    { size:'14 mm', px:'42px', weight:'700', use:'Central value number', sample:'7', color:'#F5C518', shadow:`0 0 14px #C8961Acc,0 0 28px #C8961A55,0 1px 4px #000` },
+    { size:'3.8 mm', px:'11px', weight:'700', use:'Corner pip number', sample:'13', color:'#F5C518', shadow:'0 0 5px rgba(0,0,0,.98),0 1px 3px #000' },
+    { size:'2.7 mm', px:'8px',  weight:'400', use:'Current name label', sample:'RADIANCE', color:'#C8961A', shadow:'0 0 5px rgba(0,0,0,.98)', ls:'0.3em' },
+  ];
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+      <div style={{ fontSize:9, color:'#2a1e10', letterSpacing:'0.2em', marginBottom:4 }}>
+        TYPEFACE · Cinzel (Google Fonts) · Engraved ceremonial serif
+      </div>
+      {rows.map((r,i) => (
+        <div key={i} style={{ display:'flex', alignItems:'center', gap:32, padding:'12px 16px', background:'rgba(255,255,255,0.015)', border:'1px solid rgba(255,255,255,0.04)', borderRadius:3 }}>
+          <div style={{
+            width:120, fontFamily:"'Cinzel',serif", fontWeight:r.weight,
+            fontSize:r.px, color:r.color, textShadow:r.shadow,
+            letterSpacing:r.ls, lineHeight:1,
+          }}>{r.sample}</div>
+          <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
+            <div style={{ fontSize:9, color:'#6a5a3a', letterSpacing:'0.12em' }}>{r.use}</div>
+            <div style={{ fontSize:8, color:'#3a2a1a', letterSpacing:'0.1em' }}>{r.size} · {r.px} at 3px/mm · weight {r.weight}{r.ls ? ` · letter-spacing ${r.ls}` : ''}</div>
+          </div>
+        </div>
+      ))}
+
+      {/* Cinzel specimen */}
+      <div style={{ marginTop:8, padding:'16px 20px', background:'rgba(255,255,255,0.012)', border:'1px solid rgba(255,255,255,0.04)', borderRadius:3 }}>
+        <div style={{ fontSize:8, color:'#2a1e10', letterSpacing:'0.3em', marginBottom:10 }}>CINZEL SPECIMEN</div>
+        <div style={{ display:'flex', gap:40, flexWrap:'wrap' }}>
+          {[400,600,700].map(w => (
+            <div key={w}>
+              <div style={{ fontSize:8, color:'#2a1a10', letterSpacing:'0.2em', marginBottom:6 }}>Weight {w}</div>
+              <div style={{ fontFamily:"'Cinzel',serif", fontWeight:w, fontSize:18, color:'#7a6a4a', lineHeight:1.6 }}>
+                ARCHMAGE<br/>
+                Radiance 1–20<br/>
+                <span style={{ fontSize:12 }}>abcdefghij 0123456789</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// PIP GUIDE
+// ══════════════════════════════════════════════════════════
+function PipGuide() {
+  const cur = CURRENTS.radiance;
+  const pip = useImg(cur.pip, 'sigil', procSigil);
+  const bPx = mm(BLEED);
+
+  // Show a card fragment diagram
+  const W = mm(CW), H = mm(CH);
+  const pip_sz = mm(10);
+
+  const positions = [
+    { label:'Top-left pip', key:'tl', x: tp(4.2), y: tp(4.2), rotate:false,
+      desc: 'trim (4.2, 4.2) mm · 10×10 mm box' },
+    { label:'Bottom-right pip', key:'br', x: tp(47.8), y: tp(73.8), rotate:true,
+      desc: 'trim (47.8, 73.8) mm · 10×10 mm box · rotate(180°)' },
+  ];
+
+  // Simplified card outline showing pip zones
+  return (
+    <div style={{ display:'flex', gap:40, alignItems:'flex-start' }}>
+      <div style={{ position:'relative', width:W, height:H, flexShrink:0 }}>
+        {/* Dark card bg */}
+        <div style={{ position:'absolute', inset:0, background:'#0e0b18', borderRadius:mm(2.5), border:'1px solid rgba(255,255,255,0.05)' }}/>
+        {/* Guides */}
+        <svg style={{ position:'absolute', inset:0 }} width={W} height={H}>
+          <rect x={bPx} y={bPx} width={W-2*bPx} height={H-2*bPx} fill="none" stroke="rgba(255,190,40,0.3)" strokeWidth="0.7" strokeDasharray="4 2.5"/>
+          <rect x={bPx+mm(4)} y={bPx+mm(4)} width={W-2*(bPx+mm(4))} height={H-2*(bPx+mm(4))} fill="none" stroke="rgba(40,220,100,0.2)" strokeWidth="0.5" strokeDasharray="2 3.5"/>
+          {/* Pip zone boxes */}
+          <rect x={tp(4.2)} y={tp(4.2)} width={pip_sz} height={pip_sz} fill="rgba(245,197,24,0.08)" stroke="rgba(245,197,24,0.4)" strokeWidth="0.6"/>
+          <rect x={tp(47.8)} y={tp(73.8)} width={pip_sz} height={pip_sz} fill="rgba(245,197,24,0.08)" stroke="rgba(245,197,24,0.4)" strokeWidth="0.6"/>
+        </svg>
+        {positions.map(p => (
+          <div key={p.key} style={{ position:'absolute', left:p.x, top:p.y, width:pip_sz, height:pip_sz, transform: p.rotate ? 'rotate(180deg)' : undefined, zIndex:5 }}>
+            {pip&&<img src={pip} alt="" style={{ position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',mixBlendMode:'screen' }}/>}
+            <div style={{ position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(3.8),lineHeight:1,color:'#F5C518',textShadow:'0 0 5px rgba(0,0,0,.98)',zIndex:2 }}>7</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Spec table */}
+      <div style={{ display:'flex', flexDirection:'column', gap:20, paddingTop:8 }}>
+        {positions.map(p => (
+          <div key={p.key} style={{ padding:'12px 16px', background:'rgba(255,255,255,0.015)', border:'1px solid rgba(255,255,255,0.04)', borderRadius:3 }}>
+            <div style={{ fontSize:9, color:'#a08050', letterSpacing:'0.2em', marginBottom:6, fontWeight:700 }}>{p.label}</div>
+            <div style={{ fontSize:8, color:'#3a2a1a', letterSpacing:'0.1em', lineHeight:1.8 }}>
+              {p.desc}<br/>
+              Inner number: current color · Cinzel 700 · 3.8 mm<br/>
+              Pip image: mix-blend-mode screen<br/>
+              {p.rotate ? 'Rotation: 180° (upside-down for fanned view)' : 'Rotation: none'}
+            </div>
+          </div>
+        ))}
+        <div style={{ padding:'12px 16px', background:'rgba(255,255,255,0.012)', border:'1px solid rgba(255,255,255,0.04)', borderRadius:3 }}>
+          <div style={{ fontSize:8, color:'#3a2a1a', letterSpacing:'0.1em', lineHeight:1.8 }}>
+            <div style={{ color:'#5a4a30', letterSpacing:'0.2em', marginBottom:6, fontSize:9 }}>FANNING NOTE</div>
+            Top-left visible when cards are fanned left-to-right.<br/>
+            Bottom-right visible when fanned right-to-left.<br/>
+            Both corners remain within the safe zone.
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// CARD SIZE SPECIFICATION
+// ══════════════════════════════════════════════════════════
+function SizeSpec() {
+  const scale = 2; // smaller for this diagram
+  const W=mm(CW)*scale/PPM, H=mm(CH)*scale/PPM; // at 2px/mm
+  const BP=BLEED*scale;
+  const trim_off=BLEED*scale;
+  const safe_off=(BLEED+4)*scale;
+  return (
+    <div style={{ display:'flex', gap:40, alignItems:'flex-start' }}>
+      {/* Diagram */}
+      <div style={{ position:'relative', width:W+60, height:H+20 }}>
+        <svg width={W+60} height={H+20} style={{ overflow:'visible' }}>
+          {/* Full bleed */}
+          <rect x={30} y={10} width={W} height={H} fill="#0e0b18" stroke="rgba(255,70,70,0.5)" strokeWidth="0.8"/>
+          {/* Trim */}
+          <rect x={30+trim_off} y={10+trim_off} width={W-2*trim_off} height={H-2*trim_off} fill="none" stroke="rgba(255,190,40,0.65)" strokeWidth="0.7" strokeDasharray="4 2"/>
+          {/* Safe zone */}
+          <rect x={30+safe_off} y={10+safe_off} width={W-2*safe_off} height={H-2*safe_off} fill="none" stroke="rgba(40,220,100,0.5)" strokeWidth="0.6" strokeDasharray="2 3"/>
+
+          {/* Bleed dimension */}
+          <line x1={30} y1={H+16} x2={30+trim_off} y2={H+16} stroke="rgba(255,70,70,0.4)" strokeWidth="0.6"/>
+          <text x={30+trim_off/2} y={H+14} textAnchor="middle" fontSize="7" fill="rgba(255,70,70,0.6)" fontFamily="Cinzel,serif">3mm</text>
+
+          {/* Total width */}
+          <line x1={30} y1={H+24} x2={30+W} y2={H+24} stroke="rgba(255,255,255,0.12)" strokeWidth="0.5"/>
+          <line x1={30} y1={H+20} x2={30} y2={H+28} stroke="rgba(255,255,255,0.12)" strokeWidth="0.5"/>
+          <line x1={30+W} y1={H+20} x2={30+W} y2={H+28} stroke="rgba(255,255,255,0.12)" strokeWidth="0.5"/>
+          <text x={30+W/2} y={H+22} textAnchor="middle" fontSize="7" fill="rgba(255,255,255,0.2)" fontFamily="Cinzel,serif">68 mm</text>
+        </svg>
+      </div>
+
+      {/* Spec table */}
+      <div style={{ paddingTop:10 }}>
+        {[
+          { label:'Full Bleed', dim:'68 × 94 mm', note:'Print to edge · includes bleed', color:'rgba(255,70,70,0.6)' },
+          { label:'Trim Size',  dim:'62 × 88 mm', note:'Actual cut card size · centered in bleed', color:'rgba(255,190,40,0.65)' },
+          { label:'Safe Zone',  dim:'54 × 80 mm', note:'All critical text + pips inside here', color:'rgba(40,220,100,0.5)' },
+          { label:'Bleed',      dim:'3 mm all sides', note:'From trim to bleed edge', color:'rgba(255,70,70,0.4)' },
+        ].map(r => (
+          <div key={r.label} style={{ display:'flex', gap:14, alignItems:'baseline', padding:'6px 0', borderBottom:'1px solid rgba(255,255,255,0.025)' }}>
+            <div style={{ width:8, height:8, borderRadius:1, background:r.color, flexShrink:0, alignSelf:'center' }}/>
+            <div style={{ width:100, fontSize:9, color:'#6a5a3a', letterSpacing:'0.15em' }}>{r.label}</div>
+            <div style={{ width:100, fontSize:9, color:'#a08050', letterSpacing:'0.1em', fontWeight:700 }}>{r.dim}</div>
+            <div style={{ fontSize:8, color:'#3a2a1a', letterSpacing:'0.08em' }}>{r.note}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// MASTER STYLE BOARD
+// ══════════════════════════════════════════════════════════
+function StyleBoard() {
+  return (
+    <div style={{ padding:'52px 56px 80px', maxWidth:1400, margin:'0 auto', background:'#06040e' }}>
+
+      {/* Title */}
+      <div style={{ marginBottom:52, paddingBottom:20, borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ fontSize:9, letterSpacing:'0.55em', color:'#2a1e10', marginBottom:8 }}>
+          ARCHMAGE ASCENSION · CARD DESIGN SYSTEM
+        </div>
+        <div style={{ fontSize:28, letterSpacing:'0.14em', color:'#8a7050', fontFamily:"'Cinzel',serif", fontWeight:400, marginBottom:6 }}>
+          Master Style Board
+        </div>
+        <div style={{ fontSize:9, letterSpacing:'0.2em', color:'#2a1e10' }}>
+          68 × 94 mm full bleed · Cinzel typeface · 80-card deck · 4 currents × 20 values
+        </div>
+      </div>
+
+      {/* Card anatomy + beacon guide side by side */}
+      <Section title="SECTION 1 · CARD ANATOMY" subtitle="Radiance 7 · labeled layer callouts">
+        <div style={{ display:'flex', gap:64, flexWrap:'wrap', alignItems:'flex-start' }}>
+          <AnatomyCard />
+          <div>
+            <div style={{ fontSize:9, color:'#2a1e10', letterSpacing:'0.25em', marginBottom:16 }}>BEACON VALUE GUIDE</div>
+            <BeaconGuide />
+          </div>
+        </div>
+      </Section>
+
+      {/* Layer order */}
+      <Section title="SECTION 2 · LAYER ORDER" subtitle="Back to front · 9 layers">
+        <LayerDiagram />
+      </Section>
+
+      {/* Colour palette */}
+      <Section title="SECTION 3 · COLOUR PALETTE" subtitle="Four currents + shared neutrals">
+        <Palette />
+        <div style={{ marginTop:24, display:'flex', gap:16, flexWrap:'wrap' }}>
+          {Object.keys(CURRENTS).map(k => (
+            <Card key={k} currentKey={k} value={7} scale={0.85} />
+          ))}
+        </div>
+      </Section>
+
+      {/* Typography */}
+      <Section title="SECTION 4 · TYPOGRAPHY" subtitle="Cinzel · engraved ceremonial serif">
+        <Typography />
+      </Section>
+
+      {/* Pip guide */}
+      <Section title="SECTION 5 · PIP PLACEMENT" subtitle="Corner index system · fanning conventions">
+        <PipGuide />
+      </Section>
+
+      {/* Size spec */}
+      <Section title="SECTION 6 · PRINT SIZE SPECIFICATION" subtitle="Bleed · trim · safe zone">
+        <SizeSpec />
+      </Section>
+
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<StyleBoard />);
+</script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archmage Ascension — Production Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #06040e; color: #7a6a50; font-family: 'Cinzel', serif; }
+  ::-webkit-scrollbar { width:6px; height:6px; background:#06040e; }
+  ::-webkit-scrollbar-thumb { background:#1e1408; border-radius:3px; }
+
+  @media print {
+    body { background: white; }
+    .no-print { display: none !important; }
+    .print-page {
+      page-break-after: always;
+      break-after: page;
+    }
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+
+// ══════════════════════════════════════════════════════════
+// GEOMETRY
+// ══════════════════════════════════════════════════════════
+const PPM   = 3;
+const BLEED = 3;
+const CW    = 68;
+const CH    = 94;
+const mm    = v => v * PPM;
+const tp    = v => mm(v + BLEED);
+
+const BEACON_Y = {
+  1:11.00,2:14.47,3:17.95,4:21.42,5:24.89,
+  6:28.37,7:31.84,8:35.32,9:38.79,10:42.26,
+  11:45.74,12:49.21,13:52.68,14:56.16,15:59.63,
+  16:63.11,17:66.58,18:70.05,19:73.53,20:77.00
+};
+
+const CURRENTS = {
+  radiance:{ label:'RADIANCE', color:'#F5C518', dim:'#C8961A',
+    main:'uploads/radiance_main.PNG', pip:'uploads/radiance_pip2.PNG', frameHue:10,  beaconHue:null },
+  void:    { label:'VOID',     color:'#C060F0', dim:'#6A0DAD',
+    main:'uploads/void_main.PNG',    pip:'uploads/void_pip2.PNG',    frameHue:235, beaconHue:225 },
+  flux:    { label:'FLUX',     color:'#00C8B4', dim:'#008878',
+    main:'uploads/flux_main.PNG',    pip:'uploads/flux_pip2.PNG',    frameHue:140, beaconHue:135 },
+  aether:  { label:'AETHER',   color:'#E8304A', dim:'#C8203A',
+    main:'uploads/aether_main.PNG',  pip:'uploads/aether_pip2.PNG',  frameHue:315, beaconHue:315 },
+};
+
+// ══════════════════════════════════════════════════════════
+// IMAGE PROCESSING
+// ══════════════════════════════════════════════════════════
+const _cache = {};
+function _hsl(r,g,b){const mx=Math.max(r,g,b),mn=Math.min(r,g,b),l=(mx+mn)/2,s=mx===mn?0:(mx-mn)/(1-Math.abs(2*l-1));return[l,s];}
+
+function processCanvas(src,id,fn){
+  const k=src+'|'+id;if(_cache[k])return _cache[k];
+  const p=new Promise(res=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');c.width=img.naturalWidth||512;c.height=img.naturalHeight||512;const ctx=c.getContext('2d');ctx.drawImage(img,0,0);const d=ctx.getImageData(0,0,c.width,c.height);fn(d.data);ctx.putImageData(d,0,0);res(c.toDataURL());};img.onerror=()=>res(src);img.src=src;});
+  return(_cache[k]=p);
+}
+
+function procSigil(data){const LT=0.82,ST=0.15;for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const[l,s]=_hsl(r,g,b);if(l>LT&&s<ST){const fade=Math.min(1,((l-LT)/(1-LT))*1.6+Math.max(0,(ST-s)/ST)*0.4);data[i+3]=Math.max(0,Math.round(data[i+3]*(1-fade)));}}}
+function procGlow(data){for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const l=(Math.max(r,g,b)+Math.min(r,g,b))/2,w=r-b;if(l>0.87&&w<0.07){const fade=Math.min(1,((l-0.87)/0.13)*1.5+Math.max(0,(0.07-w)/0.07)*0.5);data[i+3]=Math.max(0,Math.round(data[i+3]*(1-fade)));}}}
+function procBorder(data){for(let i=0;i<data.length;i+=4){if(data[i+3]<4)continue;const r=data[i]/255,g=data[i+1]/255,b=data[i+2]/255;const[l,s]=_hsl(r,g,b);if(l>0.87&&s<0.09){data[i+3]=0;}else{data[i]=255-data[i];data[i+1]=255-data[i+1];data[i+2]=255-data[i+2];}}}
+
+function useImg(src,id,fn){const[url,setUrl]=useState(null);useEffect(()=>{if(!src)return;let live=true;processCanvas(src,id,fn).then(u=>{if(live)setUrl(u);});return()=>{live=false;};},[src,id]);return url;}
+
+// ══════════════════════════════════════════════════════════
+// CARD COMPONENT
+// ══════════════════════════════════════════════════════════
+function Card({ currentKey, value, showGuides=false }) {
+  const cur = CURRENTS[currentKey];
+  const W = mm(CW), H = mm(CH), BP = mm(BLEED);
+  const isR = currentKey==='radiance';
+
+  const sigil  = useImg(cur.main,  isR?'glow':'sigil', isR?procGlow:procSigil);
+  const pip    = useImg(cur.pip,   'sigil', procSigil);
+  const border = useImg('uploads/main_border_template.png','border',procBorder);
+  const beacon = useImg('uploads/beacon_template.png','glow',procGlow);
+
+  const bSz=mm(5.5), bY=tp(BEACON_Y[value]);
+  const bLx=tp(3.2)-bSz/2, bRx=tp(58.8)-bSz/2, bTy=bY-bSz/2;
+  const frameF=`sepia(1) hue-rotate(${cur.frameHue}deg) saturate(2.8) brightness(1.35)`;
+  const beaconF=cur.beaconHue===null?'brightness(1.3) saturate(1.2)':`hue-rotate(${cur.beaconHue}deg) saturate(1.6) brightness(1.1)`;
+  const tS='0 0 5px rgba(0,0,0,.98),0 1px 3px #000';
+  const nG=`0 0 14px ${cur.dim}cc,0 0 28px ${cur.dim}55,0 1px 4px #000`;
+  const pip_sz=mm(10);
+
+  function rpip(bot){return(
+    <div style={{position:'absolute',left:bot?tp(47.8):tp(4.2),top:bot?tp(73.8):tp(4.2),width:pip_sz,height:pip_sz,transform:bot?'rotate(180deg)':undefined,zIndex:6}}>
+      {pip&&<img src={pip} alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'contain',mixBlendMode:'screen'}}/>}
+      <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(3.8),lineHeight:1,color:cur.color,textShadow:tS,zIndex:2}}>{value}</div>
+    </div>
+  );}
+
+  return (
+    <div style={{position:'relative',width:W,height:H,flexShrink:0,overflow:'hidden',borderRadius:mm(2.5),boxShadow:'0 12px 36px rgba(0,0,0,.9),0 4px 10px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,0.03)'}}>
+      <img src="uploads/card_background.png" alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill'}}/>
+      <img src="uploads/border_shadow_template.png" alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',mixBlendMode:'multiply',opacity:.92}}/>
+      {border&&<img src={border} alt="" style={{position:'absolute',inset:0,width:'100%',height:'100%',objectFit:'fill',filter:frameF,mixBlendMode:'screen',opacity:.88}}/>}
+      {sigil&&<img src={sigil} alt="" style={{position:'absolute',left:tp(7),top:tp(12),width:mm(48),height:mm(64),objectFit:'contain',mixBlendMode:'screen'}}/>}
+      {beacon&&<img src={beacon} alt="" style={{position:'absolute',left:bLx,top:bTy,width:bSz,height:bSz,filter:beaconF}}/>}
+      {beacon&&<img src={beacon} alt="" style={{position:'absolute',left:bRx,top:bTy,width:bSz,height:bSz,filter:beaconF}}/>}
+      <div style={{position:'absolute',left:tp(31),top:tp(44),transform:'translate(-50%,-50%)',fontFamily:"'Cinzel',serif",fontWeight:700,fontSize:mm(14),lineHeight:1,color:cur.color,textShadow:nG,userSelect:'none',zIndex:7}}>{value}</div>
+      <div style={{position:'absolute',left:tp(10),top:tp(75),width:mm(42),height:mm(6),display:'flex',alignItems:'center',justifyContent:'center',fontFamily:"'Cinzel',serif",fontWeight:400,fontSize:mm(2.7),letterSpacing:'0.3em',color:cur.dim,textShadow:tS,userSelect:'none',zIndex:7}}>{cur.label}</div>
+      {rpip(false)}{rpip(true)}
+      {showGuides&&(
+        <svg style={{position:'absolute',inset:0,pointerEvents:'none',zIndex:99}} width={W} height={H}>
+          <rect x={BP} y={BP} width={W-2*BP} height={H-2*BP} fill="none" stroke="rgba(255,190,40,0.55)" strokeWidth="0.7" strokeDasharray="4 2.5"/>
+          <rect x={BP+mm(4)} y={BP+mm(4)} width={W-2*(BP+mm(4))} height={H-2*(BP+mm(4))} fill="none" stroke="rgba(40,220,100,0.35)" strokeWidth="0.5" strokeDasharray="2 3.5"/>
+        </svg>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════
+// PRODUCTION BOARD
+// ══════════════════════════════════════════════════════════
+const COLS = 4;
+const values = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+
+function CurrentTab({ id, active, onClick }) {
+  const cur = CURRENTS[id];
+  return (
+    <button onClick={() => onClick(id)} style={{
+      display:'flex', alignItems:'center', gap:10,
+      padding:'10px 20px',
+      background: active ? 'rgba(255,255,255,0.06)' : 'transparent',
+      border:'none',
+      borderBottom: active ? `2px solid ${cur.color}` : '2px solid transparent',
+      cursor:'pointer',
+      transition:'all 0.2s',
+      flexDirection:'column', gap:4,
+    }}>
+      <div style={{
+        fontSize: 10, letterSpacing:'0.3em',
+        color: active ? cur.color : '#3a2a18',
+        fontFamily:"'Cinzel',serif",
+        fontWeight: active ? 700 : 400,
+        transition:'color 0.2s',
+      }}>{cur.label}</div>
+      <div style={{
+        display:'flex', gap:3, alignItems:'center',
+      }}>
+        {[0,1,2,3].map(i => (
+          <div key={i} style={{
+            width:4, height:4, borderRadius:'50%',
+            background: active ? cur.color : '#2a1e10',
+            opacity: active ? 1 : 0.4,
+            transition:'all 0.2s',
+          }}/>
+        ))}
+      </div>
+    </button>
+  );
+}
+
+function AllCurrentsTab({ active, onClick }) {
+  return (
+    <button onClick={() => onClick('all')} style={{
+      display:'flex', alignItems:'center', gap:10,
+      padding:'10px 20px',
+      background: active ? 'rgba(255,255,255,0.06)' : 'transparent',
+      border:'none',
+      borderBottom: active ? '2px solid rgba(180,140,80,0.7)' : '2px solid transparent',
+      cursor:'pointer', transition:'all 0.2s', flexDirection:'column', gap:4,
+    }}>
+      <div style={{ fontSize:10, letterSpacing:'0.3em', color: active ? '#a08050' : '#3a2a18', fontFamily:"'Cinzel',serif", fontWeight: active ? 700 : 400 }}>
+        ALL · VALUE 1–20
+      </div>
+      <div style={{ display:'flex', gap:2, alignItems:'center' }}>
+        {['#F5C518','#C060F0','#00C8B4','#E8304A'].map((c,i) => (
+          <div key={i} style={{ width:4, height:4, borderRadius:'50%', background:c, opacity: active ? 1 : 0.3 }}/>
+        ))}
+      </div>
+    </button>
+  );
+}
+
+function ProductionBoard() {
+  const [current, setCurrent] = useState('radiance');
+  const [guides,  setGuides]  = useState(false);
+  const [view,    setView]    = useState('grid'); // 'grid' | 'strip'
+
+  const curKeys = ['radiance','void','flux','aether'];
+  const cardW = mm(CW), cardH = mm(CH);
+  const gap = 14;
+
+  // All-currents view: each current as a row of 20
+  const isAll = current === 'all';
+
+  return (
+    <div style={{ background:'#06040e', minHeight:'100vh' }}>
+
+      {/* ── Sticky header ── */}
+      <div className="no-print" style={{
+        position:'sticky', top:0, zIndex:200,
+        background:'rgba(6,4,14,0.97)', backdropFilter:'blur(8px)',
+        borderBottom:'1px solid rgba(255,255,255,0.04)',
+        padding:'0 48px',
+      }}>
+        <div style={{ display:'flex', alignItems:'stretch', gap:0, justifyContent:'space-between' }}>
+          {/* Current tabs */}
+          <div style={{ display:'flex', alignItems:'stretch', gap:0 }}>
+            {curKeys.map(k => (
+              <CurrentTab key={k} id={k} active={current===k} onClick={setCurrent} />
+            ))}
+            <AllCurrentsTab active={current==='all'} onClick={setCurrent} />
+          </div>
+
+          {/* Controls */}
+          <div style={{ display:'flex', alignItems:'center', gap:20, fontSize:9, letterSpacing:'0.25em' }}>
+            <label style={{ display:'flex', alignItems:'center', gap:7, cursor:'pointer', color:'#3a2a18' }}>
+              <input type="checkbox" checked={guides} onChange={e=>setGuides(e.target.checked)} style={{ accentColor:'#a08050', width:12, height:12 }}/>
+              GUIDES
+            </label>
+            <div style={{ display:'flex', gap:0, border:'1px solid rgba(255,255,255,0.06)', borderRadius:3, overflow:'hidden' }}>
+              {[['grid','▦ GRID'],['strip','▬ STRIP']].map(([v,lbl]) => (
+                <button key={v} onClick={()=>setView(v)} style={{
+                  padding:'6px 12px', fontSize:8, letterSpacing:'0.2em',
+                  background: view===v ? 'rgba(255,255,255,0.07)' : 'transparent',
+                  border:'none', cursor:'pointer',
+                  color: view===v ? '#a08050' : '#3a2a18', fontFamily:"'Cinzel',serif",
+                }}>
+                  {lbl}
+                </button>
+              ))}
+            </div>
+            <div style={{ color:'#2a1a0a', fontSize:8 }}>
+              80 cards · 4 currents × 20 values
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Main content ── */}
+      <div style={{ padding:'40px 48px 80px', overflowX: view==='strip' ? 'auto' : undefined }}>
+
+        {/* Single current — GRID view */}
+        {!isAll && view==='grid' && (
+          <div>
+            {/* Current header */}
+            <div style={{ marginBottom:28, display:'flex', alignItems:'baseline', gap:20 }}>
+              <div style={{ fontSize:22, letterSpacing:'0.2em', color: CURRENTS[current].color, fontFamily:"'Cinzel',serif", fontWeight:400 }}>
+                {CURRENTS[current].label}
+              </div>
+              <div style={{ fontSize:9, letterSpacing:'0.3em', color:'#2a1a0a' }}>
+                Values 1–20 · {mm(CW)}×{mm(CH)} px display · 68×94 mm print
+              </div>
+            </div>
+
+            {/* 4-column grid */}
+            <div style={{ display:'grid', gridTemplateColumns:`repeat(${COLS}, ${cardW}px)`, gap:gap }}>
+              {values.map(v => (
+                <div key={v} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6 }}>
+                  <Card currentKey={current} value={v} showGuides={guides} />
+                  <div style={{ fontSize:8, letterSpacing:'0.2em', color:'#2a1a0a' }}>
+                    {CURRENTS[current].label} {v}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Single current — STRIP view */}
+        {!isAll && view==='strip' && (
+          <div>
+            <div style={{ marginBottom:24, display:'flex', alignItems:'baseline', gap:20 }}>
+              <div style={{ fontSize:22, letterSpacing:'0.2em', color: CURRENTS[current].color, fontFamily:"'Cinzel',serif", fontWeight:400 }}>
+                {CURRENTS[current].label}
+              </div>
+              <div style={{ fontSize:9, letterSpacing:'0.3em', color:'#2a1a0a' }}>
+                1 → 20 beacon progression · scroll right
+              </div>
+            </div>
+            <div style={{ display:'flex', gap:gap, minWidth:'max-content' }}>
+              {values.map(v => (
+                <div key={v} style={{ display:'flex', flexDirection:'column', alignItems:'center', gap:6, flexShrink:0 }}>
+                  <Card currentKey={current} value={v} showGuides={guides} />
+                  <div style={{ fontSize:8, letterSpacing:'0.2em', color:'#2a1a0a' }}>{v}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* All currents view */}
+        {isAll && (
+          <div>
+            <div style={{ marginBottom:28, display:'flex', alignItems:'baseline', gap:20 }}>
+              <div style={{ fontSize:22, letterSpacing:'0.2em', color:'#8a7050', fontFamily:"'Cinzel',serif", fontWeight:400 }}>
+                Complete 80-Card Deck
+              </div>
+              <div style={{ fontSize:9, letterSpacing:'0.3em', color:'#2a1a0a' }}>
+                4 currents × 20 values
+              </div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:36 }}>
+              {curKeys.map(k => {
+                const cur = CURRENTS[k];
+                return (
+                  <div key={k}>
+                    <div style={{
+                      display:'flex', alignItems:'center', gap:16,
+                      marginBottom:14, paddingBottom:8,
+                      borderBottom:`1px solid ${cur.color}22`,
+                    }}>
+                      <div style={{ fontSize:11, letterSpacing:'0.35em', color:cur.color, fontFamily:"'Cinzel',serif" }}>
+                        {cur.label}
+                      </div>
+                      <div style={{ flex:1, height:1, background:`linear-gradient(90deg, ${cur.color}33, transparent)` }}/>
+                      <div style={{ fontSize:8, letterSpacing:'0.2em', color:'#2a1a0a' }}>20 cards</div>
+                    </div>
+                    <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:8 }}>
+                      {values.map(v => (
+                        <div key={v} style={{ flexShrink:0 }}>
+                          <Card currentKey={k} value={v} showGuides={guides} />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ── Print layout (hidden on screen, appears on print) ── */}
+      {!isAll && (
+        <div style={{ display:'none' }} className="print-only">
+          {/* Print-friendly cards rendered without sticky header */}
+        </div>
+      )}
+
+      {/* ── Footer ── */}
+      <div className="no-print" style={{
+        padding:'20px 48px',
+        borderTop:'1px solid rgba(255,255,255,0.03)',
+        display:'flex', gap:32, alignItems:'center',
+        fontSize:8, letterSpacing:'0.2em', color:'#1e1408',
+      }}>
+        <span>Archmage Ascension · Card Production Board</span>
+        <span>68×94 mm full bleed · 3 mm bleed · Cinzel typeface</span>
+        <span style={{ marginLeft:'auto', color:'#2a1a0a' }}>
+          Print tip: File → Print → Scale 100% · PDF export for print-ready output
+        </span>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<ProductionBoard />);
+</script>
+</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archmage Ascension - Pitch Sheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --gold: #d4a853;
+            --gold-bright: #f0c674;
+            --purple-deep: #1a0a2e;
+            --purple-mid: #2d1b4e;
+            --purple-light: #4a2c7a;
+            --blue-accent: #3d5a80;
+            --cream: #f5f0e6;
+            --text-light: #e8e4dc;
+        }
+        
+        body {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background: var(--purple-deep);
+            color: var(--text-light);
+            width: 210mm;
+            height: 297mm;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page {
+            width: 100%;
+            height: 100%;
+            padding: 10mm 12mm 8mm 12mm;
+            background: 
+                radial-gradient(ellipse at 30% 20%, rgba(74, 44, 122, 0.4) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(61, 90, 128, 0.3) 0%, transparent 50%),
+                linear-gradient(180deg, var(--purple-deep) 0%, #0f0620 100%);
+            position: relative;
+        }
+        
+        /* Decorative border */
+        .page::before {
+            content: '';
+            position: absolute;
+            top: 6mm;
+            left: 6mm;
+            right: 6mm;
+            bottom: 6mm;
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            pointer-events: none;
+        }
+        
+        /* Corner decorations */
+        .corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--gold);
+            border-style: solid;
+        }
+        .corner-tl { top: 6mm; left: 6mm; border-width: 2px 0 0 2px; }
+        .corner-tr { top: 6mm; right: 6mm; border-width: 2px 2px 0 0; }
+        .corner-bl { bottom: 6mm; left: 6mm; border-width: 0 0 2px 2px; }
+        .corner-br { bottom: 6mm; right: 6mm; border-width: 0 2px 2px 0; }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 4mm;
+            position: relative;
+        }
+        
+        .stars {
+            position: absolute;
+            top: -2mm;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold);
+            font-size: 8px;
+            letter-spacing: 4px;
+        }
+        
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 32pt;
+            font-weight: 700;
+            color: var(--gold-bright);
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(212, 168, 83, 0.5);
+            margin-bottom: 1mm;
+        }
+        
+        .subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 10pt;
+            color: var(--text-light);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2mm;
+        }
+        
+        .tagline {
+            font-style: italic;
+            font-size: 11pt;
+            color: var(--gold);
+            margin-bottom: 3mm;
+        }
+        
+        /* Decorative line */
+        .divider {
+            width: 60%;
+            height: 1px;
+            margin: 0 auto 4mm;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        
+        /* Hook section */
+        .hook {
+            background: rgba(45, 27, 78, 0.6);
+            border-left: 3px solid var(--gold);
+            padding: 3mm 4mm;
+            margin-bottom: 4mm;
+            font-size: 10pt;
+            line-height: 1.5;
+        }
+        
+        .hook strong {
+            color: var(--gold-bright);
+        }
+        
+        /* Main content grid */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4mm;
+            margin-bottom: 3mm;
+        }
+        
+        /* Section styling */
+        .section {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(212, 168, 83, 0.2);
+            padding: 3mm;
+        }
+        
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 11pt;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 2mm;
+            display: flex;
+            align-items: center;
+            gap: 2mm;
+        }
+        
+        .section-title::before {
+            content: '◆';
+            font-size: 8pt;
+        }
+        
+        /* Game Overview */
+        .overview-item {
+            margin-bottom: 2mm;
+            font-size: 9pt;
+            line-height: 1.4;
+        }
+        
+        .overview-label {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: var(--gold-bright);
+            display: inline;
+        }
+        
+        /* Spell Types */
+        .spell-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2mm;
+        }
+        
+        .spell {
+            background: rgba(45, 27, 78, 0.4);
+            padding: 2mm;
+            border-radius: 2px;
+            font-size: 8pt;
+        }
+        
+        .spell-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 8.5pt;
+            margin-bottom: 1mm;
+            display: flex;
+            align-items: center;
+            gap: 1.5mm;
+        }
+        
+        .spell-icon {
+            font-size: 10pt;
+        }
+        
+        .spell-conjuration .spell-name { color: #6eb5ff; }
+        .spell-transfiguration .spell-name { color: #7dcea0; }
+        .spell-enchantment .spell-name { color: var(--gold-bright); }
+        .spell-perfect .spell-name { color: #e8a4c9; }
+        
+        .spell-desc {
+            color: #c0bab0;
+            font-size: 7.5pt;
+            line-height: 1.3;
+        }
+        
+        /* Sample Components Visual */
+        .components-visual {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: center;
+            gap: 3mm;
+            padding: 2mm 0;
+            margin-bottom: 2mm;
+        }
+        
+        .sample-card {
+            width: 28mm;
+            height: 38mm;
+            border-radius: 2mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .card-earth { background: linear-gradient(135deg, #2d4a3e 0%, #1a2f27 100%); }
+        .card-fire { background: linear-gradient(135deg, #6b3030 0%, #3d1a1a 100%); }
+        .card-water { background: linear-gradient(135deg, #2d4a6b 0%, #1a2f42 100%); }
+        .card-air { background: linear-gradient(135deg, #4a4a6b 0%, #2d2d42 100%); }
+        .card-wild { background: linear-gradient(135deg, #5a3d6b 0%, #3d2642 100%); }
+        
+        .card-value {
+            font-family: 'Cinzel', serif;
+            font-size: 16pt;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .card-suit {
+            font-size: 14pt;
+            margin-top: 1mm;
+        }
+        
+        .card-earth .card-suit { color: #6b8f71; }
+        .card-fire .card-suit { color: #e07a5f; }
+        .card-water .card-suit { color: #6ba3be; }
+        .card-air .card-suit { color: #a0a0c0; }
+        .card-wild .card-suit { color: #b87fd4; }
+        
+        .card-label {
+            position: absolute;
+            bottom: 1.5mm;
+            font-size: 6pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: rgba(255,255,255,0.7);
+        }
+        
+        /* Bottom row */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr 1fr;
+            gap: 3mm;
+            margin-bottom: 3mm;
+        }
+        
+        .components-list {
+            font-size: 8pt;
+        }
+        
+        .components-list ul {
+            list-style: none;
+            margin-top: 1mm;
+        }
+        
+        .components-list li {
+            padding-left: 3mm;
+            position: relative;
+            margin-bottom: 1mm;
+            line-height: 1.3;
+        }
+        
+        .components-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+        
+        /* Features */
+        .features {
+            font-size: 8pt;
+        }
+        
+        .feature-item {
+            margin-bottom: 1.5mm;
+            padding-left: 3mm;
+            position: relative;
+            line-height: 1.3;
+        }
+        
+        .feature-item::before {
+            content: '★';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 6pt;
+        }
+        
+        /* Perfect For */
+        .perfect-for {
+            font-size: 8pt;
+        }
+        
+        .audience-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5mm;
+            margin-top: 2mm;
+        }
+        
+        .tag {
+            background: rgba(212, 168, 83, 0.2);
+            border: 1px solid rgba(212, 168, 83, 0.4);
+            padding: 1mm 2mm;
+            font-size: 7pt;
+            border-radius: 1px;
+            color: var(--cream);
+        }
+        
+        /* Footer */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 2mm;
+            border-top: 1px solid rgba(212, 168, 83, 0.3);
+        }
+        
+        .stats {
+            display: flex;
+            gap: 6mm;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-icon {
+            font-size: 16pt;
+            color: var(--gold);
+            margin-bottom: 1mm;
+        }
+        
+        .stat-value {
+            font-family: 'Cinzel', serif;
+            font-size: 10pt;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+        
+        .stat-label {
+            font-size: 6pt;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #888;
+        }
+        
+        .designer-info {
+            text-align: right;
+            font-size: 8pt;
+        }
+        
+        .designer-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            color: var(--gold);
+            margin-bottom: 1mm;
+        }
+        
+        .designer-contact {
+            color: #999;
+            font-size: 7pt;
+        }
+
+        /* How to win callout */
+        .win-callout {
+            background: linear-gradient(90deg, rgba(212, 168, 83, 0.1), rgba(212, 168, 83, 0.2), rgba(212, 168, 83, 0.1));
+            border: 1px solid rgba(212, 168, 83, 0.3);
+            padding: 2mm 3mm;
+            text-align: center;
+            font-size: 8.5pt;
+            margin-top: 2mm;
+            font-style: italic;
+        }
+        
+        .win-callout strong {
+            color: var(--gold-bright);
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="corner corner-tl"></div>
+        <div class="corner corner-tr"></div>
+        <div class="corner corner-bl"></div>
+        <div class="corner corner-br"></div>
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="stars">✦ ✦ ✦</div>
+            <h1>ARCHMAGE ASCENSION</h1>
+            <p class="subtitle">A Strategic Card Game of Magical Mastery</p>
+            <p class="tagline">"The Archmage is gone. One must ascend."</p>
+            <div class="divider"></div>
+        </header>
+        
+        <!-- Hook -->
+        <div class="hook">
+            <strong>Magic is fading.</strong> Without an Archmage to anchor the arcane currents, the world's power dwindles. The Grand Academy has summoned its greatest wizards to prove their mastery. Gather mystical components, learn powerful spells, and build your Spellbook. When the Vault runs dry and chaos erupts, the wizard with the greatest magical prowess will <strong>ascend</strong>.
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Game Overview -->
+            <div class="section">
+                <div class="section-title">Game Overview</div>
+                <div class="overview-item">
+                    <span class="overview-label">WHO:</span> You are a powerful wizard competing against rival mages at the Grand Academy.
+                </div>
+                <div class="overview-item">
+                    <span class="overview-label">WHAT:</span> Collect elemental components (cards) and arrange them into spell patterns in your Spellbook—sets of matching elements, runs of sequential values, or matching values.
+                </div>
+                <div class="overview-item">
+                    <span class="overview-label">HOW:</span> Cast spells to draw more components and transform unwanted cards. When the deck empties, your Spellbook is evaluated. The wizard with the highest mastery becomes the Archmage!
+                </div>
+                <div class="win-callout">
+                    <strong>Two ways to win:</strong> Quick scoring OR the strategic Ascension Trial for deeper competition
+                </div>
+            </div>
+            
+            <!-- Spell Types -->
+            <div class="section">
+                <div class="section-title">Four Spell Types</div>
+                <div class="spell-types">
+                    <div class="spell spell-conjuration">
+                        <div class="spell-name"><span class="spell-icon">🔮</span> Conjuration</div>
+                        <div class="spell-desc">Same element (3+). Draw bonus components from the Vault.</div>
+                    </div>
+                    <div class="spell spell-transfiguration">
+                        <div class="spell-name"><span class="spell-icon">🔄</span> Transfiguration</div>
+                        <div class="spell-desc">Sequential values (3+). Exchange components with the Array.</div>
+                    </div>
+                    <div class="spell spell-enchantment">
+                        <div class="spell-name"><span class="spell-icon">⚡</span> Enchantment</div>
+                        <div class="spell-desc">Matching values (3-4). Permanently boost your capacity.</div>
+                    </div>
+                    <div class="spell spell-perfect">
+                        <div class="spell-name"><span class="spell-icon">✨</span> Perfect Transmutation</div>
+                        <div class="spell-desc">Sequential + same element. Grants BOTH benefits!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sample Components Visual -->
+        <div class="components-visual">
+            <div class="sample-card card-earth">
+                <span class="card-value">7</span>
+                <span class="card-suit">♠</span>
+                <span class="card-label">Earth</span>
+            </div>
+            <div class="sample-card card-fire">
+                <span class="card-value">12</span>
+                <span class="card-suit">♥</span>
+                <span class="card-label">Fire</span>
+            </div>
+            <div class="sample-card card-water">
+                <span class="card-value">4</span>
+                <span class="card-suit">♦</span>
+                <span class="card-label">Water</span>
+            </div>
+            <div class="sample-card card-air">
+                <span class="card-value">15</span>
+                <span class="card-suit">♣</span>
+                <span class="card-label">Air</span>
+            </div>
+            <div class="sample-card card-wild">
+                <span class="card-value">★</span>
+                <span class="card-suit">◇</span>
+                <span class="card-label">Wild</span>
+            </div>
+        </div>
+        
+        <!-- Bottom Row -->
+        <div class="bottom-row">
+            <!-- Components -->
+            <div class="section components-list">
+                <div class="section-title">Components</div>
+                <ul>
+                    <li>60-84 Custom Cards (scales by player count)</li>
+                    <li>4 Element Suits × 14-20 Values</li>
+                    <li>4 Wild Cards</li>
+                    <li>Capacity Counters (tokens)</li>
+                    <li>Quick Reference Cards</li>
+                    <li>Rulebook</li>
+                </ul>
+            </div>
+            
+            <!-- What Makes It Special -->
+            <div class="section features">
+                <div class="section-title">What Makes It Special</div>
+                <div class="feature-item">Familiar mechanics (sets & runs) with fresh strategic depth—cast spells to fuel your engine</div>
+                <div class="feature-item">Dual end-game: quick scoring OR the Ascension Trial for competitive strategic allocation</div>
+                <div class="feature-item">Dynamic phase system—magic works differently as resources deplete</div>
+                <div class="feature-item">Elegant counter system tracks both casting and learning capacity</div>
+                <div class="feature-item">Rich narrative: the missing Archmage, fading magic, and your rise to power</div>
+            </div>
+            
+            <!-- Perfect For -->
+            <div class="section perfect-for">
+                <div class="section-title">Perfect For</div>
+                <p style="font-size: 7.5pt; color: #aaa; margin-bottom: 1.5mm;">Strategy enthusiasts who love card combos and engine-building</p>
+                <div class="audience-tags">
+                    <span class="tag">Set Collection</span>
+                    <span class="tag">Engine Building</span>
+                    <span class="tag">Hand Management</span>
+                    <span class="tag">Tableau Building</span>
+                    <span class="tag">Fantasy Theme</span>
+                    <span class="tag">Gateway+</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-value">2-7</div>
+                    <div class="stat-label">Players</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">⏱</div>
+                    <div class="stat-value">30-60</div>
+                    <div class="stat-label">Minutes</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-icon">🎯</div>
+                    <div class="stat-value">12+</div>
+                    <div class="stat-label">Ages</div>
+                </div>
+            </div>
+            
+            <div class="designer-info">
+                <div class="designer-name">Game Design by Sam</div>
+                <div class="designer-contact">contact@archmageascension.com</div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

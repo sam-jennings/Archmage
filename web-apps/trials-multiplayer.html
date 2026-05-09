@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archmage Ascension - Multiplayer Ascension Trial</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Archmage theme (dark-only) -->
+  <link rel="stylesheet" href="archmage-theme.css" />
+
+  <!-- Firebase Compat SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+  <!-- React -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Game config -->
+  <script src="config.js"></script>
+
+  <style>
+    .app-shell { padding-top: 1rem; padding-bottom: 2rem; }
+
+    /* Spell action buttons grid */
+    .spell-actions {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.75rem;
+    }
+    .spell-actions button { width: 100%; white-space: normal; min-height: 48px; padding: 0.75rem 1rem; }
+
+    /* Icon buttons (trash etc) */
+    .icon-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 48px; height: 48px; min-width: 48px; border-radius: 10px;
+      border: 2px solid rgba(239, 68, 68, 0.6); background: rgba(239, 68, 68, 0.1);
+      color: #ef4444; cursor: pointer; transition: all 0.2s ease; flex-shrink: 0; padding: 0;
+    }
+    .icon-btn:hover { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); color: #ff5555; transform: translateY(-1px); }
+    .icon-btn svg {
+      display: block !important; width: 24px !important; height: 24px !important;
+      min-width: 24px !important; min-height: 24px !important;
+      stroke: currentColor !important; stroke-width: 2.5 !important; fill: none !important;
+      color: inherit !important; opacity: 1 !important; visibility: visible !important;
+    }
+
+    .spell-card .row.between { gap: 1rem; align-items: flex-start; }
+    input[type="number"], select { width: 100%; font-size: 1rem; padding: 0.75rem; }
+
+    /* Room code display */
+    .room-code {
+      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700;
+      letter-spacing: 0.15em; color: var(--gold); text-transform: uppercase;
+    }
+
+    /* Player list in lobby */
+    .player-chip {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border-radius: 999px;
+      background: rgba(183, 148, 246, 0.15); border: 1px solid rgba(183, 148, 246, 0.3);
+      font-size: 0.95rem; transition: all 0.2s;
+    }
+    .player-chip.is-you {
+      background: rgba(246, 201, 74, 0.15); border-color: rgba(246, 201, 74, 0.4);
+      color: var(--gold);
+    }
+    .player-chip .status-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+    }
+    .status-dot.ready { background: var(--green); }
+    .status-dot.waiting { background: var(--yellow); }
+    .status-dot.locked { background: var(--green); box-shadow: 0 0 6px var(--green); }
+
+    /* Phase banner */
+    .phase-banner {
+      text-align: center; padding: 0.75rem 1rem; border-radius: 8px;
+      background: rgba(183, 148, 246, 0.1); border: 1px solid rgba(183, 148, 246, 0.25);
+      font-size: 0.9rem; color: var(--accent);
+    }
+
+    /* Connection indicator */
+    .connection-dot {
+      width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+    }
+    .connection-dot.online { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .connection-dot.offline { background: var(--red); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .voting-two-column { grid-template-columns: 1fr !important; }
+      .wizard-selector-buttons { gap: 0.5rem !important; }
+      .card { padding: 1rem !important; }
+    }
+    @media (max-width: 520px) {
+      .spell-actions { grid-template-columns: 1fr; }
+      .spell-card .row.between { flex-direction: row !important; justify-content: space-between; align-items: flex-start; gap: 0.75rem !important; }
+      input[type="number"], select { padding: 0.9rem; font-size: 1.05rem; }
+      button { min-height: 44px; padding: 0.75rem 1rem; }
+      .reference-table { font-size: 0.75rem !important; }
+      .reference-table th, .reference-table td { padding: 0.5rem 0.25rem !important; font-size: 0.7rem !important; }
+      .domain-grid { gap: 0.5rem !important; }
+      .highlight { font-size: 1.25rem !important; }
+      .trial-selection-btn { padding: 0.875rem !important; min-height: 60px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useEffect, useMemo, useState, useRef, useCallback } = React;
+    const config = (typeof GameConfig !== 'undefined') ? GameConfig : {};
+
+    // =========================================================================
+    // Firebase Setup
+    // =========================================================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyBWUb2ZCQ_URTnylry2Z2Pr2MGzwPrctCw",
+      authDomain: "archmage-trials.firebaseapp.com",
+      databaseURL: "https://archmage-trials-default-rtdb.firebaseio.com",
+      projectId: "archmage-trials",
+      storageBucket: "archmage-trials.firebasestorage.app",
+      messagingSenderId: "579361589834",
+      appId: "1:579361589834:web:b037a4eace4152bb8574b3"
+    };
+
+    // =========================================================================
+    // Firebase Init — with visible error catching
+    // =========================================================================
+    let db;
+    let firebaseError = null;
+    try {
+      firebase.initializeApp(firebaseConfig);
+      db = firebase.database();
+    } catch (e) {
+      firebaseError = e.message;
+    }
+
+    // =========================================================================
+    // Config helpers (same as original)
+    // =========================================================================
+    const safeArray = (v) => Array.isArray(v) ? v : [];
+    const safeObj = (v) => (v && typeof v === 'object') ? v : {};
+
+    const DEFAULT_ELEMENTS = [
+      { id: 'earth', name: 'Radiance', symbol: 'S' },
+      { id: 'fire', name: 'Void', symbol: 'H' },
+      { id: 'water', name: 'Flux', symbol: 'D' },
+      { id: 'air', name: 'Aether', symbol: 'C' },
+    ];
+
+    const DEFAULT_DOMAINS = {
+      earth: { name: 'Radiance' },
+      fire: { name: 'Void' },
+      water: { name: 'Flux' },
+      air: { name: 'Aether' },
+      transformation: { name: 'Transformation' },
+      enchantment: { name: 'Enchantment' },
+      wilds: { name: 'Wild Magic' },
+    };
+
+    const DEFAULT_SPELL_TYPES = [
+      {
+        id: 'conjuration',
+        name: 'Conjuration',
+        emoji: '',
+        requiresElement: true,
+        warnUnder: 3,
+        contributeToDomains: (spell, domains, powerForSize) => {
+          domains[spell.element] = (domains[spell.element] || 0) + powerForSize(spell.size);
+        },
+      },
+      {
+        id: 'transfiguration',
+        name: 'Transfiguration',
+        emoji: '',
+        warnUnder: 3,
+        contributeToDomains: (spell, domains, powerForSize) => {
+          domains.transformation = (domains.transformation || 0) + powerForSize(spell.size);
+        },
+      },
+      {
+        id: 'enchantment',
+        name: 'Enchantment',
+        emoji: '',
+        warnUnder: 3,
+        warnOver: 4,
+        contributeToDomains: (spell, domains) => {
+          domains.enchantment = (domains.enchantment || 0) + spell.size;
+          if (spell.size >= 4) domains.wilds = (domains.wilds || 0) + 1;
+        },
+      },
+      {
+        id: 'perfect-transmutation',
+        name: 'Perfect Transmutation',
+        emoji: '',
+        requiresElement: true,
+        warnUnder: 3,
+        contributeToDomains: (spell, domains, powerForSize) => {
+          const power = powerForSize(spell.size);
+          domains[spell.element] = (domains[spell.element] || 0) + power;
+          domains.transformation = (domains.transformation || 0) + power;
+          domains.wilds = (domains.wilds || 0) + 1;
+        },
+      },
+    ];
+
+    const configuredElements = safeArray(config.elements);
+    const configuredDomains = safeObj(config.domains);
+    const configuredSpellTypes = safeArray(config.spellTypes);
+
+    const ELEMENTS = configuredElements.length ? configuredElements : DEFAULT_ELEMENTS;
+    const DOMAINS = Object.keys(configuredDomains).length ? configuredDomains : DEFAULT_DOMAINS;
+    const SPELL_TYPES = configuredSpellTypes.length ? configuredSpellTypes : DEFAULT_SPELL_TYPES;
+
+    const calcPower = (size) => {
+      if (typeof config.calculatePower === 'function') return config.calculatePower(size);
+      if (size <= 4) return size * 1;
+      if (size <= 6) return Math.round(size * 1.5);
+      return size * 2;
+    };
+
+    const getPowerBreakdown = (size) => {
+      if (typeof config.getPowerBreakdown === 'function') return config.getPowerBreakdown(size, calcPower);
+      const power = calcPower(size);
+      if (size <= 4) return `${size} × 1 = ${power}`;
+      if (size <= 6) return `${size} × 1.5 = ${power}`;
+      return `${size} × 2 = ${power}`;
+    };
+
+    const TEXT = {
+      gameName: config.gameName || 'Archmage Ascension',
+      gameSubtitle: config.gameSubtitle || 'The Ascension Trial',
+      pointsName: config.pointsName || 'Recognition Points',
+      pointsAbbreviation: config.pointsAbbreviation || 'RP',
+      playerNoun: (config.text && config.text.playerNoun) || 'Wizard',
+      playerNounPlural: (config.text && config.text.playerNounPlural) || 'Wizards',
+      calculatorButton: (config.text && config.text.calculatorButton) || 'Spell Calculator',
+      manualEntryActive: (config.text && config.text.manualEntryActive) || '✓ Using Manual Entry',
+      switchToManual: (config.text && config.text.switchToManual) || 'Switch to Manual Entry',
+      removeButton: (config.text && config.text.removeButton) || 'Remove',
+    };
+
+    const ELEMENT_SYMBOLS = Object.fromEntries(ELEMENTS.map(e => [e.name, e.symbol]));
+    const DOMAIN_NAMES = Object.fromEntries(Object.entries(DOMAINS).map(([k, v]) => [k, v.name]));
+    const emptyDomains = () => Object.fromEntries(Object.keys(DOMAINS).map(k => [k, 0]));
+
+    // =========================================================================
+    // URL helpers — read/write ?room= parameter
+    // =========================================================================
+    function getRoomFromURL() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('room') || '';
+    }
+    function setRoomInURL(room) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', room);
+      window.history.replaceState({}, '', url.toString());
+    }
+    function getRoomLink(room) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('room', room);
+      return url.toString();
+    }
+
+    // =========================================================================
+    // Tiny QR Code generator (alphanumeric, no dependencies)
+    // =========================================================================
+    function generateQRDataURL(text) {
+      // Use a Google Charts QR API as a lightweight fallback
+      return `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(text)}&bgcolor=1a0b2e&color=f6c94a`;
+    }
+
+    // =========================================================================
+    // Player identity (persists across page reloads via sessionStorage)
+    // =========================================================================
+    function getPlayerId() {
+      let id = sessionStorage.getItem('archmage_player_id');
+      if (!id) {
+        id = 'p_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+        sessionStorage.setItem('archmage_player_id', id);
+      }
+      return id;
+    }
+    const MY_ID = getPlayerId();
+
+    // =========================================================================
+    // Icons
+    // =========================================================================
+    const CalculatorIcon = ({ size = 20 }) => (
+      <svg width={size} height={size} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    );
+    const PlusIcon = ({ size = 18 }) => (
+      <svg width={size} height={size} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+      </svg>
+    );
+    const TrashIcon = ({ size = 24 }) => (
+      <svg width={size} height={size} fill="none" stroke="currentColor" viewBox="0 0 24 24" style={{ minWidth: `${size}px`, minHeight: `${size}px` }}>
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+      </svg>
+    );
+
+    function normalizeImportKey(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+    }
+
+    function readReferenceSpellbookExport() {
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const hashValue = hashParams.get('trialsSpellbook');
+
+      if (hashValue) {
+        try {
+          return JSON.parse(hashValue);
+        } catch (error) {
+          console.warn('Could not parse spellbook from URL hash.', error);
+        }
+      }
+
+      try {
+        const stored = localStorage.getItem('archmageTrialsSpellbook');
+        return stored ? JSON.parse(stored) : null;
+      } catch (error) {
+        console.warn('Could not read exported spellbook from localStorage.', error);
+        return null;
+      }
+    }
+
+    function findImportedSpellType(exportedSpell) {
+      const spellName = normalizeImportKey(exportedSpell.spellName);
+
+      return SPELL_TYPES.find(st =>
+        normalizeImportKey(st.name) === spellName ||
+        normalizeImportKey(st.id) === spellName
+      ) || null;
+    }
+
+    function spellTypeNeedsElement(spellType) {
+      const key = normalizeImportKey(spellType?.name || spellType?.id);
+      return !!spellType?.requiresElement || key === 'conjuration' || key === 'perfecttransmutation';
+    }
+
+    function findImportedElement(exportedSpell) {
+      const candidates = [
+        exportedSpell.energyId,
+        exportedSpell.energyName,
+        exportedSpell.suitName,
+        exportedSpell.suitSymbol
+      ].map(normalizeImportKey).filter(Boolean);
+
+      const directMatch = ELEMENTS.find(element => {
+        const elementKeys = [
+          element.id,
+          element.name,
+          element.symbol
+        ].map(normalizeImportKey);
+
+        return candidates.some(candidate => elementKeys.includes(candidate));
+      });
+
+      if (directMatch) return directMatch;
+
+      const referenceEnergyOrder = [
+        ['radiance', 'spades', 'spade', 's'],
+        ['void', 'hearts', 'heart', 'h'],
+        ['flux', 'diamonds', 'diamond', 'd'],
+        ['aether', 'clubs', 'club', 'c'],
+      ];
+      const orderedMatchIndex = referenceEnergyOrder.findIndex(keys =>
+        keys.some(key => candidates.includes(key))
+      );
+
+      return ELEMENTS[orderedMatchIndex] || ELEMENTS[0] || null;
+    }
+
+    function normalizeImportedSpells(payload) {
+      if (!payload || payload.source !== 'archmage-reference' || !Array.isArray(payload.spells)) return [];
+
+      return payload.spells.map((exportedSpell, index) => {
+        if (!exportedSpell || typeof exportedSpell !== 'object') return null;
+
+        const spellType = findImportedSpellType(exportedSpell);
+        if (!spellType) return null;
+
+        const element = spellTypeNeedsElement(spellType) ? findImportedElement(exportedSpell) : ELEMENTS[0] || null;
+
+        return {
+          id: `imported_${Date.now()}_${index}`,
+          type: spellType.id,
+          element: element?.id || '',
+          size: Math.max(0, parseInt(exportedSpell.size || '0', 10))
+        };
+      }).filter(Boolean);
+    }
+
+    // =========================================================================
+    // Spell Calculator (local only — calculates domains then pushes to Firebase)
+    // =========================================================================
+    function SpellCalculator({ onDomainsCalculated, initialSpells = [] }) {
+      const [spells, setSpells] = useState(() => initialSpells);
+      const [open, setOpen] = useState(true);
+      const [importNotice, setImportNotice] = useState(initialSpells.length ? `${initialSpells.length} spell${initialSpells.length === 1 ? '' : 's'} imported from the reference calculator.` : '');
+
+      const addSpell = (typeId) => {
+        const defaultElementId = ELEMENTS[0]?.id || 'earth';
+        setImportNotice('');
+        setSpells(prev => [...prev, { id: Date.now() + Math.random(), type: typeId, element: defaultElementId, size: 3 }]);
+      };
+      const updateSpell = (id, field, value) => {
+        setImportNotice('');
+        setSpells(prev => prev.map(s => s.id === id ? { ...s, [field]: value } : s));
+      };
+      const removeSpell = (id) => {
+        setImportNotice('');
+        setSpells(prev => prev.filter(s => s.id !== id));
+      };
+
+      const calculatedDomains = useMemo(() => {
+        const domains = emptyDomains();
+        for (const spell of spells) {
+          const st = SPELL_TYPES.find(x => x.id === spell.type);
+          if (st && typeof st.contributeToDomains === 'function') {
+            st.contributeToDomains(spell, domains, calcPower);
+          }
+        }
+        return domains;
+      }, [spells]);
+
+      useEffect(() => { onDomainsCalculated(calculatedDomains); }, [calculatedDomains]);
+
+      const getSpellWarning = (spell) => {
+        const st = SPELL_TYPES.find(x => x.id === spell.type);
+        if (!st) return null;
+        if (typeof st.warnUnder === 'number' && spell.size < st.warnUnder) return `${st.name} needs at least ${st.warnUnder} components.`;
+        if (typeof st.warnOver === 'number' && spell.size > st.warnOver) return `${st.name} typically doesn't exceed ${st.warnOver} components.`;
+        return null;
+      };
+
+      const getContributionText = (spell) => {
+        const st = SPELL_TYPES.find(x => x.id === spell.type);
+        if (!st || typeof st.contributeToDomains !== 'function') return '';
+        const temp = emptyDomains();
+        st.contributeToDomains(spell, temp, calcPower);
+        return Object.entries(temp).filter(([, v]) => v > 0).map(([k, v]) => `${DOMAIN_NAMES[k] || k}: +${v}`).join(' • ');
+      };
+
+      return (
+        <div className="stack">
+          <button className="btn-primary" onClick={() => setOpen(o => !o)}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem' }}>
+              <CalculatorIcon />
+              {open ? 'Hide' : 'Show'} {TEXT.calculatorButton}
+            </span>
+          </button>
+
+          {open && (
+            <div className="card">
+              <div className="stack">
+                <div>
+                  <h4>Enter Your Spells</h4>
+                  <p className="muted small">Formula: {config.powerFormulaDescription || '3-4 ×1, 5-6 ×1.5, 7+ ×2'}</p>
+                </div>
+
+                {importNotice && (
+                  <div className="info-box">
+                    <p>{importNotice}</p>
+                  </div>
+                )}
+
+                <div className="spell-actions">
+                  {SPELL_TYPES.map(st => (
+                    <button key={st.id} className="btn-secondary" onClick={() => addSpell(st.id)}>
+                      <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <PlusIcon /> {st.emoji ? `${st.emoji} ` : ''}{st.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+
+                {spells.length === 0 ? (
+                  <div className="info-box"><p className="muted">No spells added yet. Use the buttons above.</p></div>
+                ) : (
+                  <div className="stack">
+                    {spells.map(spell => {
+                      const st = SPELL_TYPES.find(x => x.id === spell.type);
+                      const needsElement = spellTypeNeedsElement(st);
+                      const warning = getSpellWarning(spell);
+                      return (
+                        <div key={spell.id} className="spell-card">
+                          <div className="row between wrap">
+                            <div>
+                              <h5 style={{ marginBottom: '0.25rem' }}>{st?.emoji ? `${st.emoji} ` : ''}{st?.name || spell.type}</h5>
+                              <div className="pill" title="Power breakdown">{getPowerBreakdown(spell.size)}</div>
+                            </div>
+                            <button className="icon-btn" onClick={() => removeSpell(spell.id)} title="Remove spell"><TrashIcon /></button>
+                          </div>
+                          {warning && <div className="warning-box" style={{ marginTop: '0.75rem' }}><strong>Warning:</strong> {warning}</div>}
+                          <div className="spell-grid" style={{ marginTop: '0.75rem' }}>
+                            {needsElement && (
+                              <div className="field">
+                                <label>Element</label>
+                                <select value={spell.element} onChange={(e) => updateSpell(spell.id, 'element', e.target.value)}>
+                                  {ELEMENTS.map(el => <option key={el.id} value={el.id}>{(el.symbol || '')} {el.name}</option>)}
+                                </select>
+                              </div>
+                            )}
+                            <div className="field">
+                              <label>Size</label>
+                              <input type="number" min="0" value={spell.size || ''} placeholder="0" onFocus={(e) => e.target.select()} onChange={(e) => updateSpell(spell.id, 'size', Math.max(0, parseInt(e.target.value || '0', 10)))} />
+                            </div>
+                          </div>
+                          <div className="divider" />
+                          <p className="muted small"><strong>Contributes:</strong> {getContributionText(spell) || '—'}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                <div className="power-summary">
+                  <h4 className="text-center" style={{ marginBottom: '1rem' }}>Calculated Total Power</h4>
+                  <div className="domain-grid">
+                    {Object.entries(calculatedDomains).map(([k, v]) => (
+                      <div key={k} className="domain-item">
+                        <div className="row between">
+                          <span className="muted small">{DOMAIN_NAMES[k] || k}</span>
+                          <span className="highlight">{v}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // JOIN SCREEN — enter room code + wizard name
+    // =========================================================================
+    function JoinScreen({ onJoin }) {
+      const [roomName, setRoomName] = useState(getRoomFromURL());
+      const [wizardName, setWizardName] = useState('');
+      const hasRoomFromURL = !!getRoomFromURL();
+      const [joining, setJoining] = useState(false);
+      const [error, setError] = useState('');
+      const [lockedRoom, setLockedRoom] = useState('');
+
+      const handleResetRoom = async () => {
+        const room = lockedRoom;
+        const name = wizardName.trim();
+        if (!name) { setError('Enter your wizard name first.'); return; }
+        setJoining(true); setError('');
+        try {
+          const roomRef = db.ref(`rooms/${room}`);
+          await roomRef.set({ phase: 'setup', createdAt: firebase.database.ServerValue.TIMESTAMP, lastActivityAt: firebase.database.ServerValue.TIMESTAMP });
+          await roomRef.child(`players/${MY_ID}`).update({ name, domains: emptyDomains(), ready: false, locked: false, online: true, joinedAt: firebase.database.ServerValue.TIMESTAMP });
+          roomRef.child(`players/${MY_ID}/online`).onDisconnect().set(false);
+          setRoomInURL(room);
+          onJoin(room, name);
+        } catch (err) {
+          setError('Reset failed: ' + err.message);
+          setJoining(false);
+        }
+      };
+
+      const handleJoin = async () => {
+        const room = roomName.trim().toLowerCase().replace(/[^a-z0-9-]/g, '-');
+        const name = wizardName.trim();
+        if (!room) { setError('Enter a room name'); return; }
+        if (!name) { setError('Enter your wizard name'); return; }
+        setJoining(true);
+        setError('');
+
+        try {
+          const roomRef = db.ref(`rooms/${room}`);
+          const snap = await roomRef.once('value');
+
+          if (snap.exists()) {
+            const data = snap.val();
+            // Check if game already in voting/results — can't join mid-game
+            if (data.phase === 'voting' || data.phase === 'results') {
+              // Allow rejoin if this player ID is already in the room
+              const existingPlayer = data.players && data.players[MY_ID];
+              if (!existingPlayer) {
+                const STALE_MS = 24 * 60 * 60 * 1000; // 24 hours
+                const lastActivity = data.lastActivityAt || data.createdAt;
+                if (lastActivity && Date.now() - lastActivity > STALE_MS) {
+                  // Stale game — automatically reset before joining
+                  await roomRef.set({ phase: 'setup', createdAt: firebase.database.ServerValue.TIMESTAMP, lastActivityAt: firebase.database.ServerValue.TIMESTAMP });
+                } else {
+                  setLockedRoom(room);
+                  setError('This game is already in progress. Wait for it to finish, or reset the room if it was abandoned.');
+                  setJoining(false);
+                  return;
+                }
+              }
+            }
+            // Check for duplicate names (but allow same player to rejoin)
+            if (data.players) {
+              const nameTaken = Object.entries(data.players).some(([pid, p]) => pid !== MY_ID && p.name === name);
+              if (nameTaken) {
+                setError('That wizard name is already taken in this room.');
+                setJoining(false);
+                return;
+              }
+            }
+          } else {
+            // Create new room
+            await roomRef.set({ phase: 'setup', createdAt: firebase.database.ServerValue.TIMESTAMP, lastActivityAt: firebase.database.ServerValue.TIMESTAMP });
+          }
+
+          // Add/update this player
+          await roomRef.child(`players/${MY_ID}`).update({
+            name: name,
+            domains: emptyDomains(),
+            ready: false,
+            locked: false,
+            online: true,
+            joinedAt: firebase.database.ServerValue.TIMESTAMP
+          });
+
+          // Set up disconnect handler to mark offline
+          roomRef.child(`players/${MY_ID}/online`).onDisconnect().set(false);
+
+          setRoomInURL(room);
+          onJoin(room, name);
+        } catch (err) {
+          setError('Failed to join: ' + err.message);
+          setJoining(false);
+        }
+      };
+
+      return (
+        <div className="card" style={{ maxWidth: '500px', margin: '2rem auto' }}>
+          {hasRoomFromURL ? (
+            <>
+              <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>You've Been Summoned!</h2>
+              <p className="subtitle" style={{ textAlign: 'center', marginBottom: '0.5rem' }}>
+                Joining room: <strong style={{ color: 'var(--gold)' }}>{roomName}</strong>
+              </p>
+              <p className="subtitle" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                Enter your wizard name to join
+              </p>
+            </>
+          ) : (
+            <>
+              <h2 style={{ textAlign: 'center', marginBottom: '0.5rem' }}>Join Ascension Trial</h2>
+              <p className="subtitle" style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                Enter the same room name as your fellow wizards
+              </p>
+            </>
+          )}
+
+          {error && (
+            <div className="warning-box" style={{ marginBottom: '1rem' }}>
+              <div>{error}</div>
+              {lockedRoom && (
+                <div style={{ marginTop: '0.75rem' }}>
+                  <p className="small muted">If this game was abandoned, you can wipe it and start fresh.</p>
+                  <button className="btn-danger" onClick={handleResetRoom} disabled={joining} style={{ marginTop: '0.5rem', width: '100%', minHeight: '44px' }}>
+                    Reset Room &amp; Join
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="stack">
+            {!hasRoomFromURL && (
+              <div className="field">
+                <label>Room Name</label>
+                <input
+                  type="text"
+                  value={roomName}
+                  onChange={(e) => setRoomName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
+                  placeholder="e.g. friday-game"
+                  autoFocus
+                  style={{ textTransform: 'lowercase' }}
+                />
+                <p className="muted small" style={{ marginTop: '0.25rem' }}>Everyone enters the same name to join the same game</p>
+              </div>
+            )}
+
+            <div className="field">
+              <label>{TEXT.playerNoun} Name</label>
+              <input
+                type="text"
+                value={wizardName}
+                onChange={(e) => setWizardName(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleJoin()}
+                placeholder="Your wizard name"
+                autoFocus={hasRoomFromURL}
+              />
+            </div>
+
+            <button
+              className="btn-primary"
+              onClick={handleJoin}
+              disabled={joining}
+              style={{ width: '100%', padding: '1rem', fontSize: '1.1rem', marginTop: '0.5rem' }}
+            >
+              {joining ? 'Joining...' : 'Enter the Trial'}
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // SETUP PHASE — each player enters their own spells
+    // =========================================================================
+    function SetupPhase({ roomId, players, myPlayer }) {
+      const [manual, setManual] = useState(false);
+      const [manualDomains, setManualDomains] = useState(myPlayer?.domains || emptyDomains());
+      const [importedSpells] = useState(() => normalizeImportedSpells(readReferenceSpellbookExport()));
+
+      const myRef = db.ref(`rooms/${roomId}/players/${MY_ID}`);
+
+      const handleDomainsCalculated = useCallback((domains) => {
+        if (!manual) {
+          try { myRef.update({ domains }); } catch (e) { console.error('Failed to sync domains:', e); }
+        }
+      }, [manual, roomId]);
+
+      const handleManualChange = (domainKey, value) => {
+        const next = { ...manualDomains, [domainKey]: Math.max(0, parseInt(value || '0', 10)) };
+        setManualDomains(next);
+        if (manual) myRef.update({ domains: next });
+      };
+
+      const toggleManual = () => {
+        setManual(prev => {
+          const next = !prev;
+          if (next) myRef.update({ domains: manualDomains });
+          return next;
+        });
+      };
+
+      const toggleReady = () => {
+        myRef.update({ ready: !myPlayer.ready });
+      };
+
+      const allReady = players.length >= 2 && players.every(p => p.ready && Object.values(p.domains).some(v => v > 0));
+
+      const startTrial = () => {
+        db.ref(`rooms/${roomId}`).update({ phase: 'voting', lastActivityAt: firebase.database.ServerValue.TIMESTAMP });
+      };
+
+      const myTotalPower = Object.values(myPlayer?.domains || {}).reduce((s, v) => s + v, 0);
+
+      return (
+        <div className="stack">
+          {/* Players in room */}
+          <div className="card">
+            <h3 style={{ marginBottom: '0.75rem' }}>{TEXT.playerNounPlural} in Room</h3>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+              {players.map(p => (
+                <div key={p.id} className={`player-chip ${p.id === MY_ID ? 'is-you' : ''}`}>
+                  <span className={`status-dot ${p.ready ? 'ready' : 'waiting'}`} />
+                  <span>{p.name}{p.id === MY_ID ? ' (you)' : ''}</span>
+                  <span className="muted small" style={{ marginLeft: '0.25rem' }}>
+                    ({Object.values(p.domains).reduce((s, v) => s + v, 0)} power)
+                  </span>
+                </div>
+              ))}
+            </div>
+            {players.length < 2 && (
+              <p className="muted small" style={{ marginTop: '0.75rem' }}>Waiting for more wizards to join...</p>
+            )}
+          </div>
+
+          {/* Your spells */}
+          <div className="card">
+            <div className="row between wrap" style={{ marginBottom: '0.5rem' }}>
+              <h3>Your Spells</h3>
+              <span className="pill">Total Power: <strong>{myTotalPower}</strong></span>
+            </div>
+
+            {!manual && <SpellCalculator onDomainsCalculated={handleDomainsCalculated} initialSpells={importedSpells} />}
+
+            <div style={{ marginTop: '1rem' }}>
+              <button className={manual ? 'btn-secondary' : 'btn-primary'} onClick={toggleManual}>
+                {manual ? TEXT.manualEntryActive : TEXT.switchToManual}
+              </button>
+            </div>
+
+            {manual && (
+              <div className="card" style={{ marginTop: '1rem' }}>
+                <h4 style={{ marginBottom: '0.75rem' }}>Manual Power Entry</h4>
+                <div className="domain-grid">
+                  {Object.entries(DOMAIN_NAMES).map(([domainKey, domainName]) => (
+                    <div key={domainKey} className="domain-item">
+                      <div className="field">
+                        <label>{domainName}</label>
+                        <input type="number" min="0" value={manualDomains[domainKey] || ''} placeholder="0" onFocus={(e) => e.target.select()} onChange={(e) => handleManualChange(domainKey, e.target.value)} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Your power summary */}
+            <div className="info-box" style={{ marginTop: '1rem' }}>
+              <h4 style={{ marginBottom: '0.5rem' }}>Your Domain Power</h4>
+              <div className="domain-grid">
+                {Object.entries(myPlayer?.domains || {}).map(([k, v]) => (
+                  <div key={k} className="domain-item">
+                    <div className="row between">
+                      <span className="muted small">{DOMAIN_NAMES[k] || k}</span>
+                      <span className="highlight">{v}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Ready / Start */}
+          <div className="card">
+            <button
+              className={myPlayer.ready ? 'btn-success' : 'btn-primary'}
+              onClick={toggleReady}
+              style={{ width: '100%', padding: '1rem', fontSize: '1.1rem' }}
+              disabled={myTotalPower === 0}
+            >
+              {myPlayer.ready ? '✓ Ready — Waiting for others' : 'Mark as Ready'}
+            </button>
+
+            {myTotalPower === 0 && !myPlayer.ready && (
+              <p className="muted small" style={{ textAlign: 'center', marginTop: '0.5rem' }}>Enter at least one spell first</p>
+            )}
+
+            {allReady && (
+              <button
+                className="btn-success"
+                onClick={startTrial}
+                style={{ width: '100%', padding: '1rem', fontSize: '1.1rem', marginTop: '0.75rem' }}
+              >
+                Start Ascension Trial
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // VOTING PHASE — each player allocates secretly on their own device
+    // =========================================================================
+    function VotingPhase({ roomId, players, myPlayer }) {
+      const playerCount = players.length;
+      const availableTrials = config.trials.filter(t => !t.minPlayers || t.minPlayers <= playerCount);
+      const recognitionTable = config.recognitionPoints[playerCount] || {};
+
+      const [allocations, setAllocations] = useState(() => {
+        // Restore from Firebase if rejoining
+        const initial = {};
+        availableTrials.forEach(trial => { initial[trial.id] = {}; });
+        if (myPlayer.allocations) {
+          Object.entries(myPlayer.allocations).forEach(([trialId, alloc]) => {
+            if (initial[trialId] !== undefined) initial[trialId] = alloc;
+          });
+        }
+        return initial;
+      });
+      const [isLocked, setIsLocked] = useState(!!myPlayer.locked);
+      const [selectedTrial, setSelectedTrial] = useState(null);
+
+      const myDomains = myPlayer.domains || emptyDomains();
+
+      // Save allocations to Firebase when they change
+      const saveAllocations = useCallback((allocs, locked) => {
+        db.ref(`rooms/${roomId}/players/${MY_ID}`).update({
+          allocations: allocs,
+          locked: locked
+        });
+      }, [roomId]);
+
+      // Calculate allocated and remaining power per domain
+      const allocatedByDomain = useMemo(() => {
+        const allocated = {};
+        Object.keys(DOMAINS).forEach(d => { allocated[d] = 0; });
+        Object.values(allocations).forEach(trialAlloc => {
+          Object.entries(trialAlloc).forEach(([domain, amount]) => {
+            allocated[domain] = (allocated[domain] || 0) + amount;
+          });
+        });
+        return allocated;
+      }, [allocations]);
+
+      const remainingByDomain = useMemo(() => {
+        const remaining = {};
+        Object.entries(myDomains).forEach(([domain, capacity]) => {
+          remaining[domain] = capacity - (allocatedByDomain[domain] || 0);
+        });
+        return remaining;
+      }, [myDomains, allocatedByDomain]);
+
+      const totalRemaining = Object.values(remainingByDomain).reduce((sum, v) => sum + v, 0);
+
+      const updateAllocation = (trialId, domain, value) => {
+        const val = Math.max(0, parseInt(value) || 0);
+        const newAllocs = {
+          ...allocations,
+          [trialId]: { ...allocations[trialId], [domain]: val }
+        };
+        setAllocations(newAllocs);
+        saveAllocations(newAllocs, isLocked);
+      };
+
+      const clearTrial = (trialId) => {
+        const newAllocs = { ...allocations, [trialId]: {} };
+        setAllocations(newAllocs);
+        saveAllocations(newAllocs, isLocked);
+      };
+
+      const toggleLock = () => {
+        const newLocked = !isLocked;
+        setIsLocked(newLocked);
+        saveAllocations(allocations, newLocked);
+      };
+
+      const allLocked = players.every(p => p.locked);
+
+      const revealResults = () => {
+        db.ref(`rooms/${roomId}`).update({ phase: 'results', lastActivityAt: firebase.database.ServerValue.TIMESTAMP });
+      };
+
+      const getValidationFeedback = (trial, trialAlloc) => {
+        const domainsUsed = Object.keys(trialAlloc).filter(d => (trialAlloc[d] || 0) > 0 && d !== 'wilds');
+        const elementalDomains = ['earth', 'fire', 'water', 'air'];
+        const elementalDomainsUsed = domainsUsed.filter(d => elementalDomains.includes(d));
+        const total = Object.values(trialAlloc).reduce((sum, v) => sum + v, 0);
+        if (total === 0) return null;
+        const isValid = trial.isValidAllocation(domainsUsed, elementalDomainsUsed);
+        if (isValid) return { type: 'valid', message: `✓ Valid allocation • Total Power: ${total}` };
+        return { type: 'error', message: `✗ Invalid: This allocation doesn't meet the trial requirements` };
+      };
+
+      return (
+        <div className="stack">
+          <div className="card">
+            <div className="row between wrap" style={{ marginBottom: '1rem' }}>
+              <h2>Power Allocation</h2>
+              {allLocked && (
+                <button className="btn-success" onClick={revealResults} style={{ padding: '0.75rem 1.5rem' }}>
+                  Reveal Results
+                </button>
+              )}
+            </div>
+            <p className="subtitle">Secretly allocate your domain power to the trials on your own device</p>
+
+            {/* Player status chips */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '1rem' }}>
+              {players.map(p => (
+                <div key={p.id} className={`player-chip ${p.id === MY_ID ? 'is-you' : ''}`}>
+                  <span className={`status-dot ${p.locked ? 'locked' : 'waiting'}`} />
+                  <span>{p.name}{p.id === MY_ID ? ' (you)' : ''}</span>
+                  <span className="muted small" style={{ marginLeft: '0.25rem' }}>
+                    {p.locked ? '🔒' : 'allocating...'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* All Wizards Power Reference Table (public info) */}
+          <div className="card" style={{ overflowX: 'auto' }}>
+            <h4>All {TEXT.playerNounPlural}' Domain Power</h4>
+            <table className="reference-table" style={{ width: '100%', marginTop: '1rem', minWidth: '600px' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--border)' }}>
+                  <th style={{ padding: '0.75rem', textAlign: 'left' }}>{TEXT.playerNoun}</th>
+                  {Object.entries(DOMAIN_NAMES).map(([key, name]) => (
+                    <th key={key} style={{ padding: '0.75rem', textAlign: 'center', fontSize: '0.85rem' }}>{name}</th>
+                  ))}
+                  <th style={{ padding: '0.75rem', textAlign: 'center' }}>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {players.map(w => (
+                  <tr key={w.id} style={{
+                    borderBottom: '1px solid var(--border)',
+                    background: w.id === MY_ID ? 'var(--card-bg-hover)' : 'transparent'
+                  }}>
+                    <td style={{ padding: '0.75rem', fontWeight: 600 }}>
+                      {w.name} {w.id === MY_ID ? '(you)' : ''} {w.locked && '🔒'}
+                    </td>
+                    {Object.keys(DOMAIN_NAMES).map(domainKey => (
+                      <td key={domainKey} style={{ padding: '0.75rem', textAlign: 'center' }}>
+                        {w.domains[domainKey] || 0}
+                      </td>
+                    ))}
+                    <td style={{ padding: '0.75rem', textAlign: 'center', fontWeight: 700 }}>
+                      {Object.values(w.domains).reduce((sum, v) => sum + v, 0)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Your allocation area */}
+          <div className="grid voting-two-column" style={{ gridTemplateColumns: isLocked ? '1fr' : '1fr 1fr', gap: '1.5rem' }}>
+            <div className="stack">
+              {isLocked && (
+                <div className="warning-box"><strong>Locked:</strong> Unlock to make changes</div>
+              )}
+
+              {/* Remaining Power */}
+              <div className="card">
+                <h4>Your Remaining Power</h4>
+                <div className="domain-grid" style={{ marginTop: '0.75rem' }}>
+                  {Object.entries(myDomains).map(([domain, capacity]) => {
+                    const remaining = remainingByDomain[domain] || 0;
+                    return (
+                      <div key={domain} className="domain-item">
+                        <div style={{ textAlign: 'center' }}>
+                          <div className="small muted">{DOMAIN_NAMES[domain] || domain}</div>
+                          <div className="highlight" style={{ fontSize: '1.5rem', fontWeight: 700, marginTop: '0.25rem' }}>
+                            <span style={{ color: remaining === 0 ? 'var(--text-dim)' : undefined }}>{remaining}</span>
+                            <span className="small muted"> / {capacity}</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Lock/Unlock */}
+              <button
+                className={isLocked ? 'btn-danger' : 'btn-success'}
+                onClick={toggleLock}
+                style={{ width: '100%', padding: '1rem' }}
+              >
+                {isLocked ? 'Unlock Allocations' : 'Lock In Allocations'}
+              </button>
+
+              {/* Trial Selection */}
+              {!isLocked && (
+                <div className="card">
+                  <h4>Select Trial to Allocate Power</h4>
+                  <div className="stack" style={{ marginTop: '1rem' }}>
+                    {availableTrials.map(trial => {
+                      const trialAlloc = allocations[trial.id] || {};
+                      const trialTotal = Object.values(trialAlloc).reduce((sum, v) => sum + v, 0);
+                      const feedback = getValidationFeedback(trial, trialAlloc);
+                      const rp = recognitionTable[trial.id] || {};
+                      const rpText = playerCount >= 6 ? `${rp[1] || 0}/${rp[2] || 0} RP` : `${rp[1] || 0} RP`;
+                      return (
+                        <button
+                          key={trial.id}
+                          onClick={() => setSelectedTrial(trial.id)}
+                          className={`trial-selection-btn ${selectedTrial === trial.id ? 'btn-primary' : 'btn-secondary'}`}
+                          style={{
+                            width: '100%', textAlign: 'left', padding: '1rem',
+                            border: feedback?.type === 'valid' ? '2px solid rgba(34, 197, 94, 0.5)' : undefined,
+                            background: feedback?.type === 'valid' ? 'rgba(34, 197, 94, 0.1)' : undefined
+                          }}
+                        >
+                          <div className="row between" style={{ marginBottom: '0.5rem' }}>
+                            <strong>{trial.name}</strong>
+                            <span className="pill" style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}>{rpText}</span>
+                          </div>
+                          <div className="small muted">{trial.description}</div>
+                          {trialTotal > 0 && <div style={{ marginTop: '0.5rem' }}><span className="highlight" style={{ fontSize: '0.9rem' }}>Total: {trialTotal}</span></div>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {totalRemaining > 0 && !isLocked && (
+                <div className="note"><strong>Note:</strong> You have {totalRemaining} unallocated power remaining</div>
+              )}
+            </div>
+
+            {/* Right column: Trial allocation detail */}
+            {selectedTrial && !isLocked && (
+              <div className="card">
+                {(() => {
+                  const trial = availableTrials.find(t => t.id === selectedTrial);
+                  if (!trial) return null;
+                  const trialAlloc = allocations[trial.id] || {};
+                  const feedback = getValidationFeedback(trial, trialAlloc);
+
+                  return (
+                    <>
+                      <div className="row between wrap">
+                        <h4>{trial.name}</h4>
+                        <button className="btn-danger" onClick={() => clearTrial(trial.id)} style={{ minWidth: '80px' }}>Clear</button>
+                      </div>
+                      <p className="small muted" style={{ marginTop: '0.5rem' }}>{trial.description}</p>
+
+                      {feedback && (
+                        <div className={feedback.type === 'valid' ? 'info-box' : 'warning-box'} style={{
+                          marginTop: '1rem',
+                          background: feedback.type === 'valid' ? 'rgba(34, 197, 94, 0.15)' : undefined,
+                          border: feedback.type === 'valid' ? '1px solid rgba(34, 197, 94, 0.4)' : undefined
+                        }}>
+                          {feedback.message}
+                        </div>
+                      )}
+
+                      <div className="domain-grid" style={{ marginTop: '1rem' }}>
+                        {Object.entries(myDomains).map(([domain, capacity]) => {
+                          const currentAlloc = trialAlloc[domain] || 0;
+                          const remaining = remainingByDomain[domain] || 0;
+                          const maxAllowable = remaining + currentAlloc;
+                          const isWild = domain === 'wilds';
+                          const hasRegularPower = Object.entries(trialAlloc).some(([d, v]) => d !== 'wilds' && v > 0);
+                          const currentSources = Object.keys(trialAlloc).filter(d => (trialAlloc[d] || 0) > 0 && d !== 'wilds');
+                          const availableDomains = trial.getAvailableDomains(currentSources);
+                          const isDomainAvailable = isWild || availableDomains.includes(domain);
+                          const isDisabled = (isWild && !hasRegularPower) || !isDomainAvailable;
+
+                          return (
+                            <div key={domain} className="domain-item" style={{ opacity: isDomainAvailable || isWild ? 1 : 0.4 }}>
+                              <div className="field">
+                                <label className="small" style={{ opacity: isDomainAvailable || isWild ? 1 : 0.6 }}>
+                                  {DOMAIN_NAMES[domain] || domain}
+                                  {!isDomainAvailable && !isWild && ' (not available)'}
+                                </label>
+                                {isWild && !hasRegularPower && (
+                                  <p className="small muted" style={{ fontSize: '0.7rem', marginBottom: '0.25rem', fontStyle: 'italic' }}>Add regular power first</p>
+                                )}
+                                <input
+                                  type="number" min="0" max={maxAllowable} value={currentAlloc || ''}
+                                  placeholder="0"
+                                  onFocus={(e) => e.target.select()}
+                                  onChange={(e) => updateAllocation(trial.id, domain, e.target.value)}
+                                  disabled={isDisabled}
+                                  style={{
+                                    opacity: isDisabled ? 0.5 : 1,
+                                    cursor: isDisabled ? 'not-allowed' : 'text',
+                                    background: isDisabled ? 'var(--card-bg)' : undefined
+                                  }}
+                                />
+                                <div className="small muted" style={{ marginTop: '0.25rem', fontSize: '0.75rem' }}>Available: {maxAllowable}</div>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // RESULTS PHASE — everyone sees the outcomes
+    // =========================================================================
+    function ResultsPhase({ players }) {
+      const playerCount = players.length;
+      const availableTrials = config.trials.filter(t => !t.minPlayers || t.minPlayers <= playerCount);
+      const recognitionTable = config.recognitionPoints[playerCount] || {};
+
+      // Build wizard objects for calculation (merge allocations from Firebase)
+      const wizards = players.map(p => ({
+        id: p.id,
+        name: p.name,
+        domains: p.domains || emptyDomains(),
+      }));
+
+      const allAllocations = {};
+      players.forEach(p => {
+        allAllocations[p.id] = p.allocations || {};
+      });
+
+      const calculateTrialResults = (trial) => {
+        const attempts = [];
+        wizards.forEach(wizard => {
+          const wizardAlloc = allAllocations[wizard.id]?.[trial.id] || {};
+          const domainsUsed = Object.keys(wizardAlloc).filter(d => (wizardAlloc[d] || 0) > 0 && d !== 'wilds');
+          const elementalDomains = ['earth', 'fire', 'water', 'air'];
+          const elementalDomainsUsed = domainsUsed.filter(d => elementalDomains.includes(d));
+          const isValid = trial.isValidAllocation(domainsUsed, elementalDomainsUsed);
+          if (!isValid) return;
+          const totalPower = Object.values(wizardAlloc).reduce((sum, v) => sum + v, 0);
+          if (totalPower === 0) return;
+          const powerFromUsedDomains = domainsUsed.reduce((sum, d) => sum + (wizardAlloc[d] || 0), 0);
+          const capacityOfUsedDomains = domainsUsed.reduce((sum, d) => sum + (wizard.domains[d] || 0), 0);
+          const utilization = capacityOfUsedDomains > 0 ? powerFromUsedDomains / capacityOfUsedDomains : 0;
+          const totalCapacity = Object.values(wizard.domains).reduce((sum, v) => sum + v, 0);
+          const focus = totalCapacity > 0 ? powerFromUsedDomains / totalCapacity : 0;
+          const breadth = domainsUsed.length;
+          attempts.push({ wizardId: wizard.id, wizardName: wizard.name, totalPower, utilization, focus, breadth, allocation: wizardAlloc, domainsUsed });
+        });
+
+        attempts.sort((a, b) => {
+          if (b.totalPower !== a.totalPower) return b.totalPower - a.totalPower;
+          if (b.utilization !== a.utilization) return b.utilization - a.utilization;
+          if (b.focus !== a.focus) return b.focus - a.focus;
+          if (trial.usesBreadthTiebreaker && b.breadth !== a.breadth) return b.breadth - a.breadth;
+          return 0;
+        });
+
+        const results = [];
+        let currentPlace = 1;
+        for (let i = 0; i < attempts.length; i++) {
+          const attempt = attempts[i];
+          if (i > 0) {
+            const prev = attempts[i - 1];
+            const tied = prev.totalPower === attempt.totalPower && prev.utilization === attempt.utilization && prev.focus === attempt.focus && (!trial.usesBreadthTiebreaker || prev.breadth === attempt.breadth);
+            if (!tied) currentPlace = i + 1;
+          }
+          results.push({ ...attempt, place: currentPlace });
+        }
+        return results;
+      };
+
+      const trialResults = {};
+      availableTrials.forEach(trial => { trialResults[trial.id] = calculateTrialResults(trial); });
+
+      const wizardRP = {};
+      wizards.forEach(w => { wizardRP[w.id] = 0; });
+      Object.entries(trialResults).forEach(([trialId, results]) => {
+        if (!results || results.length === 0) return;
+        const rpForTrial = recognitionTable[trialId] || {};
+        results.forEach(result => {
+          const rp = rpForTrial[result.place] || 0;
+          wizardRP[result.wizardId] = (wizardRP[result.wizardId] || 0) + rp;
+        });
+      });
+
+      const finalStandings = wizards.map(w => ({ ...w, totalRP: wizardRP[w.id] || 0 })).sort((a, b) => b.totalRP - a.totalRP);
+
+      return (
+        <div className="stack">
+          <div className="card">
+            <h2 style={{ textAlign: 'center' }}>Ascension Trial Results</h2>
+            <p className="subtitle" style={{ textAlign: 'center' }}>Recognition Points Awarded</p>
+          </div>
+
+          {availableTrials.map(trial => {
+            const results = trialResults[trial.id] || [];
+            const rpForTrial = recognitionTable[trial.id] || {};
+            return (
+              <div key={trial.id} className="card">
+                <h3>{trial.name}</h3>
+                <p className="small muted">{trial.description}</p>
+                {results.length === 0 ? (
+                  <p className="muted" style={{ marginTop: '1rem' }}>No valid attempts</p>
+                ) : (
+                  <div className="stack" style={{ marginTop: '1rem' }}>
+                    {results.map((result, idx) => {
+                      const rp = rpForTrial[result.place] || 0;
+                      const isWinner = result.place === 1;
+                      return (
+                        <div key={result.wizardId} className="info-box" style={{
+                          background: isWinner ? 'rgba(234, 179, 8, 0.15)' : undefined,
+                          border: isWinner ? '2px solid rgba(234, 179, 8, 0.5)' : undefined
+                        }}>
+                          <div className="row between wrap">
+                            <div>
+                              <h4 style={{ marginBottom: '0.25rem' }}>
+                                {isWinner && '👑 '}{result.wizardName}{result.wizardId === MY_ID ? ' (you)' : ''}
+                                {result.place <= 2 && playerCount >= 6 && ` (${result.place === 1 ? '1st' : '2nd'})`}
+                              </h4>
+                              <div className="pill">Total Power: {result.totalPower}</div>
+                            </div>
+                            {rp > 0 && <div className="highlight" style={{ fontSize: '1.5rem', fontWeight: 700 }}>+{rp} RP</div>}
+                          </div>
+                          <div className="domain-grid" style={{ marginTop: '0.75rem' }}>
+                            {Object.entries(result.allocation).map(([domain, power]) => {
+                              if (power === 0) return null;
+                              return (
+                                <div key={domain} className="domain-item">
+                                  <div className="row between">
+                                    <span className="small muted">{DOMAIN_NAMES[domain] || domain}</span>
+                                    <span>{power}</span>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          {idx > 0 && (
+                            <p className="small muted" style={{ marginTop: '0.5rem' }}>
+                              Utilization: {(result.utilization * 100).toFixed(1)}% • Focus: {(result.focus * 100).toFixed(1)}%
+                              {trial.usesBreadthTiebreaker && ` • Sources: ${result.breadth}`}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          <div className="card">
+            <h2>Final Standings</h2>
+            <div className="stack" style={{ marginTop: '1rem' }}>
+              {finalStandings.map((wizard, idx) => (
+                <div key={wizard.id} className="wizard-card" style={{
+                  background: idx === 0 ? 'rgba(234, 179, 8, 0.15)' : undefined,
+                  border: idx === 0 ? '2px solid rgba(234, 179, 8, 0.5)' : undefined
+                }}>
+                  <div className="row between">
+                    <h3>{idx === 0 && '🏆 '}{wizard.name}{wizard.id === MY_ID ? ' (you)' : ''}</h3>
+                    <div className="highlight" style={{ fontSize: '2rem', fontWeight: 700 }}>{wizard.totalRP} RP</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // ROOM INFO BAR — room code, share link, QR, connection status
+    // =========================================================================
+    function RoomInfoBar({ roomId, connected, players, phase, onNewGame, onLeave }) {
+      const [copied, setCopied] = useState(false);
+      const [showQR, setShowQR] = useState(false);
+
+      const roomLink = getRoomLink(roomId);
+
+      const copyLink = async () => {
+        try {
+          await navigator.clipboard.writeText(roomLink);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch {
+          // Fallback for file:// or older browsers
+          const ta = document.createElement('textarea');
+          ta.value = roomLink;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }
+      };
+
+      const phaseLabel = phase === 'setup' ? 'Setting Up' : phase === 'voting' ? 'Allocating Power' : 'Results';
+
+      return (
+        <div className="card" style={{ marginBottom: '1rem' }}>
+          <div className="row between wrap">
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span className="room-code">{roomId}</span>
+                <span className={`connection-dot ${connected ? 'online' : 'offline'}`} title={connected ? 'Connected' : 'Reconnecting...'} />
+              </div>
+              <p className="muted small" style={{ marginTop: '0.25rem' }}>
+                {players.length} {players.length === 1 ? TEXT.playerNoun : TEXT.playerNounPlural} • {phaseLabel}
+              </p>
+            </div>
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+              {phase === 'results' && (
+                <button className="btn-primary" onClick={onNewGame}>New Game</button>
+              )}
+              <button className="btn-danger" onClick={onLeave} style={{ padding: '0.5rem 1rem' }}>Leave</button>
+            </div>
+          </div>
+
+          {/* Share controls */}
+          <div className="divider" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap' }}>
+            <button
+              className={copied ? 'btn-success' : 'btn-secondary'}
+              onClick={copyLink}
+              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', transition: 'all 0.2s' }}
+            >
+              {copied ? '✓ Link Copied!' : '🔗 Copy Room Link'}
+            </button>
+            <button
+              className="btn-secondary"
+              onClick={() => setShowQR(prev => !prev)}
+              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+            >
+              {showQR ? 'Hide QR' : '📱 Show QR Code'}
+            </button>
+            <span className="muted small" style={{ flex: 1 }}>Share with other players to join</span>
+          </div>
+
+          {showQR && (
+            <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+              <div style={{
+                display: 'inline-block', padding: '1rem', borderRadius: '12px',
+                background: 'rgba(246, 201, 74, 0.05)', border: '1px solid rgba(246, 201, 74, 0.2)'
+              }}>
+                <img
+                  src={generateQRDataURL(roomLink)}
+                  alt="QR Code to join room"
+                  style={{ width: '200px', height: '200px', borderRadius: '8px' }}
+                />
+                <p className="muted small" style={{ marginTop: '0.75rem', wordBreak: 'break-all', maxWidth: '250px' }}>
+                  {roomLink}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    // =========================================================================
+    // ERROR BOUNDARY — catches render errors and shows a message instead of
+    // blanking the page
+    // =========================================================================
+    class ErrorBoundary extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false, error: null };
+      }
+      static getDerivedStateFromError(error) {
+        return { hasError: true, error };
+      }
+      render() {
+        if (this.state.hasError) {
+          return (
+            <div className="container app-shell">
+              <header><h1>{TEXT.gameName}</h1></header>
+              <div className="warning-box" style={{ marginTop: '1rem' }}>
+                <strong>Something went wrong</strong>
+                <p className="small muted" style={{ marginTop: '0.5rem' }}>{this.state.error?.message}</p>
+                <button className="btn-primary" onClick={() => this.setState({ hasError: false, error: null })} style={{ marginTop: '1rem' }}>
+                  Try Again
+                </button>
+              </div>
+            </div>
+          );
+        }
+        return this.props.children;
+      }
+    }
+
+    // =========================================================================
+    // MAIN APP — manages Firebase connection and game state
+    // =========================================================================
+    function ArchmageMultiplayerApp() {
+      const [joined, setJoined] = useState(false);
+      const [roomId, setRoomId] = useState(null);
+      const [myName, setMyName] = useState('');
+      const [roomData, setRoomData] = useState(null);
+      const [connected, setConnected] = useState(true);
+      const [dbError, setDbError] = useState(firebaseError);
+      const listenerRef = useRef(null);
+
+      // Check if we were previously in a room (for page refresh)
+      useEffect(() => {
+        if (!db) return;
+        const savedRoom = sessionStorage.getItem('archmage_room');
+        const savedName = sessionStorage.getItem('archmage_name');
+        if (savedRoom && savedName) {
+          handleJoin(savedRoom, savedName);
+        }
+      }, []);
+
+      // Monitor connection state + test DB connectivity
+      useEffect(() => {
+        if (!db) return;
+        try {
+          const connRef = db.ref('.info/connected');
+          const handler = connRef.on('value',
+            (snap) => { setConnected(!!snap.val()); },
+            (err) => { setDbError('Database connection failed: ' + err.message); }
+          );
+          return () => connRef.off('value', handler);
+        } catch(e) {
+          setDbError('Database error: ' + e.message);
+        }
+      }, []);
+
+      const handleJoin = useCallback((room, name) => {
+        setRoomId(room);
+        setMyName(name);
+        setJoined(true);
+        sessionStorage.setItem('archmage_room', room);
+        sessionStorage.setItem('archmage_name', name);
+        setRoomInURL(room);
+
+        // Mark online again (for rejoin)
+        db.ref(`rooms/${room}/players/${MY_ID}/online`).set(true);
+        db.ref(`rooms/${room}/players/${MY_ID}/online`).onDisconnect().set(false);
+
+        // Listen to room data
+        if (listenerRef.current) {
+          db.ref(`rooms/${listenerRef.current}`).off();
+        }
+        listenerRef.current = room;
+
+        db.ref(`rooms/${room}`).on('value', (snap) => {
+          const data = snap.val();
+          if (data) setRoomData(data);
+        });
+      }, []);
+
+      const handleLeave = () => {
+        if (roomId) {
+          db.ref(`rooms/${roomId}/players/${MY_ID}`).remove();
+          db.ref(`rooms/${roomId}`).off();
+        }
+        sessionStorage.removeItem('archmage_room');
+        sessionStorage.removeItem('archmage_name');
+        setJoined(false);
+        setRoomId(null);
+        setRoomData(null);
+        listenerRef.current = null;
+        // Clear room from URL
+        const url = new URL(window.location.href);
+        url.searchParams.delete('room');
+        window.history.replaceState({}, '', url.toString());
+      };
+
+      const handleNewGame = () => {
+        if (roomId) {
+          // Reset room to setup, clear all player ready/locked/allocations
+          const updates = { phase: 'setup' };
+          if (roomData?.players) {
+            Object.keys(roomData.players).forEach(pid => {
+              updates[`players/${pid}/ready`] = false;
+              updates[`players/${pid}/locked`] = false;
+              updates[`players/${pid}/allocations`] = null;
+              updates[`players/${pid}/domains`] = emptyDomains();
+            });
+          }
+          db.ref(`rooms/${roomId}`).update(updates);
+        }
+      };
+
+      // Parse players from room data
+      const players = useMemo(() => {
+        if (!roomData?.players) return [];
+        return Object.entries(roomData.players).map(([id, data]) => ({
+          id,
+          name: data.name || 'Unknown',
+          domains: data.domains || emptyDomains(),
+          ready: !!data.ready,
+          locked: !!data.locked,
+          online: !!data.online,
+          allocations: data.allocations || {},
+        }));
+      }, [roomData]);
+
+      const myPlayer = players.find(p => p.id === MY_ID);
+      const phase = roomData?.phase || 'setup';
+
+      if (!joined) {
+        return (
+          <div className="container app-shell">
+            <header>
+              <h1>{TEXT.gameName}</h1>
+              <div className="subtitle">{TEXT.gameSubtitle} — Multiplayer</div>
+            </header>
+            {dbError && (
+              <div className="warning-box" style={{ marginBottom: '1rem', wordBreak: 'break-word' }}>
+                <strong>⚠ Firebase Error:</strong> {dbError}
+                <p className="small muted" style={{ marginTop: '0.5rem' }}>
+                  The app needs to be served over HTTP, not opened as a file. See instructions below.
+                </p>
+              </div>
+            )}
+            {!dbError && !connected && (
+              <div className="warning-box" style={{ marginBottom: '1rem' }}>
+                <strong>⚠ Connecting to Firebase...</strong> If this persists, check your internet connection.
+              </div>
+            )}
+            {!dbError && connected && (
+              <div className="info-box" style={{ marginBottom: '1rem', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                ✓ Connected to Firebase
+              </div>
+            )}
+            <JoinScreen onJoin={handleJoin} />
+          </div>
+        );
+      }
+
+      if (!roomData || !myPlayer) {
+        return (
+          <div className="container app-shell">
+            <header>
+              <h1>{TEXT.gameName}</h1>
+              <div className="subtitle">{TEXT.gameSubtitle}</div>
+            </header>
+            <div className="card" style={{ textAlign: 'center' }}>
+              <p>Connecting to room...</p>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="container app-shell">
+          <header>
+            <h1>{TEXT.gameName}</h1>
+            <div className="subtitle">{TEXT.gameSubtitle}</div>
+          </header>
+
+          {/* Room info bar */}
+          <RoomInfoBar
+            roomId={roomId}
+            connected={connected}
+            players={players}
+            phase={phase}
+            onNewGame={handleNewGame}
+            onLeave={handleLeave}
+          />
+
+          {phase === 'setup' && <SetupPhase roomId={roomId} players={players} myPlayer={myPlayer} />}
+          {phase === 'voting' && <VotingPhase roomId={roomId} players={players} myPlayer={myPlayer} />}
+          {phase === 'results' && <ResultsPhase players={players} />}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<ErrorBoundary><ArchmageMultiplayerApp /></ErrorBoundary>);
+  </script>
+</body>
+</html>
