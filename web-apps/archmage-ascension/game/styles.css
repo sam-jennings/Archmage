@@ -42,7 +42,9 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 }
 
 /* ── Root layout ───────────────────────────── */
-#root, .aa-root { width: 100vw; height: 100vh; position: relative; }
+/* #root sits inside the 1440x900 .aa-stage which is itself scaled to the
+   viewport — so #root must fill its parent (100%), not the raw viewport. */
+#root, .aa-root { width: 100%; height: 100%; position: relative; }
 
 /* ── Title screen ──────────────────────────── */
 .title-screen {
