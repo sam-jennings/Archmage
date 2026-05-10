@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Archmage Ascension</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="web-apps/archmage-theme.css"/>
+<style>
+  main {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 6rem;
+    position: relative;
+    z-index: 1;
+  }
+  header { text-align: center; margin-bottom: 3.5rem; }
+  .eyebrow {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.4em;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    margin: 0.6rem 0 0.4rem;
+    color: var(--gold);
+    text-shadow: 0 0 24px rgba(246, 201, 74, 0.25);
+  }
+  .tagline {
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--text-dim);
+    max-width: 36rem;
+    margin: 0 auto;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.25rem;
+  }
+  .card {
+    display: block;
+    padding: 1.5rem 1.5rem 1.4rem;
+    background: var(--card-bg);
+    border: 1px solid rgba(183, 148, 246, 0.25);
+    border-radius: 10px;
+    color: var(--text);
+    text-decoration: none;
+    transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(246, 201, 74, 0.45);
+    box-shadow: 0 6px 24px -8px var(--glow);
+  }
+  .card.primary {
+    border-color: rgba(246, 201, 74, 0.5);
+    box-shadow: 0 0 0 1px rgba(246, 201, 74, 0.15) inset;
+  }
+  .card h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .card.primary h2 { color: var(--gold); }
+  .card p {
+    font-size: 0.98rem;
+    color: var(--text-dim);
+    line-height: 1.45;
+  }
+  .card .arrow {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    color: var(--accent);
+  }
+  .card.primary .arrow { color: var(--gold); }
+  section + section { margin-top: 2.5rem; }
+  h3.section-title {
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(183, 148, 246, 0.15);
+    padding-bottom: 0.5rem;
+  }
+  footer {
+    margin-top: 4rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.85rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">A Wizards' Contest</div>
+    <h1>Archmage <span style="color:var(--accent)">·</span> Ascension</h1>
+    <p class="tagline">Two practitioners gather components from the Source. The wizard whose grimoire holds the most refined patterns ascends.</p>
+  </header>
+
+  <section>
+    <h3 class="section-title">Play</h3>
+    <div class="grid">
+      <a class="card primary" href="web-apps/archmage-ascension/Archmage%20Ascension.html">
+        <h2>Interactive Game</h2>
+        <p>Solo vs. AI. Drag components to bind, learn, and weave spells into your grimoire — full vertical slice.</p>
+        <span class="arrow">BEGIN THE CONTEST →</span>
+      </a>
+      <a class="card" href="web-apps/trials-multiplayer.html">
+        <h2>Trials · Multiplayer</h2>
+        <p>The Ascension Trials companion — track progress through the trials at the table.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <h3 class="section-title">Reference</h3>
+    <div class="grid">
+      <a class="card" href="web-apps/archmage-reference.html">
+        <h2>Quick Reference</h2>
+        <p>Spell types, scoring, phase order — the at-a-glance rules sheet.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+      <a class="card" href="pitch/archmage_pitch_sheet.html">
+        <h2>Pitch Sheet</h2>
+        <p>One-page overview of the game's premise, mechanics, and theme.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Source on <a href="https://github.com/sam-jennings/Archmage">GitHub</a>.</p>
+  </footer>
+</main>
+</body>
+</html>
