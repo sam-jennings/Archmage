@@ -59,6 +59,8 @@ function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall })
 }
 
 function TitleInfoPanel({ mode, onClose }){
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   React.useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
@@ -78,7 +80,7 @@ function TitleInfoPanel({ mode, onClose }){
   ];
   return (
     <div className="modal-overlay">
-      <div className="modal-card title-info-card">
+      <div className="modal-card title-info-card" ref={cardRef}>
         <div className="modal-eyebrow">{isTutorial ? 'Quick Tutorial' : 'Pocket Rulebook'}</div>
         <h3 className="modal-title">{isTutorial ? 'How to play on Android' : 'Spell patterns at a glance'}</h3>
         <div className="title-info-list">

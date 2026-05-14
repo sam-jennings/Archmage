@@ -19,8 +19,28 @@ function SpellTableau({
   const score = window.AAEngine.spellScore(spell.spec);
   const type = spell.spec.type;
   const cls = `spell-tab ${castable && !cast ? 'castable' : ''} ${cast ? 'cast' : ''} ${owner === 'opp' ? 'opp' : ''} ${dimmed ? 'disabled' : ''}`;
+  const interactive = castable && !cast;
+  const click = interactive ? onCast : undefined;
+  const handleKeyDown = interactive ? (e) => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      onCast(e);
+    }
+  } : undefined;
+  const label = cast
+    ? `${TYPE_LABEL_UI[type]} · ${spell.cards.length} cards · ${score} RP (already cast this turn)`
+    : `Cast ${TYPE_LABEL_UI[type]} · ${spell.cards.length} cards · ${score} RP`;
   return (
-    <div className={cls} onClick={castable && !cast ? onCast : undefined} title={cast ? 'Already cast this turn' : (castable ? 'Click to cast' : '')}>
+    <div
+      className={cls}
+      onClick={click}
+      onKeyDown={handleKeyDown}
+      title={cast ? 'Already cast this turn' : (castable ? 'Cast this spell' : '')}
+      tabIndex={interactive ? 0 : -1}
+      role={interactive ? 'button' : undefined}
+      aria-label={interactive ? label : undefined}
+      aria-disabled={cast || dimmed ? true : undefined}
+    >
       {hasCounter && <div className="counter-mark"/>}
       <div className="spell-tab-cards">
         {spell.cards.map(c => (

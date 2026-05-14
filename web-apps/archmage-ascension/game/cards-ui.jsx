@@ -157,6 +157,40 @@ function handleCardArrowNav(e){
 }
 window.AACardArrowNav = handleCardArrowNav;
 
+// Modal focus trap hook: pass a ref to the container element. On mount,
+// focuses the first focusable descendant. While the container is mounted,
+// Tab and Shift+Tab cycle within it instead of leaking to other page UI.
+// Use for in-game modals where the user must respond before continuing.
+function useAAFocusTrap(ref){
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    // Focus the first focusable element on mount so Enter/Space work
+    // immediately without needing to Tab in first.
+    const first = el.querySelector(FOCUSABLE);
+    first?.focus({ preventScroll: true });
+    const onKey = (e) => {
+      if (e.key !== 'Tab') return;
+      const focusables = Array.from(el.querySelectorAll(FOCUSABLE));
+      if (focusables.length === 0) return;
+      const head = focusables[0];
+      const tail = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === head || !el.contains(active))){
+        e.preventDefault();
+        tail.focus();
+      } else if (!e.shiftKey && (active === tail || !el.contains(active))){
+        e.preventDefault();
+        head.focus();
+      }
+    };
+    el.addEventListener('keydown', onKey);
+    return () => el.removeEventListener('keydown', onKey);
+  }, [ref]);
+}
+window.useAAFocusTrap = useAAFocusTrap;
+
 // A small "deck" stack visual — N cards face down with offset to imply pile depth
 function DeckStack({ count, label, scale = 0.34, faceDown = true, topCard = null, connector, art }){
   const W = 252*scale, H = 352*scale;

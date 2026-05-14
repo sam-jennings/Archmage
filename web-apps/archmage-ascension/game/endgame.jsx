@@ -9,9 +9,11 @@ function EndScreen({ state, onRestart, onTitle }){
   const tag = winner.total > ranked[1]?.total
     ? 'A clear ascension.'
     : (winner.total === ranked[1]?.total ? 'Decided by the spread of their work.' : '');
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   return (
     <div className="end-screen">
-      <div className="end-screen-card">
+      <div className="end-screen-card" ref={cardRef}>
         <div className="end-eyebrow">Final Evaluation</div>
         <h2 className="end-title">{winner.name} ascends</h2>
         <p className="end-tag">{tag || 'The contest is concluded.'}</p>

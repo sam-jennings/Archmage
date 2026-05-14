@@ -566,9 +566,11 @@ function SidePanels({ state, log }){
 // ── Modals ───────────────────────────────────────────────
 function OpeningModal({ you, onPick }){
   const [picked, setPicked] = useState(null);
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   return (
     <div className="modal-overlay">
-      <div className="modal-card">
+      <div className="modal-card" ref={cardRef}>
         <div className="modal-eyebrow">The Opening</div>
         <h3 className="modal-title">Bind one component to the Reserve</h3>
         <p className="modal-tag">Each wizard begins by sacrificing one piece of their starting components — held aside, for now. Choose what you can spare.</p>
@@ -594,6 +596,8 @@ function OpeningModal({ you, onPick }){
 
 function TransfigDiscardModal({ you, need, onPick }){
   const [selected, setSelected] = useState([]);
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   const toggle = (id) => {
     setSelected(prev => {
       if (prev.includes(id)) return prev.filter(x=>x!==id);
@@ -603,7 +607,7 @@ function TransfigDiscardModal({ you, need, onPick }){
   };
   return (
     <div className="modal-overlay">
-      <div className="modal-card">
+      <div className="modal-card" ref={cardRef}>
         <div className="modal-eyebrow">Transfiguration Exchange</div>
         <h3 className="modal-title">Discard {need} component{need>1?'s':''} to the Reserve</h3>
         <p className="modal-tag">In return, you'll claim one component from the Array. Click components to select.</p>
