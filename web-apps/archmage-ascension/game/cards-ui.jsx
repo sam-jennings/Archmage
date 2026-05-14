@@ -95,6 +95,11 @@ function CardBack({ scale = 0.46 }){
 // Drag is opt-in via the `draggable` prop, which sets data-draggable="true"
 // for the controller to find. The controller never starts a drag below the
 // move threshold, so onClick remains the tap-to-toggle path on touch devices.
+//
+// Keyboard a11y: a card with an onClick becomes a focusable role="button"
+// activated by Enter or Space. Arrow-key sibling navigation is handled by
+// the parent container (hand-fan, array-zone) since "next card" is a
+// container-level concept, not a per-card one.
 function Card({
   card, scale = 0.46, connector, art, layout = 'tarot',
   selected, dimmed, glowing, draggable, faceDown,
@@ -102,14 +107,27 @@ function Card({
   className = '', style = {},
   title
 }){
+  const label = title || cardLabel(card);
+  const interactive = !!onClick;
+  const handleKeyDown = interactive ? (e) => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      onClick(e);
+    }
+  } : undefined;
   return (
     <div
       className={`card-wrap ${selected ? 'sel' : ''} ${dimmed ? 'dim' : ''} ${glowing ? 'glow' : ''} ${className}`}
       style={style}
       onClick={onClick}
-      title={title || cardLabel(card)}
+      onKeyDown={handleKeyDown}
+      title={label}
       data-card-id={card?.id}
       data-draggable={draggable ? 'true' : 'false'}
+      tabIndex={interactive ? 0 : -1}
+      role={interactive ? 'button' : undefined}
+      aria-label={interactive ? label : undefined}
+      aria-pressed={interactive && selected ? true : undefined}
     >
       {faceDown
         ? <CardBack scale={scale}/>
@@ -117,6 +135,27 @@ function Card({
     </div>
   );
 }
+
+// Shared keyboard helper for card containers (hand-fan, array-zone,
+// cauldron-cards): ArrowLeft/ArrowRight moves focus to the prev/next
+// focusable card-wrap within the container. ArrowDown/ArrowUp are aliases
+// so muscle memory works in either orientation. Bind via onKeyDown on the
+// container element.
+function handleCardArrowNav(e){
+  const horiz = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
+  const vert  = e.key === 'ArrowUp'   || e.key === 'ArrowDown';
+  if (!horiz && !vert) return;
+  const focused = document.activeElement;
+  if (!focused || !focused.classList || !focused.classList.contains('card-wrap')) return;
+  const cards = Array.from(e.currentTarget.querySelectorAll('.card-wrap[tabindex="0"]'));
+  const idx = cards.indexOf(focused);
+  if (idx === -1) return;
+  e.preventDefault();
+  const back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+  const next = back ? Math.max(0, idx - 1) : Math.min(cards.length - 1, idx + 1);
+  cards[next]?.focus();
+}
+window.AACardArrowNav = handleCardArrowNav;
 
 // A small "deck" stack visual — N cards face down with offset to imply pile depth
 function DeckStack({ count, label, scale = 0.34, faceDown = true, topCard = null, connector, art }){

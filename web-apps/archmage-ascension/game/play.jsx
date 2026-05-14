@@ -282,7 +282,7 @@ function ArrayZone({ array, canTake, onTake, transfigPrompt, onTransfigArrayPick
         }}>
           {transfigActive ? 'Pick a card from the Array' : 'The Array'}
         </div>
-        <div className="array-zone">
+        <div className="array-zone" onKeyDown={window.AACardArrowNav}>
           {array.length === 0 && Array.from({length:5}).map((_,i)=>(
             <div key={i} className="array-card-slot empty">drained</div>
           ))}
@@ -388,7 +388,7 @@ function FannedHand({ cards, cauldronSet, lastAcq, canDrag, canSelectForOpening,
   const step = n > 1 ? totalSpread / (n - 1) : 0;
   const center = (n - 1) / 2;
   return (
-    <div className="hand-fan">
+    <div className="hand-fan" onKeyDown={window.AACardArrowNav}>
       {cards.map((c, i) => {
         const off = i - center;
         const angle = off * step;

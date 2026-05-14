@@ -43,6 +43,15 @@ function Cauldron({
     return () => el.removeEventListener('aa-card-drop', onDrop);
   }, [onAddCardId]);
 
+  // Escape key clears the cauldron (or backs out of an empower flow) — the
+  // keyboard equivalent of the "Return all" button.
+  React.useEffect(() => {
+    if (cards.length === 0 && !empowering) return;
+    const onKey = (e) => { if (e.key === 'Escape') onClear(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [cards.length, empowering, onClear]);
+
   return (
     <div
       ref={dropRef}
@@ -62,14 +71,14 @@ function Cauldron({
             : <span>Drag or tap three or more components here to assemble<br/>a spell. Patterns reveal themselves.</span>}
         </div>
       ) : (
-        <div className="cauldron-cards">
+        <div className="cauldron-cards" onKeyDown={window.AACardArrowNav}>
           {cards.map(c => (
             <window.AACard
               key={c.id}
               card={c}
               scale={0.46}
               onClick={(e) => { e.stopPropagation(); onRemoveCardId(c.id); }}
-              title="Click to return to hand"
+              title="Return to hand"
             />
           ))}
         </div>
