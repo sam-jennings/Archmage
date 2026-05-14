@@ -1,0 +1,20 @@
+{
+  "name": "Archmage Ascension",
+  "short_name": "Archmage",
+  "description": "A touch-friendly solo duel prototype for Archmage Ascension.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#04020c",
+  "theme_color": "#170a30",
+  "categories": ["games", "board-games"],
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
