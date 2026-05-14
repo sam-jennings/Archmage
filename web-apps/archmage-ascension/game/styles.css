@@ -20,7 +20,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; }
+html, body { margin: 0; padding: 0; min-height: 100%; }
 body {
   background: #04020c;
   font-family: var(--serif);
@@ -30,6 +30,11 @@ body {
   font-feature-settings: "liga", "dlig", "swsh";
 }
 button { font-family: inherit; color: inherit; cursor: pointer; }
+
+body.aa-landscape-phone {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 /* ── Fit-to-viewport scaler ─────────────────── */
 .aa-stage {
@@ -981,4 +986,112 @@ button {
   }
   .action-coach-mini { display: none; }
   .title-info-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+
+/* ── Mobile landscape first-pass layout ──────────────────────── */
+@media (max-width: 900px) and (orientation: landscape) {
+  .table {
+    gap: 8px;
+    padding: calc(8px + env(safe-area-inset-top)) calc(36px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(36px + env(safe-area-inset-left));
+  }
+  .top-bar { padding: 10px 18px; }
+  .top-bar-mid { display: none; }
+  .top-bar-right { gap: 8px; }
+  .phase-pill { min-height: 44px; padding: 6px 12px; }
+  .action-coach { margin: 6px 36px 0; padding: 8px 12px; font-size: 13px; }
+  .center-area { grid-template-columns: 118px 1fr 118px; gap: 10px; min-height: 210px; }
+  .array-zone { gap: 8px; padding: 8px 0; }
+  .array-zone::before, .array-zone::after { width: 44px; }
+  .cauldron { min-height: 178px; padding: 12px; gap: 8px; }
+  .cauldron-empty { font-size: 14px; line-height: 1.35; }
+  .cauldron-cards { gap: 4px; }
+  .cauldron-readout { gap: 10px; padding: 6px 10px; }
+  .cauldron-actions { gap: 8px; }
+  .hand-zone { padding: 12px 14px 16px; gap: 6px; }
+  .hand-fan { min-height: 168px; padding-bottom: 2px; }
+  .hand-fan-slot { margin: 0 -34px; }
+  .hand-fan-slot:hover .card-wrap { transform: rotate(0deg) translateY(-14px) scale(1.04); }
+  .opponent-area { gap: 12px; padding: 8px 12px; }
+  .opponent-spellbook { gap: 8px; }
+  .side-panel-title { padding: 8px 10px 7px; }
+  .side-panel-body { padding: 8px; }
+  .btn-primary,
+  .btn-secondary,
+  .tiny-btn,
+  .btn-ghost,
+  .cauldron-actions button,
+  .modal-actions button,
+  .title-actions button {
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  .btn-primary { padding: 12px 24px; }
+  .btn-secondary { padding: 10px 18px; }
+  .tiny-btn { padding: 10px 12px; }
+  .title-content { gap: 22px; transform: scale(0.88); }
+  .title-glyph svg { width: 190px; height: 190px; }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: radial-gradient(ellipse at 50% 42%, #1a1130 0%, #08051a 70%, #02010a 100%);
+  }
+  body::after {
+    content: '↻ Rotate your device\A Archmage Ascension is tuned for landscape play.';
+    white-space: pre-line;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    text-align: center;
+    font-family: var(--display);
+    font-size: 18px;
+    line-height: 1.55;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-2);
+  }
+}
+
+.ios-install-toast {
+  position: absolute;
+  left: 50%;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  max-width: min(560px, calc(100% - 48px));
+  padding: 12px 14px 12px 18px;
+  border: 1px solid rgba(245,213,136,0.28);
+  border-radius: 999px;
+  background: rgba(8,4,18,0.88);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.36);
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+.ios-install-toast b {
+  color: var(--gold-2);
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ios-install-toast button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 1px solid rgba(180,140,224,0.24);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  padding: 6px 12px;
 }
