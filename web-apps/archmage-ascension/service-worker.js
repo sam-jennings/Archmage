@@ -1,10 +1,9 @@
-const CACHE_NAME = 'archmage-ascension-v2';
+const CACHE_NAME = 'archmage-ascension-v3';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
   "./Archmage%20Ascension.html",
   "./manifest.json",
-  "./manifest.webmanifest",
   "./icon.svg",
   "./game/lib/tokens.css",
   "./game/styles.css",

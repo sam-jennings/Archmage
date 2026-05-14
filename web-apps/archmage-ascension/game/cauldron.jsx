@@ -8,7 +8,6 @@
 function Cauldron({
   cards,            // [card] currently in cauldron
   onAddCardId,      // (cardId) => void
-  onTapSelected,    // () => void — tap fallback after selecting a hand card
   onRemoveCardId,   // (cardId) => void
   onLearn,          // ({type}) => void
   onClear,
@@ -49,7 +48,6 @@ function Cauldron({
       ref={dropRef}
       className="cauldron"
       data-drop-zone="cauldron"
-      onClick={onTapSelected}
     >
       {empowering && (
         <div style={{ fontFamily:'var(--display)', letterSpacing:'0.28em', fontSize:11, color:'var(--violet)', textTransform:'uppercase' }}>
@@ -61,7 +59,7 @@ function Cauldron({
           <span className="glyph">{empowering ? 'Add to the spell' : 'The Casting Circle'}</span>
           {empowering
             ? <span>Drag cards here to fold them into the existing weave.</span>
-            : <span>Tap-select or drag three or more components here to assemble<br/>a spell. Patterns reveal themselves.</span>}
+            : <span>Drag or tap three or more components here to assemble<br/>a spell. Patterns reveal themselves.</span>}
         </div>
       ) : (
         <div className="cauldron-cards">
