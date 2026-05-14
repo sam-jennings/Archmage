@@ -3,7 +3,8 @@
 // Title Screen — opening menu
 // ════════════════════════════════════════════════════════════════
 
-function TitleScreen({ onStart }){
+function TitleScreen({ onStart, onResume, hasSavedGame }){
+  const [panel, setPanel] = React.useState(null);
   return (
     <div className="title-screen">
       <div className="title-content">
@@ -15,10 +16,46 @@ function TitleScreen({ onStart }){
         <p className="title-tag">Two practitioners gather components from the Source.<br/>The wizard whose grimoire holds the most refined patterns ascends.</p>
         <div className="title-actions">
           <button className="btn-primary" onClick={onStart}>Begin the Contest</button>
+          {hasSavedGame && <button className="btn-secondary" onClick={onResume}>Resume Saved Duel</button>}
           <div style={{display:'flex', gap:8, marginTop:6}}>
-            <button className="btn-secondary" disabled style={{opacity:0.4, cursor:'default'}}>Tutorial</button>
-            <button className="btn-secondary" disabled style={{opacity:0.4, cursor:'default'}}>Rulebook</button>
+            <button className="btn-secondary" onClick={() => setPanel('tutorial')}>Tutorial</button>
+            <button className="btn-secondary" onClick={() => setPanel('rules')}>Rulebook</button>
           </div>
+        </div>
+      </div>
+      {panel && <TitleInfoPanel mode={panel} onClose={() => setPanel(null)}/>}
+    </div>
+  );
+}
+
+function TitleInfoPanel({ mode, onClose }){
+  const isTutorial = mode === 'tutorial';
+  const rows = isTutorial ? [
+    ['1 · Collect', 'Tap a face-up Array card when it completes a pattern, or tap the Source for a blind draw.'],
+    ['2 · Cast', 'Tap learned Conjurations, Transfigurations, or Perfect Transmutations to gain tempo before learning.'],
+    ['3 · Learn', 'Tap or drag 3+ components into the Casting Circle, then press Learn. Tap selected cards again to return them.'],
+    ['4 · Ascend', 'When the Source is exhausted, the Reserve releases. The highest final RP grimoire wins.']
+  ] : [
+    ['Conjuration', 'Three or more matching suits. Scores steadily and draws extra components when cast.'],
+    ['Transfiguration', 'Three or more sequential values. Cast it to exchange weak hand cards for Array cards.'],
+    ['Perfect Transmutation', 'Same suit and sequential values. The rarest, highest-scoring spell pattern.'],
+    ['Enchantment', 'Three or four matching values. Learning one expands your action capacity; four unlocks unlimited capacity.']
+  ];
+  return (
+    <div className="modal-overlay">
+      <div className="modal-card title-info-card">
+        <div className="modal-eyebrow">{isTutorial ? 'Quick Tutorial' : 'Pocket Rulebook'}</div>
+        <h3 className="modal-title">{isTutorial ? 'How to play on Android' : 'Spell patterns at a glance'}</h3>
+        <div className="title-info-list">
+          {rows.map(([head, body]) => (
+            <div className="title-info-row" key={head}>
+              <b>{head}</b>
+              <span>{body}</span>
+            </div>
+          ))}
+        </div>
+        <div className="modal-actions">
+          <button className="btn-primary" onClick={onClose}>Return</button>
         </div>
       </div>
     </div>

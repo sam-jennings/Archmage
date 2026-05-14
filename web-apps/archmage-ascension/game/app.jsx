@@ -4,6 +4,7 @@
 // ════════════════════════════════════════════════════════════════
 
 const { useReducer, useEffect, useRef, useState, useCallback } = React;
+const SAVE_KEY = 'aa:saved-duel:v1';
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "connector": "bloom-soft",
@@ -12,6 +13,18 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "castDrama": 1.0,
   "tableTone": "violet"
 }/*EDITMODE-END*/;
+
+function readSavedGame(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.phase && parsed.players ? parsed : null;
+  } catch (err) {
+    console.warn('Could not read saved Archmage duel', err);
+    return null;
+  }
+}
 
 function App(){
   const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
@@ -47,9 +60,20 @@ function App(){
   const [openingPrompt, setOpeningPrompt] = useState(null);
   const [transfigPrompt, setTransfigPrompt] = useState(null);
   const [fxQueue, setFxQueue] = useState([]);
+  const [savedGame, setSavedGame] = useState(() => readSavedGame());
   const fxIdRef = useRef(0);
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  useEffect(() => {
+    if (!state || state.phase === 'title') return;
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+      setSavedGame(state);
+    } catch (err) {
+      console.warn('Could not save Archmage duel', err);
+    }
+  }, [state]);
 
   // Wrapped dispatch — drives FX based on actions
   const dispatch = useCallback((action) => {
@@ -69,6 +93,12 @@ function App(){
         setTimeout(() => setFxQueue(q => q.filter(f => f.id !== fx.id)), 1500);
       }
     }
+    if (action.type === 'NEW_GAME') setSavedGame(null);
+    if (action.type === 'TO_TITLE') {
+      localStorage.removeItem(SAVE_KEY);
+      setSavedGame(null);
+    }
+    if (action.type === 'LOAD_GAME') setSavedGame(action.state);
     dispatchRaw(action);
   }, []);
 
@@ -214,7 +244,11 @@ function App(){
   if (state.phase === 'title'){
     return (
       <>
-        <window.AATitleScreen onStart={() => dispatch({ type:'NEW_GAME' })}/>
+        <window.AATitleScreen
+          onStart={() => dispatch({ type:'NEW_GAME' })}
+          hasSavedGame={!!savedGame}
+          onResume={() => savedGame && dispatch({ type:'LOAD_GAME', state: savedGame })}
+        />
         <TweaksPanel title="Tweaks">
           <TweakSection label="Card style"/>
           <TweakSelect label="Connector" value={tweaks.connector}

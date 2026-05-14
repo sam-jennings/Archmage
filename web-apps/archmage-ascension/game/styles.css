@@ -881,3 +881,104 @@ button { touch-action: manipulation; }
 .modal-actions {
   display: flex; gap: 10px; justify-content: flex-end;
 }
+
+/* Android-first guidance and touch affordances */
+button,
+.card-wrap,
+.deck-stack,
+.array-card-slot {
+  -webkit-tap-highlight-color: rgba(245,213,136,0.18);
+  touch-action: manipulation;
+}
+
+button {
+  min-height: 42px;
+}
+
+.action-coach {
+  position: relative;
+  z-index: 4;
+  margin: 10px 220px 0;
+  padding: 10px 16px;
+  border: 1px solid rgba(245,213,136,0.18);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(20,12,38,0.82), rgba(8,4,18,0.66));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+.action-coach > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.action-coach-kicker,
+.action-coach-mini {
+  font-family: var(--display);
+  letter-spacing: 0.24em;
+  font-size: 9px;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.action-coach strong {
+  color: var(--gold-2);
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.action-coach span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.action-coach-mini { color: var(--ink-faint); }
+
+.phase-glossary-panel.emphasized {
+  border-color: rgba(245,213,136,0.5);
+  box-shadow: 0 0 24px rgba(245,213,136,0.14);
+}
+
+.title-info-card {
+  max-width: 640px;
+}
+.title-info-list {
+  display: grid;
+  gap: 10px;
+}
+.title-info-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px dashed rgba(180,140,224,0.16);
+  color: var(--ink-dim);
+  line-height: 1.45;
+}
+.title-info-row b {
+  font-family: var(--display);
+  letter-spacing: 0.16em;
+  font-size: 10px;
+  color: var(--gold-2);
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px), (max-height: 560px) {
+  .action-coach {
+    margin: 8px 16px 0;
+    border-radius: 10px;
+  }
+  .action-coach > div:first-child {
+    display: grid;
+    gap: 3px;
+  }
+  .action-coach-mini { display: none; }
+  .title-info-row { grid-template-columns: 1fr; gap: 4px; }
+}
