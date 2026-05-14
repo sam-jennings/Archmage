@@ -17,7 +17,7 @@ function Cauldron({
   canLearn,
   capacityRemaining
 }){
-  const [over, setOver] = React.useState(false);
+  const dropRef = React.useRef(null);
   const E = window.AAEngine;
   const spec = React.useMemo(() => {
     if (cards.length < 3 && !empowering) return null;
@@ -29,27 +29,25 @@ function Cauldron({
     return E.classify(cards);
   }, [cards, empowering]);
 
-  const handleDragOver = (e) => {
-    if (e.dataTransfer.types.includes('text/card-id')){
-      e.preventDefault();
-      e.dataTransfer.dropEffect = 'move';
-      setOver(true);
-    }
-  };
-  const handleDragLeave = () => setOver(false);
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setOver(false);
-    const id = e.dataTransfer.getData('text/card-id');
-    if (id) onAddCardId(id);
-  };
+  // Listen for the synthetic drop event from the Pointer Events drag controller.
+  // The `.aa-drop-over` hover class is toggled by the controller; we no longer
+  // track an `over` state in React.
+  React.useEffect(() => {
+    const el = dropRef.current;
+    if (!el) return;
+    const onDrop = (e) => {
+      const { cardId, zone } = e.detail || {};
+      if (zone === 'cauldron' && cardId) onAddCardId(cardId);
+    };
+    el.addEventListener('aa-card-drop', onDrop);
+    return () => el.removeEventListener('aa-card-drop', onDrop);
+  }, [onAddCardId]);
 
   return (
     <div
-      className={`cauldron ${over ? 'over' : ''}`}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
+      ref={dropRef}
+      className="cauldron"
+      data-drop-zone="cauldron"
     >
       {empowering && (
         <div style={{ fontFamily:'var(--display)', letterSpacing:'0.28em', fontSize:11, color:'var(--violet)', textTransform:'uppercase' }}>

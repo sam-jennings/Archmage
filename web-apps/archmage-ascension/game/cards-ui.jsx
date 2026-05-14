@@ -89,39 +89,27 @@ function CardBack({ scale = 0.46 }){
   );
 }
 
-// Wrapper card — handles selection, hover, drag, click
+// Wrapper card — handles selection, hover, click, and drag (via the Pointer
+// Events controller in game/drag-controller.js).
+//
+// Drag is opt-in via the `draggable` prop, which sets data-draggable="true"
+// for the controller to find. The controller never starts a drag below the
+// move threshold, so onClick remains the tap-to-toggle path on touch devices.
 function Card({
   card, scale = 0.46, connector, art, layout = 'tarot',
   selected, dimmed, glowing, draggable, faceDown,
-  onClick, onDragStart, onDragEnd,
+  onClick,
   className = '', style = {},
   title
 }){
-  const handleDragStart = (e) => {
-    if (!draggable) { e.preventDefault(); return; }
-    e.dataTransfer.setData('text/card-id', card.id);
-    e.dataTransfer.effectAllowed = 'move';
-    // Use a transparent drag image so the original keeps visible while we follow the cursor manually
-    const ghost = document.createElement('div');
-    ghost.style.cssText = 'position:fixed;top:-9999px';
-    document.body.appendChild(ghost);
-    e.dataTransfer.setDragImage(ghost, 0, 0);
-    setTimeout(()=>document.body.removeChild(ghost), 0);
-    onDragStart && onDragStart(e, card);
-  };
-  const handleDragEnd = (e) => {
-    onDragEnd && onDragEnd(e, card);
-  };
   return (
     <div
       className={`card-wrap ${selected ? 'sel' : ''} ${dimmed ? 'dim' : ''} ${glowing ? 'glow' : ''} ${className}`}
       style={style}
       onClick={onClick}
-      draggable={!!draggable}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
       title={title || cardLabel(card)}
       data-card-id={card?.id}
+      data-draggable={draggable ? 'true' : 'false'}
     >
       {faceDown
         ? <CardBack scale={scale}/>
