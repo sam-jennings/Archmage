@@ -24,11 +24,12 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
   // Cauldron lives in UI state — it's a list of card ids in play
   const [cauldronIds, setCauldronIds] = useState([]);
   const [empoweringSpellId, setEmpoweringSpellId] = useState(null);
+  const [selectedLearnCardId, setSelectedLearnCardId] = useState(null);
   // Sync cauldron to state.cauldron if reset
   useEffect(() => { setCauldronIds(state.cauldron || []); }, [state.cauldron]);
   // Reset cauldron on phase change
   useEffect(() => {
-    setCauldronIds([]); setEmpoweringSpellId(null);
+    setCauldronIds([]); setEmpoweringSpellId(null); setSelectedLearnCardId(null);
   }, [state.phase, state.currentPlayer]);
 
   const cauldronCards = useMemo(() => {
@@ -40,22 +41,29 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
     if (state.phase !== 'learning' && state.phase !== 'drought-learning') return;
     if (cauldronIds.includes(cid)) return;
     setCauldronIds([...cauldronIds, cid]);
+    if (selectedLearnCardId === cid) setSelectedLearnCardId(null);
   };
   const handleRemoveFromCauldron = (cid) => setCauldronIds(cauldronIds.filter(x => x !== cid));
-  const handleClearCauldron = () => { setCauldronIds([]); setEmpoweringSpellId(null); };
+  const handleClearCauldron = () => { setCauldronIds([]); setEmpoweringSpellId(null); setSelectedLearnCardId(null); };
+  const handleSelectForCauldron = (cid) => setSelectedLearnCardId(prev => prev === cid ? null : cid);
+  const handleTapCauldron = () => {
+    if (!selectedLearnCardId) return;
+    handleAddToCauldron(selectedLearnCardId);
+  };
 
   const handleLearn = () => {
     // Engine auto-classifies cauldron contents — see learnSpell in state.js.
     dispatch({ type: 'LEARN', cards: cauldronIds });
-    setCauldronIds([]); setEmpoweringSpellId(null);
+    setCauldronIds([]); setEmpoweringSpellId(null); setSelectedLearnCardId(null);
   };
   const handleEmpowerCommit = () => {
     dispatch({ type:'EMPOWER', spellId: empoweringSpellId, cards: cauldronIds });
-    setCauldronIds([]); setEmpoweringSpellId(null);
+    setCauldronIds([]); setEmpoweringSpellId(null); setSelectedLearnCardId(null);
   };
   const handleEmpowerStart = (spellId) => {
     setEmpoweringSpellId(spellId);
     setCauldronIds([]);
+    setSelectedLearnCardId(null);
   };
   const handleUnlearn = (spellId) => dispatch({ type:'UNLEARN', spellId });
 
@@ -112,6 +120,7 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
               <window.AACauldron
                 cards={cauldronCards}
                 onAddCardId={handleAddToCauldron}
+                onTapSelected={handleTapCauldron}
                 onRemoveCardId={handleRemoveFromCauldron}
                 onLearn={handleLearn}
                 onClear={handleClearCauldron}
@@ -151,6 +160,8 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
           openingPrompt={openingPrompt}
           transfigPrompt={transfigPrompt}
           cauldronIds={cauldronIds}
+          selectedLearnCardId={selectedLearnCardId}
+          onSelectForCauldron={handleSelectForCauldron}
           onAddToCauldron={handleAddToCauldron}
           onRemoveFromCauldron={handleRemoveFromCauldron}
           dispatch={dispatch}
@@ -325,7 +336,7 @@ function DeckColumn({ count, label, clickable, onClick, tip, inverted }){
 }
 
 function HandZone({ you, state, isYourTurn, canCast, canLearn, openingPrompt, transfigPrompt,
-                    cauldronIds, onAddToCauldron, onRemoveFromCauldron, dispatch,
+                    cauldronIds, selectedLearnCardId, onSelectForCauldron, onAddToCauldron, onRemoveFromCauldron, dispatch,
                     empoweringSpell, onEmpowerStart, onUnlearn,
                     counterCap, counterUsed, animations }){
   const cauldronSet = new Set(cauldronIds);
@@ -371,6 +382,8 @@ function HandZone({ you, state, isYourTurn, canCast, canLearn, openingPrompt, tr
         canSelectForOpening={canSelectForOpening}
         openingPrompt={openingPrompt}
         transfigPrompt={transfigPrompt}
+        selectedLearnCardId={selectedLearnCardId}
+        onSelectForCauldron={onSelectForCauldron}
         onAddToCauldron={onAddToCauldron}
         onRemoveFromCauldron={onRemoveFromCauldron}
       />
@@ -378,7 +391,7 @@ function HandZone({ you, state, isYourTurn, canCast, canLearn, openingPrompt, tr
   );
 }
 
-function FannedHand({ cards, cauldronSet, lastAcq, canDrag, canSelectForOpening, openingPrompt, transfigPrompt, onAddToCauldron, onRemoveFromCauldron }){
+function FannedHand({ cards, cauldronSet, lastAcq, canDrag, canSelectForOpening, openingPrompt, transfigPrompt, selectedLearnCardId, onSelectForCauldron, onAddToCauldron, onRemoveFromCauldron }){
   if (cards.length === 0){
     return <div className="hand-fan"><div className="hand-empty-msg">Your hand is empty.</div></div>;
   }
@@ -413,10 +426,10 @@ function FannedHand({ cards, cauldronSet, lastAcq, canDrag, canSelectForOpening,
                 else if (transfigPrompt && transfigPrompt.phase === 'pickHand') transfigPrompt.toggleHand(c.id);
                 else if (canDrag){
                   if (inCauldron) onRemoveFromCauldron(c.id);
-                  else onAddToCauldron(c.id);
+                  else onSelectForCauldron(c.id);
                 }
               }}
-              selected={transfigPrompt && transfigPrompt.selectedHand?.includes(c.id)}
+              selected={(transfigPrompt && transfigPrompt.selectedHand?.includes(c.id)) || selectedLearnCardId === c.id}
             />
           </div>
         );

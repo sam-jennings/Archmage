@@ -8,6 +8,7 @@
 function Cauldron({
   cards,            // [card] currently in cauldron
   onAddCardId,      // (cardId) => void
+  onTapSelected,    // () => void — tap fallback after selecting a hand card
   onRemoveCardId,   // (cardId) => void
   onLearn,          // ({type}) => void
   onClear,
@@ -48,6 +49,7 @@ function Cauldron({
       ref={dropRef}
       className="cauldron"
       data-drop-zone="cauldron"
+      onClick={onTapSelected}
     >
       {empowering && (
         <div style={{ fontFamily:'var(--display)', letterSpacing:'0.28em', fontSize:11, color:'var(--violet)', textTransform:'uppercase' }}>
@@ -59,7 +61,7 @@ function Cauldron({
           <span className="glyph">{empowering ? 'Add to the spell' : 'The Casting Circle'}</span>
           {empowering
             ? <span>Drag cards here to fold them into the existing weave.</span>
-            : <span>Drag three or more components here to assemble<br/>a spell. Patterns reveal themselves.</span>}
+            : <span>Tap-select or drag three or more components here to assemble<br/>a spell. Patterns reveal themselves.</span>}
         </div>
       ) : (
         <div className="cauldron-cards">
@@ -68,7 +70,7 @@ function Cauldron({
               key={c.id}
               card={c}
               scale={0.46}
-              onClick={() => onRemoveCardId(c.id)}
+              onClick={(e) => { e.stopPropagation(); onRemoveCardId(c.id); }}
               title="Click to return to hand"
             />
           ))}
@@ -80,7 +82,7 @@ function Cauldron({
             {spec ? `${window.AATypeLabelUI[spec.type]} · ${spec.length}` : 'Pattern unrecognized'}
           </div>
           {spec && <div className="cauldron-readout-score">{E.spellScore(spec)} RP</div>}
-          <div className="cauldron-actions">
+          <div className="cauldron-actions" onClick={(e) => e.stopPropagation()}>
             <button className="tiny-btn" onClick={onClear}>Return all</button>
             {!empowering && spec && canLearn && (
               <button className="btn-primary" style={{padding:'8px 18px', fontSize:11}}

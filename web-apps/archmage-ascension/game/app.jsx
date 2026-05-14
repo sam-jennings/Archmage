@@ -34,12 +34,22 @@ function App(){
     if (!stage) return;
     const fit = () => {
       const dw = 1440, dh = 900;
-      const sx = window.innerWidth / dw;
-      const sy = window.innerHeight / dh;
-      const s = Math.min(sx, sy);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const sx = vw / dw;
+      const sy = vh / dh;
+      const landscapePhone = vw > vh && vh < 520;
+      const s = landscapePhone ? sx : Math.min(sx, sy);
+      const scaledW = dw * s;
+      const scaledH = dh * s;
       stage.style.transform = `scale(${s})`;
-      stage.style.left = `${Math.max(0, (window.innerWidth  - dw*s)/2)}px`;
-      stage.style.top  = `${Math.max(0, (window.innerHeight - dh*s)/2)}px`;
+      stage.style.left = `${Math.max(0, (vw - scaledW) / 2)}px`;
+      stage.style.top = `${landscapePhone ? 0 : Math.max(0, (vh - scaledH) / 2)}px`;
+      stage.dataset.scale = String(s);
+      document.documentElement.style.setProperty('--aa-stage-scale', s);
+      document.body.classList.toggle('aa-landscape-phone', landscapePhone);
+      document.body.style.minWidth = Math.max(vw, scaledW) + 'px';
+      document.body.style.minHeight = Math.max(vh, scaledH) + 'px';
     };
     fit();
     window.addEventListener('resize', fit);

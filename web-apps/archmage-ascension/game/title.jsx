@@ -5,6 +5,22 @@
 
 function TitleScreen({ onStart, onResume, hasSavedGame }){
   const [panel, setPanel] = React.useState(null);
+  const [showInstallHint, setShowInstallHint] = React.useState(false);
+
+  React.useEffect(() => {
+    const ua = navigator.userAgent || '';
+    const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+    const standalone = navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+    let dismissed = false;
+    try { dismissed = localStorage.getItem('aa:ios-install-hint-dismissed') === '1'; } catch (_) {}
+    setShowInstallHint(iOS && !standalone && !dismissed);
+  }, []);
+
+  const dismissInstallHint = () => {
+    try { localStorage.setItem('aa:ios-install-hint-dismissed', '1'); } catch (_) {}
+    setShowInstallHint(false);
+  };
+
   return (
     <div className="title-screen">
       <div className="title-content">
@@ -24,6 +40,13 @@ function TitleScreen({ onStart, onResume, hasSavedGame }){
         </div>
       </div>
       {panel && <TitleInfoPanel mode={panel} onClose={() => setPanel(null)}/>}
+      {showInstallHint && (
+        <div className="ios-install-toast" role="status">
+          <b>Fullscreen play</b>
+          <span>Add to Home Screen in Safari's Share menu for fullscreen play.</span>
+          <button type="button" onClick={dismissInstallHint}>Got it</button>
+        </div>
+      )}
     </div>
   );
 }
