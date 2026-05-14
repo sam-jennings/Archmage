@@ -134,6 +134,15 @@ function App(){
         setTimeout(() => setFxQueue(q => q.filter(f => f.id !== fx.id)), 1500);
       }
     }
+    // Haptic tick on human-driven actions (Android Chrome supports
+    // navigator.vibrate; iOS Safari silently ignores it). Suppressed when
+    // the user prefers reduced motion.
+    if (stateRef.current.currentPlayer === 0 && navigator.vibrate
+        && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
+      if (action.type === 'CAST_SPELL') navigator.vibrate(15);
+      else if (action.type === 'LEARN' || action.type === 'EMPOWER') navigator.vibrate([10, 30, 10]);
+      else if (action.type === 'COLLECT_SOURCE' || action.type === 'COLLECT_ARRAY') navigator.vibrate(8);
+    }
     if (action.type === 'NEW_GAME') setSavedGame(null);
     if (action.type === 'TO_TITLE') {
       localStorage.removeItem(SAVE_KEY);

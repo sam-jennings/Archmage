@@ -1107,3 +1107,42 @@ button {
   color: var(--ink);
   padding: 6px 12px;
 }
+
+/* ── Accessibility: visible focus ─────────────────────────────────────
+   Default :focus-visible (keyboard nav) gets a gold outline against the
+   dark theme. Mouse-driven :focus stays unmarked thanks to :focus-visible
+   semantics, so the hover/click visuals are unchanged. */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+button:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.tiny-btn:focus-visible,
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.card-wrap:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────
+   Honour prefers-reduced-motion by collapsing animation/transition
+   durations near-zero. Explicit `animation: none` on the looping pulse,
+   glow, and dots loops prevents the degenerate "stuck on frame 0" look. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .phase-pill .pip,
+  .card-wrap.glow,
+  .ai-thinking-banner::after {
+    animation: none !important;
+  }
+}

@@ -59,6 +59,11 @@ function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall })
 }
 
 function TitleInfoPanel({ mode, onClose }){
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
   const isTutorial = mode === 'tutorial';
   const rows = isTutorial ? [
     ['1 · Collect', 'Tap a face-up Array card when it completes a pattern, or tap the Source for a blind draw.'],
