@@ -148,6 +148,14 @@ body.aa-landscape-phone {
   transition: all 0.2s ease;
 }
 .btn-secondary:hover { color: var(--ink); border-color: rgba(180,140,224,0.42); }
+.title-install-btn {
+  color: var(--gold-2);
+  border-color: rgba(245,213,136,0.32);
+}
+.title-install-btn:hover {
+  color: var(--gold-2);
+  border-color: rgba(245,213,136,0.6);
+}
 .btn-ghost {
   font-family: var(--display);
   letter-spacing: 0.18em;

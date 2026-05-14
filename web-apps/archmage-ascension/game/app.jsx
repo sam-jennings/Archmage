@@ -71,9 +71,40 @@ function App(){
   const [transfigPrompt, setTransfigPrompt] = useState(null);
   const [fxQueue, setFxQueue] = useState([]);
   const [savedGame, setSavedGame] = useState(() => readSavedGame());
+  const [installPrompt, setInstallPrompt] = useState(null);
   const fxIdRef = useRef(0);
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  // Capture beforeinstallprompt at App scope so the title screen can surface
+  // an "Install app" button to regular players (Android Chrome). The dev-only
+  // TweaksPanel keeps its own affordance via window.__aaInstallPrompt.
+  useEffect(() => {
+    const onPrompt = (e) => {
+      e.preventDefault();
+      window.__aaInstallPrompt = e;
+      setInstallPrompt(e);
+    };
+    const onInstalled = () => {
+      window.__aaInstallPrompt = null;
+      setInstallPrompt(null);
+    };
+    window.addEventListener('beforeinstallprompt', onPrompt);
+    window.addEventListener('appinstalled', onInstalled);
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onPrompt);
+      window.removeEventListener('appinstalled', onInstalled);
+    };
+  }, []);
+
+  const promptInstall = useCallback(async () => {
+    const p = installPrompt;
+    if (!p) return;
+    p.prompt();
+    try { await p.userChoice; } catch (_) {}
+    window.__aaInstallPrompt = null;
+    setInstallPrompt(null);
+  }, [installPrompt]);
 
   useEffect(() => {
     if (!state || state.phase === 'title') return;
@@ -258,6 +289,8 @@ function App(){
           onStart={() => dispatch({ type:'NEW_GAME' })}
           hasSavedGame={!!savedGame}
           onResume={() => savedGame && dispatch({ type:'LOAD_GAME', state: savedGame })}
+          canInstall={!!installPrompt}
+          onInstall={promptInstall}
         />
         <TweaksPanel title="Tweaks">
           <TweakSection label="Card style"/>

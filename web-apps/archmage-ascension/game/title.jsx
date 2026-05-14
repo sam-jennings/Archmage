@@ -3,23 +3,27 @@
 // Title Screen — opening menu
 // ════════════════════════════════════════════════════════════════
 
-function TitleScreen({ onStart, onResume, hasSavedGame }){
+function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall }){
   const [panel, setPanel] = React.useState(null);
   const [showInstallHint, setShowInstallHint] = React.useState(false);
+  const [standalone, setStandalone] = React.useState(false);
 
   React.useEffect(() => {
     const ua = navigator.userAgent || '';
     const iOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-    const standalone = navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+    const isStandalone = navigator.standalone === true || window.matchMedia?.('(display-mode: standalone)').matches;
+    setStandalone(isStandalone);
     let dismissed = false;
     try { dismissed = localStorage.getItem('aa:ios-install-hint-dismissed') === '1'; } catch (_) {}
-    setShowInstallHint(iOS && !standalone && !dismissed);
+    setShowInstallHint(iOS && !isStandalone && !dismissed);
   }, []);
 
   const dismissInstallHint = () => {
     try { localStorage.setItem('aa:ios-install-hint-dismissed', '1'); } catch (_) {}
     setShowInstallHint(false);
   };
+
+  const showInstallButton = canInstall && !standalone;
 
   return (
     <div className="title-screen">
@@ -33,6 +37,9 @@ function TitleScreen({ onStart, onResume, hasSavedGame }){
         <div className="title-actions">
           <button className="btn-primary" onClick={onStart}>Begin the Contest</button>
           {hasSavedGame && <button className="btn-secondary" onClick={onResume}>Resume Saved Duel</button>}
+          {showInstallButton && (
+            <button className="btn-secondary title-install-btn" onClick={onInstall}>Install app</button>
+          )}
           <div style={{display:'flex', gap:8, marginTop:6}}>
             <button className="btn-secondary" onClick={() => setPanel('tutorial')}>Tutorial</button>
             <button className="btn-secondary" onClick={() => setPanel('rules')}>Rulebook</button>
