@@ -7,6 +7,7 @@ function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall })
   const [panel, setPanel] = React.useState(null);
   const [showInstallHint, setShowInstallHint] = React.useState(false);
   const [standalone, setStandalone] = React.useState(false);
+  const [justInstalled, setJustInstalled] = React.useState(false);
 
   React.useEffect(() => {
     const ua = navigator.userAgent || '';
@@ -17,6 +18,22 @@ function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall })
     try { dismissed = localStorage.getItem('aa:ios-install-hint-dismissed') === '1'; } catch (_) {}
     setShowInstallHint(iOS && !isStandalone && !dismissed);
   }, []);
+
+  // Confirm a successful install with a brief toast. Auto-dismisses after
+  // ~5s; the user can also tap to dismiss earlier.
+  React.useEffect(() => {
+    const onInstalled = () => {
+      setJustInstalled(true);
+      setShowInstallHint(false);
+    };
+    window.addEventListener('appinstalled', onInstalled);
+    return () => window.removeEventListener('appinstalled', onInstalled);
+  }, []);
+  React.useEffect(() => {
+    if (!justInstalled) return;
+    const t = window.setTimeout(() => setJustInstalled(false), 5000);
+    return () => window.clearTimeout(t);
+  }, [justInstalled]);
 
   const dismissInstallHint = () => {
     try { localStorage.setItem('aa:ios-install-hint-dismissed', '1'); } catch (_) {}
@@ -52,6 +69,13 @@ function TitleScreen({ onStart, onResume, hasSavedGame, canInstall, onInstall })
           <b>Fullscreen play</b>
           <span>Add to Home Screen in Safari's Share menu for fullscreen play.</span>
           <button type="button" onClick={dismissInstallHint}>Got it</button>
+        </div>
+      )}
+      {justInstalled && (
+        <div className="installed-toast" role="status" aria-live="polite"
+             onClick={() => setJustInstalled(false)}>
+          <b>Installed</b>
+          <span>Launch from your home screen for fullscreen play.</span>
         </div>
       )}
     </div>
