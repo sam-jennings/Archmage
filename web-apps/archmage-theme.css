@@ -261,6 +261,7 @@ tr:hover {
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
     border-radius: 8px;
 }
 
@@ -281,6 +282,14 @@ tr:hover {
 
 .scoring-table {
     min-width: 680px;
+}
+
+.scoring-table thead th .spell-name-short {
+    display: none;
+}
+
+.scoring-table .spell-name-icon {
+    font-size: 1.05rem;
 }
 
 .scroll-hint {
@@ -924,10 +933,81 @@ header {
     }
 
     .scroll-hint {
-        display: block;
+        display: none;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .table-scroll::after {
+        display: none;
     }
 
     .scoring-table {
-        min-width: 620px;
+        min-width: 0;
+        width: 100%;
+        table-layout: fixed;
+        font-size: 0.85rem;
+    }
+
+    .scoring-table th,
+    .scoring-table td {
+        padding: 0.4rem 0.25rem;
+        text-align: center;
+        font-size: 0.9rem;
+    }
+
+    .scoring-table thead th {
+        padding: 0.45rem 0.2rem;
+        font-size: 0.66rem;
+        letter-spacing: 0.02em;
+        line-height: 1.1;
+        vertical-align: middle;
+    }
+
+    .scoring-table thead th .spell-name-full {
+        display: none;
+    }
+
+    .scoring-table thead th .spell-name-short {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.1rem;
+        line-height: 1.1;
+        font-size: 0.7rem;
+        letter-spacing: 0.02em;
+    }
+
+    .scoring-table .spell-name-icon {
+        font-size: 1rem;
+        line-height: 1;
+    }
+
+    .scoring-table thead th:first-child {
+        font-size: 0.7rem;
+    }
+
+    .scoring-table tbody td:first-child {
+        color: var(--gold);
+        font-weight: 600;
+        background: rgba(246, 201, 74, 0.06);
+    }
+}
+
+@media (max-width: 400px) {
+    .scoring-table th,
+    .scoring-table td {
+        padding: 0.35rem 0.15rem;
+        font-size: 0.85rem;
+    }
+
+    .scoring-table thead th .spell-name-short {
+        font-size: 0.62rem;
+    }
+
+    .scoring-table .spell-name-icon {
+        font-size: 0.9rem;
     }
 }

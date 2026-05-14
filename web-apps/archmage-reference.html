@@ -792,10 +792,10 @@
                         <thead>
                             <tr>
                                 <th>Size</th>
-                                <th><button type="button" class="spell-ref-button" data-spell="Conjuration">Conjuration</button></th>
-                                <th><button type="button" class="spell-ref-button" data-spell="Transfiguration">Transfiguration</button></th>
-                                <th><button type="button" class="spell-ref-button" data-spell="Enchantment">Enchantment</button></th>
-                                <th><button type="button" class="spell-ref-button" data-spell="Perfect Transmutation">Perfect Transmutation</button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Conjuration"><span class="spell-name-full">Conjuration</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">🔮</span>Conj.</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Transfiguration"><span class="spell-name-full">Transfiguration</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">🔄</span>Trans.</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Enchantment"><span class="spell-name-full">Enchantment</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">⚡</span>Ench.</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Perfect Transmutation"><span class="spell-name-full">Perfect Transmutation</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">✨</span>Perf.</span></button></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1240,6 +1240,8 @@
             const spellHeaders = Array.from(table.querySelectorAll('thead th'))
                 .slice(1)
                 .map(function(header) {
+                    const trigger = header.querySelector('[data-spell]');
+                    if (trigger && trigger.dataset.spell) return trigger.dataset.spell;
                     return header.textContent.trim().replace(/\s+/g, ' ');
                 });
 
