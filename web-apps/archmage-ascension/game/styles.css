@@ -20,7 +20,7 @@
 }
 
 * { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; height: 100%; }
+html, body { margin: 0; padding: 0; min-height: 100%; }
 body {
   background: #04020c;
   font-family: var(--serif);
@@ -30,6 +30,11 @@ body {
   font-feature-settings: "liga", "dlig", "swsh";
 }
 button { font-family: inherit; color: inherit; cursor: pointer; }
+
+body.aa-landscape-phone {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 
 /* ── Fit-to-viewport scaler ─────────────────── */
 .aa-stage {
@@ -143,6 +148,14 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
   transition: all 0.2s ease;
 }
 .btn-secondary:hover { color: var(--ink); border-color: rgba(180,140,224,0.42); }
+.title-install-btn {
+  color: var(--gold-2);
+  border-color: rgba(245,213,136,0.32);
+}
+.title-install-btn:hover {
+  color: var(--gold-2);
+  border-color: rgba(245,213,136,0.6);
+}
 .btn-ghost {
   font-family: var(--display);
   letter-spacing: 0.18em;
@@ -332,7 +345,7 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
     rgba(8,4,18,0.5);
   transition: all 0.2s ease;
 }
-.cauldron.over {
+.cauldron.aa-drop-over {
   border-color: var(--gold);
   background:
     radial-gradient(ellipse at 50% 50%, rgba(245,213,136,0.12), transparent 70%),
@@ -541,8 +554,28 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
   0%,100% { filter: drop-shadow(0 0 8px rgba(245,213,136,0.4)); }
   50% { filter: drop-shadow(0 0 18px rgba(245,213,136,0.8)) drop-shadow(0 0 36px rgba(245,213,136,0.5)); }
 }
-.card-wrap[draggable="true"] { cursor: grab; }
-.card-wrap[draggable="true"]:active { cursor: grabbing; }
+.card-wrap[data-draggable="true"] { cursor: grab; }
+.card-wrap[data-draggable="true"]:active { cursor: grabbing; }
+
+/* ── Pointer Events drag controller ───────────────────────────────────
+   Touch-action: none on draggable cards lets pointermove.preventDefault
+   actually suppress browser scrolling on Android/iOS. -webkit-touch-callout
+   suppresses iOS Safari's "Save image" long-press menu over SVG cards.
+   The cauldron itself also opts out of touch scrolling so a drag-in works. */
+.card-wrap[data-draggable="true"],
+.cauldron[data-drop-zone] {
+  touch-action: none;
+  -webkit-touch-callout: none;
+}
+.card-wrap.aa-drag-source { opacity: 0.35; transform: none !important; }
+.aa-drag-ghost {
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.55))
+          drop-shadow(0 0 24px rgba(245,213,136,0.35));
+}
+body.aa-dragging { cursor: grabbing; }
+body.aa-dragging * { cursor: grabbing !important; }
+/* Buttons: skip 300ms tap delay and double-tap-zoom on touch. */
+button { touch-action: manipulation; }
 
 .card-face-host { display: block; }
 .card-face-host > svg { display: block; }
@@ -860,4 +893,338 @@ button { font-family: inherit; color: inherit; cursor: pointer; }
 }
 .modal-actions {
   display: flex; gap: 10px; justify-content: flex-end;
+}
+
+/* Android-first guidance and touch affordances */
+button,
+.card-wrap,
+.deck-stack,
+.array-card-slot {
+  -webkit-tap-highlight-color: rgba(245,213,136,0.18);
+  touch-action: manipulation;
+}
+
+button {
+  min-height: 42px;
+}
+
+.action-coach {
+  position: relative;
+  z-index: 4;
+  margin: 10px 220px 0;
+  padding: 10px 16px;
+  border: 1px solid rgba(245,213,136,0.18);
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(20,12,38,0.82), rgba(8,4,18,0.66));
+  box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+.action-coach > div:first-child {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+.action-coach-kicker,
+.action-coach-mini {
+  font-family: var(--display);
+  letter-spacing: 0.24em;
+  font-size: 9px;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.action-coach strong {
+  color: var(--gold-2);
+  font-family: var(--display);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.action-coach span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.action-coach-mini { color: var(--ink-faint); }
+
+.phase-glossary-panel.emphasized {
+  border-color: rgba(245,213,136,0.5);
+  box-shadow: 0 0 24px rgba(245,213,136,0.14);
+}
+
+.title-info-card {
+  max-width: 640px;
+}
+.title-info-list {
+  display: grid;
+  gap: 10px;
+}
+.title-info-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 14px;
+  padding: 12px 0;
+  border-top: 1px dashed rgba(180,140,224,0.16);
+  color: var(--ink-dim);
+  line-height: 1.45;
+}
+.title-info-row b {
+  font-family: var(--display);
+  letter-spacing: 0.16em;
+  font-size: 10px;
+  color: var(--gold-2);
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px), (max-height: 560px) {
+  .action-coach {
+    margin: 8px 16px 0;
+    border-radius: 10px;
+  }
+  .action-coach > div:first-child {
+    display: grid;
+    gap: 3px;
+  }
+  .action-coach-mini { display: none; }
+  .title-info-row { grid-template-columns: 1fr; gap: 4px; }
+}
+
+
+/* ── Mobile landscape first-pass layout ──────────────────────── */
+/* Touch-target sizing inside the CSS-transformed stage must compensate for
+   the scale factor so buttons reach 44 viewport-pixels (Apple/Material
+   guideline). --aa-stage-scale is published by app.jsx:fit(). */
+@media (max-width: 900px) and (orientation: landscape) {
+  :root { --aa-tap: calc(44px / var(--aa-stage-scale, 1)); }
+  .table {
+    gap: 8px;
+    padding: calc(8px + env(safe-area-inset-top)) calc(36px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(36px + env(safe-area-inset-left));
+  }
+  .top-bar { padding: 10px 18px; }
+  .top-bar-mid { display: none; }
+  .top-bar-right { gap: 8px; }
+  .phase-pill { min-height: var(--aa-tap); padding: 6px 12px; }
+  .action-coach { margin: 6px 36px 0; padding: 8px 12px; font-size: 13px; }
+  .center-area { grid-template-columns: 118px 1fr 118px; gap: 10px; min-height: 210px; }
+  .array-zone { gap: 8px; padding: 8px 0; }
+  .array-zone::before, .array-zone::after { width: 44px; }
+  .cauldron { min-height: 178px; padding: 12px; gap: 8px; }
+  .cauldron-empty { font-size: 14px; line-height: 1.35; }
+  .cauldron-cards { gap: 4px; }
+  .cauldron-readout { gap: 10px; padding: 6px 10px; }
+  .cauldron-actions { gap: 8px; }
+  .hand-zone { padding: 12px 14px 16px; gap: 6px; }
+  .hand-fan { min-height: 168px; padding-bottom: 2px; }
+  .hand-fan-slot { margin: 0 -34px; }
+  .hand-fan-slot:hover .card-wrap { transform: rotate(0deg) translateY(-14px) scale(1.04); }
+  .opponent-area { gap: 12px; padding: 8px 12px; }
+  .opponent-spellbook { gap: 8px; }
+  .side-panel-title { padding: 8px 10px 7px; }
+  .side-panel-body { padding: 8px; }
+  .btn-primary,
+  .btn-secondary,
+  .tiny-btn,
+  .btn-ghost,
+  .cauldron-actions button,
+  .modal-actions button,
+  .title-actions button {
+    min-width: var(--aa-tap);
+    min-height: var(--aa-tap);
+    touch-action: manipulation;
+  }
+  .btn-primary { padding: calc(14px / var(--aa-stage-scale, 1)) calc(28px / var(--aa-stage-scale, 1)); }
+  .btn-secondary { padding: calc(12px / var(--aa-stage-scale, 1)) calc(20px / var(--aa-stage-scale, 1)); }
+  .tiny-btn { padding: calc(12px / var(--aa-stage-scale, 1)) calc(14px / var(--aa-stage-scale, 1)); }
+  .title-content { gap: 22px; transform: scale(0.88); }
+  .title-glyph svg { width: 190px; height: 190px; }
+}
+
+@media (orientation: portrait) and (max-width: 768px) {
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 99998;
+    background: radial-gradient(ellipse at 50% 42%, #1a1130 0%, #08051a 70%, #02010a 100%);
+  }
+  body::after {
+    content: '↻ Rotate your device\A Archmage Ascension is tuned for landscape play.';
+    white-space: pre-line;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: grid;
+    place-items: center;
+    padding: 32px;
+    text-align: center;
+    font-family: var(--display);
+    font-size: 18px;
+    line-height: 1.55;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-2);
+  }
+}
+
+.ios-install-toast {
+  position: absolute;
+  left: 50%;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  max-width: min(560px, calc(100% - 48px));
+  padding: 12px 14px 12px 18px;
+  border: 1px solid rgba(245,213,136,0.28);
+  border-radius: 999px;
+  background: rgba(8,4,18,0.88);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.36);
+  color: var(--ink-dim);
+  font-size: 14px;
+}
+.ios-install-toast b {
+  color: var(--gold-2);
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.ios-install-toast button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 1px solid rgba(180,140,224,0.24);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  padding: 6px 12px;
+}
+
+/* Briefly confirms a successful PWA install. Reuses the iOS toast layout
+   with a gold tint so it reads as positive feedback. */
+.installed-toast {
+  position: absolute;
+  left: 50%;
+  bottom: max(26px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 6;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  max-width: min(560px, calc(100% - 48px));
+  padding: 12px 18px;
+  border: 1px solid rgba(245,213,136,0.45);
+  border-radius: 999px;
+  background: rgba(8,4,18,0.92);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.36),
+              0 0 26px rgba(245,213,136,0.12);
+  color: var(--ink);
+  font-size: 14px;
+  cursor: default;
+  animation: aa-toast-rise 0.3s ease;
+}
+.installed-toast b {
+  color: var(--gold-2);
+  font-family: var(--display);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+@keyframes aa-toast-rise {
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* ── First-paint loading placeholder ──────────────────────────────────
+   Rendered inside #root by the HTML so the user sees thematic feedback
+   immediately while Babel parses (~1s on phones) or Vite hydrates.
+   React replaces #root's contents on mount, removing this. */
+.aa-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: radial-gradient(ellipse at 50% 50%, #1a1130 0%, #08051a 70%, #02010a 100%);
+  color: var(--gold);
+  font-family: var(--display, 'Cinzel', serif);
+  letter-spacing: 0.32em;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.aa-loading-glyph {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,213,136,0.32);
+  border-top-color: rgba(245,213,136,0.9);
+  animation: aa-loading-spin 1.4s linear infinite;
+}
+.aa-loading-label::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  text-align: left;
+  animation: aa-loading-dots 1.5s steps(4, end) infinite;
+}
+@keyframes aa-loading-spin { to { transform: rotate(360deg); } }
+@keyframes aa-loading-dots {
+  0%   { content: ''; }
+  25%  { content: '.'; }
+  50%  { content: '..'; }
+  75%  { content: '...'; }
+  100% { content: ''; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aa-loading-glyph { animation: none; }
+  .aa-loading-label::after { animation: none; content: ''; }
+}
+
+/* ── Accessibility: visible focus ─────────────────────────────────────
+   Default :focus-visible (keyboard nav) gets a gold outline against the
+   dark theme. Mouse-driven :focus stays unmarked thanks to :focus-visible
+   semantics, so the hover/click visuals are unchanged. */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+button:focus-visible,
+.btn-primary:focus-visible,
+.btn-secondary:focus-visible,
+.tiny-btn:focus-visible,
+.btn-ghost:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+.card-wrap:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────
+   Honour prefers-reduced-motion by collapsing animation/transition
+   durations near-zero. Explicit `animation: none` on the looping pulse,
+   glow, and dots loops prevents the degenerate "stuck on frame 0" look. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .phase-pill .pip,
+  .card-wrap.glow,
+  .ai-thinking-banner::after {
+    animation: none !important;
+  }
 }

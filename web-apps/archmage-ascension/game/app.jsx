@@ -4,6 +4,7 @@
 // ════════════════════════════════════════════════════════════════
 
 const { useReducer, useEffect, useRef, useState, useCallback } = React;
+const SAVE_KEY = 'aa:saved-duel:v1';
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "connector": "bloom-soft",
@@ -13,6 +14,18 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "tableTone": "violet"
 }/*EDITMODE-END*/;
 
+function readSavedGame(){
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const parsed = JSON.parse(raw);
+    return parsed && parsed.phase && parsed.players ? parsed : null;
+  } catch (err) {
+    console.warn('Could not read saved Archmage duel', err);
+    return null;
+  }
+}
+
 function App(){
   const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
   // Fit-to-viewport for landscape mobile
@@ -21,12 +34,22 @@ function App(){
     if (!stage) return;
     const fit = () => {
       const dw = 1440, dh = 900;
-      const sx = window.innerWidth / dw;
-      const sy = window.innerHeight / dh;
-      const s = Math.min(sx, sy);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const sx = vw / dw;
+      const sy = vh / dh;
+      const landscapePhone = vw > vh && vh < 520;
+      const s = landscapePhone ? sx : Math.min(sx, sy);
+      const scaledW = dw * s;
+      const scaledH = dh * s;
       stage.style.transform = `scale(${s})`;
-      stage.style.left = `${Math.max(0, (window.innerWidth  - dw*s)/2)}px`;
-      stage.style.top  = `${Math.max(0, (window.innerHeight - dh*s)/2)}px`;
+      stage.style.left = `${Math.max(0, (vw - scaledW) / 2)}px`;
+      stage.style.top = `${landscapePhone ? 0 : Math.max(0, (vh - scaledH) / 2)}px`;
+      stage.dataset.scale = String(s);
+      document.documentElement.style.setProperty('--aa-stage-scale', s);
+      document.body.classList.toggle('aa-landscape-phone', landscapePhone);
+      document.body.style.minWidth = Math.max(vw, scaledW) + 'px';
+      document.body.style.minHeight = Math.max(vh, scaledH) + 'px';
     };
     fit();
     window.addEventListener('resize', fit);
@@ -47,9 +70,51 @@ function App(){
   const [openingPrompt, setOpeningPrompt] = useState(null);
   const [transfigPrompt, setTransfigPrompt] = useState(null);
   const [fxQueue, setFxQueue] = useState([]);
+  const [savedGame, setSavedGame] = useState(() => readSavedGame());
+  const [installPrompt, setInstallPrompt] = useState(null);
   const fxIdRef = useRef(0);
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  // Capture beforeinstallprompt at App scope so the title screen can surface
+  // an "Install app" button to regular players (Android Chrome). The dev-only
+  // TweaksPanel keeps its own affordance via window.__aaInstallPrompt.
+  useEffect(() => {
+    const onPrompt = (e) => {
+      e.preventDefault();
+      window.__aaInstallPrompt = e;
+      setInstallPrompt(e);
+    };
+    const onInstalled = () => {
+      window.__aaInstallPrompt = null;
+      setInstallPrompt(null);
+    };
+    window.addEventListener('beforeinstallprompt', onPrompt);
+    window.addEventListener('appinstalled', onInstalled);
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onPrompt);
+      window.removeEventListener('appinstalled', onInstalled);
+    };
+  }, []);
+
+  const promptInstall = useCallback(async () => {
+    const p = installPrompt;
+    if (!p) return;
+    p.prompt();
+    try { await p.userChoice; } catch (_) {}
+    window.__aaInstallPrompt = null;
+    setInstallPrompt(null);
+  }, [installPrompt]);
+
+  useEffect(() => {
+    if (!state || state.phase === 'title') return;
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+      setSavedGame(state);
+    } catch (err) {
+      console.warn('Could not save Archmage duel', err);
+    }
+  }, [state]);
 
   // Wrapped dispatch — drives FX based on actions
   const dispatch = useCallback((action) => {
@@ -69,6 +134,21 @@ function App(){
         setTimeout(() => setFxQueue(q => q.filter(f => f.id !== fx.id)), 1500);
       }
     }
+    // Haptic tick on human-driven actions (Android Chrome supports
+    // navigator.vibrate; iOS Safari silently ignores it). Suppressed when
+    // the user prefers reduced motion.
+    if (stateRef.current.currentPlayer === 0 && navigator.vibrate
+        && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches){
+      if (action.type === 'CAST_SPELL') navigator.vibrate(15);
+      else if (action.type === 'LEARN' || action.type === 'EMPOWER') navigator.vibrate([10, 30, 10]);
+      else if (action.type === 'COLLECT_SOURCE' || action.type === 'COLLECT_ARRAY') navigator.vibrate(8);
+    }
+    if (action.type === 'NEW_GAME') setSavedGame(null);
+    if (action.type === 'TO_TITLE') {
+      localStorage.removeItem(SAVE_KEY);
+      setSavedGame(null);
+    }
+    if (action.type === 'LOAD_GAME') setSavedGame(action.state);
     dispatchRaw(action);
   }, []);
 
@@ -214,7 +294,13 @@ function App(){
   if (state.phase === 'title'){
     return (
       <>
-        <window.AATitleScreen onStart={() => dispatch({ type:'NEW_GAME' })}/>
+        <window.AATitleScreen
+          onStart={() => dispatch({ type:'NEW_GAME' })}
+          hasSavedGame={!!savedGame}
+          onResume={() => savedGame && dispatch({ type:'LOAD_GAME', state: savedGame })}
+          canInstall={!!installPrompt}
+          onInstall={promptInstall}
+        />
         <TweaksPanel title="Tweaks">
           <TweakSection label="Card style"/>
           <TweakSelect label="Connector" value={tweaks.connector}

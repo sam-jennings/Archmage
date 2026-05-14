@@ -19,6 +19,9 @@ import '../game/engine.js';
 import '../game/state.js';
 import '../game/ai.js';
 
+// Pointer Events drag controller (replaces HTML5 drag for touch)
+import '../game/drag-controller.js';
+
 // Components, in dependency order — Vite + plugin-react transforms JSX at build
 import '../game/cards-ui.jsx';
 import '../game/spell-tableau.jsx';
