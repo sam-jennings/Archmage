@@ -203,26 +203,81 @@
                 font-size: 0.82rem;
                 letter-spacing: 0.12em;
             }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                margin-bottom: 1.25rem;
+            }
+
+            .container {
+                padding: 0.85rem 0.85rem 1.5rem;
+            }
+
+            .card {
+                padding: 1.1rem;
+                margin-bottom: 1rem;
+            }
 
             .tabs {
-                gap: 0.35rem;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                gap: 0.4rem;
+                padding-bottom: 0.5rem;
+                margin: 0 -0.85rem 1.25rem;
+                padding-left: 0.85rem;
+                padding-right: 0.85rem;
+                scroll-snap-type: x proximity;
+                scrollbar-width: thin;
+                position: relative;
+            }
+
+            .tabs::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .tabs::-webkit-scrollbar-thumb {
+                background: rgba(183, 148, 246, 0.45);
+                border-radius: 4px;
             }
 
             .tab {
-                flex: 1 1 calc(50% - 0.35rem);
-                padding: 0.6rem 0.45rem;
-                font-size: 0.74rem;
-                letter-spacing: 0.02em;
+                flex: 0 0 auto;
+                white-space: nowrap;
+                scroll-snap-align: start;
+                padding: 0.6rem 0.85rem;
+                font-size: 0.78rem;
+                letter-spacing: 0.04em;
+                border-bottom-width: 2px;
+            }
+
+            .spell-combo-example {
+                padding: 0.65rem;
+                margin: 0.5rem 0 0.85rem;
+            }
+
+            .spell-combo-caption {
+                font-size: 0.85rem;
             }
         }
 
         @media (max-width: 420px) {
+            .container {
+                padding: 0.7rem 0.7rem 1.25rem;
+            }
+
             .spell-combo-example {
-                padding: 0.7rem;
+                padding: 0.6rem;
             }
 
             .spell-mini-card {
-                width: clamp(3rem, 22vw, 3.55rem);
+                width: clamp(2.8rem, 21vw, 3.4rem);
+            }
+
+            .card {
+                padding: 0.95rem;
             }
         }
     </style>
@@ -763,13 +818,14 @@
                     <div class="card-icon">📝</div>
                     <h3>Score Calculator</h3>
                     <p><span class="accent-text">Build your Spellbook</span></p>
+                    <p class="score-hint">Add each spell, then read your total below. Tap <strong>Remove</strong> on a row to drop just that spell — <strong>Clear</strong> empties the whole list.</p>
 
                     <div class="score-calculator" id="scoreCalculator">
                         <div class="score-rows" id="scoreRows" aria-live="polite"></div>
 
                         <div class="score-actions">
-                            <button type="button" class="btn-secondary" id="addScoreRow">Add Spell</button>
-                            <button type="button" class="btn-secondary" id="clearScoreRows">Clear</button>
+                            <button type="button" class="btn-primary" id="addScoreRow">+ Add Spell</button>
+                            <button type="button" class="btn-secondary btn-clear" id="clearScoreRows">Clear All</button>
                             <button type="button" class="btn-gold" id="exportScoreToTrials">Export to Trials</button>
                         </div>
 
@@ -1162,9 +1218,9 @@
             });
 
             clearButton.addEventListener('click', function() {
+                if (!scoreCalculator.rows.length) return;
                 scoreCalculator.rows = [];
                 renderScoreRows();
-                addScoreRow();
                 setScoreExportStatus('');
             });
 
@@ -1252,9 +1308,15 @@
                 const rowElement = document.createElement('div');
                 rowElement.className = 'score-row';
                 rowElement.dataset.rowId = String(row.id);
+                rowElement.setAttribute('aria-label', 'Spell ' + (index + 1));
+
+                const indexElement = document.createElement('div');
+                indexElement.className = 'score-row-index';
+                indexElement.setAttribute('aria-hidden', 'true');
+                indexElement.textContent = 'Spell ' + (index + 1);
 
                 const spellLabel = document.createElement('label');
-                spellLabel.className = 'score-field';
+                spellLabel.className = 'score-field score-spell-field';
                 spellLabel.innerHTML = '<span>Spell</span>';
 
                 const spellSelect = document.createElement('select');
@@ -1280,7 +1342,7 @@
 
                 const sizeLabel = document.createElement('label');
                 sizeLabel.className = 'score-field score-size-field';
-                sizeLabel.innerHTML = '<span>Size</span>';
+                sizeLabel.innerHTML = '<span>Components</span>';
 
                 const sizeSelect = document.createElement('select');
                 sizeSelect.className = 'score-size-select';
@@ -1288,7 +1350,7 @@
                 getSizesForSpell(row.spellName).forEach(function(size) {
                     const option = document.createElement('option');
                     option.value = String(size);
-                    option.textContent = size + ' components';
+                    option.textContent = String(size);
                     option.selected = size === row.size;
                     sizeSelect.appendChild(option);
                 });
@@ -1331,7 +1393,7 @@
 
                     const energyValue = document.createElement('div');
                     energyValue.className = 'score-energy-none';
-                    energyValue.textContent = 'Any';
+                    energyValue.textContent = 'Any energy';
                     energyLabel.appendChild(energyValue);
                 }
 
@@ -1343,21 +1405,18 @@
                 removeButton.type = 'button';
                 removeButton.className = 'score-remove';
                 removeButton.setAttribute('aria-label', 'Remove spell ' + (index + 1));
-                removeButton.innerHTML = '&times;';
+                removeButton.setAttribute('title', 'Remove this spell');
+                removeButton.innerHTML = '<span aria-hidden="true">&times;</span><span class="score-remove-label">Remove</span>';
                 removeButton.addEventListener('click', function() {
                     scoreCalculator.rows = scoreCalculator.rows.filter(function(candidate) {
                         return candidate.id !== row.id;
                     });
 
-                    if (!scoreCalculator.rows.length) {
-                        addScoreRow();
-                        return;
-                    }
-
                     renderScoreRows();
                     setScoreExportStatus('');
                 });
 
+                rowElement.appendChild(indexElement);
                 rowElement.appendChild(spellLabel);
                 rowElement.appendChild(sizeLabel);
                 rowElement.appendChild(energyLabel);
@@ -1367,6 +1426,13 @@
 
                 updateScoreRowPoints(rowElement, row);
             });
+
+            if (!scoreCalculator.rows.length) {
+                const empty = document.createElement('div');
+                empty.className = 'score-rows-empty';
+                empty.textContent = 'No spells yet. Tap "+ Add Spell" to begin.';
+                rowsContainer.appendChild(empty);
+            }
 
             updateScoreTotal();
         }
