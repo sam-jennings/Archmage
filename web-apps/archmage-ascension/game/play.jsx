@@ -78,6 +78,8 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
     <div className={`play-root ${state.drought ? 'drought' : ''}`}>
       <TopBar state={state} aiBusy={aiBusy} phaseLabel={phaseLabel} dispatch={dispatch}/>
 
+      <ActionCoach state={state} you={you} isYourTurn={isYourTurn} aiBusy={aiBusy}/>
+
       <div className="table">
         {/* Opponent zone (top) */}
         <OpponentArea archon={archon} state={state} aiBusy={aiBusy}/>
@@ -179,6 +181,36 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
 }
 
 // ── Sub-components ───────────────────────────────────────
+function ActionCoach({ state, you, isYourTurn, aiBusy }){
+  const E = window.AAEngine;
+  const handBest = E.findBestLearnable(you.hand);
+  const spellHint = handBest
+    ? `${window.AATypeLabelUI[handBest.spec.type]} (${handBest.spec.length}) for ${E.spellScore(handBest.spec)} RP is available from hand.`
+    : 'No complete hand pattern yet — collect suits, runs, or matching values.';
+  const castable = you.spellbook.filter(sp => sp.spec.type !== 'ench' && !state.castSpellsThisTurn.includes(sp.id));
+  const phaseCopy = {
+    opening: ['Bind one card', 'Tap a starting component to send it to the Reserve. Keep cards that help make triples, runs, or matching values.'],
+    collection: ['Collect a component', 'Tap the Source for mystery, or tap a face-up Array card that improves your next spell.'],
+    casting: ['Cast learned spells', castable.length ? `You can cast ${castable.length} spell${castable.length === 1 ? '' : 's'} before continuing.` : 'No useful casts remain — continue to Learning.'],
+    learning: ['Shape your grimoire', spellHint],
+    'drought-collection': ['Drought collection', 'The Source is empty. Draw from the released Reserve, then make final improvements.'],
+    'drought-learning': ['Final shaping', spellHint]
+  };
+  const [title, body] = phaseCopy[state.phase] || ['Plan your turn', 'Follow the highlighted cards and controls.'];
+  return (
+    <div className="action-coach">
+      <div>
+        <span className="action-coach-kicker">{isYourTurn ? 'Your move' : aiBusy ? 'Archon thinking' : 'Contest'}</span>
+        <strong>{title}</strong>
+        <span>{body}</span>
+      </div>
+      <div className="action-coach-mini">
+        Source {state.source.length} · Array {state.array.filter(Boolean).length} · Reserve {state.reserve.length}
+      </div>
+    </div>
+  );
+}
+
 function TopBar({ state, aiBusy, phaseLabel, dispatch }){
   const turnText = state.phase === 'opening' ? 'Opening' : `Turn ${Math.max(1,state.turnCount+1)} · ${state.players[state.currentPlayer].name}`;
   return (
@@ -187,6 +219,10 @@ function TopBar({ state, aiBusy, phaseLabel, dispatch }){
       <div className="top-bar-mid">{turnText} · {phaseLabel}</div>
       <div className="top-bar-right">
         <div className="phase-pill"><span className="pip"/> {state.drought ? 'Drought' : 'Active'}</div>
+        <button className="btn-ghost" onClick={() => {
+          const el = document.querySelector('.phase-glossary-panel');
+          if (el) el.classList.toggle('emphasized');
+        }}>Help</button>
         <button className="btn-ghost" onClick={() => {
           if (confirm('Abandon this contest?')) dispatch({ type:'TO_TITLE' });
         }}>Resign</button>
@@ -246,7 +282,7 @@ function ArrayZone({ array, canTake, onTake, transfigPrompt, onTransfigArrayPick
         }}>
           {transfigActive ? 'Pick a card from the Array' : 'The Array'}
         </div>
-        <div className="array-zone">
+        <div className="array-zone" onKeyDown={window.AACardArrowNav}>
           {array.length === 0 && Array.from({length:5}).map((_,i)=>(
             <div key={i} className="array-card-slot empty">drained</div>
           ))}
@@ -352,7 +388,7 @@ function FannedHand({ cards, cauldronSet, lastAcq, canDrag, canSelectForOpening,
   const step = n > 1 ? totalSpread / (n - 1) : 0;
   const center = (n - 1) / 2;
   return (
-    <div className="hand-fan">
+    <div className="hand-fan" onKeyDown={window.AACardArrowNav}>
       {cards.map((c, i) => {
         const off = i - center;
         const angle = off * step;
@@ -499,7 +535,7 @@ function SidePanels({ state, log }){
             </div>
           </div>
         </div>
-        <div className="side-panel" style={{pointerEvents:'auto'}}>
+        <div className="side-panel phase-glossary-panel" style={{pointerEvents:'auto'}}>
           <div className="side-panel-title">Phase Glossary</div>
           <div className="side-panel-body" style={{fontSize:12, color:'var(--ink-dim)', lineHeight:1.5}}>
             <p style={{margin:'0 0 8px'}}><b style={{color:'var(--gold-2)', fontFamily:'var(--display)', letterSpacing:'0.2em', fontSize:10}}>COLLECT</b><br/>Click a card from the Array (face up) or the Source pile (blind).</p>
@@ -530,9 +566,11 @@ function SidePanels({ state, log }){
 // ── Modals ───────────────────────────────────────────────
 function OpeningModal({ you, onPick }){
   const [picked, setPicked] = useState(null);
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   return (
     <div className="modal-overlay">
-      <div className="modal-card">
+      <div className="modal-card" ref={cardRef}>
         <div className="modal-eyebrow">The Opening</div>
         <h3 className="modal-title">Bind one component to the Reserve</h3>
         <p className="modal-tag">Each wizard begins by sacrificing one piece of their starting components — held aside, for now. Choose what you can spare.</p>
@@ -558,6 +596,8 @@ function OpeningModal({ you, onPick }){
 
 function TransfigDiscardModal({ you, need, onPick }){
   const [selected, setSelected] = useState([]);
+  const cardRef = React.useRef(null);
+  window.useAAFocusTrap(cardRef);
   const toggle = (id) => {
     setSelected(prev => {
       if (prev.includes(id)) return prev.filter(x=>x!==id);
@@ -567,7 +607,7 @@ function TransfigDiscardModal({ you, need, onPick }){
   };
   return (
     <div className="modal-overlay">
-      <div className="modal-card">
+      <div className="modal-card" ref={cardRef}>
         <div className="modal-eyebrow">Transfiguration Exchange</div>
         <h3 className="modal-title">Discard {need} component{need>1?'s':''} to the Reserve</h3>
         <p className="modal-tag">In return, you'll claim one component from the Array. Click components to select.</p>

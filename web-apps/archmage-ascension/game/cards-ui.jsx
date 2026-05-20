@@ -89,39 +89,45 @@ function CardBack({ scale = 0.46 }){
   );
 }
 
-// Wrapper card — handles selection, hover, drag, click
+// Wrapper card — handles selection, hover, click, and drag (via the Pointer
+// Events controller in game/drag-controller.js).
+//
+// Drag is opt-in via the `draggable` prop, which sets data-draggable="true"
+// for the controller to find. The controller never starts a drag below the
+// move threshold, so onClick remains the tap-to-toggle path on touch devices.
+//
+// Keyboard a11y: a card with an onClick becomes a focusable role="button"
+// activated by Enter or Space. Arrow-key sibling navigation is handled by
+// the parent container (hand-fan, array-zone) since "next card" is a
+// container-level concept, not a per-card one.
 function Card({
   card, scale = 0.46, connector, art, layout = 'tarot',
   selected, dimmed, glowing, draggable, faceDown,
-  onClick, onDragStart, onDragEnd,
+  onClick,
   className = '', style = {},
   title
 }){
-  const handleDragStart = (e) => {
-    if (!draggable) { e.preventDefault(); return; }
-    e.dataTransfer.setData('text/card-id', card.id);
-    e.dataTransfer.effectAllowed = 'move';
-    // Use a transparent drag image so the original keeps visible while we follow the cursor manually
-    const ghost = document.createElement('div');
-    ghost.style.cssText = 'position:fixed;top:-9999px';
-    document.body.appendChild(ghost);
-    e.dataTransfer.setDragImage(ghost, 0, 0);
-    setTimeout(()=>document.body.removeChild(ghost), 0);
-    onDragStart && onDragStart(e, card);
-  };
-  const handleDragEnd = (e) => {
-    onDragEnd && onDragEnd(e, card);
-  };
+  const label = title || cardLabel(card);
+  const interactive = !!onClick;
+  const handleKeyDown = interactive ? (e) => {
+    if (e.key === 'Enter' || e.key === ' '){
+      e.preventDefault();
+      onClick(e);
+    }
+  } : undefined;
   return (
     <div
       className={`card-wrap ${selected ? 'sel' : ''} ${dimmed ? 'dim' : ''} ${glowing ? 'glow' : ''} ${className}`}
       style={style}
       onClick={onClick}
-      draggable={!!draggable}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      title={title || cardLabel(card)}
+      onKeyDown={handleKeyDown}
+      title={label}
       data-card-id={card?.id}
+      data-draggable={draggable ? 'true' : 'false'}
+      tabIndex={interactive ? 0 : -1}
+      role={interactive ? 'button' : undefined}
+      aria-label={interactive ? label : undefined}
+      aria-pressed={interactive && selected ? true : undefined}
     >
       {faceDown
         ? <CardBack scale={scale}/>
@@ -129,6 +135,61 @@ function Card({
     </div>
   );
 }
+
+// Shared keyboard helper for card containers (hand-fan, array-zone,
+// cauldron-cards): ArrowLeft/ArrowRight moves focus to the prev/next
+// focusable card-wrap within the container. ArrowDown/ArrowUp are aliases
+// so muscle memory works in either orientation. Bind via onKeyDown on the
+// container element.
+function handleCardArrowNav(e){
+  const horiz = e.key === 'ArrowLeft' || e.key === 'ArrowRight';
+  const vert  = e.key === 'ArrowUp'   || e.key === 'ArrowDown';
+  if (!horiz && !vert) return;
+  const focused = document.activeElement;
+  if (!focused || !focused.classList || !focused.classList.contains('card-wrap')) return;
+  const cards = Array.from(e.currentTarget.querySelectorAll('.card-wrap[tabindex="0"]'));
+  const idx = cards.indexOf(focused);
+  if (idx === -1) return;
+  e.preventDefault();
+  const back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+  const next = back ? Math.max(0, idx - 1) : Math.min(cards.length - 1, idx + 1);
+  cards[next]?.focus();
+}
+window.AACardArrowNav = handleCardArrowNav;
+
+// Modal focus trap hook: pass a ref to the container element. On mount,
+// focuses the first focusable descendant. While the container is mounted,
+// Tab and Shift+Tab cycle within it instead of leaking to other page UI.
+// Use for in-game modals where the user must respond before continuing.
+function useAAFocusTrap(ref){
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    // Focus the first focusable element on mount so Enter/Space work
+    // immediately without needing to Tab in first.
+    const first = el.querySelector(FOCUSABLE);
+    first?.focus({ preventScroll: true });
+    const onKey = (e) => {
+      if (e.key !== 'Tab') return;
+      const focusables = Array.from(el.querySelectorAll(FOCUSABLE));
+      if (focusables.length === 0) return;
+      const head = focusables[0];
+      const tail = focusables[focusables.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey && (active === head || !el.contains(active))){
+        e.preventDefault();
+        tail.focus();
+      } else if (!e.shiftKey && (active === tail || !el.contains(active))){
+        e.preventDefault();
+        head.focus();
+      }
+    };
+    el.addEventListener('keydown', onKey);
+    return () => el.removeEventListener('keydown', onKey);
+  }, [ref]);
+}
+window.useAAFocusTrap = useAAFocusTrap;
 
 // A small "deck" stack visual — N cards face down with offset to imply pile depth
 function DeckStack({ count, label, scale = 0.34, faceDown = true, topCard = null, connector, art }){

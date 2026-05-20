@@ -154,6 +154,14 @@ const __TWEAKS_STYLE = `
   .twk-chip>span>i:first-child{box-shadow:none}
   .twk-chip svg{position:absolute;top:6px;left:6px;width:13px;height:13px;
     filter:drop-shadow(0 1px 1px rgba(0,0,0,.3))}
+  .twk-install{width:100%;height:34px;border-radius:8px;background:rgba(245,213,136,.16);
+    color:rgba(41,38,27,.86);border:.5px solid rgba(120,84,22,.18);font-weight:600}
+  @media (max-width:900px) and (orientation:landscape){
+    .twk-panel{left:12px!important;right:12px!important;bottom:max(10px,env(safe-area-inset-bottom))!important;
+      top:auto!important;width:auto;max-height:42vh;border-radius:12px 12px 10px 10px}
+    .twk-body{max-height:calc(42vh - 38px);overflow:auto}
+    .twk-hd{touch-action:none}
+  }
 `;
 
 // ── useTweaks ───────────────────────────────────────────────────────────────
@@ -186,6 +194,8 @@ function useTweaks(defaults) {
 function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
   const [open, setOpen] = React.useState(false);
   const dragRef = React.useRef(null);
+  const installPromptRef = React.useRef(null);
+  const [canInstall, setCanInstall] = React.useState(false);
   // Auto-inject a rail toggle when a <deck-stage> is on the page. The
   // toggle drives the deck's per-viewer _railVisible via window message;
   // state is mirrored from the same localStorage key the deck reads so
@@ -259,6 +269,33 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
     return () => window.removeEventListener('message', onMsg);
   }, []);
 
+  React.useEffect(() => {
+    const onBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      installPromptRef.current = e;
+      setCanInstall(true);
+    };
+    const onInstalled = () => {
+      installPromptRef.current = null;
+      setCanInstall(false);
+    };
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+    window.addEventListener('appinstalled', onInstalled);
+    return () => {
+      window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', onInstalled);
+    };
+  }, []);
+
+  const promptInstall = async () => {
+    const prompt = installPromptRef.current;
+    if (!prompt) return;
+    prompt.prompt();
+    try { await prompt.userChoice; } catch (_) {}
+    installPromptRef.current = null;
+    setCanInstall(false);
+  };
+
   const dismiss = () => {
     setOpen(false);
     window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
@@ -271,19 +308,25 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
     const sx = e.clientX, sy = e.clientY;
     const startRight = window.innerWidth - r.right;
     const startBottom = window.innerHeight - r.bottom;
+    const pointerId = e.pointerId;
+    try { e.currentTarget.setPointerCapture(pointerId); } catch (_) {}
     const move = (ev) => {
+      if (ev.pointerId !== pointerId) return;
       offsetRef.current = {
         x: startRight - (ev.clientX - sx),
         y: startBottom - (ev.clientY - sy),
       };
       clampToViewport();
     };
-    const up = () => {
-      window.removeEventListener('mousemove', move);
-      window.removeEventListener('mouseup', up);
+    const up = (ev) => {
+      if (ev.pointerId !== pointerId) return;
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+      window.removeEventListener('pointercancel', up);
     };
-    window.addEventListener('mousemove', move);
-    window.addEventListener('mouseup', up);
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
   };
 
   if (!open) return null;
@@ -292,14 +335,19 @@ function TweaksPanel({ title = 'Tweaks', noDeckControls = false, children }) {
       <style>{__TWEAKS_STYLE}</style>
       <div ref={dragRef} className="twk-panel" data-noncommentable=""
            style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
-        <div className="twk-hd" onMouseDown={onDragStart}>
+        <div className="twk-hd" onPointerDown={onDragStart}>
           <b>{title}</b>
           <button className="twk-x" aria-label="Close tweaks"
-                  onMouseDown={(e) => e.stopPropagation()}
+                  onPointerDown={(e) => e.stopPropagation()}
                   onClick={dismiss}>✕</button>
         </div>
         <div className="twk-body">
           {children}
+          {canInstall && (
+            <TweakSection label="Install">
+              <button type="button" className="twk-install" onClick={promptInstall}>Install app</button>
+            </TweakSection>
+          )}
           {hasDeckStage && railEnabled && !noDeckControls && (
             <TweakSection label="Deck">
               <TweakToggle label="Thumbnail rail" value={railVisible} onChange={toggleRail} />

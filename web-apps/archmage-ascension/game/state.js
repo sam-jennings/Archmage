@@ -77,6 +77,7 @@
   // ── Action handlers ──────────────────────────────────────
   function reduce(state, action){
     if (action.type === 'NEW_GAME')   return startGame();
+    if (action.type === 'LOAD_GAME')  return action.state || state;
     if (action.type === 'TO_TITLE')   return initialState();
     if (state.phase === PHASE.TITLE)  return state;
     const s = clone(state);
