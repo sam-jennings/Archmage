@@ -28,7 +28,7 @@ function readSavedGame(){
 
 function App(){
   const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
-  // Fit-to-viewport for landscape mobile
+  // Fit-to-viewport scaler — handles landscape phones, portrait mobile, and desktop
   React.useEffect(() => {
     const stage = document.getElementById('stage');
     if (!stage) return;
@@ -38,18 +38,46 @@ function App(){
       const vh = window.innerHeight;
       const sx = vw / dw;
       const sy = vh / dh;
+      // Landscape phone: narrow height, scale to fit width, allow vertical scroll
       const landscapePhone = vw > vh && vh < 520;
-      const s = landscapePhone ? sx : Math.min(sx, sy);
+      // Portrait mobile: scale to fit height, allow horizontal scroll, center viewport
+      const portraitMobile = vh > vw && vw < 600;
+      let s, left, top;
+      if (landscapePhone) {
+        s = sx;
+        left = 0;
+        top = 0;
+      } else if (portraitMobile) {
+        // Scale so height fills the viewport; board scrolls horizontally
+        s = sy;
+        left = 0;
+        top = 0;
+      } else {
+        s = Math.min(sx, sy);
+        const sw = dw * s, sh = dh * s;
+        left = Math.max(0, (vw - sw) / 2);
+        top = Math.max(0, (vh - sh) / 2);
+      }
       const scaledW = dw * s;
       const scaledH = dh * s;
       stage.style.transform = `scale(${s})`;
-      stage.style.left = `${Math.max(0, (vw - scaledW) / 2)}px`;
-      stage.style.top = `${landscapePhone ? 0 : Math.max(0, (vh - scaledH) / 2)}px`;
+      stage.style.left = `${left}px`;
+      stage.style.top = `${top}px`;
       stage.dataset.scale = String(s);
       document.documentElement.style.setProperty('--aa-stage-scale', s);
       document.body.classList.toggle('aa-landscape-phone', landscapePhone);
+      document.body.classList.toggle('aa-portrait-mobile', portraitMobile);
       document.body.style.minWidth = Math.max(vw, scaledW) + 'px';
       document.body.style.minHeight = Math.max(vh, scaledH) + 'px';
+      // For portrait mobile: center the viewport on the middle of the stage so
+      // the array/cauldron (center of board) is visible without scrolling, and
+      // modals (centered in stage) land in the visible area.
+      if (portraitMobile) {
+        requestAnimationFrame(() => {
+          const scrollX = Math.round(Math.max(0, (scaledW - vw) / 2));
+          window.scrollTo({ left: scrollX, top: 0, behavior: 'instant' });
+        });
+      }
     };
     fit();
     window.addEventListener('resize', fit);
