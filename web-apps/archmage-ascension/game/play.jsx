@@ -502,10 +502,7 @@ function SidePanels({ state, log }){
   const you = state.players[0];
   return (
     <>
-      <div style={{
-        position:'absolute', left:14, top:80, width:194, bottom:20,
-        display:'flex', flexDirection:'column', gap:12, pointerEvents:'none', zIndex:3
-      }}>
+      <div className="side-rail side-rail-left">
         <div className="side-panel" style={{pointerEvents:'auto'}}>
           <div className="side-panel-title">Your Status</div>
           <div className="side-panel-body">
@@ -544,10 +541,7 @@ function SidePanels({ state, log }){
           </div>
         </div>
       </div>
-      <div style={{
-        position:'absolute', right:14, top:80, width:194, bottom:20,
-        pointerEvents:'auto'
-      }}>
+      <div className="side-rail side-rail-right">
         <div className="side-panel" style={{height:'100%'}}>
           <div className="side-panel-title">Chronicle</div>
           <div className="side-panel-body" ref={logRef}>

@@ -36,6 +36,12 @@ body.aa-landscape-phone {
   overflow-y: auto;
 }
 
+/* Portrait mobile: stage scaled to fit height, scrolls horizontally */
+body.aa-portrait-mobile {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
 /* ── Fit-to-viewport scaler ─────────────────── */
 .aa-stage {
   position: absolute;
@@ -449,6 +455,22 @@ body.aa-landscape-phone {
   align-self: center;
   padding: 40px 0;
 }
+
+/* Side rails — absolutely positioned left/right panels */
+.side-rail {
+  position: absolute;
+  top: 80px;
+  bottom: 20px;
+  width: 194px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 3;
+  pointer-events: none;
+}
+.side-rail .side-panel { pointer-events: auto; }
+.side-rail-left  { left: 14px; }
+.side-rail-right { right: 14px; pointer-events: auto; }
 
 /* Side panels */
 .side-panel {
@@ -984,34 +1006,35 @@ button {
 }
 
 @media (max-width: 900px), (max-height: 560px) {
-  .action-coach {
-    margin: 8px 16px 0;
-    border-radius: 10px;
-  }
-  .action-coach > div:first-child {
-    display: grid;
-    gap: 3px;
-  }
-  .action-coach-mini { display: none; }
   .title-info-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
 
-/* ── Mobile landscape first-pass layout ──────────────────────── */
-/* Touch-target sizing inside the CSS-transformed stage must compensate for
-   the scale factor so buttons reach 44 viewport-pixels (Apple/Material
-   guideline). --aa-stage-scale is published by app.jsx:fit(). */
+/* ── Mobile landscape layout ──────────────────────────────────
+   Touch-target sizing compensates for the CSS-transform scale so buttons
+   reach 44 viewport-pixels (Apple/Material guideline).
+   Side rails are hidden to give the game board full horizontal space. */
 @media (max-width: 900px) and (orientation: landscape) {
   :root { --aa-tap: calc(44px / var(--aa-stage-scale, 1)); }
+
+  /* Hide side rails — full width goes to the game board */
+  .side-rail { display: none; }
+
   .table {
     gap: 8px;
-    padding: calc(8px + env(safe-area-inset-top)) calc(36px + env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) calc(36px + env(safe-area-inset-left));
+    /* No side-panel padding offset — rails are hidden */
+    padding: calc(8px + env(safe-area-inset-top))
+             calc(24px + env(safe-area-inset-right))
+             calc(8px + env(safe-area-inset-bottom))
+             calc(24px + env(safe-area-inset-left));
   }
   .top-bar { padding: 10px 18px; }
   .top-bar-mid { display: none; }
   .top-bar-right { gap: 8px; }
   .phase-pill { min-height: var(--aa-tap); padding: 6px 12px; }
-  .action-coach { margin: 6px 36px 0; padding: 8px 12px; font-size: 13px; }
+  .action-coach { margin: 6px 24px 0; padding: 8px 12px; font-size: 13px; }
+  .action-coach > div:first-child { display: grid; gap: 3px; }
+  .action-coach-mini { display: none; }
   .center-area { grid-template-columns: 118px 1fr 118px; gap: 10px; min-height: 210px; }
   .array-zone { gap: 8px; padding: 8px 0; }
   .array-zone::before, .array-zone::after { width: 44px; }
@@ -1046,30 +1069,83 @@ button {
   .title-glyph svg { width: 190px; height: 190px; }
 }
 
-@media (orientation: portrait) and (max-width: 768px) {
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 99998;
-    background: radial-gradient(ellipse at 50% 42%, #1a1130 0%, #08051a 70%, #02010a 100%);
+/* ── Portrait mobile layout ──────────────────────────────────
+   Stage is scaled to fit height (sy); user scrolls horizontally.
+   Viewport is initially scrolled to center the board so the
+   array/cauldron is visible without extra panning. */
+@media (orientation: portrait) and (max-width: 600px) {
+  :root { --aa-tap: calc(44px / var(--aa-stage-scale, 1)); }
+
+  /* Compact top bar */
+  .top-bar { padding: 10px 16px; }
+  .top-bar-mid { display: none; }
+  .top-bar-right { gap: 8px; }
+  .phase-pill { min-height: var(--aa-tap); padding: 6px 10px; }
+
+  /* Hide side rails — not enough real estate; status visible via top bar */
+  .side-rail { display: none; }
+
+  /* Remove side-panel padding from table since panels are hidden */
+  .table {
+    padding: calc(8px + env(safe-area-inset-top)) 24px
+             calc(8px + env(safe-area-inset-bottom)) 24px;
+    gap: 8px;
   }
-  body::after {
-    content: '↻ Rotate your device\A Archmage Ascension is tuned for landscape play.';
-    white-space: pre-line;
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    display: grid;
-    place-items: center;
-    padding: 32px;
-    text-align: center;
-    font-family: var(--display);
-    font-size: 18px;
-    line-height: 1.55;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold-2);
+
+  /* Action coach */
+  .action-coach { margin: 6px 24px 0; padding: 8px 12px; font-size: 13px; }
+  .action-coach > div:first-child { display: grid; gap: 3px; }
+  .action-coach-mini { display: none; }
+
+  /* Center area */
+  .center-area { grid-template-columns: 100px 1fr 100px; gap: 10px; min-height: 200px; }
+  .array-zone { gap: 8px; padding: 8px 0; }
+
+  /* Cauldron */
+  .cauldron { min-height: 170px; padding: 12px; gap: 8px; }
+  .cauldron-empty { font-size: 14px; }
+  .cauldron-cards { gap: 4px; }
+  .cauldron-readout { gap: 8px; padding: 6px 10px; }
+
+  /* Hand */
+  .hand-zone { padding: 12px 14px 16px; gap: 6px; }
+  .hand-fan { min-height: 160px; padding-bottom: 2px; }
+  .hand-fan-slot { margin: 0 -32px; }
+
+  /* Opponent */
+  .opponent-area { gap: 12px; padding: 8px 12px; }
+  .opponent-spellbook { gap: 8px; }
+
+  /* Touch targets */
+  .btn-primary, .btn-secondary, .tiny-btn, .btn-ghost,
+  .cauldron-actions button, .modal-actions button, .title-actions button {
+    min-width: var(--aa-tap);
+    min-height: var(--aa-tap);
+    touch-action: manipulation;
+  }
+  .btn-primary  { padding: calc(14px / var(--aa-stage-scale, 1)) calc(28px / var(--aa-stage-scale, 1)); }
+  .btn-secondary { padding: calc(12px / var(--aa-stage-scale, 1)) calc(20px / var(--aa-stage-scale, 1)); }
+  .tiny-btn { padding: calc(12px / var(--aa-stage-scale, 1)) calc(14px / var(--aa-stage-scale, 1)); }
+
+  /* Title screen */
+  .title-content { gap: 20px; transform: scale(0.82); }
+  .title-glyph svg { width: 160px; height: 160px; }
+  .title-tag { font-size: 16px; }
+
+  /* End screen — width capped to visible viewport portion of stage */
+  .end-screen-card {
+    min-width: 0;
+    width: calc(100vw / var(--aa-stage-scale, 1) * 0.9);
+    max-width: 640px;
+    padding: 36px 40px;
+  }
+
+  /* Modal — same viewport-relative width */
+  .modal-card {
+    min-width: 0;
+    width: calc(100vw / var(--aa-stage-scale, 1) * 0.9);
+    max-width: 540px;
+    padding: 28px 32px;
   }
 }
 
