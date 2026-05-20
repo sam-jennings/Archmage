@@ -38,8 +38,9 @@ function App(){
       const vh = window.innerHeight;
       const sx = vw / dw;
       const sy = vh / dh;
-      // Landscape phone: narrow height, scale to fit width, allow vertical scroll
-      const landscapePhone = vw > vh && vh < 520;
+      // Landscape phone: narrow height, scale to fit width, allow vertical scroll.
+      // Threshold 620 covers wide-screen Android phones (e.g. 2400×1080 at DPR 2 = 1200×540 CSS).
+      const landscapePhone = vw > vh && vh < 620;
       // Portrait mobile: scale to fit height, allow horizontal scroll, center viewport
       const portraitMobile = vh > vw && vw < 600;
       let s, left, top;

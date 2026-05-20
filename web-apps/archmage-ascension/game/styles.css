@@ -183,9 +183,11 @@ body.aa-portrait-mobile {
 }
 .btn-ghost-active:hover { color: var(--gold-2); }
 
-/* Mobile-only elements — hidden on desktop, shown on small viewports */
+/* Mobile-only elements — hidden on desktop, shown on phone viewports.
+   Two clauses: landscape phones (wide but short) and portrait phones. */
 .mobile-only { display: none; }
-@media (max-width: 900px) { .mobile-only { display: inline-flex; } }
+@media (max-width: 1300px) and (max-height: 619px) { .mobile-only { display: inline-flex; } }
+@media (orientation: portrait) and (max-width: 600px)  { .mobile-only { display: inline-flex; } }
 
 /* ── Mobile bottom sheet ───────────────────────────────────────────────
    Rendered via a React portal into document.body so position:fixed is
@@ -1124,16 +1126,20 @@ button {
   text-transform: uppercase;
 }
 
-@media (max-width: 900px), (max-height: 560px) {
+@media (max-width: 1300px) and (max-height: 619px), (max-height: 560px) {
   .title-info-row { grid-template-columns: 1fr; gap: 4px; }
 }
 
 
 /* ── Mobile landscape layout ──────────────────────────────────
+   Covers all landscape phones regardless of CSS pixel width:
+   - Small phones (375–667px CSS wide, DPR 3): vw 375–667, vh < 420
+   - Wide Android phones (960–1200px CSS wide, DPR 2–2.5): vw 960–1200, vh < 620
+   max-height: 619px keeps iPads/tablets (vh ≥ 768) unaffected.
    Touch-target sizing compensates for the CSS-transform scale so buttons
    reach 44 viewport-pixels (Apple/Material guideline).
    Side rails are hidden to give the game board full horizontal space. */
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 1300px) and (max-height: 619px) and (orientation: landscape) {
   :root { --aa-tap: calc(44px / var(--aa-stage-scale, 1)); }
 
   /* Hide side rails — full width goes to the game board */
@@ -1150,17 +1156,25 @@ button {
   .top-bar { padding: 10px 18px; }
   .top-bar-mid { display: none; }
   .top-bar-right { gap: 8px; }
-  .phase-pill { min-height: var(--aa-tap); padding: 6px 12px; }
-  .action-coach { margin: 6px 24px 0; padding: 8px 12px; font-size: 13px; }
+  /* Scale-compensated font sizes: target ~13–14 viewport-px at any phone scale */
+  .top-bar-left { font-size: calc(13px / var(--aa-stage-scale, 1)); }
+  .phase-pill { min-height: var(--aa-tap); padding: 6px 12px; font-size: calc(11px / var(--aa-stage-scale, 1)); }
+  .action-coach {
+    margin: 6px 24px 0;
+    padding: 10px 16px;
+    font-size: calc(14px / var(--aa-stage-scale, 1));
+  }
+  .action-coach strong { font-size: calc(15px / var(--aa-stage-scale, 1)); }
   .action-coach > div:first-child { display: grid; gap: 3px; }
   .action-coach-mini { display: none; }
+  .hand-label-name { font-size: calc(14px / var(--aa-stage-scale, 1)); }
   .center-area { grid-template-columns: 118px 1fr 118px; gap: 10px; min-height: 210px; }
   .array-zone { gap: 8px; padding: 8px 0; }
   .array-zone::before, .array-zone::after { width: 44px; }
   .cauldron { min-height: 178px; padding: 12px; gap: 8px; }
-  .cauldron-empty { font-size: 14px; line-height: 1.35; }
+  .cauldron-empty { font-size: calc(15px / var(--aa-stage-scale, 1)); line-height: 1.4; }
   .cauldron-cards { gap: 4px; }
-  .cauldron-readout { gap: 10px; padding: 6px 10px; }
+  .cauldron-readout { gap: 10px; padding: 6px 10px; font-size: calc(13px / var(--aa-stage-scale, 1)); }
   .cauldron-actions { gap: 8px; }
   .hand-zone { padding: 12px 14px 16px; gap: 6px; }
   .hand-fan { min-height: 168px; padding-bottom: 2px; }
@@ -1168,6 +1182,8 @@ button {
   .hand-fan-slot:hover .card-wrap { transform: rotate(0deg) translateY(-14px) scale(1.04); }
   .opponent-area { gap: 12px; padding: 8px 12px; }
   .opponent-spellbook { gap: 8px; }
+  .status-key { font-size: calc(12px / var(--aa-stage-scale, 1)); }
+  .status-val { font-size: calc(13px / var(--aa-stage-scale, 1)); }
   .side-panel-title { padding: 8px 10px 7px; }
   .side-panel-body { padding: 8px; }
   .btn-primary,
