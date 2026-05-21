@@ -44,9 +44,8 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
   const handleRemoveFromCauldron = (cid) => setCauldronIds(cauldronIds.filter(x => x !== cid));
   const handleClearCauldron = () => { setCauldronIds([]); setEmpoweringSpellId(null); };
 
-  const handleLearn = () => {
-    // Engine auto-classifies cauldron contents — see learnSpell in state.js.
-    dispatch({ type: 'LEARN', cards: cauldronIds });
+  const handleLearn = ({ type: spellType } = {}) => {
+    dispatch({ type: 'LEARN', spellType, cards: cauldronIds });
     setCauldronIds([]); setEmpoweringSpellId(null);
   };
   const handleEmpowerCommit = () => {

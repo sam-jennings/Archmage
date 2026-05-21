@@ -40,9 +40,19 @@
   function planCasting(state){
     const player = state.players[state.currentPlayer];
     const cap = player.unlimited ? Infinity : player.counters;
-    const available = player.spellbook.filter(sp =>
-      sp.spec.type !== 'ench' && !state.castSpellsThisTurn.includes(sp.id)
-    );
+    const arrayLeft = state.array.filter(Boolean).length;
+    const available = player.spellbook.filter(sp => {
+      if (sp.spec.type === 'ench') return false;
+      if (state.castSpellsThisTurn.includes(sp.id)) return false;
+      // Trans/perf require an Array exchange — skip if infeasible (e.g. drought
+      // dissolved the Array, or the hand can't cover the discard cost).
+      if (sp.spec.type === 'trans' || sp.spec.type === 'perf'){
+        if (arrayLeft === 0) return false;
+        const discardCount = sp.cards.length === 3 ? 2 : 1;
+        if (player.hand.length < discardCount) return false;
+      }
+      return true;
+    });
     // Order: perf > conj (more cards = more draw) > trans (last because it discards)
     available.sort((a,b)=>{
       const order = { perf:0, conj:1, trans:2 };
