@@ -283,7 +283,7 @@
     const cards = action.cards.map(id => player.hand.find(c=>c.id===id)).filter(Boolean);
     if (cards.length !== action.cards.length) return s;
     // Validate
-    let spec = action.type ? E.classifyAs(cards, action.type) : E.classify(cards);
+    let spec = action.spellType ? E.classifyAs(cards, action.spellType) : E.classify(cards);
     if (!spec){ s.log.push(logEntry('Invalid spell pattern.','warn')); return s; }
     // Remove from hand
     const ids = new Set(cards.map(c=>c.id));
