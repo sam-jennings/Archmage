@@ -259,6 +259,15 @@ function App(){
     setAiBusy(true);
     const baseDelay = 700 / TWEAK_DEFAULTS.aiSpeed;
     const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    // After a dispatch that changes the phase, React re-renders asynchronously;
+    // stateRef.current isn't updated until the next render flushes. Poll until
+    // the expected transition shows up so the next phase loop sees fresh state.
+    const waitForPhaseAway = async (fromPhase, timeout = 2000) => {
+      const start = Date.now();
+      while (stateRef.current.phase === fromPhase && Date.now() - start < timeout){
+        await sleep(20);
+      }
+    };
     try {
       // Phase: collection
       while (stateRef.current.currentPlayer === 1 && stateRef.current.phase === 'collection'){
@@ -266,6 +275,7 @@ function App(){
         const action = window.AAAi.chooseCollection(stateRef.current);
         if (action) dispatch(action); else break;
       }
+      await waitForPhaseAway('collection');
       // drought collection auto-handled (advance into drought-learning happens on END_LEARNING)
       // Phase: casting
       while (stateRef.current.currentPlayer === 1 && stateRef.current.phase === 'casting' && !stateRef.current.pendingTransfig){
@@ -284,6 +294,7 @@ function App(){
         let safety = 30;
         while (stateRef.current.pendingTransfig && safety-- > 0){ await sleep(120); }
       }
+      await waitForPhaseAway('casting');
       // Phase: learning (or drought-learning)
       while (stateRef.current.currentPlayer === 1 &&
              (stateRef.current.phase === 'learning' || stateRef.current.phase === 'drought-learning')){
