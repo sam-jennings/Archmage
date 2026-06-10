@@ -63,6 +63,8 @@ Archmage Ascension/
 ├── art/                                    ← raw art assets (energy artwork, card layers, ref boards, design system zip)
 │
 ├── web-apps/                               ← player-facing tools
+│   ├── game/                               ← interactive game (2-7 players, hot-seat + AI, desktop/mobile; no build step)
+│   ├── archmage-ascension/                 ← legacy 2-player React prototype (superseded by game/)
 │   ├── archmage-reference.html             ← quick reference
 │   ├── trials-multiplayer.html             ← trials simulator
 │   └── archmage-theme.css
@@ -118,5 +120,6 @@ Earlier project documents (`md structure files/`, `Issues/`, the original `PROJE
 - **Scoring:** single source — `rulebook/Scoring System Reference.md`. Designer optimiser at `tools/optimiser/` references it for balance analysis only.
 - **Visual system:** single source — `card-design/VISUAL_SYSTEM.md`.
 - **Card renderer:** single source — `card-design/playtable.html` (mobile variant: `playtable-mobile.html`).
+- **Interactive game:** single source — `web-apps/game/` (2026-06-10 rebuild; `web-apps/archmage-ascension/` is the superseded prototype).
 - **Pitch:** single source — `pitch/archmage_pitch_sheet.html`.
 - **Story/lore:** single source — `rulebook/Story.md`.
