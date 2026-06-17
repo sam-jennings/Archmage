@@ -54,11 +54,16 @@ Archmage Ascension/
 ├── card-design/                            ← card visuals (HTML renderer + assets)
 │   ├── playtable.html                      ← main card renderer
 │   ├── playtable-mobile.html               ← mobile variant
-│   ├── VISUAL_SYSTEM.md                    ← visual design system
+│   ├── VISUAL_SYSTEM.md                    ← visual design system (single source)
 │   ├── art/                                ← energy art (svg generators + assets)
 │   ├── connectors/                         ← connection-strip variants
 │   ├── lib/                                ← cards.js + tokens.css
-│   └── export-cs3/                         ← Component Studio export
+│   ├── export-cs3/                         ← Component Studio export (node project)
+│   ├── export-printenbind/                 ← print-ready output (final bundles only; per-card PDFs gitignored)
+│   ├── printenbind/                        ← printenbind session working files
+│   ├── generated/                          ← generated review/style/production boards
+│   ├── incoming/                           ← incoming layout sandboxes
+│   └── snapshots/                          ← dated version snapshots (history)
 │
 ├── art/                                    ← raw art assets (energy artwork, card layers, ref boards, design system zip)
 │
@@ -71,10 +76,22 @@ Archmage Ascension/
 │   └── archmage_pitch_sheet.html
 │
 ├── tools/                                  ← designer-only analysis tools
-│   └── optimiser/                          ← spellbook scoring optimiser (designer use only — NOT for player reference)
+│   ├── optimiser/                          ← spellbook scoring optimiser (designer use only — NOT for player reference)
+│   ├── economy_model.xlsx                  ← economy/balance model
+│   └── aa-idea-refinery-eval-review.html   ← idea-refinery eval review
+│
+├── expansion/                              ← parked expansion concepts (do not develop until Stage 4+)
+│   ├── EXPANSION_INDEX.md                  ← index and reading order
+│   ├── Expansion Concepts - Player Interaction.md  ← master overview: A (Living Array), B (Spell Duels), C (Conclave)
+│   ├── Expansion B - Spell Duels (Deep Dive).md    ← frequency-driven clash chassis
+│   ├── Expansion B - Spell Duels Alternative (Resonance Gambits).md  ← safer baseline effects (recommended starting point)
+│   └── Expansion B - Spell Duels (Bold Effect Directions).md         ← bolder effect directions (Elemental Powers, Marks, Bend Magic)
 │
 ├── course-knowledge/                       ← read-only design course material
-└── skills/                                 ← .skill files (archmage-card-designer, archmage-rulebook-manager, board-game-designer, playtest-organiser)
+├── skills/                                 ← .skill files (10): six aa-* state skills + archmage-card-designer, archmage-rulebook-manager, board-game-designer, playtest-organiser
+│
+├── _review/                                ← unresolved work awaiting a decision; each item mirrored by a BACKLOG.md entry (should trend to empty)
+└── _archive/                               ← superseded material kept for reference (gitignored; only grows)
 ```
 
 **Note on `art/` vs `card-design/`:** `card-design/` is the live HTML renderer + JS art generators that produce cards on the fly. `art/` holds raw imagery — reference photos, energy artwork specs, card layer PNGs, the design system zip, and any Claude-generated card boards. The renderer references `card-design/art/assets/` for live use; `art/` is the off-line library.
@@ -83,7 +100,7 @@ Archmage Ascension/
 
 ## What this project's skills do
 
-**Project-state skills** (planned — see `structure-and-skills-plan.md` if it still exists, otherwise the plan now lives in this file's history):
+**Project-state skills** (built — live in `skills/`):
 - `aa-state-keeper` — keeps STATE.md current
 - `aa-next-action` — answers "what should I do next?"
 - `aa-backlog-curator` — maintains BACKLOG.md
@@ -105,18 +122,4 @@ Archmage Ascension/
 3. **Apply stage-aware filtering.** In Stage 3, content/art/pitch work is deferred. Surface this if Sam asks for it.
 4. **Apply the course's anti-drift rules** (Game Design Execution System §9). Especially: don't add content to fix boredom, don't polish what's still being redesigned, don't change three things at once.
 5. **Update STATE/BACKLOG/DECISIONS/PLAYTESTS as a side-effect.** Sam shouldn't have to ask.
-6. **Don't surface designer-only tools (e.g. `tools/optimiser/`) in player-facing material.**
-
----
-
-## Reality check (resolved 2026-05-02)
-
-Earlier project documents (`md structure files/`, `Issues/`, the original `PROJECT.md`) tracked source-of-truth ambiguities that no longer exist. For the record:
-
-- **Rulebook:** single source — `rulebook/Archmage Ascension - Complete Rulebook.md` (v2.8). Older versions are no longer kept in this folder.
-- **Glossary:** single source — `rulebook/GLOSSARY.md`.
-- **Scoring:** single source — `rulebook/Scoring System Reference.md`. Designer optimiser at `tools/optimiser/` references it for balance analysis only.
-- **Visual system:** single source — `card-design/VISUAL_SYSTEM.md`.
-- **Card renderer:** single source — `card-design/playtable.html` (mobile variant: `playtable-mobile.html`).
-- **Pitch:** single source — `pitch/archmage_pitch_sheet.html`.
-- **Story/lore:** single source — `rulebook/Story.md`.
+6. **Don't surface designer-only tools (e.g. `tools/optimiser/`) in player-faci

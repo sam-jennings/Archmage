@@ -10,6 +10,37 @@
 // embedded as private local functions and only AA['mixed'] is registered.
 (function(){
   const AA = window.AA_ART = window.AA_ART || {};
+  const uid = (window.ArchmageCards && window.ArchmageCards.uid) || (p => (p||'c')+Math.random().toString(36).slice(2,8));
+
+  // ── Painterly helpers (shared by all Mixed renderers) ──
+  // Tapered ribbon: a FILLED path through pts whose width runs w0 (start) -> w1
+  // (end). Lets strokes thin out along their length — e.g. vortex arms being
+  // drawn into a centre — which a plain <line>/<polyline> can never do.
+  function ribbon(pts, w0, w1){
+    const n = pts.length; if (n < 2) return '';
+    const L = [], R = [];
+    for (let i = 0; i < n; i++){
+      const t = i/(n-1);
+      const hw = (w0 + (w1-w0)*t) / 2;
+      const a = pts[Math.max(0,i-1)], b = pts[Math.min(n-1,i+1)];
+      let dx = b[0]-a[0], dy = b[1]-a[1]; const m = Math.hypot(dx,dy)||1; dx/=m; dy/=m;
+      const nx = -dy, ny = dx;
+      L.push([pts[i][0]+nx*hw, pts[i][1]+ny*hw]);
+      R.push([pts[i][0]-nx*hw, pts[i][1]-ny*hw]);
+    }
+    let d = 'M'+L[0][0].toFixed(1)+','+L[0][1].toFixed(1);
+    for (let i=1;i<n;i++) d += 'L'+L[i][0].toFixed(1)+','+L[i][1].toFixed(1);
+    for (let i=n-1;i>=0;i--) d += 'L'+R[i][0].toFixed(1)+','+R[i][1].toFixed(1);
+    return d + 'Z';
+  }
+  // Spiral arc points around (ox,oy): radius rad0 -> rad1 as angle sweeps a0 -> a0+sweep.
+  function spiralPts(ox, oy, rad0, rad1, a0, sweep, n){
+    const pts = [];
+    for (let k=0;k<=n;k++){ const t=k/n; const rad=rad0+(rad1-rad0)*t; const ang=a0+sweep*t;
+      pts.push([ox+Math.cos(ang)*rad, oy+Math.sin(ang)*rad]); }
+    return pts;
+  }
+
 
   const renderRitual = function(elem, cx, cy, artR, e){
       const r = artR;
@@ -20,24 +51,47 @@
       art += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${e.m}" stroke-width="0.9" opacity="0.55"/>`;
 
       if (elem === 'radiance'){
-        // RADIANCE — emissive / outward projection
-        // 16 rays alternating primary (long, bright) and secondary (shorter, dim)
-        for (let a = 0; a < 16; a++){
-          const angle = a * Math.PI / 8;
-          const isPrimary = a % 2 === 0;
-          const r1 = isPrimary ? r*0.44 : r*0.50;
-          const r2 = isPrimary ? r*1.12 : r*0.88;
-          const sw = isPrimary ? 1.3 : 0.65;
-          const op = isPrimary ? 0.80 : 0.38;
-          art += `<line x1="${cx+Math.cos(angle)*r1}" y1="${cy+Math.sin(angle)*r1}" x2="${cx+Math.cos(angle)*r2}" y2="${cy+Math.sin(angle)*r2}" stroke="${e.b}" stroke-width="${sw}" stroke-linecap="round" opacity="${op}"/>`;
+        // RADIANCE — pushed hard: needle rays as tapered ribbons, two-pass
+        // bloom, filigree of strongly varied weight, big cross-flares.
+        const gid='rd-'+uid('g'), bid='rdg-'+uid('b');
+        art += `<defs>`
+          + `<filter id="${gid}-b1" x="-120%" y="-120%" width="340%" height="340%"><feGaussianBlur stdDeviation="${(r*0.10).toFixed(2)}"/></filter>`
+          + `<filter id="${gid}-b2" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="${(r*0.03).toFixed(2)}"/></filter>`
+          + `</defs>`;
+        art += `<use href="#${bid}" filter="url(#${gid}-b1)" opacity="0.5"/>`;
+        art += `<use href="#${bid}" filter="url(#${gid}-b2)" opacity="0.7"/>`;
+        art += `<g id="${bid}">`;
+
+        // Filigree with strongly varied weight: thick dim bands + hair-thin bright rings.
+        const rr=[[1.06,r*0.06,e.dim,0.5],[0.98,1.0,e.m,0.7],[0.92,0.4,e.b,0.55],
+          [0.80,r*0.04,e.m,0.32],[0.72,0.4,e.b,0.6],[0.60,r*0.03,e.m,0.4],
+          [0.50,0.4,e.b,0.6],[0.40,1.2,e.m,0.45]];
+        rr.forEach(([rad,sw,col,op])=>{ art += `<circle cx="${cx}" cy="${cy}" r="${(r*rad).toFixed(1)}" fill="none" stroke="${col}" stroke-width="${sw.toFixed(2)}" opacity="${op}"/>`; });
+        for (let i=0;i<60;i++){ const a=i*Math.PI*2/60; art += `<circle cx="${(cx+Math.cos(a)*r*0.86).toFixed(1)}" cy="${(cy+Math.sin(a)*r*0.86).toFixed(1)}" r="${(r*0.008).toFixed(2)}" fill="${e.b}" opacity="0.55"/>`; }
+
+        // Needle rays — tapered ribbons (thick base -> point tip).
+        const RAYS=32;
+        for (let i=0;i<RAYS;i++){
+          const ang=i*Math.PI*2/RAYS;
+          const cardinal=i%8===0, diag=i%4===0 && !cardinal;
+          const rIn=r*0.40, rOut=cardinal?r*1.30:(diag?r*1.10:r*0.92);
+          const w0=cardinal?r*0.05:(diag?r*0.03:r*0.018);
+          const pts=[[cx+Math.cos(ang)*rIn,cy+Math.sin(ang)*rIn],
+                     [cx+Math.cos(ang)*(rIn+rOut)/2,cy+Math.sin(ang)*(rIn+rOut)/2],
+                     [cx+Math.cos(ang)*rOut,cy+Math.sin(ang)*rOut]];
+          art += `<path d="${ribbon(pts,w0,0.2)}" fill="${e.b}" opacity="${cardinal?0.95:(diag?0.7:0.4)}"/>`;
         }
-        // Concentric corona rings — progressively tighter and brighter toward centre
-        art += `<circle cx="${cx}" cy="${cy}" r="${r*0.78}" fill="none" stroke="${e.m}" stroke-width="0.7" opacity="0.28"/>`;
-        art += `<circle cx="${cx}" cy="${cy}" r="${r*0.58}" fill="none" stroke="${e.m}" stroke-width="0.85" opacity="0.40"/>`;
-        art += `<circle cx="${cx}" cy="${cy}" r="${r*0.40}" fill="none" stroke="${e.b}" stroke-width="0.9" opacity="0.48"/>`;
-        // Inner medallion
+
+        // Cross-point flares (large tapered diamonds) at the four cardinals.
+        const cd=[[0,-1],[1,0],[0,1],[-1,0]];
+        cd.forEach(([dx,dy])=>{ const px=-dy,py=dx;
+          const tX=cx+dx*r*1.42,tY=cy+dy*r*1.42,bX=cx+dx*r*0.18,bY=cy+dy*r*0.18,mX=cx+dx*r*0.70,mY=cy+dy*r*0.70,w=r*0.06;
+          art += `<polygon points="${tX.toFixed(1)},${tY.toFixed(1)} ${(mX+px*w).toFixed(1)},${(mY+py*w).toFixed(1)} ${bX.toFixed(1)},${bY.toFixed(1)} ${(mX-px*w).toFixed(1)},${(mY-py*w).toFixed(1)}" fill="${e.b}" opacity="0.9"/>`; });
+        art += `</g>`;
+
+        // Medallion (crisp, on top).
         art += `<circle cx="${cx}" cy="${cy}" r="${r*0.26}" fill="${e.bg2}"/>`;
-        art += `<circle cx="${cx}" cy="${cy}" r="${r*0.26}" fill="none" stroke="${e.b}" stroke-width="1.2" opacity="0.72"/>`;
+        art += `<circle cx="${cx}" cy="${cy}" r="${r*0.26}" fill="none" stroke="${e.b}" stroke-width="1.0" opacity="0.9"/>`;
 
       } else if (elem === 'void'){
         // VOID — absorptive / inward convergence

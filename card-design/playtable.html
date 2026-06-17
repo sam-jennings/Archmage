@@ -566,6 +566,53 @@
 
   .hidden { display:none !important; }
 
+  /* ── Print proof (printenbind.nl spec: 62×88mm trim, 3mm bleed, 5mm safe) ── */
+  .print-proof-wrap {
+    display:flex; flex-wrap:wrap; gap:30px; align-items:flex-start;
+    justify-content:center; padding:14px;
+  }
+  .print-unit { display:flex; flex-direction:column; align-items:center; gap:7px; }
+  .print-unit-label {
+    font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+    color:#cfc6ae; font-weight:600;
+  }
+  .print-unit-sub { font-size:9px; color:#8d8470; letter-spacing:.08em; }
+  .print-paper {
+    position:relative; width:68mm; height:94mm; background:#ddd8cc;
+    box-shadow:0 3px 18px rgba(0,0,0,.55);
+  }
+  .print-paper::before { /* bleed extent = paper edge */
+    content:''; position:absolute; inset:0; z-index:5;
+    border:1px dashed rgba(220,60,80,.85); pointer-events:none;
+  }
+  .print-card-host { position:absolute; left:3mm; top:3mm; width:62mm; height:88mm; }
+  .print-card-host svg, .print-raster { width:62mm; height:88mm; display:block; }
+  .print-trim {
+    position:absolute; left:3mm; top:3mm; width:62mm; height:88mm; z-index:5;
+    border:1px solid rgba(255,255,255,.9); pointer-events:none;
+  }
+  .print-safe {
+    position:absolute; left:8mm; top:8mm; width:52mm; height:78mm; z-index:5;
+    border:1px dashed rgba(80,220,120,.85); pointer-events:none;
+  }
+  .print-tag {
+    position:absolute; z-index:6; font-size:7.5px; letter-spacing:.06em;
+    padding:1px 4px; border-radius:3px; pointer-events:none; font-weight:600;
+  }
+  .tag-bleed { right:1mm; top:0.2mm; color:#ffd7dd; background:rgba(150,30,45,.85); }
+  .tag-trim  { left:4mm;  top:3.4mm; color:#222; background:rgba(255,255,255,.82); }
+  .tag-safe  { left:9mm;  top:8.4mm; color:#dcffe8; background:rgba(20,110,55,.85); }
+  .print-legend {
+    flex-basis:100%; max-width:560px; margin:4px auto 0; font-size:10.5px;
+    line-height:1.65; color:#b9b09a; background:rgba(0,0,0,.32);
+    border:1px solid rgba(120,104,70,.4); border-radius:8px; padding:10px 14px;
+  }
+  .print-legend b { color:#e6dcc0; }
+  .print-legend .swatch {
+    display:inline-block; width:14px; height:0; border-top:2px solid;
+    vertical-align:middle; margin-right:5px;
+  }
+
   #diag {
     position:fixed; top:10px; left:10px; right:10px; z-index:2000;
     background:#2a0a0a; border:1px solid #e8304a; color:#ffcfcf;
@@ -606,6 +653,7 @@
 <script src="art/emblem.js"></script>
 <script src="art/relic.js"></script>
 <script src="art/mixed.js"></script>
+<script src="art/arcana.js"></script>
 <script src="art/echo.js"></script>
 
 <script>
@@ -634,9 +682,9 @@
   if (!ALL_CONNECTORS.length) showDiag('No connectors registered.');
   if (!ALL_ART.length) showDiag('No art variants registered.');
 
-  var ENERGY_ORDER = ['radiance','void','flux','aether'];
+  var ENERGY_ORDER = ['radiance','void','flux','aether','echo'];
   var SURFACES = ['velvet','obsidian','wood','parchment'];
-  var SCENES = ['single','grid','hand','strip'];
+  var SCENES = ['single','grid','hand','strip','print'];
   var CARD_PRESETS = ['focus-sequence','same-value','same-current-mixed','mixed-currents','specific-hand'];
 
   var state = {
@@ -655,6 +703,8 @@
     fanSpread: 13,
     rowGap: 14,
     singleArtScale: 1,
+    printZoom: 1,
+    printDpi: 300,
     customHand: [
       { e:'radiance', v:7 },
       { e:'radiance', v:8 },
@@ -691,7 +741,8 @@
         radiance: chosenArt,
         void: chosenArt,
         flux: chosenArt,
-        aether: chosenArt
+        aether: chosenArt,
+        echo: chosenArt
       },
       layoutFx: {
         connectorPlacement: 'same',
@@ -722,10 +773,7 @@
   function syncVariantArts(variant, art){
     variant.art = art;
     if (!variant.usePerSuitArt) {
-      variant.artBySuit.radiance = art;
-      variant.artBySuit.void = art;
-      variant.artBySuit.flux = art;
-      variant.artBySuit.aether = art;
+      ENERGY_ORDER.forEach(function(suit){ variant.artBySuit[suit] = art; });
     }
   }
   function effectiveArtForCard(variant, card){
@@ -763,18 +811,18 @@
       rerender();
     });
   }
+  function copyArtBySuit(src){
+    var out = {};
+    ENERGY_ORDER.forEach(function(suit){ out[suit] = src[suit] || src.radiance; });
+    return out;
+  }
   function copyPrimaryToSecondary(){
     state.secondary = {
       connector: state.primary.connector,
       art: state.primary.art,
       layout: state.primary.layout,
       usePerSuitArt: state.primary.usePerSuitArt,
-      artBySuit: {
-        radiance: state.primary.artBySuit.radiance,
-        void: state.primary.artBySuit.void,
-        flux: state.primary.artBySuit.flux,
-        aether: state.primary.artBySuit.aether
-      },
+      artBySuit: copyArtBySuit(state.primary.artBySuit),
       layoutFx: copyLayoutFx(state.primary.layoutFx)
     };
   }
@@ -830,6 +878,7 @@
   function getSceneCards(){
     var cards = generateCards();
     if (state.scene === 'single') return [cards[0]];
+    if (state.scene === 'print') return cards.slice(0, Math.min(3, cards.length));
     if (state.scene === 'strip') return cards.slice(0, Math.min(5, cards.length));
     return cards; // grid and hand use full card count
   }
@@ -869,7 +918,88 @@
     return outer;
   }
 
+  // ── Print proof (printenbind.nl spec) ────────────────────────────────
+  // Trim 62×88mm, 3mm bleed (= 68×94mm paper), text/important elements
+  // ≥5mm from edge, frames ≥4mm wide, min 300dpi (732×1039px at trim).
+  function cardSvgHtml(card, variant, scale){
+    var effectiveArt = effectiveArtForCard(variant, card);
+    return (card.e === 'wild' || card.v === 0)
+      ? window.ArchmageCards.makeWildCard({ scale: scale, connector: variant.connector, art: variant.art, layout: variant.layout, layoutFx: variant.layoutFx })
+      : window.ArchmageCards.makeCard(card.v, card.e, { scale: scale, connector: variant.connector, art: effectiveArt, layout: variant.layout, layoutFx: variant.layoutFx });
+  }
+
+  function rasterizeCard(card, variant, dpi, imgEl){
+    var pxW = Math.round(62 / 25.4 * dpi);
+    var pxH = Math.round(88 / 25.4 * dpi);
+    var svgStr = cardSvgHtml(card, variant, pxW / 252);
+    var blob = new Blob([svgStr], { type: 'image/svg+xml;charset=utf-8' });
+    var url = URL.createObjectURL(blob);
+    var im = new Image();
+    im.onload = function(){
+      try {
+        var canvas = document.createElement('canvas');
+        canvas.width = pxW; canvas.height = pxH;
+        canvas.getContext('2d').drawImage(im, 0, 0, pxW, pxH);
+        imgEl.src = canvas.toDataURL('image/png');
+        imgEl.title = pxW + ' × ' + pxH + ' px @ ' + dpi + ' dpi';
+      } catch (err) { showDiag('Raster proof failed: ' + err); }
+      URL.revokeObjectURL(url);
+    };
+    im.onerror = function(){ URL.revokeObjectURL(url); showDiag('Raster proof: SVG failed to load.'); };
+    im.src = url;
+  }
+
+  function buildPrintUnit(card, variant, panelKey, label, dpi){
+    var unit = el('div', { class:'print-unit' });
+    unit.appendChild(el('div', { class:'print-unit-label', text: label }));
+    var paper = el('div', { class:'print-paper' });
+    var cardHost = el('div', { class:'print-card-host' });
+    if (dpi) {
+      var img = document.createElement('img');
+      img.className = 'print-raster';
+      img.alt = 'raster proof';
+      rasterizeCard(card, variant, dpi, img);
+      cardHost.appendChild(img);
+    } else {
+      cardHost.innerHTML = cardSvgHtml(card, variant, 1);
+      var svg = cardHost.querySelector('svg');
+      if (svg) { svg.setAttribute('width', '62mm'); svg.setAttribute('height', '88mm'); svg.style.display = 'block'; }
+    }
+    cardHost.addEventListener('mouseenter', function(){ setInspect(card, panelKey); });
+    paper.appendChild(cardHost);
+    paper.appendChild(el('div', { class:'print-trim' }));
+    paper.appendChild(el('div', { class:'print-safe' }));
+    paper.appendChild(el('div', { class:'print-tag tag-bleed', text:'3mm bleed' }));
+    paper.appendChild(el('div', { class:'print-tag tag-trim', text:'trim' }));
+    paper.appendChild(el('div', { class:'print-tag tag-safe', text:'5mm safe' }));
+    unit.appendChild(paper);
+    var pxW = dpi ? Math.round(62 / 25.4 * dpi) : null;
+    unit.appendChild(el('div', { class:'print-unit-sub', text: dpi
+      ? cardLabel(card) + ' · ' + pxW + '×' + Math.round(88 / 25.4 * dpi) + ' px raster'
+      : cardLabel(card) + ' · 62 × 88 mm vector' }));
+    return unit;
+  }
+
+  function buildPrintProof(cards, variant, panelKey){
+    var host = el('div', { class:'print-proof-wrap' });
+    host.style.zoom = state.printZoom;
+    cards.forEach(function(card){
+      host.appendChild(buildPrintUnit(card, variant, panelKey, 'Vector — as submitted', null));
+    });
+    host.appendChild(buildPrintUnit(cards[0], variant, panelKey, state.printDpi + ' dpi raster — print quality check', state.printDpi));
+    var legend = el('div', { class:'print-legend' });
+    legend.innerHTML =
+      '<div><span class="swatch" style="border-color:rgba(220,60,80,.85);border-top-style:dashed"></span><b>Bleed (3mm)</b> — paper edge before cutting. Artwork currently stops at the trim line, so printenbind will artificially enlarge by 1mm; the visible cream margin is what that compensates for.</div>'
+      + '<div><span class="swatch" style="border-color:rgba(255,255,255,.9)"></span><b>Trim (62 × 88 mm)</b> — final card edge after cutting. Cut can deviate up to 1mm.</div>'
+      + '<div><span class="swatch" style="border-color:rgba(80,220,120,.85);border-top-style:dashed"></span><b>Safe zone (5mm inset)</b> — numerals, labels and pips must stay inside this line. Border frames should be ≥4mm wide to tolerate cutter deviation.</div>'
+      + '<div style="margin-top:6px">Vector proofs are resolution-independent (what a PDF submission gets). The raster proof shows the card baked to pixels at the chosen dpi — printenbind\'s minimum is <b>300 dpi</b> (732 × 1039 px). Note: the raster preview substitutes a fallback serif for Cinzel (canvas limitation); a PDF export embeds the real font.</div>';
+    host.appendChild(legend);
+    return host;
+  }
+
   function renderSceneContent(cards, variant, panelKey){
+    if (state.scene === 'print') return buildPrintProof(cards, variant, panelKey);
+
     if (state.scene === 'single') {
       var s = el('div', { class:'single-wrap' });
       s.appendChild(renderLabeledCard(cards[0], variant, state.scale * 1.18 * state.singleArtScale, true, panelKey));
@@ -1044,7 +1174,7 @@
     }));
     if (variant.usePerSuitArt) {
       var psGrid = el('div', { class:'per-suit-grid' });
-      ['radiance','void','flux','aether'].forEach(function(suit){
+      ENERGY_ORDER.forEach(function(suit){
         var w = el('div');
         w.appendChild(el('div', { class:'group-title', text: suit }));
         var sel = document.createElement('select');
@@ -1103,7 +1233,7 @@
           el('div', { class:'hand-slot-label', text:'Card ' + (idx + 1) }),
           (function(){
             var select = document.createElement('select');
-            ['radiance','void','flux','aether','wild'].forEach(function(opt){
+            ENERGY_ORDER.concat(['wild']).forEach(function(opt){
               var o = document.createElement('option');
               o.value = opt;
               o.textContent = opt;
@@ -1239,7 +1369,7 @@
     rail.appendChild(el('div', { class:'control-group' }, [
       el('div', { class:'group-title', text:'Scene preset' }),
       segButtons(SCENES, state.scene, function(v){ state.scene = v; rerender(); }),
-      el('div', { class:'tiny-note', text:'Single card, auto-flow grid, fan in hand, or heavy overlap strip.' })
+      el('div', { class:'tiny-note', text:'Single card, auto-flow grid, fan in hand, overlap strip, or print proof at true 62×88mm with printenbind bleed/safe-zone guides.' })
     ]));
 
     (function(){
@@ -1292,12 +1422,7 @@
               art: state.primary.art,
               layout: state.primary.layout,
               usePerSuitArt: state.primary.usePerSuitArt,
-              artBySuit: {
-                radiance: state.primary.artBySuit.radiance,
-                void: state.primary.artBySuit.void,
-                flux: state.primary.artBySuit.flux,
-                aether: state.primary.artBySuit.aether
-              },
+              artBySuit: copyArtBySuit(state.primary.artBySuit),
               layoutFx: copyLayoutFx(state.primary.layoutFx)
             };
             state.primary = {
@@ -1305,12 +1430,7 @@
               art: state.secondary.art,
               layout: state.secondary.layout,
               usePerSuitArt: state.secondary.usePerSuitArt,
-              artBySuit: {
-                radiance: state.secondary.artBySuit.radiance,
-                void: state.secondary.artBySuit.void,
-                flux: state.secondary.artBySuit.flux,
-                aether: state.secondary.artBySuit.aether
-              },
+              artBySuit: copyArtBySuit(state.secondary.artBySuit),
               layoutFx: copyLayoutFx(state.secondary.layoutFx)
             };
             state.secondary = tmp;
@@ -1338,6 +1458,18 @@
       var isStrip  = state.scene === 'strip';
       var isGrid   = state.scene === 'grid';
       var isSingle = state.scene === 'single';
+      var isPrint  = state.scene === 'print';
+      if (isPrint) {
+        var printChildren = [
+          el('div', { class:'group-title', text:'Print proof' }),
+          makeRange('Inspection zoom', 0.5, 4, 0.25, state.printZoom, function(n){ return n.toFixed(2) + '×'; }, function(v){ state.printZoom = v; rerender(); }),
+          el('div', { class:'group-title', text:'Raster dpi' }),
+          segButtons(['96','150','300','600'], String(state.printDpi), function(v){ state.printDpi = parseInt(v, 10); rerender(); }),
+          el('div', { class:'tiny-note', text:'At 1× zoom and 100% browser zoom the proofs are physical size — hold a real card against the screen. Zoom in to check edge spacing and raster quality.' })
+        ];
+        rail.appendChild(el('div', { class:'control-group' }, printChildren));
+        return;
+      }
       var children = [
         el('div', { class:'group-title', text:'Composition' }),
         makeRange('Card scale', 0.36, 0.92, 0.02, state.scale, function(n){ return n.toFixed(2) + '×'; }, function(v){ state.scale = v; rerender(); })

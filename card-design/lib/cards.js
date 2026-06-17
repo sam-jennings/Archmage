@@ -214,7 +214,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
 
   // ── Layout variants ────────────────────────────────────────────────
   const LayoutVariants = {
-  classic: { pipTop: 28, pipSize: 20, labelBelow: true,  numSize: 28, numPos: 'medallion' },
+  classic: { pipTop: 19, pipSize: 20, labelBelow: true,  numSize: 28, numPos: 'medallion' },
   compact: { pipTop: 22, pipSize: 16, labelBelow: false, numSize: 22, numPos: 'medallion' },
   regal:   { pipTop: 34, pipSize: 24, labelBelow: true,  numSize: 32, numPos: 'medallion' },
   flag:    { pipTop: 28, pipSize: 20, labelBelow: true,  numSize: 34, numPos: 'top' } // big numeral up top
@@ -310,41 +310,12 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   }
 
   // ── makeBeaconBorder ────────────────────────────────────────────────
-  // When the active connector is 'beacon', this draws glowing orbs along
-  // the top and bottom edges (anchored at the strip midpoints OL/2 and
-  // W-OL/2) plus a single radiant border ring, replacing the three plain
-  // stroke rects that normally frame the card.
+  // Border frame removed entirely. printenbind advises against any frame
+  // near the trim edge, so cards now have no edge ring at all — the value
+  // orbs (drawn by the beacon connector) and corner pips read on their own.
+  // Kept as a no-op so the makeCard call site stays unchanged.
   function makeBeaconBorder(W, H, R, OL, sc, e, id) {
-    const cgid = id + '-bbn-c';   // corner/anchor orb gradient
-    const egid = id + '-bbn-e';   // mid-edge orb gradient
-
-    const defs = [
-      `<radialGradient id="${cgid}">`,
-        `<stop offset="0%" stop-color="${e.b}" stop-opacity=".90"/>`,
-        `<stop offset="38%" stop-color="${e.m}" stop-opacity=".50"/>`,
-        `<stop offset="100%" stop-color="${e.dim}" stop-opacity="0"/>`,
-      `</radialGradient>`,
-      `<radialGradient id="${egid}">`,
-        `<stop offset="0%" stop-color="${e.b}" stop-opacity=".68"/>`,
-        `<stop offset="40%" stop-color="${e.m}" stop-opacity=".28"/>`,
-        `<stop offset="100%" stop-color="${e.dim}" stop-opacity="0"/>`,
-      `</radialGradient>`,
-    ].join('');
-
-    let gfx = '';
-
-    // Border ring — single glowing stroke (replaces the 3 plain rects)
-    const bm = 2.5 * sc;
-    gfx += `<rect x="${bm}" y="${bm}" width="${(W-2*bm).toFixed(1)}" height="${(H-2*bm).toFixed(1)}" `
-         + `rx="${(R-1).toFixed(1)}" ry="${(R-1).toFixed(1)}" fill="none" `
-         + `stroke="${e.b}" stroke-opacity=".12" stroke-width="${4*sc}"/>`;
-    gfx += `<rect x="${bm}" y="${bm}" width="${(W-2*bm).toFixed(1)}" height="${(H-2*bm).toFixed(1)}" `
-         + `rx="${(R-1).toFixed(1)}" ry="${(R-1).toFixed(1)}" fill="none" `
-         + `stroke="${e.m}" stroke-opacity=".42" stroke-width="${sc}"/>`;
-
-    // (top and bottom border orbs removed)
-
-    return { defs, gfx };
+    return { defs: '', gfx: '' };
   }
 
   // ── makeCard ────────────────────────────────────────────────────────
@@ -355,23 +326,33 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   const layout    = LayoutVariants[opts.layout || 'classic'];
   const fx = normalizeLayoutFx(opts.layoutFx);
   const sc = opts.scale || 1;
+  const painterly = !!opts.painterly;
+  const artBase   = opts.artBase || 'art/painterly/';
   // W:H = 252:358 matches physical 62:88 mm ratio
-  const W=252*sc, H=358*sc, R=12*sc, OL=28*sc, TM=16*sc, ST=16*sc;
+  const W=252*sc, H=358*sc, R=12*sc, OL=28*sc, TM=42*sc, ST=13*sc;
+  // Push the strip column, beacons, and corner numerals inward so all
+  // gameplay-critical elements sit inside the 5mm print safe zone
+  // (printenbind: text/important graphics ≥5mm from trim edge).
+  // 5mm ≈ 20.3 units at W=252/62mm; 17 units of inset keeps glyph and orb
+  // EDGES (not just centres) past the safe line. Painterly's frame needs
+  // at least 14, so 17 covers both.
+  const edgeInset = 17*sc;
+  const OL_strip = OL + 2*edgeInset;
   const e = EL[elem];
   const id = uid('c'+elem[0]+val);
   const cx=W/2, cy=H*0.45, artR=W*0.29;
 
   const conn = getConnector(connectorName);
-  const L  = conn.render(val, e, {OL,TM,ST,W,sc,id,side:'left'});
+  const L  = conn.render(val, e, {OL:OL_strip,TM,ST,W,sc,id,side:'left'});
   const rightVal = fx.connectorPlacement === 'mirrored' ? (21 - val) : val;
   const Ri = fx.connectorPlacement === 'left-only'
     ? { defs:'', gfx:'' }
-    : conn.render(rightVal, e, {OL,TM,ST,W,sc,id,side:'right'});
+    : conn.render(rightVal, e, {OL:OL_strip,TM,ST,W,sc,id,side:'right'});
 
-  const artFn = getArt(artKind);
-  const art = artFn.render(elem, cx, cy, artR, e, {W,H,sc,OL,TM,ST,val});
-  const ticks = makeTicks(e, OL, TM, ST, W, sc);
-  const architecture = artKind === 'glyph'
+  const art = painterly ? '' : getArt(artKind).render(elem, cx, cy, artR, e, {W,H,sc,OL,TM,ST,val});
+  const ticks = painterly ? '' : makeTicks(e, OL, TM, ST, W, sc);
+  const architecture = painterly ? ''
+    : artKind === 'glyph'
     ? makeSharedArchitectureGlyph(cx, cy, W, H, e, val, sc)
     : makeSharedArchitecture(cx, cy, W, H, e, val, sc);
   const separator = makeConnectorSeparator(fx, W, H, OL, sc, e);
@@ -382,9 +363,9 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     ? `<rect x="${(OL+12*sc).toFixed(1)}" y="${(18*sc).toFixed(1)}" width="${(W-2*(OL+12*sc)).toFixed(1)}" height="${(H-36*sc).toFixed(1)}" rx="${(10*sc).toFixed(1)}" ry="${(10*sc).toFixed(1)}" fill="none" stroke="${e.m}" stroke-opacity=".20" stroke-width="${0.9*sc}"/>`
     : '';
 
-  const pipSz = Math.round(layout.pipSize * fx.cornerScale * sc), pipX=OL/2, pipY=layout.pipTop*sc;
+  const pipSz = Math.round(layout.pipSize * fx.cornerScale * sc), pipX=OL_strip/2, pipY=layout.pipTop*sc + edgeInset;
   const flt = 'url(#'+id+'-s)';
-  const invCX=W-OL/2, invCY=H-28*sc;
+  const invCX=W-OL_strip/2, invCY=H-19*sc-edgeInset;
   const numSz = Math.round(layout.numSize * fx.centreScale * sc);
   const numX = cx, numY = cy + numSz*0.34;
   const cornerStroke = fx.cornerLift ? ` stroke="${e.bg1}" stroke-width="${0.75*sc}" paint-order="stroke fill" ` : '';
@@ -398,6 +379,18 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   const medNum = layout.numPos==='medallion'
     ? `<text x="${numX}" y="${numY}" font-family="Cinzel,serif" font-weight="700" font-size="${numSz}" fill="${e.b}" fill-opacity=".88" filter="${flt}" text-anchor="middle">${val}</text>`
     : '';
+  // Painterly medallion: small dark disc backing + smaller numeral so it sits
+  // snug inside the symbol art's central void.
+  const medR = artR * 0.24;
+  const medTextSz = Math.round(medR * 1.05);
+  // Painterly medallion: clean dark fill disc + numeral, positioned to align
+  // with the empty central circle of the symbol art (which sits higher than
+  // the geometric centre cy). 0.37*H matches the symbol image's visual centre.
+  const pCenterY = H * 0.37;
+  const medFinal = (painterly && layout.numPos==='medallion')
+    ? `<circle cx="${cx}" cy="${pCenterY.toFixed(1)}" r="${medR.toFixed(1)}" fill="#06050b" fill-opacity=".90"/>`
+      + `<text x="${cx}" y="${(pCenterY + medTextSz*0.34).toFixed(1)}" font-family="Cinzel,serif" font-weight="700" font-size="${medTextSz}" fill="${e.b}" fill-opacity=".96" filter="${flt}" text-anchor="middle">${val}</text>`
+    : medNum;
   const labelY = (cy + artR + H) / 2;
   const label = layout.labelBelow
     ? `<text x="${cx}" y="${labelY.toFixed(1)}" font-family="Cinzel,serif" font-weight="700" font-size="${13*sc}" fill="${e.b}" fill-opacity=".90" text-anchor="middle" letter-spacing="${2.8*sc}">${e.name}</text>`
@@ -413,9 +406,43 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     + (fx.cornerGlyph ? renderTinyCurrentGlyph(elem, 0, -12*sc + Math.max(9*sc, pipSz*0.52), cornerGlyphSize, sc) : '')
     + `</g>`;
   const extraCorners = fx.allCorners
-    ? `<g opacity=".86"><text x="${(W-OL/2).toFixed(1)}" y="${pipY}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${cornerFillOpacity}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, W-OL/2, cornerGlyphY, cornerGlyphSize, sc) : ''}</g>`
-      + `<g transform="translate(${(OL/2).toFixed(1)},${(H-28*sc).toFixed(1)}) rotate(180)" opacity=".56"><text x="0" y="${-12*sc}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${fx.cornerLift ? '.95' : '.84'}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, 0, -12*sc + Math.max(9*sc, pipSz*0.52), cornerGlyphSize, sc) : ''}</g>`
+    ? `<g opacity=".86"><text x="${invCX.toFixed(1)}" y="${pipY}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${cornerFillOpacity}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, invCX, cornerGlyphY, cornerGlyphSize, sc) : ''}</g>`
+      + `<g transform="translate(${pipX.toFixed(1)},${invCY.toFixed(1)}) rotate(180)" opacity=".56"><text x="0" y="${-12*sc}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${fx.cornerLift ? '.95' : '.84'}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, 0, -12*sc + Math.max(9*sc, pipSz*0.52), cornerGlyphSize, sc) : ''}</g>`
     : '';
+
+  // ── Painterly raster layers (opt-in via opts.painterly) ──────────────
+  // Composites the staged art (card-design/art/painterly/) as the visual bed
+  // and replaces the vector "architecture", central art variant, and border.
+  // Value-dependent vector elements (numerals, connection strips, suit label)
+  // still render on top, so alignment stays automatic across every card.
+  let pBg = '', pSym = '', pFrame = '';
+  if (painterly) {
+    const symBoxW = W * 0.84, symBoxH = H * 0.66;
+    const symX = (W - symBoxW) / 2, symY = cy - symBoxH * 0.52;
+    pBg = `<image href="${artBase}bg.png" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none"/>`;
+    pSym = `<image href="${artBase}${elem}_symbol.png" x="${symX.toFixed(1)}" y="${symY.toFixed(1)}" width="${symBoxW.toFixed(1)}" height="${symBoxH.toFixed(1)}" preserveAspectRatio="xMidYMid meet"/>`;
+    // Frame removed by request — painterly background's natural edge is the
+    // card edge. Kept the variable in case we want to bring an alternative
+    // frame back later.
+    pFrame = '';
+  }
+
+  // Border frame removed entirely (printenbind margin guidance).
+  const vectorBorder = '';
+
+  const numbersAndLabels = topNumeral + medFinal + label + topLabel + topLeftCorner + bottomRightCorner + extraCorners;
+  const glowRect = `<rect width="${W}" height="${H}" fill="url(#${id}-g)"/>`;
+  const vignetteRect = `<rect width="${W}" height="${H}" fill="url(#${id}-v)"/>`;
+
+  let innerLayers;
+  if (painterly) {
+    innerLayers = pBg + glowRect + vignetteRect + pSym + separator
+      + L.gfx + Ri.gfx + numbersAndLabels + pFrame;
+  } else {
+    innerLayers = `<rect width="${W}" height="${H}" fill="url(#${id}-bg)"/>` + glowRect + vignetteRect
+      + architecture + ticks + L.gfx + Ri.gfx + separator + innerFrame + art
+      + numbersAndLabels + vectorBorder;
+  }
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-face">
     <defs>
@@ -434,30 +461,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
       ${L.defs}${Ri.defs}
       ${beaconBorder ? beaconBorder.defs : ''}
     </defs>
-    <g clip-path="url(#${id}-c)">
-      <rect width="${W}" height="${H}" fill="url(#${id}-bg)"/>
-      <rect width="${W}" height="${H}" fill="url(#${id}-g)"/>
-      <rect width="${W}" height="${H}" fill="url(#${id}-v)"/>
-      ${architecture}
-      ${ticks}
-      ${L.gfx}${Ri.gfx}
-      ${separator}
-      ${innerFrame}
-      ${art}
-      ${topNumeral}
-      ${medNum}
-      ${label}
-      ${topLabel}
-      ${topLeftCorner}
-      ${bottomRightCorner}
-      ${extraCorners}
-      ${beaconBorder
-        ? beaconBorder.gfx
-        : `<rect x="2" y="2" width="${W-4}" height="${H-4}" rx="${R-0.5}" ry="${R-0.5}" fill="none" stroke="${e.m}" stroke-opacity=".34" stroke-width="${sc}"/>
-      <rect x="5" y="5" width="${W-10}" height="${H-10}" rx="${R-2}" ry="${R-2}" fill="none" stroke="${e.m}" stroke-opacity=".14" stroke-width="${0.6*sc}"/>
-      <rect x="10" y="10" width="${W-20}" height="${H-20}" rx="${R-4.5}" ry="${R-4.5}" fill="none" stroke="${e.dim}" stroke-opacity=".18" stroke-width="${0.8*sc}"/>`
-      }
-    </g>
+    <g clip-path="url(#${id}-c)">${innerLayers}</g>
   </svg>`;
 }
 
@@ -469,16 +473,19 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   const fx = normalizeLayoutFx(opts.layoutFx);
   const sc = opts.scale || 1;
   const W=252*sc, H=358*sc, R=12*sc, OL=28*sc, TM=16*sc, ST=16*sc;
+  // Same 5mm print-safe inset as makeCard (see edgeInset comment there).
+  const edgeInset = 17*sc;
+  const OL_strip = OL + 2*edgeInset;
   const id = uid('w');
   const p = { b:'#cdd8f0', m:'#7c88aa', dim:'#121826' };
 
   let defs = '', gfx = '';
   for (let v=1; v<=20; v++){
-    const L  = conn.render(v, p, {OL,TM,ST,W,sc,id:id+'v'+v,side:'left'});
+    const L  = conn.render(v, p, {OL:OL_strip,TM,ST,W,sc,id:id+'v'+v,side:'left'});
     defs += L.defs;
     gfx  += L.gfx;
     if (fx.connectorPlacement !== 'left-only'){
-      const Ri = conn.render(v, p, {OL,TM,ST,W,sc,id:id+'v'+v,side:'right'});
+      const Ri = conn.render(v, p, {OL:OL_strip,TM,ST,W,sc,id:id+'v'+v,side:'right'});
       defs += Ri.defs;
       gfx  += Ri.gfx;
     }
@@ -491,9 +498,8 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
 
   const cx=W/2, cy=H*0.45, artR=W*0.29;
   const ticks = makeTicks({m:p.m}, OL, TM, ST, W, sc);
-  const pipSz = Math.round(22 * fx.cornerScale * sc), pipX=OL/2, pipY=28*sc;
-  const invCX=W-OL/2, invCY=H-28*sc;
-  const rulesY = H-8*sc, rulesSz = Math.round(7*sc);
+  const pipSz = Math.round(22 * fx.cornerScale * sc), pipX=OL_strip/2, pipY=28*sc+edgeInset;
+  const invCX=W-OL_strip/2, invCY=H-28*sc-edgeInset;
   const cornerGlyphSize = Math.max(3.8*sc, pipSz*0.23);
   const separator = makeConnectorSeparator(fx, W, H, OL, sc, p);
   const innerFrame = fx.innerFrame
@@ -519,12 +525,18 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     return out;
   })();
 
-  const art = makeWildConvergenceArt(cx, cy, artR, sc);
-  const topLeftCorner = renderTinyCurrentGlyph('wild', pipX, pipY - pipSz*0.5, pipSz*0.46, sc);
-  const bottomRightCorner = `<g transform="translate(${invCX},${invCY}) rotate(180)" opacity=".62">${renderTinyCurrentGlyph('wild', 0, -pipSz*0.5, pipSz*0.46, sc)}</g>`;
+  // Art variants may supply their own wild/convergence art via a
+  // renderWild(cx, cy, artR, sc) key; otherwise use the shared default.
+  const wildVariant = (window.AA_ART || {})[opts.art || ''];
+  const art = (wildVariant && wildVariant.renderWild)
+    ? wildVariant.renderWild(cx, cy, artR, sc)
+    : makeWildConvergenceArt(cx, cy, artR, sc);
+  // Corner pips removed by request — the wild reads from its art alone.
+  const topLeftCorner = '';
+  const bottomRightCorner = '';
   const extraCorners = fx.allCorners
-    ? `<g opacity=".80">${renderTinyCurrentGlyph('wild', W-OL/2, pipY - pipSz*0.5, pipSz*0.46, sc)}</g>`
-      + `<g transform="translate(${(OL/2).toFixed(1)},${(H-28*sc).toFixed(1)}) rotate(180)" opacity=".56">${renderTinyCurrentGlyph('wild', 0, -pipSz*0.5, pipSz*0.46, sc)}</g>`
+    ? `<g opacity=".80">${renderTinyCurrentGlyph('wild', invCX, pipY - pipSz*0.5, pipSz*0.46, sc)}</g>`
+      + `<g transform="translate(${pipX.toFixed(1)},${invCY.toFixed(1)}) rotate(180)" opacity=".56">${renderTinyCurrentGlyph('wild', 0, -pipSz*0.5, pipSz*0.46, sc)}</g>`
     : '';
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-face">
@@ -545,8 +557,8 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
         <stop offset="100%" stop-color="#000" stop-opacity="0"/>
       </linearGradient>
       <mask id="${id}-stripmask">
-        <rect x="0" y="0" width="${OL}" height="${H}" fill="url(#${id}-fade)"/>
-        ${fx.connectorPlacement !== 'left-only' ? `<rect x="${W-OL}" y="0" width="${OL}" height="${H}" fill="url(#${id}-fade)"/>` : ''}
+        <rect x="0" y="0" width="${OL_strip}" height="${H}" fill="url(#${id}-fade)"/>
+        ${fx.connectorPlacement !== 'left-only' ? `<rect x="${W-OL_strip}" y="0" width="${OL_strip}" height="${H}" fill="url(#${id}-fade)"/>` : ''}
       </mask>
       ${defs}
     </defs>
@@ -559,13 +571,9 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
       ${separator}
       ${innerFrame}
       ${art}
-      <rect x="2" y="2" width="${W-4}" height="${H-4}" rx="${R-0.5}" ry="${R-0.5}" fill="none" stroke="${p.m}" stroke-opacity=".34" stroke-width="${sc}"/>
-      <rect x="5" y="5" width="${W-10}" height="${H-10}" rx="${R-2}" ry="${R-2}" fill="none" stroke="${p.m}" stroke-opacity=".12" stroke-width="${0.6*sc}"/>
-      <rect x="10" y="10" width="${W-20}" height="${H-20}" rx="${R-4.5}" ry="${R-4.5}" fill="none" stroke="${p.dim}" stroke-opacity=".22" stroke-width="${0.8*sc}"/>
       ${topLeftCorner}
       ${bottomRightCorner}
       ${extraCorners}
-      <text x="${W/2}" y="${rulesY}" font-family="Cormorant Garamond,serif" font-style="italic" font-size="${rulesSz}" fill="${p.b}" fill-opacity=".36" text-anchor="middle">Convergence of the four currents</text>
     </g>
   </svg>`;
 }
@@ -598,9 +606,142 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   });
 }
 
+  // ── makeCardBack ────────────────────────────────────────────────────
+  // Card back in the arcana grammar: seeded grain, wobble rings, dust,
+  // bloom. Moonstone-silver field; the five currents appear only as ten
+  // paired orbs (each hue twice, opposed) so the back is 180°-symmetric
+  // and reveals nothing about the card. No wordmark (name may change).
+  // opts.bleed (mm) extends the background past the 62×88 trim for print.
+  function makeCardBack(opts){
+    opts = opts || {};
+    const sc = opts.scale || 1;
+    const W = 252*sc, H = 358*sc;
+    const UPM = 252/62;                      // svg units per mm
+    const B = (opts.bleed || 0) * UPM * sc;  // bleed in svg units
+    const TW = W + 2*B, TH = H + 2*B;        // total (bleed) size
+    const cx = TW/2, cy = TH/2;
+    const id = uid('bk');
+    const p = { b:'#cdd8f0', m:'#7c88aa', dim:'#121826', bg1:'#070910', bg2:'#0b0e18' };
+    const HUES = ['#f5c518', '#c060f0', '#00c8b4', '#e8304a', '#c8d4e8'];
+    const HOT = '#f4f7ff';
+    const R = W*0.30;                        // master mandala radius
+
+    // seeded rng (mulberry32-style, same idea as arcana's)
+    let s = 0xBACC;
+    const rand = () => { s |= 0; s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const N = v => v.toFixed(1), N2 = v => v.toFixed(2);
+
+    function wobbleRing(ox, oy, rad, amp, ph1, ph2, col, swd, op){
+      let d = '';
+      const n = 64;
+      for (let i = 0; i <= n; i++){
+        const a = i/n * Math.PI*2;
+        const rr = rad * (1 + amp*Math.sin(3*a + ph1) + amp*0.7*Math.sin(5*a + ph2));
+        d += (i ? 'L' : 'M') + N(ox + Math.cos(a)*rr) + ',' + N(oy + Math.sin(a)*rr);
+      }
+      return '<path d="' + d + 'Z" fill="none" stroke="' + col + '" stroke-width="' + N2(swd) + '" opacity="' + op + '"/>';
+    }
+    function mote(x, y, r2, col, op){
+      return '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(r2) + '" fill="' + col + '" opacity="' + N2(op) + '"/>';
+    }
+    function sparkle(x, y, len, wd, col, op, rot){
+      return '<g transform="translate(' + N(x) + ',' + N(y) + ') rotate(' + rot + ')" opacity="' + N2(op) + '">'
+        + '<path d="M0,' + N(-len) + ' L' + N(wd) + ',0 L0,' + N(len) + ' L' + N(-wd) + ',0 Z" fill="' + col + '"/>'
+        + '<path d="M' + N(-len) + ',0 L0,' + N(wd) + ' L' + N(len) + ',0 L0,' + N(-wd) + ' Z" fill="' + col + '"/></g>';
+    }
+    function orb(x, y, r2, col){
+      return '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(r2*2.4) + '" fill="url(#' + id + '-orb)"/>'
+        + '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(r2) + '" fill="' + col + '" opacity=".92"/>'
+        + '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(r2*0.4) + '" fill="' + HOT + '" opacity=".85"/>';
+    }
+
+    let bg = '', glow = '';
+
+    // — engraved field: quiet rings drifting out from the centre —
+    bg += wobbleRing(cx, cy, R*1.55, 0.005, 0.8, 2.2, p.m, 0.5*sc, 0.10);
+    bg += wobbleRing(cx, cy, R*1.95, 0.004, 2.6, 1.0, p.m, 0.45*sc, 0.08);
+    bg += wobbleRing(cx, cy, R*2.45, 0.004, 1.4, 3.1, p.m, 0.45*sc, 0.06);
+    // dust motes scattered over the whole face (incl. bleed — cheap insurance)
+    for (let i = 0; i < 70; i++){
+      const a = rand()*Math.PI*2;
+      const rad = R * (0.3 + Math.pow(rand(), 0.7)*2.6);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.85)*sc, rand() < 0.7 ? p.b : p.m, 0.08 + rand()*0.26);
+    }
+    for (let i = 0; i < 6; i++){
+      const a = rand()*Math.PI*2, rad = R*(0.8 + rand()*1.5);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.4 + rand()*1.5)*sc, (0.4 + rand()*0.3)*sc, HOT, 0.18 + rand()*0.18, rand()*90);
+    }
+
+    // — mandala: three breathing silver rings —
+    glow += wobbleRing(cx, cy, R*1.00, 0.006, 0.4, 1.9, p.b, 1.4*sc, 0.55);
+    glow += wobbleRing(cx, cy, R*0.78, 0.007, 2.1, 0.7, p.m, 0.8*sc, 0.40);
+    glow += wobbleRing(cx, cy, R*1.12, 0.005, 1.3, 2.8, p.m, 0.6*sc, 0.28);
+
+    // — ten radial spokes (180°-symmetric) —
+    for (let i = 0; i < 10; i++){
+      const a = -Math.PI/2 + i*Math.PI/5;
+      glow += '<line x1="' + N(cx + Math.cos(a)*R*0.46) + '" y1="' + N(cy + Math.sin(a)*R*0.46)
+        + '" x2="' + N(cx + Math.cos(a)*R*0.94) + '" y2="' + N(cy + Math.sin(a)*R*0.94)
+        + '" stroke="' + p.m + '" stroke-width="' + N2(0.55*sc) + '" opacity=".30"/>';
+    }
+
+    // — the five currents, each twice and opposed, threaded on the ring —
+    for (let i = 0; i < 10; i++){
+      const a = -Math.PI/2 + i*Math.PI/5;
+      const col = HUES[i % 5];
+      const x = cx + Math.cos(a)*R, y = cy + Math.sin(a)*R;
+      glow += orb(x, y, 3.4*sc, col);
+      // faint hue wash trailing inward from each orb
+      glow += '<line x1="' + N(x) + '" y1="' + N(y) + '" x2="' + N(cx + Math.cos(a)*R*0.72) + '" y2="' + N(cy + Math.sin(a)*R*0.72)
+        + '" stroke="' + col + '" stroke-width="' + N2(1.1*sc) + '" stroke-linecap="round" opacity=".22"/>';
+    }
+
+    // — centre: dark medallion seat + silver source star (no glyph, no name) —
+    glow += '<circle cx="' + N(cx) + '" cy="' + N(cy) + '" r="' + N(R*0.40) + '" fill="' + p.bg1 + '" fill-opacity=".94"/>';
+    glow += wobbleRing(cx, cy, R*0.40, 0.008, 0.9, 2.3, p.b, 1.2*sc, 0.70);
+    glow += wobbleRing(cx, cy, R*0.30, 0.010, 2.0, 0.5, p.m, 0.7*sc, 0.40);
+    glow += sparkle(cx, cy, R*0.24, R*0.035, p.b, 0.90, 0);
+    glow += sparkle(cx, cy, R*0.14, R*0.025, HOT, 0.65, 45);
+    glow += mote(cx, cy, 1.6*sc, HOT, 0.95);
+
+    // — corner filigree, 180°-symmetric pairs, kept inside the safe zone —
+    const fIn = 26*sc + B;  // ≥5mm + bleed from total edge
+    [[fIn, fIn, 1, 1], [TW-fIn, TH-fIn, -1, -1], [TW-fIn, fIn, -1, 1], [fIn, TH-fIn, 1, -1]].forEach(([x, y, sx, sy]) => {
+      glow += '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(4.5*sc) + '" fill="none" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".40"/>';
+      glow += '<line x1="' + N(x) + '" y1="' + N(y + sy*7*sc) + '" x2="' + N(x + sx*11*sc) + '" y2="' + N(y + sy*18*sc) + '" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".26"/>';
+      glow += '<line x1="' + N(x + sx*7*sc) + '" y1="' + N(y) + '" x2="' + N(x + sx*18*sc) + '" y2="' + N(y + sy*11*sc) + '" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".26"/>';
+      glow += mote(x, y, 1.1*sc, p.b, 0.55);
+    });
+
+    // — border rings removed entirely (printenbind margin guidance) —
+    const border = '';
+
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + N(TW) + '" height="' + N(TH) + '" viewBox="0 0 ' + N(TW) + ' ' + N(TH) + '" class="card-face">'
+      + '<defs>'
+      + '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1">'
+      + '<stop offset="0%" stop-color="' + p.bg2 + '"/><stop offset="100%" stop-color="' + p.bg1 + '"/></linearGradient>'
+      + '<radialGradient id="' + id + '-g" cx="50%" cy="50%" r="48%">'
+      + '<stop offset="0%" stop-color="' + p.b + '" stop-opacity=".08"/>'
+      + '<stop offset="100%" stop-color="' + p.bg1 + '" stop-opacity="0"/></radialGradient>'
+      + '<radialGradient id="' + id + '-orb" cx="50%" cy="50%" r="50%">'
+      + '<stop offset="0%" stop-color="' + HOT + '" stop-opacity=".55"/>'
+      + '<stop offset="100%" stop-color="' + HOT + '" stop-opacity="0"/></radialGradient>'
+      + '<filter id="' + id + '-bloom" x="-30%" y="-30%" width="160%" height="160%">'
+      + '<feGaussianBlur stdDeviation="' + N2(2.2*sc) + '" result="b"/>'
+      + '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+      + '</defs>'
+      + '<rect width="' + N(TW) + '" height="' + N(TH) + '" fill="url(#' + id + '-bg)"/>'
+      + '<rect width="' + N(TW) + '" height="' + N(TH) + '" fill="url(#' + id + '-g)"/>'
+      + bg
+      + '<g filter="url(#' + id + '-bloom)">' + glow + '</g>'
+      + border
+      + '</svg>';
+  }
+
   // ── Public API ──────────────────────────────────────────────────────
   window.ArchmageCards = {
     EL, EORD, WILD,
+    makeCardBack,
     uid, polar,
     makeTicks, makeResonanceMarks,
     makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildConvergenceArt,
@@ -621,3 +762,4 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     }
   };
 })();
+// painterly mode added: opts.painterly + opts.artBase (art/painterly/)

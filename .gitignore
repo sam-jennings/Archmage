@@ -7,9 +7,4 @@
 # Generated outputs / scratch work
 outputs/
 
-# macOS
-.DS_Store
-
-# Windows
-Thumbs.db
-desktop.ini
+# Archived material (superseded; kept locally, not 

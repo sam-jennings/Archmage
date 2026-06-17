@@ -1,7 +1,7 @@
 ---
 title: Backlog
 type: backlog
-updated: 2026-05-02
+updated: 2026-06-17
 updated_by: aa-backlog-curator
 ---
 
@@ -17,15 +17,7 @@ updated_by: aa-backlog-curator
 - [P2] [design] Investigate 4-card enchantment cap at Drought — current cap may collapse Phase 2 dynamics in 2-player games; test with lower cap or staggered limit
 - [P3] [design] Investigate whether thematic narrative arc can be signalled through card names or phase structure rather than art (polish deferred per Anti-Drift Rule 2 — but naming/structure is in scope)
 - [P3] [rules] Evaluate whether "Transfiguration" and "Perfect Transmutation" can be simplified or given memorable short-hands
-- [P2] [admin] Build the six project-state skills (aa-state-keeper, aa-next-action, aa-backlog-curator, aa-playtest-planner, aa-playtest-runner, aa-decision-recorder)
-
-## Decisions to make
-
-- Should the counter refresh rule be rewritten (clarity fix) or redesigned (mechanic change)? — depends on whether next session confirms comprehension improves with better text alone
-
----
-
-## Archive
-
-- 2026-05-02 — [P1] [admin] Confirm target player and core experience in STATE.md (resolved: STATE.md populated 2026-05-02)
-- 2026-05-02 — [P1] [test] Define the current problem and hypothesis for the next playtest session (resolved: hypothesis set from Session 1 findings 2026-05-02)
+- [P2] [review] Decide: integrate the counter/tracker proposal (`_review/OPUS_TASK_counter_and_tracker.md` + `_RESPONSE.md`) or drop it — relates to the counter-refresh rewrite and turn-stage tracker items above
+- [P3] [review] Decide: integrate the enchantment-system proposal (`_review/OPUS_TASK_enchantment_system.md` + `_RESPONSE.md`) or drop it — likely park until Stage 4+ (new system, Anti-Drift)
+- [P3] [review] Resolve the thematic-coherence task (`_review/OPUS_TASK_thematic_coherence.md`) — no response drafted yet; relates to the thematic-narrative item above
+- [P3] [review] Decide whether Echo is the canonical visual system (`_review/VISUAL_SYSTEM_with_Echo.md`
