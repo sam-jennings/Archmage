@@ -122,4 +122,18 @@ Archmage Ascension/
 3. **Apply stage-aware filtering.** In Stage 3, content/art/pitch work is deferred. Surface this if Sam asks for it.
 4. **Apply the course's anti-drift rules** (Game Design Execution System §9). Especially: don't add content to fix boredom, don't polish what's still being redesigned, don't change three things at once.
 5. **Update STATE/BACKLOG/DECISIONS/PLAYTESTS as a side-effect.** Sam shouldn't have to ask.
-6. **Don't surface designer-only tools (e.g. `tools/optimiser/`) in player-faci
+6. **Don't surface designer-only tools (e.g. `tools/optimiser/`) in player-facing material.**
+
+---
+
+## Reality check (resolved 2026-05-02)
+
+Earlier project documents (`md structure files/`, `Issues/`, the original `PROJECT.md`) tracked source-of-truth ambiguities that no longer exist. For the record:
+
+- **Rulebook:** single source — `rulebook/Archmage Ascension - Complete Rulebook.md` (v2.8). Older versions are no longer kept in this folder.
+- **Glossary:** single source — `rulebook/GLOSSARY.md`.
+- **Scoring:** single source — `rulebook/Scoring System Reference.md`. Designer optimiser at `tools/optimiser/` references it for balance analysis only.
+- **Visual system:** single source — `card-design/VISUAL_SYSTEM.md`.
+- **Card renderer:** single source — `card-design/playtable.html` (mobile variant: `playtable-mobile.html`).
+- **Pitch:** single source — `pitch/archmage_pitch_sheet.html`.
+- **Story/lore:** single source — `rulebook/Story.md`.

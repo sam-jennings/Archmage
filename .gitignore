@@ -7,4 +7,26 @@
 # Generated outputs / scratch work
 outputs/
 
-# Archived material (superseded; kept locally, not 
+# Archived material (superseded; kept locally, not tracked)
+_archive/
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+pytest-cache-files-*/
+
+# Generated per-card export PDFs (final bundles stay tracked)
+card-design/export-printenbind/*-[0-9][0-9].pdf
+card-design/export-printenbind/wild-*.pdf
+card-design/export-printenbind/_*.pdf
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
