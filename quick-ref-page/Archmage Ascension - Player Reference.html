@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Player Reference" subtitle="Phone-first reference, v1 — Start · Spells · Your Turn" viewport="760x980" -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archmage Ascension — Player Reference</title>
+<link rel="stylesheet" href="colors_and_type.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(200,168,74,.05) 0%, transparent 46%),
+      var(--page-bg);
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--hairline); border-radius: 3px; }
+
+  /* ── Page chrome ─────────────────────────────────────── */
+  .pr-page { max-width: 1360px; margin: 0 auto; padding: var(--sp-7) var(--sp-6) var(--sp-8); }
+  .pr-head { max-width: 760px; margin-bottom: var(--sp-7); }
+  .pr-eyebrow {
+    font-family: var(--font-display); font-weight: 600; font-size: var(--fs-tiny);
+    letter-spacing: var(--track-monument); text-transform: uppercase; color: var(--gold);
+    margin: 0 0 var(--sp-2);
+  }
+  .pr-title {
+    font-family: var(--font-display); font-weight: 700; font-size: 32px;
+    letter-spacing: var(--track-wide); color: #c8b8e8; margin: 0 0 var(--sp-3);
+  }
+  .pr-lede {
+    font-family: var(--font-body); font-style: italic; font-size: var(--fs-lead);
+    color: var(--page-text-soft); margin: 0 0 var(--sp-2); line-height: 1.6;
+  }
+  .pr-scope {
+    font-family: var(--font-body); font-size: var(--fs-small); color: var(--page-dim);
+    line-height: 1.6;
+  }
+  .pr-scope b { color: var(--page-text-soft); font-weight: 600; }
+
+  /* ── Stage (centers the single phone panel) ────────────── */
+  .pr-stage { display: flex; justify-content: center; }
+
+  /* ── Phone frame (no bezel chrome — a contained app panel) ── */
+  .pr-phone {
+    width: 392px; height: 760px;
+    background: linear-gradient(180deg, var(--page-bg-elev), var(--page-bg));
+    border: 1px solid var(--hairline);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-card);
+    display: flex; flex-direction: column; overflow: hidden;
+    position: relative;
+  }
+  .pr-phone-header {
+    flex: 0 0 auto; padding: 16px 20px 13px; border-bottom: 1px solid var(--hairline-soft);
+    background: linear-gradient(180deg, rgba(200,168,74,.05), transparent);
+  }
+  .pr-brandline {
+    font-family: var(--font-display); font-weight: 400; font-size: 9px;
+    letter-spacing: var(--track-monument); text-transform: uppercase; color: var(--page-dim-deeper);
+    margin: 0 0 4px;
+  }
+  .pr-screentitle {
+    font-family: var(--font-display); font-weight: 700; font-size: 19px;
+    letter-spacing: var(--track-wide); text-transform: uppercase; color: var(--gold); margin: 0;
+  }
+  .pr-phone-content { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 18px 18px 26px; }
+  .pr-tabbar {
+    flex: 0 0 auto; display: flex; border-top: 1px solid var(--hairline-soft);
+    background: linear-gradient(0deg, rgba(0,0,0,.28), transparent);
+  }
+  .pr-tab {
+    flex: 1 1 0; appearance: none; border: none; background: none; cursor: pointer;
+    padding: 12px 4px 10px; min-height: 48px;
+    font-family: var(--font-display); font-weight: 600; font-size: 10px;
+    letter-spacing: var(--track-vast); text-transform: uppercase; color: var(--page-dim);
+    border-top: 2px solid transparent; transition: color var(--dur-micro) var(--ease);
+  }
+  .pr-tab[data-active="true"] { color: var(--gold); border-top-color: var(--gold); }
+  .pr-tab:hover { color: var(--page-text-soft); }
+
+  /* ── Section primitives ───────────────────────────────── */
+  .pr-section + .pr-section { margin-top: var(--sp-6); }
+  .pr-h {
+    font-family: var(--font-display); font-weight: 600; font-size: var(--fs-micro);
+    letter-spacing: var(--track-monument); text-transform: uppercase; color: var(--page-dim-deeper);
+    margin: 0 0 var(--sp-3);
+  }
+  .pr-goal {
+    font-family: var(--font-body); font-size: 19px; line-height: 1.55; color: var(--page-text);
+    margin: 0 0 var(--sp-5);
+  }
+  .pr-goal em { color: #efe0a8; font-style: italic; }
+
+  .pr-loop { display: flex; align-items: center; gap: 8px; margin-bottom: var(--sp-6); }
+  .pr-loop-step { flex: 1; text-align: center; }
+  .pr-loop-num {
+    width: 22px; height: 22px; margin: 0 auto 6px; border-radius: 50%;
+    border: 1px solid rgba(200,168,74,.4); display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 11px; color: var(--gold);
+  }
+  .pr-loop-label {
+    font-family: var(--font-display); font-weight: 600; font-size: 10px;
+    letter-spacing: var(--track-wide); text-transform: uppercase; color: var(--page-text-soft);
+  }
+  .pr-loop-arrow { color: var(--page-dim-deeper); font-size: 13px; padding-bottom: 16px; }
+
+  .pr-legend-row { display: flex; flex-direction: column; gap: 10px; }
+  .pr-legend-item {
+    display: flex; align-items: center; gap: 12px; padding: 9px 11px;
+    background: rgba(255,255,255,.015); border: 1px solid var(--hairline-soft); border-radius: var(--r-md);
+  }
+  .pr-legend-symbol { width: 34px; height: 34px; flex: 0 0 auto; }
+  .pr-legend-symbol img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .pr-legend-name {
+    font-family: var(--font-display); font-weight: 700; font-size: 12px;
+    letter-spacing: var(--track-wide); text-transform: uppercase; margin: 0 0 2px;
+  }
+  .pr-legend-blurb {
+    font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--page-dim); margin: 0;
+  }
+
+  /* ── Energy chip (card-like, used for examples + hand tester) ── */
+  .pr-chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pr-chip {
+    position: relative; border-radius: var(--r-sm); overflow: hidden; flex: 0 0 auto;
+    border: 1px solid var(--hairline); cursor: default;
+    transition: transform var(--dur-micro) var(--ease), box-shadow var(--dur-micro) var(--ease);
+  }
+  .pr-chip.is-tappable { cursor: pointer; }
+  .pr-chip.is-tappable:hover { transform: translateY(-2px); }
+  .pr-chip.is-selected { box-shadow: 0 0 0 2px var(--chip-bright), 0 6px 16px rgba(0,0,0,.5); transform: translateY(-2px); }
+  .pr-chip-symbol { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .96; }
+  .pr-chip-medallion {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); border-radius: 50%;
+    background: radial-gradient(circle at 38% 34%, #171224, #05040a 78%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.07), 0 1px 3px rgba(0,0,0,.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pr-chip-value { font-family: var(--font-display); font-weight: 700; line-height: 1; }
+
+  /* ── Spell tile ───────────────────────────────────────── */
+  .pr-tile {
+    border: 1px solid var(--hairline); border-radius: var(--r-lg); overflow: hidden;
+    background: linear-gradient(180deg, rgba(255,255,255,.02), transparent);
+  }
+  .pr-tile + .pr-tile { margin-top: 10px; }
+  .pr-tile-head {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    padding: 12px 14px; display: flex; align-items: center; gap: 10px; min-height: 44px;
+  }
+  .pr-tile-dot { width: 8px; height: 8px; border-radius: 2px; flex: 0 0 auto; transform: rotate(45deg); }
+  .pr-tile-titles { flex: 1; min-width: 0; }
+  .pr-tile-name {
+    font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: var(--track-tight);
+    color: var(--page-text); margin: 0 0 2px;
+  }
+  .pr-tile-req {
+    font-family: var(--font-body); font-size: 12.5px; color: var(--page-dim); margin: 0;
+  }
+  .pr-tile-toggle {
+    font-family: var(--font-display); font-size: 16px; color: var(--page-dim-deeper); flex: 0 0 auto; width: 18px; text-align: center;
+  }
+  .pr-tile-body { padding: 0 14px 16px; }
+  .pr-tile-tagline {
+    font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--page-text-soft);
+    margin: 0 0 12px; line-height: 1.5;
+  }
+  .pr-tile-note {
+    font-family: var(--font-body); font-style: italic; font-size: 12px; color: var(--page-dim); margin: 6px 0 0;
+  }
+  .pr-sublabel {
+    font-family: var(--font-display); font-weight: 600; font-size: 9.5px; letter-spacing: var(--track-vast);
+    text-transform: uppercase; color: var(--page-dim); margin: 12px 0 7px;
+  }
+  .pr-effect-row {
+    display: flex; gap: 10px; padding: 7px 0; border-top: 1px solid var(--hairline-soft);
+  }
+  .pr-effect-row:first-of-type { border-top: none; }
+  .pr-effect-range {
+    flex: 0 0 96px; font-family: var(--font-display); font-weight: 600; font-size: 10.5px;
+    letter-spacing: .04em; color: var(--page-dim-deeper); padding-top: 1px;
+  }
+  .pr-effect-result { font-family: var(--font-body); font-size: 13px; color: var(--page-text); line-height: 1.4; }
+
+  /* ── Hand tester ──────────────────────────────────────── */
+  .pr-tester {
+    border: 1px solid rgba(200,168,74,.22); border-radius: var(--r-lg); padding: 16px;
+    background: radial-gradient(ellipse at 50% 0%, rgba(200,168,74,.05), transparent 70%);
+  }
+  .pr-tester-tag {
+    font-family: var(--font-body); font-style: italic; font-size: 13px; color: var(--page-text-soft);
+    margin: 0 0 12px; line-height: 1.5;
+  }
+  .pr-tester-results { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--hairline-soft); min-height: 20px; }
+  .pr-result-empty { font-family: var(--font-body); font-style: italic; font-size: 12.5px; color: var(--page-dim); }
+  .pr-result-match { display: flex; gap: 10px; align-items: baseline; padding: 5px 0; }
+  .pr-result-name { font-family: var(--font-display); font-weight: 700; font-size: 12.5px; letter-spacing: .03em; flex: 0 0 auto; }
+  .pr-result-effect { font-family: var(--font-body); font-size: 12.5px; color: var(--page-text-soft); }
+
+  /* ── Turn screen ──────────────────────────────────────── */
+  .pr-modes { display: flex; gap: 4px; margin-bottom: var(--sp-5); border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 3px; }
+  .pr-mode-btn {
+    flex: 1; appearance: none; border: none; padding: 8px 6px; cursor: pointer; background: none; border-radius: 3px;
+    font-family: var(--font-display); font-weight: 600; font-size: 10.5px; letter-spacing: var(--track-wide);
+    text-transform: uppercase; color: var(--page-dim); min-height: 34px;
+  }
+  .pr-mode-btn[data-active="true"] { background: rgba(200,168,74,.14); color: var(--gold); }
+
+  .pr-step { display: flex; gap: 12px; margin-bottom: 14px; }
+  .pr-step-num {
+    flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--hairline);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 12px; color: var(--page-dim); margin-top: 1px;
+  }
+  .pr-step-title {
+    font-family: var(--font-display); font-weight: 700; font-size: 13.5px; letter-spacing: .03em;
+    color: var(--page-text); margin: 0 0 3px;
+  }
+  .pr-step-body { font-family: var(--font-body); font-size: 13.5px; color: var(--page-text-soft); line-height: 1.5; margin: 0; }
+
+  .pr-recall-box {
+    margin: 4px 0 16px 36px; padding: 12px 14px; border: 1px dashed rgba(200,168,74,.28); border-radius: var(--r-md);
+  }
+  .pr-recall-label { font-family: var(--font-body); font-style: italic; font-size: 12px; color: var(--page-dim); margin: 0 0 10px; }
+  .pr-recall-track { position: relative; height: 40px; border-radius: 20px; background: rgba(255,255,255,.02); border: 1px solid var(--hairline-soft); }
+  .pr-recall-zone {
+    position: absolute; top: 0; height: 100%; width: 50%; display: flex; align-items: center;
+    font-family: var(--font-display); font-size: 8px; letter-spacing: var(--track-wide); text-transform: uppercase; color: var(--page-dim-deeper);
+  }
+  .pr-recall-zone.left { left: 0; justify-content: flex-start; padding-left: 10px; }
+  .pr-recall-zone.right { right: 0; justify-content: flex-end; padding-right: 10px; }
+  .pr-recall-token {
+    position: absolute; top: 6px; width: 28px; height: 28px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f0dca0, var(--gold));
+    box-shadow: 0 2px 6px rgba(0,0,0,.5);
+    transition: left var(--dur-macro) var(--ease);
+  }
+  .pr-recall-btn {
+    margin-top: 10px; appearance: none; border: 1px solid rgba(200,168,74,.4); background: rgba(200,168,74,.08);
+    color: var(--gold); font-family: var(--font-display); font-weight: 600; font-size: 10px;
+    letter-spacing: var(--track-wide); text-transform: uppercase; padding: 8px 14px; border-radius: var(--r-sm);
+    cursor: pointer; min-height: 34px;
+  }
+
+  .pr-warn { color: var(--aether-b); }
+
+  .pr-actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .pr-action-tile { border: 1px solid var(--hairline); border-radius: var(--r-md); padding: 10px 11px; }
+  .pr-action-name {
+    font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .03em; color: var(--gold);
+    margin: 0 0 4px;
+  }
+  .pr-action-body { font-family: var(--font-body); font-size: 12px; color: var(--page-text-soft); line-height: 1.4; margin: 0; }
+  .pr-action-warn { font-family: var(--font-body); font-style: italic; font-size: 11px; color: var(--aether-b); margin: 5px 0 0; opacity: .85; }
+
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState } = React;
+
+// ══════════════════════════════════════════════════════════════
+// DATA — energies, spell types, demo hand (sourced from the rulebook)
+// ══════════════════════════════════════════════════════════════
+
+const ENERGIES = {
+  radiance: { key:'radiance', name:'Radiance', bright:'var(--radiance-b)', mid:'var(--radiance-m)', bg1:'var(--radiance-bg1)', bg2:'var(--radiance-bg2)', symbol:'art/energy-symbols-export/radiance.svg',
+    blurb: 'The emissive current — drawn outward, warm and gold.' },
+  void: { key:'void', name:'Void', bright:'var(--void-b)', mid:'var(--void-m)', bg1:'var(--void-bg1)', bg2:'var(--void-bg2)', symbol:'art/energy-symbols-export/void.svg',
+    blurb: 'The absorptive current — quiet, deep violet.' },
+  flux: { key:'flux', name:'Flux', bright:'var(--flux-b)', mid:'var(--flux-m)', bg1:'var(--flux-bg1)', bg2:'var(--flux-bg2)', symbol:'art/energy-symbols-export/flux.svg',
+    blurb: 'The transitive current — cold teal, always moving.' },
+  aether: { key:'aether', name:'Aether', bright:'var(--aether-b)', mid:'var(--aether-m)', bg1:'var(--aether-bg1)', bg2:'var(--aether-bg2)', symbol:'art/energy-symbols-export/aether.svg',
+    blurb: 'The stabilizing current — crimson, exact, binding.' },
+};
+const WILD = { key:'wild', name:'Wild', bright:'var(--wild-b)', mid:'var(--wild-m)', symbol:'art/energy-symbols-export/wild.svg',
+  blurb: 'Stands for any energy and any value, declared the moment it is learned.' };
+
+const SPELLS = [
+  {
+    key:'conjuration', name:'Conjuration', tagline:'Sustained connection to one energy, drawing more from the Source.',
+    req:'3 or more components of the same energy.', reqNote:'Values need not be sequential.',
+    example:[{e:'void',v:2},{e:'void',v:5},{e:'void',v:9},{e:'void',v:13}],
+    effect:[
+      {range:'3–5 components', result:'Draw 1 additional component from the Source.'},
+      {range:'6+ components', result:'Draw 2 additional components from the Source.'},
+    ],
+  },
+  {
+    key:'transfiguration', name:'Transfiguration', tagline:'Sequential values, exchanged through the regulated Array.',
+    req:'3 or more components in unbroken sequence, any energies.', reqNote:'Cannot loop around — 18, 19, 20 is valid; 20, 1, 2 is not.',
+    example:[{e:'void',v:5},{e:'flux',v:6},{e:'radiance',v:7}],
+    effect:[
+      {range:'3 components', result:'Discard 2 from hand, take 1 from the Array.'},
+      {range:'4+ components', result:'Discard 1 from hand, take 1 from the Array.'},
+    ],
+  },
+  {
+    key:'enchantment', name:'Enchantment', tagline:'Matching values, woven permanently into capacity.',
+    req:'3 or 4 components of the same value.', reqNote:'Always active — never cast.',
+    example:[{e:'radiance',v:7},{e:'void',v:7},{e:'aether',v:7}],
+    effect:[
+      {range:'3 components', result:'+1 spell cast per turn. +1 learning action per turn. Gain +1 counter now.'},
+      {range:'4 components', result:'Cast all spells and take unlimited learning actions (Unlimited Capacity).'},
+    ],
+  },
+  {
+    key:'perfect', name:'Perfect Transmutation', tagline:'Sequential values within a single energy — full alignment.',
+    req:'3 or more components in unbroken sequence, one energy only.', reqNote:'Cannot loop around.',
+    example:[{e:'aether',v:7},{e:'aether',v:8},{e:'aether',v:9}],
+    effect:[
+      {range:'Any size', result:'Both Conjuration and Transfiguration effects, in order. Both mandatory.'},
+    ],
+  },
+];
+const SPELL_BY_KEY = Object.fromEntries(SPELLS.map(s=>[s.key,s]));
+
+const DEMO_HAND = [
+  {e:'void',v:2},{e:'void',v:5},{e:'void',v:7},{e:'void',v:9},{e:'void',v:13},
+  {e:'flux',v:6},{e:'radiance',v:7},{e:'aether',v:7},{e:'aether',v:8},{e:'aether',v:9},
+];
+
+function conjurationEffect(n){ return n>=6 ? 'Draw 2 additional components.' : 'Draw 1 additional component.'; }
+function transfigurationEffect(n){ return n>=4 ? 'Discard 1 from hand, take 1 from the Array.' : 'Discard 2 from hand, take 1 from the Array.'; }
+
+function computeMatches(cards){
+  const n = cards.length;
+  if (n < 3) return [];
+  const sameEnergy = cards.every(c => c.e === cards[0].e);
+  const values = cards.map(c => c.v);
+  const uniqueSorted = [...new Set(values)].sort((a,b)=>a-b);
+  const noDup = uniqueSorted.length === values.length;
+  const sequential = noDup && uniqueSorted.every((v,i)=> i===0 || v === uniqueSorted[i-1]+1);
+  const sameValue = values.every(v => v === values[0]);
+
+  const out = [];
+  if (sameEnergy) out.push({ key:'conjuration', detail: conjurationEffect(n) });
+  if (sequential) out.push({ key:'transfiguration', detail: transfigurationEffect(n) });
+  if ((n===3 || n===4) && sameValue) out.push({ key:'enchantment', detail: n===4 ? 'Cast all spells and take unlimited learning actions.' : '+1 spell cast per turn. +1 learning action per turn.' });
+  if (sequential && sameEnergy) out.push({ key:'perfect', detail:'Both Conjuration and Transfiguration effects, in order.' });
+  return out;
+}
+
+// ══════════════════════════════════════════════════════════════
+// PRIMITIVES
+// ══════════════════════════════════════════════════════════════
+
+function EnergyChip({ card, size, selected, onClick }){
+  const en = ENERGIES[card.e];
+  const s = size || 56;
+  const style = {
+    width:s, height:s, background:`linear-gradient(180deg, ${en.bg2}, ${en.bg1})`,
+    '--chip-bright': en.bright, borderColor: selected ? en.bright : 'var(--hairline)',
+  };
+  const medallion = Math.round(s * 0.46);
+  return (
+    <div className={"pr-chip" + (onClick ? " is-tappable" : "") + (selected ? " is-selected" : "")} style={style} onClick={onClick}>
+      <img className="pr-chip-symbol" src={en.symbol} alt={en.name}/>
+      <div className="pr-chip-medallion" style={{width:medallion, height:medallion}}>
+        <span className="pr-chip-value" style={{color:en.bright, fontSize:Math.round(s*0.32)}}>{card.v}</span>
+      </div>
+    </div>
+  );
+}
+
+function HandTester({ heroStyle }){
+  const [selected, setSelected] = useState(() => new Set([0,1,2,3]));
+  const toggle = (i) => setSelected(prev => {
+    const next = new Set(prev);
+    next.has(i) ? next.delete(i) : next.add(i);
+    return next;
+  });
+  const chosen = DEMO_HAND.filter((_,i)=>selected.has(i));
+  const matches = computeMatches(chosen);
+
+  return (
+    <div className="pr-tester">
+      <div className="pr-h" style={{marginBottom:6}}>Test your hand</div>
+      <p className="pr-tester-tag">A sample hand of ten components. Tap the ones you are holding to see which spells they form.</p>
+      <div className="pr-chip-row">
+        {DEMO_HAND.map((c,i)=>(
+          <EnergyChip key={i} card={c} selected={selected.has(i)} onClick={()=>toggle(i)}/>
+        ))}
+      </div>
+      <div className="pr-tester-results">
+        {chosen.length < 3 && <div className="pr-result-empty">Select 3 or more components to test a pattern.</div>}
+        {chosen.length >= 3 && matches.length === 0 && <div className="pr-result-empty">These components do not yet form a valid spell.</div>}
+        {matches.map(m => (
+          <div className="pr-result-match" key={m.key}>
+            <span className="pr-result-name" style={{color: ENERGIES[chosen[0] ? chosen[0].e : 'radiance'] ? 'var(--gold)' : 'var(--gold)'}}>{SPELL_BY_KEY[m.key].name}</span>
+            <span className="pr-result-effect">{m.detail}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SpellTile({ spell, defaultOpen }){
+  const [open, setOpen] = useState(!!defaultOpen);
+  const dotColor = ENERGIES[spell.example[0].e] ? ENERGIES[spell.example[0].e].bright : 'var(--gold)';
+  return (
+    <div className="pr-tile">
+      <button className="pr-tile-head" onClick={()=>setOpen(o=>!o)}>
+        <div className="pr-tile-dot" style={{background:dotColor}}></div>
+        <div className="pr-tile-titles">
+          <p className="pr-tile-name">{spell.name}</p>
+          <p className="pr-tile-req">{spell.req}</p>
+        </div>
+        <div className="pr-tile-toggle">{open ? '–' : '+'}</div>
+      </button>
+      {open && (
+        <div className="pr-tile-body">
+          <p className="pr-tile-tagline">{spell.tagline}</p>
+          {spell.reqNote && <p className="pr-tile-note" style={{marginBottom:12}}>{spell.reqNote}</p>}
+          <div className="pr-sublabel">Example</div>
+          <div className="pr-chip-row">{spell.example.map((c,i)=><EnergyChip key={i} card={c} size={40}/>)}</div>
+          <div className="pr-sublabel">When cast</div>
+          {spell.effect.map((row,i)=>(
+            <div className="pr-effect-row" key={i}>
+              <div className="pr-effect-range">{row.range}</div>
+              <div className="pr-effect-result">{row.result}</div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// SHARED SCREENS — Start, Your Turn (identical across both options)
+// ══════════════════════════════════════════════════════════════
+
+function StartScreen(){
+  return (
+    <div data-screen-label="START">
+      <div className="pr-section">
+        <div className="pr-h">The goal</div>
+        <p className="pr-goal">
+          Build resonant patterns in your Spellbook. Draw upon <em>the Source</em> while it lasts.
+          When <em>the Drought</em> ends, the wizard with the strongest resonance ascends.
+        </p>
+        <div className="pr-loop">
+          <div className="pr-loop-step"><div className="pr-loop-num">1</div><div className="pr-loop-label">Collect</div></div>
+          <div className="pr-loop-arrow">→</div>
+          <div className="pr-loop-step"><div className="pr-loop-num">2</div><div className="pr-loop-label">Cast</div></div>
+          <div className="pr-loop-arrow">→</div>
+          <div className="pr-loop-step"><div className="pr-loop-num">3</div><div className="pr-loop-label">Learn</div></div>
+        </div>
+      </div>
+      <div className="pr-section">
+        <div className="pr-h">The four energies</div>
+        <div className="pr-legend-row">
+          {Object.values(ENERGIES).map(en=>(
+            <div className="pr-legend-item" key={en.key}>
+              <div className="pr-legend-symbol"><img src={en.symbol} alt={en.name}/></div>
+              <div>
+                <p className="pr-legend-name" style={{color:en.bright}}>{en.name}</p>
+                <p className="pr-legend-blurb">{en.blurb}</p>
+              </div>
+            </div>
+          ))}
+          <div className="pr-legend-item">
+            <div className="pr-legend-symbol"><img src={WILD.symbol} alt="Wild"/></div>
+            <div>
+              <p className="pr-legend-name" style={{color:WILD.bright}}>Wild</p>
+              <p className="pr-legend-blurb">{WILD.blurb}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RecallDemo(){
+  const [phase, setPhase] = useState('cast');
+  const isCast = phase === 'cast';
+  return (
+    <div className="pr-recall-box">
+      <p className="pr-recall-label">{isCast ? 'Two counters sit on spells just cast.' : 'Recalled — both return to the pool, ready to fund learning.'}</p>
+      <div className="pr-recall-track">
+        <div className="pr-recall-zone left">On spells</div>
+        <div className="pr-recall-zone right">In pool</div>
+        <div className="pr-recall-token" style={{left: isCast ? '8px' : 'calc(50% + 8px)'}}></div>
+        <div className="pr-recall-token" style={{left: isCast ? '44px' : 'calc(50% + 44px)'}}></div>
+      </div>
+      <button className="pr-recall-btn" onClick={()=>setPhase(p=>p==='cast'?'recall':'cast')}>
+        {isCast ? 'Recall' : 'Cast again'}
+      </button>
+    </div>
+  );
+}
+
+function YourTurnScreen(){
+  const [mode, setMode] = useState('normal');
+  return (
+    <div data-screen-label="YOUR TURN">
+      <div className="pr-modes">
+        <button className="pr-mode-btn" data-active={mode==='normal'} onClick={()=>setMode('normal')}>Normal</button>
+        <button className="pr-mode-btn" data-active={mode==='drought'} onClick={()=>setMode('drought')}>Drought</button>
+      </div>
+
+      {mode==='normal' ? (
+        <div className="pr-section" style={{marginTop:0}}>
+          <div className="pr-step">
+            <div className="pr-step-num">1</div>
+            <div><p className="pr-step-title">Collection</p><p className="pr-step-body">Draw 1 component from the Source, or take 1 from the Array and refill it from the Source.</p></div>
+          </div>
+          <div className="pr-step">
+            <div className="pr-step-num">2</div>
+            <div><p className="pr-step-title">Casting</p><p className="pr-step-body">Place a counter on a spell to cast it — 1 counter, 1 spell, resolved immediately. Repeat while counters or unlimited capacity remain.</p></div>
+          </div>
+          <RecallDemo/>
+          <div className="pr-step">
+            <div className="pr-step-num">3</div>
+            <div><p className="pr-step-title">Learning</p><p className="pr-step-body">Recalled counters now fund learning actions, 1 counter each — see below.</p></div>
+          </div>
+        </div>
+      ) : (
+        <div className="pr-section" style={{marginTop:0}}>
+          <div className="pr-step">
+            <div className="pr-step-num">1</div>
+            <div><p className="pr-step-title">Collection</p><p className="pr-step-body">Draw exactly 1 component from the Released Reserve. No choice — the Array is gone.</p></div>
+          </div>
+          <div className="pr-step">
+            <div className="pr-step-num">—</div>
+            <div><p className="pr-step-title pr-warn">No casting phase</p><p className="pr-step-body">The Source and Array are both gone. Enchantments remain active on their own; nothing else can be cast.</p></div>
+          </div>
+          <div className="pr-step">
+            <div className="pr-step-num">2</div>
+            <div><p className="pr-step-title">Learning</p><p className="pr-step-body">Proceeds exactly as normal — your last chance to refine the Spellbook before evaluation.</p></div>
+          </div>
+        </div>
+      )}
+
+      <div className="pr-section">
+        <div className="pr-h">Learning actions — 1 counter each</div>
+        <div className="pr-actions-grid">
+          <div className="pr-action-tile">
+            <p className="pr-action-name">Learn</p>
+            <p className="pr-action-body">Place a new spell from hand into the Spellbook.</p>
+          </div>
+          <div className="pr-action-tile">
+            <p className="pr-action-name">Empower</p>
+            <p className="pr-action-body">Add components from hand to an existing spell.</p>
+          </div>
+          <div className="pr-action-tile">
+            <p className="pr-action-name">Reshape</p>
+            <p className="pr-action-body">Rebuild any spells using the same components.</p>
+            <p className="pr-action-warn">Breaking a 3-component Enchantment: −1 counter. Breaking a 4-component one: lose unlimited capacity.</p>
+          </div>
+          <div className="pr-action-tile">
+            <p className="pr-action-name">Unlearn</p>
+            <p className="pr-action-body">Dissolve one spell back into hand components.</p>
+            <p className="pr-action-warn">Same Enchantment warnings apply.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// SPELLS — browse four tiles, test your hand below
+// ══════════════════════════════════════════════════════════════
+
+function SpellsScreen(){
+  return (
+    <div data-screen-label="SPELLS">
+      <div className="pr-section" style={{marginTop:0}}>
+        <div className="pr-h">The four spell types</div>
+        {SPELLS.map((s,i)=><SpellTile key={s.key} spell={s} defaultOpen={i===0}/>)}
+      </div>
+      <div className="pr-section"><HandTester/></div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════
+// APP SHELL
+// ══════════════════════════════════════════════════════════════
+
+const TABS = [
+  {key:'start', label:'Start'},
+  {key:'spells', label:'Spells'},
+  {key:'turn', label:'Your Turn'},
+];
+
+function PhoneApp(){
+  const [tab, setTab] = useState('spells');
+  const title = TABS.find(t=>t.key===tab).label;
+  return (
+    <div className="pr-phone">
+      <div className="pr-phone-header">
+        <p className="pr-brandline">Archmage Ascension</p>
+        <p className="pr-screentitle">{title}</p>
+      </div>
+      <div className="pr-phone-content">
+        {tab==='start' && <StartScreen/>}
+        {tab==='spells' && <SpellsScreen/>}
+        {tab==='turn' && <YourTurnScreen/>}
+      </div>
+      <div className="pr-tabbar">
+        {TABS.map(t=>(
+          <button key={t.key} className="pr-tab" data-active={tab===t.key} onClick={()=>setTab(t.key)}>{t.label}</button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Root(){
+  return (
+    <div className="pr-page">
+      <div className="pr-head">
+        <p className="pr-eyebrow">Player Reference · v1</p>
+        <h1 className="pr-title">Start · Spells · Your Turn</h1>
+        <p className="pr-lede">The lost reference card, rebuilt for the phone in your hand — the personal lookup a player reaches for mid-turn, not the shared board.</p>
+        <p className="pr-scope">The hand-checker is a working preview against a fixed sample hand.</p>
+      </div>
+      <div className="pr-stage">
+        <PhoneApp/>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<Root/>);
+</script>
+</body>
+</html>

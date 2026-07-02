@@ -24,6 +24,25 @@ card-design/export-printenbind/*-[0-9][0-9].pdf
 card-design/export-printenbind/wild-*.pdf
 card-design/export-printenbind/_*.pdf
 
+# Generated per-card PDFs from Component Studio export
+card-design/export-cs3/print-ready/*.pdf
+
+# Oversized print deliverables (exceed GitHub 100MB limit — keep locally / use LFS or external storage)
+card-design/export-printenbind/archmage-fronts.pdf
+card-design/export-printenbind/*.zip
+
+# printenbind session tooling artifacts (Claude local-agent session data, audit logs)
+card-design/printenbind/.claude/
+card-design/printenbind/.audit-key
+card-design/printenbind/audit.jsonl
+
+# Redundant packaged bundle (unpacked contents live in quick-ref-page/)
+quick-ref-page.zip
+
+# Editor / tool backup files
+*.bak
+*.bak-*
+
 # macOS
 .DS_Store
 

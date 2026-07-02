@@ -1,0 +1,25 @@
+# Normalize line endings to prevent CRLF/LF churn (root cause of the June 2026 history divergence).
+# Text files are stored with LF in the repo; Git handles the working-tree conversion.
+* text=auto
+
+# Explicit text types
+*.md      text
+*.html    text
+*.css     text
+*.js      text
+*.jsx     text
+*.json    text
+*.svg     text
+
+# Binary assets — never touch line endings
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.pdf     binary
+*.zip     binary
+*.xlsx    binary
+*.ttf     binary
+*.otf     binary
+*.woff    binary
+*.woff2   binary

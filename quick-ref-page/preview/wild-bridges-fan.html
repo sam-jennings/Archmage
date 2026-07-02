@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Wild Bridges a Radiance Run" subtitle="Radiance 7 · Wild · Radiance 9 — wild bridges the staircase quietly" viewport="700x250" -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="../lib/cards.js"></script>
+<style>body{padding:16px;background:var(--page-bg);}
+.block{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:18px;}
+.lbl{font-family:var(--font-display);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--page-dim);}
+.fan{display:inline-flex;position:relative;transform:scale(.42);transform-origin:top center;height:148px;}
+.slot{position:relative;flex-shrink:0;}
+.row{display:flex;gap:32px;justify-content:center;}
+</style></head><body>
+<div class="row" id="row"></div>
+<script>
+const connectors=['bloom','parallelogram','triangle','notch','beacon'];
+// Fan: Radiance 7, Wild, Radiance 9 — wild bridges the staircase
+const row=document.getElementById('row');
+connectors.forEach(conn=>{
+  const block=document.createElement('div');block.className='block';
+  const lbl=document.createElement('span');lbl.className='lbl';lbl.textContent=conn;
+  const fan=document.createElement('div');fan.className='fan';
+  const cards=[{v:7,e:'radiance'},{v:8,e:'wild'},{v:9,e:'radiance'}];
+  const OL=36;
+  cards.forEach((c,i)=>{
+    const last=i===cards.length-1;
+    const s=document.createElement('div');s.className='slot';
+    s.style.cssText=`height:352px;${last?'width:252px':'width:'+OL+'px;overflow:visible'}`;
+    const f=document.createElement('div');
+    f.style.cssText='position:absolute;left:0;top:0;width:252px;height:352px;';
+    f.innerHTML=c.e==='wild'?ArchmageCards.makeWildCard({connector:conn}):ArchmageCards.makeCard(c.v,c.e,{connector:conn});
+    s.appendChild(f);fan.appendChild(s);
+  });
+  block.appendChild(fan);block.appendChild(lbl);row.appendChild(block);
+});
+</script></body></html>

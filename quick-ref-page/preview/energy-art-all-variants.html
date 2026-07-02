@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<title>Energy Art — All Variants</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="../lib/cards.js"></script>
+<style>
+  body{margin:0;padding:14px;background:var(--page-bg);overflow-x:auto;}
+  table{border-collapse:separate;border-spacing:8px;}
+  th{font-family:var(--font-display);font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--page-dim-deeper);padding:0 0 4px;text-align:left;}
+  td{vertical-align:top;}
+  .cage{display:block;transform:scale(.38);transform-origin:top left;width:96px;height:134px;}
+  .sublbl{font-family:var(--font-display);font-size:7.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--page-dim-deeper);display:block;margin-top:-2px;}
+</style></head><body>
+<table id="t"></table>
+<script>
+const variants = ['sigil','runic','crystalline','arcane','engraved'];
+const suits = ['radiance','void','flux','aether'];
+const t = document.getElementById('t');
+
+// Header row
+const hdr = document.createElement('tr');
+hdr.innerHTML = '<th>Variant</th>';
+[...suits,'wild'].forEach(s=>{
+  const th=document.createElement('th');th.textContent=s;hdr.appendChild(th);
+});
+t.appendChild(hdr);
+
+variants.forEach(v=>{
+  const tr=document.createElement('tr');
+  const vth=document.createElement('td');
+  vth.innerHTML=`<span class="sublbl">${v}</span>`;
+  vth.style.paddingTop='6px';
+  tr.appendChild(vth);
+
+  suits.forEach(s=>{
+    const td=document.createElement('td');
+    const cage=document.createElement('div');cage.className='cage';
+    cage.innerHTML=ArchmageCards.makeCard(7,s,{art:v,scale:1});
+    td.appendChild(cage);
+    tr.appendChild(td);
+  });
+
+  // wild
+  const wtd=document.createElement('td');
+  const wcage=document.createElement('div');wcage.className='cage';
+  wcage.innerHTML=ArchmageCards.makeWildCard({art:v,scale:1});
+  wtd.appendChild(wcage);
+  tr.appendChild(wtd);
+  t.appendChild(tr);
+});
+</script>
+</body></html>

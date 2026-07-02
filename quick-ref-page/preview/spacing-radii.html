@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Spacing & Radii" subtitle="4→64 scale · corner radii" viewport="700x340" -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>body{padding:22px;background:var(--page-bg);display:flex;gap:36px;}
+.col{display:flex;flex-direction:column;gap:10px;}
+.h{font-family:var(--font-display);font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--page-dim-deeper);margin-bottom:4px;}
+.row{display:flex;align-items:center;gap:10px;}
+.bar{background:linear-gradient(90deg,#c8a84a,#6a0dad);height:10px;border-radius:2px;}
+.tag{font-family:var(--font-mono);font-size:10px;color:var(--page-dim);min-width:76px;}
+.box{width:36px;height:36px;background:#120a1c;border:1px solid #2a1e48;}
+</style></head><body>
+<div class="col">
+<span class="h">Spacing scale</span>
+<div class="row"><span class="tag">sp-1 · 4px</span><div class="bar" style="width:4px"></div></div>
+<div class="row"><span class="tag">sp-2 · 8px</span><div class="bar" style="width:8px"></div></div>
+<div class="row"><span class="tag">sp-3 · 12px</span><div class="bar" style="width:12px"></div></div>
+<div class="row"><span class="tag">sp-4 · 16px</span><div class="bar" style="width:16px"></div></div>
+<div class="row"><span class="tag">sp-5 · 24px</span><div class="bar" style="width:24px"></div></div>
+<div class="row"><span class="tag">sp-6 · 32px</span><div class="bar" style="width:32px"></div></div>
+<div class="row"><span class="tag">sp-7 · 48px</span><div class="bar" style="width:48px"></div></div>
+<div class="row"><span class="tag">sp-8 · 64px</span><div class="bar" style="width:64px"></div></div>
+</div>
+<div class="col">
+<span class="h">Radii</span>
+<div class="row"><div class="box" style="border-radius:3px"></div><span class="tag">r-xs · 3</span></div>
+<div class="row"><div class="box" style="border-radius:4px"></div><span class="tag">r-sm · 4</span></div>
+<div class="row"><div class="box" style="border-radius:6px"></div><span class="tag">r-md · 6</span></div>
+<div class="row"><div class="box" style="border-radius:10px"></div><span class="tag">r-lg · 10</span></div>
+<div class="row"><div class="box" style="border-radius:12px;width:48px;height:66px"></div><span class="tag">r-card · 12</span></div>
+</div>
+</body></html>

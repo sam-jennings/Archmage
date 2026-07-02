@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Fan — Same-Value Chromatic" subtitle="All four 10s — hue shift across the strip" viewport="700x170" -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="../lib/cards.js"></script>
+<style>body{padding:10px;background:var(--page-bg);}.fan{display:inline-flex;position:relative;transform:scale(.42);transform-origin:top left;}.fan .slot{position:relative;flex-shrink:0;}</style>
+</head><body>
+<div style="display:flex;justify-content:center;"><div id="fan" class="fan"></div></div>
+<script>
+const fan=document.getElementById('fan');
+const cards=[{v:10,e:'radiance'},{v:10,e:'void'},{v:10,e:'flux'},{v:10,e:'aether'}];
+const OL=36;cards.forEach((c,i)=>{const last=i===cards.length-1;const s=document.createElement('div');s.className='slot';s.style.cssText=`height:352px;${last?'width:252px':'width:'+OL+'px;overflow:visible'}`;const f=document.createElement('div');f.style.cssText='position:absolute;left:0;top:0;width:252px;height:352px;';f.innerHTML=ArchmageCards.makeCard(c.v,c.e);s.appendChild(f);fan.appendChild(s);});
+</script></body></html>

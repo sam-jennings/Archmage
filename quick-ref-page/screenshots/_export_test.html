@@ -1,0 +1,10 @@
+<!DOCTYPE html><html><head>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"></script>
+</head><body>
+<div id="out"></div>
+<script type="text/babel">
+export function Foo(){ return 1; }
+window.Foo = Foo;
+document.getElementById('out').textContent = 'loaded, Foo=' + Foo();
+</script>
+</body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Card Anatomy" subtitle="Overlap strip, step rhythm, art zone, pip" viewport="700x280" -->
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="../colors_and_type.css">
+<script src="../lib/cards.js"></script>
+<style>body{padding:20px;background:var(--page-bg);display:flex;gap:24px;align-items:center;}
+.meta{font-family:var(--font-body);font-size:13px;color:var(--page-dim);max-width:340px;line-height:1.6;}
+.meta b{font-family:var(--font-display);font-weight:600;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;}
+dl{margin:0;}dt{font-family:var(--font-mono);font-size:10px;color:var(--page-dim);margin-top:6px;}dd{margin:0;font-size:12px;color:#a898b8;}</style>
+</head><body>
+<div id="card"></div>
+<div class="meta"><b>Anatomy · Radiance 7</b>
+<dl>
+<dt>OL · overlap strip</dt><dd>36px · value + pip live here</dd>
+<dt>TM · top margin</dt><dd>16px · y-offset of tick scale</dd>
+<dt>ST · step</dt><dd>16px · px per value (1–20)</dd>
+<dt>Art zone</dt><dd>centered at 48% height, radius = 30% card width</dd>
+<dt>Pip</dt><dd>Cinzel 700 · suit bright · drop shadow</dd>
+<dt>Double border</dt><dd>suit-mid @ 42% / 18%</dd>
+</dl></div>
+<script>
+document.getElementById('card').innerHTML = ArchmageCards.makeCard(7,'radiance',{scale:1});
+</script>
+</body></html>
