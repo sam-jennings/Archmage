@@ -2,16 +2,26 @@
 
 An **art variant** is the central artwork of a card that communicates its
 suit. Each file here is one complete visual language applied consistently
-across all four suits (Radiance, Void, Flux, Aether) plus the Wild.
+across all five currents (Radiance, Void, Flux, Aether, Echo) plus the Wild.
+
+## Primary — arcana
+
+**`arcana.js` is the primary and only shipped art variant.** All other
+variants (sigil, ritual, glyph, relic, emblem, runic, crystalline, engraved,
+mixed) have been archived to
+`_archive/card-design-non-primary-2026-07-02/art/`.
+
+Arcana is fully procedural (SVG, no bitmap assets) and covers every energy
+including the fifth-suit echo, so it needs no companion files.
 
 ## How each file registers
 
 ```js
 (function(){
   const AA = window.AA_ART = window.AA_ART || {};
-  AA['sigil'] = {
-    name: 'Sigil',
-    notes: 'Concentric rings, starfield, waves, lattice.',
+  AA['arcana'] = {
+    name: 'Arcana',
+    notes: 'Equation-driven relic style: seeded grain, bloom, dust, wobble.',
     render: function(elem, cx, cy, artR, e, meta){
       // return an SVG fragment (no outer <svg>)
       return '...';
@@ -27,36 +37,24 @@ a string of SVG elements concatenated into the card's `<svg>` root.
 
 | name      | meaning                                                   |
 |-----------|-----------------------------------------------------------|
-| `elem`    | `'radiance' | 'void' | 'flux' | 'aether' | 'wild'`        |
+| `elem`    | `'radiance' \| 'void' \| 'flux' \| 'aether' \| 'echo' \| 'wild'` |
 | `cx`, `cy`| centre of the artwork area in px                          |
 | `artR`    | radius of the artwork area in px                          |
 | `e`       | suit palette object                                        |
-| `meta`    | `{ W, H, sc, OL, TM, ST, val }` — whole-card metrics      |
+| `meta`    | `{ W, H, sc, OL, TM, ST, val }` — whole-card metrics       |
 
 `meta.val` is handy if you want the art to react to the card's numeric
 value (e.g. denser pattern at higher values).
 
-## Where to put image assets
+## Exploring a new variant
 
-Any bitmap images (PNG, JPG) go in `art/assets/`. Reference them
-with a relative path from `playtable.html`, e.g.
-`'art/assets/radiance.jpg'`. See `relic.js` for a working example.
+If you want to try something new alongside the primary:
 
-## Adding a new art variant
-
-1. Copy `sigil.js` to `<your-name>.js`.
+1. Copy `arcana.js` to `<your-name>.js`.
 2. Change the registry key (`AA['your-name']`).
 3. Edit the render body — add per-suit branching based on `elem`.
 4. Add `<script src="art/<your-name>.js"></script>` to `playtable.html`
-   (in the Art variants block). The dropdown updates automatically.
+   (after the `arcana.js` tag). The dropdown updates automatically.
 
-## Current files
-
-- `sigil.js`       — concentric rings, starfield, waves, lattice. Original live.
-- `ritual.js`      — ceremonial sigils with layered glows + containment rings.
-- `glyph.js`       — less circle-led; suit emblems with a clear central number.
-- `relic.js`       — hand-painted JPEG per suit (see `assets/`).
-- `emblem.js`      — vector reproduction of the relic art. Scales cleanly.
-- `runic.js`       — rune-ring emblems, stripped-down ritual.
-- `crystalline.js` — hex-crystal framed motifs with crystal shards.
-- `engraved.js`    — inscription, orrery, plaque-style engraving.
+If a new variant supersedes arcana, promote it in `card-design/README.md`
+and archive the previous primary.

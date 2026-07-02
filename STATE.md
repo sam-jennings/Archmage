@@ -11,7 +11,7 @@ updated_by: aa-state-keeper
 
 **Stage 3 — Core Loop Testing**
 
-The game is playable end-to-end. The job right now is to confirm that the central player actions create the intended experience — that players understand what they're doing, that the loop generates tension and meaningful choices, and that all four spell types are viable paths. The enchantment/capacity economy is confirmed structurally broken (Sessions 1 and 3), and a counter-mechanic redesign has now been chosen; both need validation before the loop can be called sound.
+The game is playable end-to-end. The job right now is to confirm that the central player actions create the intended experience — that players understand what they're doing, that the loop generates tension and meaningful choices, and that all four spell types are viable paths. The enchantment/capacity economy is confirmed structurally broken (Sessions 1 and 3). A round-trip counter redesign has been proposed as a candidate fix but is not yet decided — it still needs analysis, solo-rig testing, and a decision before it can be validated live.
 
 ## Target player
 
@@ -23,7 +23,7 @@ Building patterns of magical components into your Spellbook over the course of t
 
 ## Current problem
 
-The capacity / Source economy makes Enchantment pursuit non-viable (2–3 turn overhead; only 2 of 5 players learned one in Session 3), and the 4-card Enchantment's Unlimited Capacity collapses Drought tension once acquired — one root cause with two surfaces. The counter mechanic's fix is chosen (round-trip counters) but unvalidated.
+The capacity / Source economy makes Enchantment pursuit non-viable (2–3 turn overhead; only 2 of 5 players learned one in Session 3), and the 4-card Enchantment's Unlimited Capacity collapses Drought tension once acquired — one root cause with two surfaces. A round-trip counter redesign (placing a counter casts a spell; picking one up pays for a learning action) is one candidate fix under consideration, but no decision has been made yet — it hasn't been analysed, tested, or chosen.
 
 ## Current hypothesis
 

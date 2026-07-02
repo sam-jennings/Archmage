@@ -3,7 +3,7 @@
 // Generates print-ready PDFs (via --pdf flag) or SVGs for each card.
 //
 // Usage:
-//   node export-cs3/export.js [--connector parallelogram] [--art mixed] [--layout classic] [--scale 3] [--pdf]
+//   node export-cs3/export.js [--connector beacon] [--art arcana] [--layout classic] [--scale 3] [--pdf]
 //
 // Outputs: export-cs3/svg-cards/  and optionally export-cs3/pdf-cards/
 
@@ -18,8 +18,8 @@ function flag(name, def) {
   const i = args.indexOf('--' + name);
   return i !== -1 ? args[i + 1] : def;
 }
-const CONNECTOR = flag('connector', 'parallelogram');
-const ART       = flag('art',       'mixed');
+const CONNECTOR = flag('connector', 'beacon');
+const ART       = flag('art',       'arcana');
 const LAYOUT    = flag('layout',    'classic');
 const SCALE     = parseFloat(flag('scale', '3'));
 

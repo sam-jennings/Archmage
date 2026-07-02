@@ -3,51 +3,59 @@
 Self-contained Archmage Ascension card designer. **No build step. No server.**
 Double-click `playtable.html` in File Explorer and it runs.
 
+## Primary design — decided 2026-07-02
+
+The primary card design is **arcana art + beacon connector**. That combination
+is what ships to print and what the renderer defaults to. Everything else that
+lived in `art/` and `connectors/` (sigil, ritual, glyph, relic, emblem, runic,
+crystalline, engraved, mixed, echo, bloom-soft, parallelogram, notch, triangle)
+has been archived to `_archive/card-design-non-primary-2026-07-02/`. The
+registries (`window.AA_ART` / `window.AA_CONNECTORS`) still exist so the
+architecture remains open for future exploration, but the deck is no longer
+being iterated as a matrix of variants.
+
+If you need to look at an old variant, restore the file from `_archive/` and
+add its `<script>` tag back into `playtable.html`.
+
 ## Folder map
 
     card-design/
       playtable.html          ← main viewer. Open me first.
+      playtable-mobile.html   ← mobile portrait reflow of the same viewer.
+      VISUAL_SYSTEM.md        ← the visual design system (single source of truth).
       lib/
         cards.js              ← palette + helpers + makeCard dispatcher
         tokens.css            ← design tokens (CSS variables)
-      connectors/             ← ONE strip style per file. Self-register into window.AA_CONNECTORS.
-        bloom-soft.js
-        parallelogram.js
-        notch.js
-        triangle.js
-        beacon.js
-      art/                    ← ONE energy-art style per file. Self-register into window.AA_ART.
-        sigil.js
-        ritual.js
-        glyph.js
-        relic.js
-        emblem.js
-        runic.js
-        crystalline.js
-        engraved.js
-        assets/               ← image files used by art/relic.js
-      incoming/               ← drop standalone HTML files here from Claude/ChatGPT/etc.
-      snapshots/              ← frozen one-file versions of specific connector+art combos.
-      export-cs3/             ← CS3 export manifest + guide for the physical card run.
-      references/             ← reference material that doesn't belong elsewhere.
-      _archive/               ← old stuff. Safe to delete from Windows Explorer.
+      connectors/
+        beacon.js             ← the primary connector. Round glowing orb at value Y.
+      art/
+        arcana.js             ← the primary art. Procedural per-suit ritual diagrams.
+                                Renders all five currents (radiance/void/flux/aether/echo)
+                                and the wild card. No bitmap assets required.
+      export-cs3/             ← Component Studio export (node project, defaults to beacon + arcana).
+      export-printenbind/     ← print-ready output (final bundles only; per-card PDFs gitignored).
+      printenbind/            ← printenbind session working files.
+      generated/              ← generated review/style/production boards + their uploaded PNGs.
+      incoming/               ← landing zone for standalone LLM-generated HTML files.
+      snapshots/              ← dated one-file snapshots (frozen history).
 
 ## How a card is drawn
 
-Two dimensions, combined independently:
+The renderer picks a connector and an art variant from their registries and
+composes a single SVG. With the primary decision made, both dimensions default
+to the same choice everywhere:
 
-| Dimension    | Folder        | Registry              | Default      |
-|--------------|---------------|-----------------------|--------------|
-| **Connector** (the edge strip where cards bloom into each other) | `connectors/` | `window.AA_CONNECTORS` | `bloom-soft` |
-| **Art** (the suit artwork filling the centre of the card)        | `art/`        | `window.AA_ART`        | `sigil`      |
+| Dimension    | Registry                | Default    | File                     |
+|--------------|-------------------------|------------|--------------------------|
+| **Connector**| `window.AA_CONNECTORS`  | `beacon`   | `connectors/beacon.js`   |
+| **Art**      | `window.AA_ART`         | `arcana`   | `art/arcana.js`          |
 
-`playtable.html` builds its two dropdowns by reading the keys of those registries at
-page load, so you never have to hand-edit a list of options: if you add a new file
-and a new `<script>` tag, it shows up automatically.
+`playtable.html` still exposes dropdowns for both dimensions so a future
+variant can be dropped in and previewed without a code change.
 
 ## Linking a specific combo
 
-    playtable.html?connector=beacon&art=glyph
+    playtable.html?connector=beacon&art=arcana
 
 URL params are read on first paint and updated whenever you click a button, so
 current combos are always shareable / bookmarkable.
@@ -56,56 +64,29 @@ current combos are always shareable / bookmarkable.
 
 1. Save the HTML they gave you into `incoming/whatever.html`.
 2. Open `playtable.html?incoming=whatever.html` — it opens that file in an iframe
-   with a "back to play table" link, no need to fiddle with Windows file
-   associations.
+   with a "back to play table" link.
 
-## Adding a new connector
+## Adding a new connector or art variant
 
-1. Copy `connectors/bloom-soft.js` to `connectors/my-new-strip.js`.
-2. Change `AA['bloom-soft']` to `AA['my-new-strip']`.
-3. Edit the body of `render(val, e, opts)` — it returns an SVG string.
-4. Add `<script src="connectors/my-new-strip.js"></script>` to `playtable.html`
-   (in the Connectors block).
-5. Refresh. The dropdown now has a `my-new-strip` button.
+If you want to explore a new visual direction:
 
-## Adding a new art variant
+1. Copy `connectors/beacon.js` (or `art/arcana.js`) as a template.
+2. Change the registry key (`AA['your-name']`).
+3. Edit the render body.
+4. Add a `<script src="connectors/your-name.js"></script>` tag to `playtable.html`.
 
-Same pattern in `art/`, registering into `AA_ART`:
-
-    (function(){
-      const AA = window.AA_ART = window.AA_ART || {};
-      AA['moonwell'] = {
-        name: 'Moonwell',
-        notes: 'Concentric water rings per suit.',
-        render: function(elem, cx, cy, artR, e, meta){
-          // return an SVG string here
-          return '';
-        }
-      };
-    })();
-
-Add the `<script src="art/moonwell.js">` tag; done.
+The dropdown updates automatically. If it earns its place, promote it here in
+the README and archive the previous primary.
 
 ## Canonical vs snapshot
 
-- `playtable.html` is the **living** viewer. Edit freely, break things, iterate.
-- `snapshots/` holds **frozen** single-file HTMLs for moments you want to keep
-  working even if the live system is mid-refactor (e.g. the version you sent to
-  print).
+- `playtable.html` is the **living** viewer.
+- `snapshots/` holds **frozen** single-file HTMLs from moments worth keeping
+  (e.g. the version that was sent to print).
 
-## Why this shape
+## Archive
 
-The previous layout had three overlapping systems (`Play Table/`,
-`archmage-ascension-design-system/`, `card-workbench/`) with duplicated copies of
-everything. Connectors and art variants were baked together into monolithic
-HTMLs, which made it impossible to mix and match. This version:
-
-- keeps connector and art as **orthogonal dimensions** (two folders, two
-  registries, two dropdowns) so any combo is one click away;
-- uses **plain `<script>` tags**, no bundler, no npm, no Vite;
-- stays editable from any LLM that can spit out a single HTML file
-  (`incoming/`).
-
-See `_archive/2026-04-23-pre-restructure/` for everything that was here before —
-it's copies of the old top-level folders and can be removed from Windows
-Explorer any time you're confident you don't need it.
+See `_archive/card-design-non-primary-2026-07-02/` for the full set of art
+variants and connectors that were in play before arcana + beacon was chosen.
+See `_archive/card-design - bkp/` for the older hand-made backup of the entire
+folder from the pre-restructure era.

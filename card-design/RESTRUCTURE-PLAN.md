@@ -1,5 +1,12 @@
 # Restructure — 2026-04-23
 
+> **Update 2026-07-02:** the variant matrix described below was resolved.
+> Arcana + beacon was chosen as the primary card design and all other art
+> variants and connectors were archived to
+> `_archive/card-design-non-primary-2026-07-02/`. This document is kept for
+> historical context; see `card-design/README.md` and `VISUAL_SYSTEM.md` for
+> current guidance.
+
 Single-pass restructure of the card-design folder. What shipped and what's
 still on Sam.
 

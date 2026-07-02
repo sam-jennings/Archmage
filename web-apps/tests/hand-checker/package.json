@@ -1,0 +1,14 @@
+{
+  "name": "hand-checker-tests",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Property-based tests for the Full Rules Hand Checker widget (player-reference-hand-check-relocation spec).",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.1",
+    "jsdom": "^25.0.1"
+  }
+}

@@ -1,5 +1,11 @@
 /* Archmage Ascension - Magical Academy Theme */
-/* Shared stylesheet for consistent styling across all pages */
+/* Component layer for the HTML surfaces. All colour, type, spacing and
+   motion values come from the unified token set in archmage-tokens.css —
+   the single source of the visual language shared with the Quick
+   Reference Card and the landing page. Do not hardcode palette values
+   here; reference the --ax-* tokens. */
+
+@import url('archmage-tokens.css');
 
 * {
     margin: 0;
@@ -8,26 +14,31 @@
 }
 
 :root {
-    --primary: #1a0b2e;
-    --secondary: #2d1b4e;
-    --accent: #b794f6;
-    --gold: #f6c94a;
-    --text: #e8e4f0;
-    --text-dim: #a89cc9;
-    --card-bg: rgba(45, 27, 78, 0.6);
-    --glow: rgba(183, 148, 246, 0.3);
+    /* Legacy aliases — kept so existing pages keep working, but every
+       value now resolves to the unified tokens. */
+    --primary: var(--ax-bg);
+    --secondary: var(--ax-bg-elev);
+    --accent: var(--ax-violet);
+    --gold: var(--ax-gold);
+    --gold-bright: var(--ax-gold-bright);
+    --text: var(--ax-text);
+    --text-dim: var(--ax-text-dim);
+    --card-bg: var(--ax-veil);
+    --glow: var(--ax-violet-glow);
     --red: #ef4444;
     --red-hover: #dc2626;
     --green: #10b981;
     --green-hover: #059669;
-    --yellow: #fbbf24;
-    --warning-bg: rgba(251, 191, 36, 0.1);
-    --warning-border: rgba(251, 191, 36, 0.5);
+    --yellow: var(--ax-gold-bright);
+    --warning-bg: rgba(246, 201, 74, 0.1);
+    --warning-border: rgba(246, 201, 74, 0.5);
 }
 
 body {
-    font-family: 'Cormorant Garamond', serif;
-    background: linear-gradient(135deg, #0f0325 0%, #1a0b2e 50%, #2d1b4e 100%);
+    font-family: var(--ax-font-body);
+    background:
+        radial-gradient(ellipse at 50% -10%, rgba(212, 175, 90, 0.06) 0%, transparent 46%),
+        linear-gradient(160deg, var(--ax-bg-deep) 0%, var(--ax-bg) 55%, #171130 100%);
     color: var(--text);
     min-height: 100vh;
     position: relative;
@@ -43,9 +54,9 @@ body::before {
     left: 0;
     right: 0;
     bottom: 0;
-    background: 
-        radial-gradient(ellipse at 20% 30%, rgba(183, 148, 246, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(246, 201, 74, 0.1) 0%, transparent 50%);
+    background:
+        radial-gradient(ellipse at 20% 30%, rgba(183, 148, 246, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(212, 175, 90, 0.06) 0%, transparent 50%);
     pointer-events: none;
     z-index: 0;
 }
@@ -60,21 +71,18 @@ body::before {
 
 /* Typography */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', serif;
+    font-family: var(--ax-font-display);
     color: var(--gold);
     font-weight: 600;
 }
 
 h1 {
-    font-size: 3.5rem;
+    font-size: var(--ax-fs-h1);
     font-weight: 700;
-    background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--ax-gold);
     margin-bottom: 0.5rem;
-    letter-spacing: 0.1em;
-    text-shadow: 0 0 30px rgba(183, 148, 246, 0.5);
+    letter-spacing: var(--ax-track-wide);
+    text-shadow: 0 0 24px var(--ax-gold-glow);
 }
 
 h2 { font-size: 1.8rem; margin-bottom: 1rem; }

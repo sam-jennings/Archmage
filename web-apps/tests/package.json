@@ -1,0 +1,13 @@
+{
+  "name": "archmage-webapps-tests",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Headless tests for the Archmage web-app widgets (Hand Checker relocation spec).",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.1"
+  }
+}

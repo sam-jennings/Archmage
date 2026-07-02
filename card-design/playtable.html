@@ -646,15 +646,8 @@
 <div id="app"></div>
 
 <script src="lib/cards.js"></script>
-<script src="connectors/parallelogram.js"></script>
 <script src="connectors/beacon.js"></script>
-<script src="art/sigil.js"></script>
-<script src="art/ritual.js"></script>
-<script src="art/emblem.js"></script>
-<script src="art/relic.js"></script>
-<script src="art/mixed.js"></script>
 <script src="art/arcana.js"></script>
-<script src="art/echo.js"></script>
 
 <script>
 (function(){
@@ -717,8 +710,8 @@
       { e:'void', v:14 },
       { e:'flux', v:5 }
     ],
-    primary: createVariantState('beacon', 'relic', 'classic'),
-    secondary: createVariantState('parallelogram', 'mixed', 'classic'),
+    primary: createVariantState('beacon', 'arcana', 'classic'),
+    secondary: createVariantState('beacon', 'arcana', 'classic'),
     inspect: {
       card: { e:'radiance', v:7, label:'Radiance 7' },
       panel: 'A'

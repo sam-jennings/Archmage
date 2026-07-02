@@ -1,7 +1,7 @@
 ---
 title: Archmage Ascension - Project Overview
 type: project-orientation
-updated: 2026-05-02
+updated: 2026-07-02
 ---
 
 # Archmage Ascension - Project Overview
@@ -43,6 +43,7 @@ This file is Claude's orientation guide. Read this first in any session.
 ```
 Archmage Ascension/
 ├── PROJECT.md                              ← this file (orientation)
+├── index.html                              ← site landing page (hub linking to the web-apps)
 ├── STATE.md                                ← live game state
 ├── BACKLOG.md                              ← tasks + decisions
 ├── DECISIONS.md                            ← decision log
@@ -51,12 +52,13 @@ Archmage Ascension/
 ├── playtests/                              ← session detail files
 │
 ├── rulebook/                               ← rulebook + glossary + scoring + trials + lore
-├── card-design/                            ← card visuals (HTML renderer + assets)
+├── board/                                  ← physical game components: A3 landscape board PDF + printable player reference cards (spell_ref, turn_ref)
+├── card-design/                            ← card visuals (HTML renderer + art). Primary design: arcana + beacon (see card-design/VISUAL_SYSTEM.md)
 │   ├── playtable.html                      ← main card renderer
 │   ├── playtable-mobile.html               ← mobile variant
 │   ├── VISUAL_SYSTEM.md                    ← visual design system (single source)
-│   ├── art/                                ← energy art (svg generators + assets)
-│   ├── connectors/                         ← connection-strip variants
+│   ├── art/arcana.js                       ← primary art variant (procedural SVG, all 5 currents + wild)
+│   ├── connectors/beacon.js                ← primary connector (glowing orb at value Y)
 │   ├── lib/                                ← cards.js + tokens.css
 │   ├── export-cs3/                         ← Component Studio export (node project)
 │   ├── export-printenbind/                 ← print-ready output (final bundles only; per-card PDFs gitignored)
@@ -65,12 +67,17 @@ Archmage Ascension/
 │   ├── incoming/                           ← incoming layout sandboxes
 │   └── snapshots/                          ← dated version snapshots (history)
 │
-├── art/                                    ← raw art assets (energy artwork, card layers, ref boards, design system zip)
+├── art/                                    ← raw art library: energy artwork PNGs, card-layer PNGs, symbol sheets, energy symbol exports (svg + png)
 │
 ├── web-apps/                               ← player-facing tools
-│   ├── archmage-reference.html             ← quick reference
+│   ├── archmage-reference.html             ← detailed online rules (full reference)
+│   ├── player-reference/                   ← quick-reference card for the table (phone-first)
+│   │   └── player-reference.html
 │   ├── trials-multiplayer.html             ← trials simulator
-│   └── archmage-theme.css
+│   ├── spellbook-optimizer.html            ← player-facing spellbook optimiser
+│   ├── archmage-theme.css
+│   ├── REFERENCE_SITE_PLAN.md              ← plan for the player-facing reference site
+│   └── archmage-ascension/                 ← 2-player digital build (React/Vite); rulebook copies live in its uploads/
 │
 ├── pitch/                                  ← pitch materials
 │   └── archmage_pitch_sheet.html
@@ -85,7 +92,9 @@ Archmage Ascension/
 │   ├── Expansion Concepts - Player Interaction.md  ← master overview: A (Living Array), B (Spell Duels), C (Conclave)
 │   ├── Expansion B - Spell Duels (Deep Dive).md    ← frequency-driven clash chassis
 │   ├── Expansion B - Spell Duels Alternative (Resonance Gambits).md  ← safer baseline effects (recommended starting point)
-│   └── Expansion B - Spell Duels (Bold Effect Directions).md         ← bolder effect directions (Elemental Powers, Marks, Bend Magic)
+│   ├── Expansion B - Spell Duels (Bold Effect Directions).md         ← bolder effect directions (Elemental Powers, Marks, Bend Magic)
+│   ├── Expansion B - Spell Duels (Reconciled & Tiered).md            ← reconciled, tiered synthesis of the Spell Duels directions
+│   └── Expansion Directions - Echo and the High Frequencies.md       ← Echo / high-frequency expansion direction
 │
 ├── course-knowledge/                       ← read-only design course material
 ├── skills/                                 ← .skill files (10): six aa-* state skills + archmage-card-designer, archmage-rulebook-manager, board-game-designer, playtest-organiser
@@ -94,7 +103,21 @@ Archmage Ascension/
 └── _archive/                               ← superseded material kept for reference (gitignored; only grows)
 ```
 
-**Note on `art/` vs `card-design/`:** `card-design/` is the live HTML renderer + JS art generators that produce cards on the fly. `art/` holds raw imagery — reference photos, energy artwork specs, card layer PNGs, the design system zip, and any Claude-generated card boards. The renderer references `card-design/art/assets/` for live use; `art/` is the off-line library.
+**Note on `board/`, `art/`, and `card-design/`:**
+
+- **`board/`** holds the physical game components — the A3 landscape game
+  board PDF and the printable player-reference cards (`spell_ref.png`,
+  `turn_ref.png`). Promoted to a top-level folder because the board is a
+  key game component that the rulebook depends on.
+- **`card-design/`** is the live HTML renderer and the procedural art that
+  ships to print. Since the 2026-07-02 primary-design decision, `card-design/art/`
+  contains only `arcana.js` (the chosen art) and `card-design/connectors/`
+  contains only `beacon.js` (the chosen connector). Arcana is fully
+  procedural — no bitmap assets — so `card-design/art/` no longer needs an
+  `assets/` subfolder.
+- **`art/`** is the raw off-line library: the energy artwork PNGs, card-layer
+  PNGs, symbol sheets, and energy symbol exports (SVG + PNG). Nothing in
+  `art/` is referenced by the live renderer.
 
 ---
 

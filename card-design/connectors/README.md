@@ -1,20 +1,28 @@
 # connectors/
 
 A **connector** is the strip along the edge of a card that shows how it
-resonates with neighbouring cards. Different connectors feel different at
-the join — a bloom is soft and warm, a beacon is crisp and lock-in. Each
-file in this folder is one such design.
+resonates with neighbouring cards. When two cards abut, their connector
+strips visually align (or fail to), which is how matching-value and
+sequential resonance are read at the table.
+
+## Primary — beacon
+
+**`beacon.js` is the primary and only shipped connector.** All other
+connectors (bloom-soft, parallelogram, notch, triangle) have been archived
+to `_archive/card-design-non-primary-2026-07-02/connectors/`.
+
+Beacon renders a round glowing orb at the value's Y position with concentric
+halo rings around it. The orb is clamped inward from the card corners so it
+stays inside the 5mm print safe zone.
 
 ## How each file registers
-
-Each file is an IIFE that writes a single entry into the global registry:
 
 ```js
 (function(){
   const AA = window.AA_CONNECTORS = window.AA_CONNECTORS || {};
-  AA['bloom-soft'] = {
-    name: 'Bloom Soft',
-    notes: 'Torchlight through a crack — current LIVE default.',
+  AA['beacon'] = {
+    name: 'Beacon',
+    notes: 'Round glowing orb at value Y, concentric halo rings.',
     render: function(val, e, opts){
       // opts = { OL, TM, ST, W, sc, id, side: 'left' | 'right' }
       // return an SVG fragment string (no outer <svg>)
@@ -46,19 +54,16 @@ Arguments it is given:
 | `opts.id`  | unique id prefix (for `<defs>`)                        |
 | `opts.side`| `'left'` or `'right'`                                  |
 
-## Adding a new connector
+## Exploring a new connector
 
-1. Copy `bloom-soft.js` to `<your-name>.js`.
+If you want to try a different strip design alongside the primary:
+
+1. Copy `beacon.js` to `<your-name>.js`.
 2. Change the registry key (`AA['your-name']`) to the new name.
 3. Edit the render body.
 4. Add a `<script src="connectors/<your-name>.js"></script>` line to
-   `playtable.html` (in the Connectors block). That's it — the dropdown
-   will pick it up automatically.
+   `playtable.html` (after the `beacon.js` tag). The dropdown updates
+   automatically.
 
-## Current files
-
-- `bloom-soft.js`   — soft radial bloom. Current live default.
-- `parallelogram.js` — sharp bands, vertical gradient peaking at value line.
-- `notch.js`         — hard rectangular notch at value Y, like a lock tab.
-- `triangle.js`      — inward-pointing triangular wedge at value Y.
-- `beacon.js`        — round glowing orb at value Y with rings around it.
+If a new connector supersedes beacon, promote it in `card-design/README.md`
+and archive the previous primary.

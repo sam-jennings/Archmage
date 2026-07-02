@@ -670,16 +670,8 @@
 <div id="app"></div>
 
 <script src="lib/cards.js"></script>
-<script src="connectors/bloom-soft.js"></script>
-<script src="connectors/parallelogram.js"></script>
-<script src="connectors/notch.js"></script>
-<script src="connectors/triangle.js"></script>
 <script src="connectors/beacon.js"></script>
-<script src="art/sigil.js"></script>
-<script src="art/ritual.js"></script>
-<script src="art/relic.js"></script>
-<script src="art/emblem.js"></script>
-<script src="art/runic.js"></script>
+<script src="art/arcana.js"></script>
 
 <script>
 (function(){
@@ -692,10 +684,7 @@
     el.textContent = (el.textContent ? el.textContent + '\n' : '') + msg;
   }
   window.addEventListener('error', function(e){
-    // Silently swallow 404s for missing art files — they are expected on this version.
-    var src = (e.filename || '') + '';
-    if (/art\/(glyph|crystalline|engraved)\.js$/.test(src)) return;
-    showDiag('⚠ ' + (e.message || e.error) + ' (' + src + ':' + (e.lineno||'') + ')');
+    showDiag('⚠ ' + (e.message || e.error) + ' (' + ((e.filename||'') + '') + ':' + (e.lineno||'') + ')');
   }, true);
 
   if (!window.ArchmageCards) {
@@ -742,7 +731,7 @@
       { e:'void', v:14 },
       { e:'flux', v:5 }
     ],
-    primary: createVariantState('bloom-soft', 'sigil', 'classic'),
+    primary: createVariantState('beacon', 'arcana', 'classic'),
     inspect: {
       card: { e:'radiance', v:7, label:'Radiance 7' }
     },

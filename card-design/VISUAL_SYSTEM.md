@@ -1,5 +1,29 @@
 # Archmage Ascension — Visual System Specification
 
+## Primary design — decided 2026-07-02
+
+The card design has moved out of exploration and into a chosen combination:
+
+- **Art variant:** `arcana` (`card-design/art/arcana.js`) — procedural per-suit
+  ritual diagrams, no bitmap assets, covers all five currents plus the wild.
+- **Connector:** `beacon` (`card-design/connectors/beacon.js`) — round glowing
+  orb at the value's Y position, concentric halo rings.
+
+Everything downstream defaults to this combination:
+`playtable.html`, `playtable-mobile.html`, `lib/cards.js`, and the
+`export-cs3` node exporter all set `art=arcana, connector=beacon` by default.
+
+The alternate variants that were previously in play (sigil, ritual, glyph,
+relic, emblem, runic, crystalline, engraved, mixed; bloom-soft, parallelogram,
+notch, triangle) are archived at
+`_archive/card-design-non-primary-2026-07-02/`.
+
+The rest of this document defines the art-direction principles the arcana +
+beacon design serves. Any future exploration should either come out of these
+principles or restate them.
+
+---
+
 ## Purpose of this document
 
 This document defines the visual system for **Archmage Ascension** after choosing the **Radiance / Void / Flux / Aether** model rather than a classical elemental model.

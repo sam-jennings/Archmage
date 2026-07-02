@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Quick Reference Card" subtitle="Phone-first table companion — Start · Spells · Your Turn · Scoring" viewport="430x900" -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#110d22">
+<title>Archmage Ascension — Quick Reference Card</title>
+<link rel="stylesheet" href="../archmage-tokens.css">
+<style>
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(212,175,90,.06) 0%, transparent 46%),
+      linear-gradient(160deg, var(--ax-bg-deep) 0%, var(--ax-bg) 55%, #171130 100%);
+    color: var(--ax-text);
+    font-family: var(--ax-font-body);
+    font-size: var(--ax-fs-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::-webkit-scrollbar { width: 6px; height: 6px; background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--ax-hairline); border-radius: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  /* ── App column ─────────────────────────────────────────────── */
+  .app {
+    max-width: 460px;
+    margin: 0 auto;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  @media (min-width: 700px) {
+    .app { border-left: 1px solid var(--ax-hairline-soft); border-right: 1px solid var(--ax-hairline-soft); }
+  }
+
+  .topbar { position: sticky; top: 0; z-index: 10; background: rgba(17,13,34,.92); backdrop-filter: blur(8px); }
+  .screen-title {
+    font-family: var(--ax-font-display); font-weight: 700; font-size: 1.25rem;
+    letter-spacing: var(--ax-track-wide); text-transform: uppercase; color: var(--ax-gold);
+    margin: 0; padding: 14px 20px 0;
+  }
+  main { flex: 1 1 auto; padding: 12px 18px calc(84px + env(safe-area-inset-bottom)); }
+  .screen { display: none; }
+  .screen.active { display: block; animation: fadein var(--ax-dur-macro) var(--ax-ease); }
+  @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── Bottom tab bar — thumb territory ───────────────────────── */
+  .tabbar {
+    position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100%; max-width: 460px; z-index: 10;
+    display: flex; border-top: 1px solid var(--ax-hairline-soft);
+    background: rgba(12,9,24,.94); backdrop-filter: blur(8px);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tab {
+    flex: 1 1 0; appearance: none; border: none; background: none; cursor: pointer;
+    padding: 14px 2px 12px; min-height: 56px;
+    font-family: var(--ax-font-display); font-weight: 600; font-size: 0.66rem;
+    letter-spacing: var(--ax-track-vast); text-transform: uppercase; color: var(--ax-text-dim);
+    border-top: 2px solid transparent;
+    transition: color var(--ax-dur-micro) var(--ax-ease);
+  }
+  .tab[aria-selected="true"] { color: var(--ax-gold); border-top-color: var(--ax-gold); }
+
+  /* ── Section primitives ─────────────────────────────────────── */
+  .sect + .sect { margin-top: var(--ax-sp-6); }
+  .sect > .ax-label { display: block; margin: 0 0 var(--ax-sp-3); }
+  .lede { font-size: var(--ax-fs-lead); line-height: 1.55; margin: 0 0 var(--ax-sp-4); }
+  .lede em { color: #efe0a8; }
+  .soft { color: var(--ax-text-soft); }
+  .dim { color: var(--ax-text-dim); }
+  .flavor { font-style: italic; color: var(--ax-text-dim); font-size: var(--ax-fs-small); }
+
+  .panel {
+    border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-lg);
+    padding: 14px 16px; background: linear-gradient(180deg, rgba(255,255,255,.015), transparent);
+  }
+  .panel + .panel { margin-top: 10px; }
+  .panel.gold { border-color: var(--ax-gold-line); background: radial-gradient(ellipse at 50% 0%, rgba(212,175,90,.06), transparent 70%); }
+
+  ul.plain { margin: 0; padding: 0 0 0 1.1em; }
+  ul.plain li { margin: 0.35em 0; color: var(--ax-text-soft); }
+  ul.plain li b, .panel b { color: var(--ax-text); font-weight: 600; }
+  ul.plain li .gold, .gold-text { color: var(--ax-gold); }
+
+  /* Turn loop strip */
+  .loop { display: flex; align-items: center; gap: 6px; margin: var(--ax-sp-4) 0 var(--ax-sp-2); }
+  .loop-step { flex: 1; text-align: center; }
+  .loop-num {
+    width: 24px; height: 24px; margin: 0 auto 6px; border-radius: 50%;
+    border: 1px solid var(--ax-gold-line); display: flex; align-items: center; justify-content: center;
+    font-family: var(--ax-font-display); font-size: 0.72rem; color: var(--ax-gold);
+  }
+  .loop-label {
+    font-family: var(--ax-font-display); font-weight: 600; font-size: 0.62rem;
+    letter-spacing: var(--ax-track-wide); text-transform: uppercase; color: var(--ax-text-soft);
+  }
+  .loop-arrow { color: var(--ax-text-faint); font-size: 0.85rem; padding-bottom: 16px; }
+
+  /* Energy legend */
+  .legend { display: flex; flex-direction: column; gap: 9px; }
+  .legend-item {
+    display: flex; align-items: center; gap: 12px; padding: 9px 12px; min-height: 52px;
+    background: rgba(255,255,255,.015); border: 1px solid var(--ax-hairline-soft); border-radius: var(--ax-r-md);
+  }
+  .legend-name {
+    font-family: var(--ax-font-display); font-weight: 700; font-size: 0.78rem;
+    letter-spacing: var(--ax-track-wide); text-transform: uppercase; margin: 0 0 2px;
+  }
+  .legend-blurb { font-style: italic; font-size: 0.82rem; color: var(--ax-text-dim); margin: 0; line-height: 1.4; }
+
+  /* Collapsible tiles (native details) */
+  details.tile { border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-lg); background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); }
+  details.tile + details.tile { margin-top: 10px; }
+  details.tile > summary {
+    list-style: none; cursor: pointer; display: flex; align-items: center; gap: 11px;
+    padding: 13px 15px; min-height: 52px; -webkit-tap-highlight-color: transparent;
+  }
+  details.tile > summary::-webkit-details-marker { display: none; }
+  .tile-dot { width: 8px; height: 8px; border-radius: 2px; flex: 0 0 auto; transform: rotate(45deg); background: var(--ax-gold); }
+  .tile-titles { flex: 1; min-width: 0; }
+  .tile-name { font-family: var(--ax-font-display); font-weight: 700; font-size: 0.9rem; letter-spacing: var(--ax-track-tight); color: var(--ax-text); margin: 0 0 2px; }
+  .tile-req { font-size: 0.82rem; color: var(--ax-text-dim); margin: 0; }
+  .tile-toggle { font-family: var(--ax-font-display); font-size: 1.05rem; color: var(--ax-text-faint); flex: 0 0 auto; width: 18px; text-align: center; }
+  details.tile[open] .tile-toggle::before { content: '–'; }
+  details.tile:not([open]) .tile-toggle::before { content: '+'; }
+  .tile-body { padding: 0 15px 16px; }
+  .tile-tagline { font-style: italic; font-size: 0.85rem; color: var(--ax-text-soft); margin: 0 0 12px; line-height: 1.5; }
+  .sublabel {
+    font-family: var(--ax-font-display); font-weight: 600; font-size: 0.62rem; letter-spacing: var(--ax-track-vast);
+    text-transform: uppercase; color: var(--ax-text-dim); margin: 12px 0 7px;
+  }
+  .chip-row { display: flex; gap: 7px; flex-wrap: wrap; }
+  .effect-row { display: flex; gap: 10px; padding: 7px 0; border-top: 1px solid var(--ax-hairline-soft); }
+  .effect-row:first-of-type { border-top: none; }
+  .effect-range { flex: 0 0 102px; font-family: var(--ax-font-display); font-weight: 600; font-size: 0.68rem; letter-spacing: .04em; color: var(--ax-text-dim); padding-top: 2px; }
+  .effect-result { font-size: 0.86rem; color: var(--ax-text); line-height: 1.45; }
+  .tile-note { font-style: italic; font-size: 0.8rem; color: var(--ax-text-dim); margin: 10px 0 0; }
+  .warn { color: var(--ax-warn); }
+
+  /* ── Your Turn ──────────────────────────────────────────────── */
+  .modes { display: flex; gap: 4px; margin-bottom: var(--ax-sp-5); border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-md); padding: 3px; }
+  .mode-btn {
+    flex: 1; appearance: none; border: none; padding: 10px 6px; cursor: pointer; background: none; border-radius: var(--ax-r-sm);
+    font-family: var(--ax-font-display); font-weight: 600; font-size: 0.68rem; letter-spacing: var(--ax-track-wide);
+    text-transform: uppercase; color: var(--ax-text-dim); min-height: 42px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mode-btn[aria-pressed="true"] { background: rgba(212,175,90,.14); color: var(--ax-gold); }
+
+  .step { display: flex; gap: 12px; margin-bottom: 14px; }
+  .step-num {
+    flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--ax-hairline);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--ax-font-display); font-size: 0.78rem; color: var(--ax-text-dim); margin-top: 1px;
+  }
+  .step-title { font-family: var(--ax-font-display); font-weight: 700; font-size: 0.88rem; letter-spacing: .03em; color: var(--ax-text); margin: 0 0 3px; }
+  .step-body { font-size: 0.88rem; color: var(--ax-text-soft); line-height: 1.5; margin: 0; }
+
+  .recall-box { margin: 4px 0 16px 38px; padding: 12px 14px; border: 1px dashed var(--ax-gold-line); border-radius: var(--ax-r-md); }
+  .recall-label { font-style: italic; font-size: 0.78rem; color: var(--ax-text-dim); margin: 0 0 10px; }
+  .recall-track { position: relative; height: 40px; border-radius: 20px; background: rgba(255,255,255,.02); border: 1px solid var(--ax-hairline-soft); }
+  .recall-zone {
+    position: absolute; top: 0; height: 100%; width: 50%; display: flex; align-items: center;
+    font-family: var(--ax-font-display); font-size: 0.5rem; letter-spacing: var(--ax-track-wide); text-transform: uppercase; color: var(--ax-text-faint);
+  }
+  .recall-zone.left { left: 0; padding-left: 10px; }
+  .recall-zone.right { right: 0; justify-content: flex-end; padding-right: 10px; }
+  .recall-token {
+    position: absolute; top: 6px; width: 28px; height: 28px; border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f0dca0, var(--ax-gold));
+    box-shadow: 0 2px 6px rgba(0,0,0,.5);
+    transition: left var(--ax-dur-macro) var(--ax-ease);
+  }
+  .recall-btn {
+    margin-top: 10px; appearance: none; border: 1px solid var(--ax-gold-line); background: rgba(212,175,90,.08);
+    color: var(--ax-gold); font-family: var(--ax-font-display); font-weight: 600; font-size: 0.64rem;
+    letter-spacing: var(--ax-track-wide); text-transform: uppercase; padding: 10px 16px; border-radius: var(--ax-r-sm);
+    cursor: pointer; min-height: 40px;
+  }
+
+  .actions-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .action-tile { border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-md); padding: 11px 12px; }
+  .action-name { font-family: var(--ax-font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: .03em; color: var(--ax-gold); margin: 0 0 4px; }
+  .action-body { font-size: 0.8rem; color: var(--ax-text-soft); line-height: 1.4; margin: 0; }
+  .action-warn { font-style: italic; font-size: 0.74rem; color: var(--ax-warn); margin: 5px 0 0; opacity: .9; }
+
+  /* ── Scoring ────────────────────────────────────────────────── */
+  table.rp { width: 100%; border-collapse: collapse; margin: 4px 0 10px; }
+  table.rp th {
+    font-family: var(--ax-font-display); font-weight: 600; font-size: 0.6rem; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--ax-gold); padding: 7px 4px; border-bottom: 1px solid var(--ax-gold-line);
+    text-align: center;
+  }
+  table.rp td { padding: 6px 4px; text-align: center; font-size: 0.9rem; color: var(--ax-text-soft); border-bottom: 1px solid var(--ax-hairline-soft); }
+  table.rp td:first-child { color: var(--ax-gold); font-family: var(--ax-font-display); font-weight: 600; font-size: 0.8rem; }
+  table.rp tr:nth-child(even) td { background: rgba(255,255,255,.015); }
+
+  /* ── Doors to the deeper tier ───────────────────────────────── */
+  .door {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    margin-top: var(--ax-sp-6); padding: 13px 15px; min-height: 50px;
+    border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-md);
+    text-decoration: none; background: rgba(255,255,255,.015);
+    transition: border-color var(--ax-dur-micro) var(--ax-ease);
+  }
+  .door:hover { border-color: var(--ax-gold-line); }
+  .door-label { font-family: var(--ax-font-display); font-weight: 600; font-size: 0.68rem; letter-spacing: var(--ax-track-vast); text-transform: uppercase; color: var(--ax-violet); }
+  .door-arrow { color: var(--ax-text-faint); font-size: 0.9rem; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <header class="ax-topbar">
+      <a class="ax-brand" href="../../index.html">Archmage Ascension</a>
+      <a class="ax-topbar-link" href="../archmage-reference.html">Full Rules →</a>
+    </header>
+    <h1 class="screen-title" id="screenTitle">Spells</h1>
+  </div>
+
+  <main>
+    <!-- ══════════════ START ══════════════ -->
+    <section class="screen" id="screen-start" role="tabpanel" aria-labelledby="tab-start">
+      <div class="sect">
+        <span class="ax-label">The goal</span>
+        <p class="lede">
+          Arrange components into spells in your <em>Spellbook</em>, drawing on <em>the Source</em> while it lasts.
+          When the Source empties, <em>the Drought</em> begins — and when it ends, the most refined Spellbook
+          wins on <em>Recognition Points</em>.
+        </p>
+        <div class="loop" aria-label="Turn order: Collection, then Casting, then Learning">
+          <div class="loop-step"><div class="loop-num">1</div><div class="loop-label">Collection</div></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-step"><div class="loop-num">2</div><div class="loop-label">Casting</div></div>
+          <div class="loop-arrow">→</div>
+          <div class="loop-step"><div class="loop-num">3</div><div class="loop-label">Learning</div></div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="ax-label">Set-up</span>
+        <div class="panel">
+          <ul class="plain">
+            <li><b>2–4 players:</b> values 1–15 (60 cards + 2 wilds = 62 cards).</li>
+            <li><b>5–7 players:</b> values 1–20 (80 cards + 4 wilds = 84 cards).</li>
+            <li>Deal <b>7 cards</b> to each player.</li>
+            <li>Place <b>5 face-up</b> to form <b>the Array</b>. Place the rest face-down as <b>the Source</b>.</li>
+            <li>Each player discards 1 card to <b>the Arcane Reserve</b> <span class="dim">(the Opening)</span>.</li>
+            <li>Each player takes <b>1 counter</b>. Choose a random starting player.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="ax-label">The four energies</span>
+        <div class="legend" id="energyLegend"></div>
+      </div>
+
+      <div class="sect">
+        <span class="ax-label">Key reminders</span>
+        <div class="panel gold">
+          <ul class="plain">
+            <li><b>Wilds</b> substitute for any energy and value.</li>
+            <li><b>Enchantments</b> are always active — never cast.</li>
+            <li><b>Counters are capacity</b>, not a resource — all return at Learning.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sect">
+        <details class="tile">
+          <summary>
+            <div class="tile-dot" style="background: var(--ax-violet);"></div>
+            <div class="tile-titles">
+              <p class="tile-name">First game?</p>
+              <p class="tile-req">A five-minute path before your first turn.</p>
+            </div>
+            <div class="tile-toggle"></div>
+          </summary>
+          <div class="tile-body">
+            <ul class="plain">
+              <li>Read <b>The goal</b> above, then meet the four energies.</li>
+              <li>Open <b>Spells</b> and skim the four spell types — requirements first, effects later.</li>
+              <li>Keep <b>Your Turn</b> open during your first few turns; the board shows the same three steps.</li>
+              <li>Mid-game questions: use <b>Check your hand</b> in the <a href="../archmage-reference.html#spells">full rules</a>.</li>
+            </ul>
+            <p class="tile-note">Learning the game from scratch? Read the full rules once — after that, this card is all you need at the table.</p>
+          </div>
+        </details>
+      </div>
+
+      <a class="door" href="../archmage-reference.html#set-up">
+        <span class="door-label">Full rules · Set-up</span><span class="door-arrow">→</span>
+      </a>
+    </section>
+
+    <!-- ══════════════ SPELLS ══════════════ -->
+    <section class="screen active" id="screen-spells" role="tabpanel" aria-labelledby="tab-spells">
+      <div class="sect">
+        <span class="ax-label">The four spell types</span>
+        <div id="spellTiles"></div>
+      </div>
+
+      <a class="door" href="../archmage-reference.html#spells">
+        <span class="door-label">Full rules · Spells</span><span class="door-arrow">→</span>
+      </a>
+    </section>
+
+    <!-- ══════════════ YOUR TURN ══════════════ -->
+    <section class="screen" id="screen-turn" role="tabpanel" aria-labelledby="tab-turn">
+      <div class="modes" role="group" aria-label="Turn type">
+        <button class="mode-btn" id="modeNormal" aria-pressed="true">Normal Turn</button>
+        <button class="mode-btn" id="modeDrought" aria-pressed="false">Drought Turn</button>
+      </div>
+
+      <div id="turnNormal">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div><p class="step-title">Collection</p><p class="step-body">Draw 1 from the Source, or take 1 from the Array (replace from Source).</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div><p class="step-title">Casting</p><p class="step-body">Cast spells one at a time, placing a counter on each. Resolve effects immediately. One counter per spell, once per spell per turn.</p></div>
+        </div>
+        <div class="recall-box">
+          <p class="recall-label" id="recallLabel">Recall — the bridge into Learning. Two counters sit on spells just cast:</p>
+          <div class="recall-track">
+            <div class="recall-zone left">On spells</div>
+            <div class="recall-zone right">In pool</div>
+            <div class="recall-token" id="tok1" style="left: 8px;"></div>
+            <div class="recall-token" id="tok2" style="left: 44px;"></div>
+          </div>
+          <button class="recall-btn" id="recallBtn">Recall</button>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div><p class="step-title">Learning</p><p class="step-body">Retrieve all counters. Use your capacity for Learn / Empower / Reshape / Unlearn — 1 counter each.</p></div>
+        </div>
+      </div>
+
+      <div id="turnDrought" hidden>
+        <div class="step">
+          <div class="step-num">1</div>
+          <div><p class="step-title">Collection</p><p class="step-body">Draw 1 from the Released Reserve.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">—</div>
+          <div><p class="step-title warn">No Casting Phase</p><p class="step-body">The Source and Array are gone. Enchantments stay active on their own; nothing can be cast.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div><p class="step-title">Learning</p><p class="step-body">Works normally. Final chance to optimize your Spellbook before evaluation.</p></div>
+        </div>
+        <div class="panel" style="margin-top: 4px;">
+          <span class="ax-label" style="display:block; margin-bottom: 8px;">The Drought has begun</span>
+          <p class="step-body">The instant the Source runs dry, shuffle the Array and the Arcane Reserve together into the <b>Released Reserve</b>. When the Released Reserve is fully depleted, the contest ends immediately — evaluate your Spellbooks.</p>
+        </div>
+      </div>
+
+      <div class="sect">
+        <span class="ax-label">Learning actions — 1 counter each</span>
+        <div class="actions-grid">
+          <div class="action-tile">
+            <p class="action-name">Learn</p>
+            <p class="action-body">Place a new spell from your hand into your Spellbook.</p>
+            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: gain +1 counter now. 4-card: take the Unlimited Capacity marker.</p>
+          </div>
+          <div class="action-tile">
+            <p class="action-name">Empower</p>
+            <p class="action-body">Add components from your hand to an existing spell — it may become a different spell type.</p>
+          </div>
+          <div class="action-tile">
+            <p class="action-name">Reshape</p>
+            <p class="action-body">Break down and rebuild any spells using the same components. One action, however many spells.</p>
+            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. Breaking a 4-card one: return the marker.</p>
+          </div>
+          <div class="action-tile">
+            <p class="action-name">Unlearn</p>
+            <p class="action-body">Dissolve one spell; components return to hand but can't be learned again until next turn.</p>
+            <p class="action-warn">One spell per action. Same Enchantment warnings apply.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect">
+        <details class="tile">
+          <summary>
+            <div class="tile-dot"></div>
+            <div class="tile-titles">
+              <p class="tile-name">Counters &amp; capacity</p>
+              <p class="tile-req">How many spells you cast and actions you take.</p>
+            </div>
+            <div class="tile-toggle"></div>
+          </summary>
+          <div class="tile-body">
+            <p class="tile-tagline">Counters are your capacity, not a spent resource. They work twice each turn: once to cast, then — after the Recall — once to learn.</p>
+            <ul class="plain">
+              <li>Start with <b>1 counter</b>.</li>
+              <li>Each 3-card Enchantment learned: <b class="gold">+1 counter</b>, permanently.</li>
+              <li>A 4-card Enchantment: <b class="gold">Unlimited Capacity</b> — take the marker, set counters aside.</li>
+              <li>Break either apart and the bonus is lost again.</li>
+            </ul>
+          </div>
+        </details>
+      </div>
+
+      <a class="door" href="../archmage-reference.html#normal-turn">
+        <span class="door-label">Full rules · Your Turn</span><span class="door-arrow">→</span>
+      </a>
+    </section>
+
+    <!-- ══════════════ SCORING ══════════════ -->
+    <section class="screen" id="screen-score" role="tabpanel" aria-labelledby="tab-score">
+      <div class="sect">
+        <span class="ax-label">Recognition Points</span>
+        <p class="lede" style="font-size: var(--ax-fs-body);">When the Released Reserve is fully depleted, the contest ends immediately. Tally Recognition Points from every spell in your Spellbook — highest total wins.</p>
+        <table class="rp" id="rpTable" aria-label="Recognition Points by spell size"></table>
+        <p class="flavor">Tiebreaker: most spells → most components in largest single spell.</p>
+      </div>
+
+      <div class="sect">
+        <div class="panel">
+          <span class="ax-label" style="display:block; margin-bottom: 8px;">Reading the table</span>
+          <ul class="plain">
+            <li><b>Perfect Transmutations</b> score highest per component.</li>
+            <li>A <b>4-card Enchantment</b> spikes to 15 points.</li>
+            <li>One long spell usually beats two short ones.</li>
+          </ul>
+        </div>
+      </div>
+
+      <a class="door" href="../archmage-reference.html#recognition-points">
+        <span class="door-label">Score calculator &amp; Ascension Trials</span><span class="door-arrow">→</span>
+      </a>
+    </section>
+  </main>
+
+  <nav class="tabbar" role="tablist" aria-label="Reference sections">
+    <button class="tab" role="tab" id="tab-start" aria-controls="screen-start" aria-selected="false">Start</button>
+    <button class="tab" role="tab" id="tab-spells" aria-controls="screen-spells" aria-selected="true">Spells</button>
+    <button class="tab" role="tab" id="tab-turn" aria-controls="screen-turn" aria-selected="false">Your Turn</button>
+    <button class="tab" role="tab" id="tab-score" aria-controls="screen-score" aria-selected="false">Scoring</button>
+  </nav>
+</div>
+
+<script>
+'use strict';
+/* ════════════════════════════════════════════════════════════════
+   DATA — wording follows the canonical rulebook; structure follows
+   the A3 board. Symbols are the canonical exports in
+   art/energy-symbols-export/ (never redrawn).
+   ════════════════════════════════════════════════════════════════ */
+const ART = '../../art/energy-symbols-export/';
+const ENERGIES = {
+  radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
+  void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
+  flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux.svg',     blurb: 'The transitive current — cold teal, always moving.' },
+  aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
+};
+const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild.svg', blurb: 'A wild card substitutes for any energy and value.' };
+
+/* Recognition Points — exactly the board's table. */
+const RP = {
+  conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
+  transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
+  perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
+  enchantment:     {3:6, 4:15},
+};
+function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
+
+const SPELLS = [
+  { key: 'conjuration', name: 'Conjuration', dot: 'var(--ax-radiance)',
+    tagline: 'Sustained connection to one energy, drawing more from the Source.',
+    req: '3+ components of the same energy.', reqNote: 'Values need not be sequential.',
+    example: [{e:'radiance',v:4},{e:'radiance',v:9},{e:'radiance',v:13}],
+    effect: [
+      { range: '3–5 components', result: 'Draw 1 additional component from the Source.' },
+      { range: '6+ components', result: 'Draw 2 additional components from the Source.' },
+    ] },
+  { key: 'transfiguration', name: 'Transfiguration', dot: 'var(--ax-flux)',
+    tagline: 'Sequential values, exchanged through the regulated Array.',
+    req: '3+ components in sequence, any energies.', reqNote: 'Cannot loop around — 18-19-20 is valid; 20-1-2 is not.',
+    example: [{e:'void',v:6},{e:'flux',v:7},{e:'aether',v:8}],
+    effect: [
+      { range: '3 components', result: 'Discard 2 from hand, take 1 from the Array.' },
+      { range: '4+ components', result: 'Discard 1 from hand, take 1 from the Array.' },
+      { range: 'Then', result: 'Discards go to the Arcane Reserve; refill the Array from the Source.' },
+    ] },
+  { key: 'enchantment', name: 'Enchantment', dot: 'var(--ax-void)',
+    tagline: 'Matching values, woven permanently into your capacity.',
+    req: '3–4 components of the same value.', reqNote: 'Always active — never cast.',
+    example: [{e:'radiance',v:10},{e:'void',v:10},{e:'flux',v:10}],
+    effect: [
+      { range: '3 components', result: 'Gain +1 counter — one more cast and one more learning action every turn.' },
+      { range: '4 components', result: 'Unlimited Capacity — cast all your spells, take unlimited learning actions.' },
+    ] },
+  { key: 'perfect', name: 'Perfect Transmutation', dot: 'var(--ax-gold)',
+    tagline: 'Sequential values within a single energy — perfect alignment.',
+    req: '3+ components in sequence, one energy only.', reqNote: 'Cannot loop around.',
+    example: [{e:'flux',v:6},{e:'flux',v:7},{e:'flux',v:8}],
+    effect: [
+      { range: 'When cast', result: 'Both Conjuration and Transfiguration effects, in order. Both mandatory.' },
+    ] },
+];
+const SPELL_EFFECT_SHORT = {
+  conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
+  transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
+  enchantment: n => n >= 4 ? 'Always active: Unlimited Capacity.' : 'Always active: +1 counter.',
+  perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
+};
+
+/* ════════════════════════════════════════════════════════════════
+   RENDER HELPERS
+   ════════════════════════════════════════════════════════════════ */
+function el(tag, cls, html) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (html !== undefined) node.innerHTML = html;
+  return node;
+}
+function miniCard(card, opts) {
+  const energy = card.e === 'wild' ? WILD : ENERGIES[card.e];
+  const node = el('div', 'ax-mini-card ' + card.e);
+  const img = document.createElement('img');
+  img.className = 'ax-mini-symbol';
+  img.src = energy.symbol;
+  img.alt = energy.name + (card.v != null ? ' ' + card.v : '');
+  node.appendChild(img);
+  const val = el('div', 'ax-mini-value', card.v != null ? String(card.v) : '✶');
+  node.appendChild(val);
+  if (opts && opts.onTap) {
+    node.style.cursor = 'pointer';
+    node.setAttribute('role', 'button');
+    node.setAttribute('aria-label', 'Remove ' + energy.name + (card.v != null ? ' ' + card.v : ''));
+    node.addEventListener('click', opts.onTap);
+  }
+  return node;
+}
+
+/* ── Energy legend (Start) ── */
+(function renderLegend() {
+  const wrap = document.getElementById('energyLegend');
+  Object.values(ENERGIES).concat(WILD).forEach(en => {
+    const item = el('div', 'legend-item');
+    const img = document.createElement('img');
+    img.className = 'ax-symbol';
+    img.src = en.symbol; img.alt = en.name;
+    item.appendChild(img);
+    const txt = el('div');
+    txt.appendChild(el('p', 'legend-name', en.name)).style.color = en.tone;
+    txt.appendChild(el('p', 'legend-blurb', en.blurb));
+    item.appendChild(txt);
+    wrap.appendChild(item);
+  });
+})();
+
+/* ── Spell tiles (Spells) ── */
+(function renderSpellTiles() {
+  const wrap = document.getElementById('spellTiles');
+  SPELLS.forEach(spell => {
+    const tile = el('details', 'tile');
+    const summary = el('summary');
+    summary.appendChild(el('div', 'tile-dot')).style.background = spell.dot;
+    const titles = el('div', 'tile-titles');
+    titles.appendChild(el('p', 'tile-name', spell.name));
+    titles.appendChild(el('p', 'tile-req', spell.req));
+    summary.appendChild(titles);
+    summary.appendChild(el('div', 'tile-toggle'));
+    tile.appendChild(summary);
+
+    const body = el('div', 'tile-body');
+    body.appendChild(el('p', 'tile-tagline', spell.tagline));
+    if (spell.reqNote) body.appendChild(el('p', 'tile-note', spell.reqNote)).style.margin = '0 0 12px';
+    body.appendChild(el('div', 'sublabel', 'Example'));
+    const chips = el('div', 'chip-row');
+    spell.example.forEach(c => chips.appendChild(miniCard(c)));
+    body.appendChild(chips);
+    body.appendChild(el('div', 'sublabel', spell.key === 'enchantment' ? 'Always active' : 'When cast'));
+    spell.effect.forEach(row => {
+      const r = el('div', 'effect-row');
+      r.appendChild(el('div', 'effect-range', row.range));
+      r.appendChild(el('div', 'effect-result', row.result));
+      body.appendChild(r);
+    });
+    const rpNote = spell.key === 'enchantment'
+      ? 'Worth 6 (3 cards) or 15 (4 cards) Recognition Points.'
+      : 'Recognition Points grow with size — see Scoring.';
+    body.appendChild(el('p', 'tile-note', rpNote));
+    tile.appendChild(body);
+    wrap.appendChild(tile);
+  });
+})();
+
+/* ── Recognition Points table (Scoring) — board column order ── */
+(function renderRpTable() {
+  const table = document.getElementById('rpTable');
+  table.innerHTML = '<thead><tr><th>Size</th><th>Conj.</th><th>Transfig.</th><th>Perfect</th><th>Enchant.</th></tr></thead>';
+  const tbody = document.createElement('tbody');
+  for (let size = 3; size <= 15; size++) {
+    const tr = document.createElement('tr');
+    const cells = [size, RP.conjuration[size], RP.transfiguration[size], RP.perfect[size], RP.enchantment[size] || '—'];
+    cells.forEach(v => tr.appendChild(el('td', null, String(v))));
+    tbody.appendChild(tr);
+  }
+  table.appendChild(tbody);
+})();
+
+/* ════════════════════════════════════════════════════════════════
+   RECALL DEMO + TURN MODE + TABS
+   ════════════════════════════════════════════════════════════════ */
+(function recallDemo() {
+  let cast = true;
+  const btn = document.getElementById('recallBtn');
+  const label = document.getElementById('recallLabel');
+  const tok1 = document.getElementById('tok1');
+  const tok2 = document.getElementById('tok2');
+  btn.addEventListener('click', () => {
+    cast = !cast;
+    tok1.style.left = cast ? '8px' : 'calc(50% + 8px)';
+    tok2.style.left = cast ? '44px' : 'calc(50% + 44px)';
+    label.textContent = cast
+      ? 'Recall — the bridge into Learning. Two counters sit on spells just cast:'
+      : 'Recalled — every counter returns to your pool, ready to fund learning.';
+    btn.textContent = cast ? 'Recall' : 'Cast again';
+  });
+})();
+
+(function turnModes() {
+  const normalBtn = document.getElementById('modeNormal');
+  const droughtBtn = document.getElementById('modeDrought');
+  const normal = document.getElementById('turnNormal');
+  const drought = document.getElementById('turnDrought');
+  function set(mode) {
+    const isNormal = mode === 'normal';
+    normalBtn.setAttribute('aria-pressed', String(isNormal));
+    droughtBtn.setAttribute('aria-pressed', String(!isNormal));
+    normal.hidden = !isNormal;
+    drought.hidden = isNormal;
+  }
+  normalBtn.addEventListener('click', () => set('normal'));
+  droughtBtn.addEventListener('click', () => set('drought'));
+})();
+
+(function tabs() {
+  const TITLES = { start: 'Start', spells: 'Spells', turn: 'Your Turn', score: 'Recognition Points' };
+  const tabs = Array.from(document.querySelectorAll('.tab'));
+  function show(key) {
+    tabs.forEach(tab => {
+      const isActive = tab.id === 'tab-' + key;
+      tab.setAttribute('aria-selected', String(isActive));
+    });
+    document.querySelectorAll('.screen').forEach(screen => {
+      screen.classList.toggle('active', screen.id === 'screen-' + key);
+    });
+    document.getElementById('screenTitle').textContent = TITLES[key];
+    if (history.replaceState) history.replaceState(null, '', '#' + key);
+    window.scrollTo({ top: 0 });
+  }
+  tabs.forEach(tab => tab.addEventListener('click', () => show(tab.id.replace('tab-', ''))));
+  const initial = location.hash.replace('#', '');
+  show(TITLES[initial] ? initial : 'spells');
+})();
+</script>
+</body>
+</html>

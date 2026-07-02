@@ -1,0 +1,13 @@
+{
+  "name": "hand-checker-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Property-based tests for the ported Hand Checker widget (spec: player-reference-hand-check-relocation).",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.1"
+  }
+}

@@ -1,0 +1,230 @@
+/* ═══════════════════════════════════════════════════════════════
+   ARCHMAGE ASCENSION — UNIFIED DESIGN TOKENS
+   One visual language for every player-facing digital surface:
+   the landing page, the Online Rules, and the Quick Reference Card.
+
+   The physical A3 board is the anchor: a deep indigo-violet field,
+   engraved gold titles, hairline rules, and the four energy accents
+   (plus the wild's moonstone silver) taken from the live card
+   renderer (card-design/art/arcana.js).
+
+   Every surface imports THIS file. Do not restate these values
+   locally — reference the variables.
+   ═══════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap');
+
+:root {
+  /* ── Surfaces — the board's night-violet field ─────────────── */
+  --ax-bg-deep: #0c0918;                 /* page depths / gradients   */
+  --ax-bg: #110d22;                      /* page base                 */
+  --ax-bg-elev: #1a1435;                 /* raised panels             */
+  --ax-veil: rgba(30, 22, 58, 0.55);     /* translucent card fill     */
+  --ax-veil-strong: rgba(26, 18, 50, 0.92);
+  --ax-hairline: #2c2154;                /* visible rules/borders     */
+  --ax-hairline-soft: #1e1740;           /* whisper rules             */
+
+  /* ── Ink ───────────────────────────────────────────────────── */
+  --ax-text: #e8e2d2;                    /* warm parchment            */
+  --ax-text-soft: #b9adcc;
+  --ax-text-dim: #8579a5;
+  --ax-text-faint: #5d5180;
+
+  /* ── Metals & arcane accent ────────────────────────────────── */
+  --ax-gold: #d4af5a;                    /* engraved gold — board titles */
+  --ax-gold-bright: #f6c94a;             /* highlights, emphasis      */
+  --ax-gold-glow: rgba(246, 201, 74, 0.22);
+  --ax-gold-line: rgba(212, 175, 90, 0.45);
+  --ax-violet: #b794f6;                  /* arcane accent             */
+  --ax-violet-soft: #c9b8e8;
+  --ax-violet-glow: rgba(183, 148, 246, 0.28);
+  --ax-violet-line: rgba(183, 148, 246, 0.24);
+
+  /* ── Status ────────────────────────────────────────────────── */
+  --ax-warn: #e8657a;                    /* warnings (aether-adjacent) */
+  --ax-ok: #3fbf9f;
+
+  /* ── The four energies + wild — from the live card renderer ── */
+  --ax-radiance: #f5c518;
+  --ax-radiance-mid: #c8961a;
+  --ax-radiance-dim: #3a2800;
+  --ax-radiance-bg1: #100e04;
+  --ax-radiance-bg2: #0c0900;
+  --ax-radiance-line: #9a7010;
+
+  --ax-void: #c060f0;
+  --ax-void-mid: #6a0dad;
+  --ax-void-dim: #200840;
+  --ax-void-bg1: #09060f;
+  --ax-void-bg2: #06040e;
+  --ax-void-line: #5a10a0;
+
+  --ax-flux: #00c8b4;
+  --ax-flux-mid: #008878;
+  --ax-flux-dim: #002820;
+  --ax-flux-bg1: #04100d;
+  --ax-flux-bg2: #02100d;
+  --ax-flux-line: #009080;
+
+  --ax-aether: #e8304a;
+  --ax-aether-mid: #c8203a;
+  --ax-aether-dim: #400010;
+  --ax-aether-bg1: #0d0205;
+  --ax-aether-bg2: #0a0102;
+  --ax-aether-line: #a81828;
+
+  --ax-wild: #c8d8f8;
+  --ax-wild-mid: #7080b8;
+  --ax-wild-dim: #101828;
+  --ax-wild-bg1: #0a0d16;
+  --ax-wild-bg2: #070910;
+  --ax-wild-line: #506090;
+
+  /* ── Type families ─────────────────────────────────────────── */
+  --ax-font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --ax-font-body: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --ax-font-mono: ui-monospace, 'Courier New', monospace;
+
+  /* ── Type scale ────────────────────────────────────────────── */
+  --ax-fs-micro: 0.625rem;   /* 10px — monument labels            */
+  --ax-fs-tiny: 0.75rem;     /* 12px                              */
+  --ax-fs-small: 0.875rem;   /* 14px                              */
+  --ax-fs-body: 1.0625rem;   /* 17px — Cormorant runs small       */
+  --ax-fs-lead: 1.1875rem;   /* 19px                              */
+  --ax-fs-h4: 1.1875rem;
+  --ax-fs-h3: 1.375rem;
+  --ax-fs-h2: 1.75rem;
+  --ax-fs-h1: clamp(2.2rem, 6vw, 3.4rem);
+
+  /* ── Tracking — the engraved-plaque mannerism ──────────────── */
+  --ax-track-tight: 0.02em;
+  --ax-track-normal: 0.06em;
+  --ax-track-wide: 0.12em;
+  --ax-track-vast: 0.22em;
+  --ax-track-monument: 0.35em;
+
+  /* ── Spacing (8-based) ─────────────────────────────────────── */
+  --ax-sp-1: 4px;
+  --ax-sp-2: 8px;
+  --ax-sp-3: 12px;
+  --ax-sp-4: 16px;
+  --ax-sp-5: 24px;
+  --ax-sp-6: 32px;
+  --ax-sp-7: 48px;
+  --ax-sp-8: 64px;
+
+  /* ── Radii ─────────────────────────────────────────────────── */
+  --ax-r-sm: 4px;
+  --ax-r-md: 7px;
+  --ax-r-lg: 10px;
+  --ax-r-card: 12px;
+
+  /* ── Shadows & glow ────────────────────────────────────────── */
+  --ax-shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35);
+  --ax-shadow-pop: 0 16px 44px rgba(0, 0, 0, 0.45);
+  --ax-glow-gold: 0 0 24px var(--ax-gold-glow);
+
+  /* ── Motion — subtle, never blocking a lookup ──────────────── */
+  --ax-ease: cubic-bezier(0.4, 0.1, 0.2, 1);
+  --ax-dur-micro: 140ms;
+  --ax-dur-macro: 280ms;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SHARED PRIMITIVES — identical across all surfaces
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Top bar: every surface carries the same way-back header ─── */
+.ax-topbar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--ax-sp-4);
+  padding: var(--ax-sp-4) var(--ax-sp-5);
+  border-bottom: 1px solid var(--ax-hairline-soft);
+  background: linear-gradient(180deg, rgba(212, 175, 90, 0.05), transparent);
+}
+.ax-brand {
+  font-family: var(--ax-font-display);
+  font-weight: 600;
+  font-size: var(--ax-fs-micro);
+  letter-spacing: var(--ax-track-monument);
+  text-transform: uppercase;
+  color: var(--ax-text-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--ax-dur-micro) var(--ax-ease);
+}
+.ax-brand:hover { color: var(--ax-gold); }
+.ax-topbar-link {
+  font-family: var(--ax-font-display);
+  font-weight: 600;
+  font-size: var(--ax-fs-micro);
+  letter-spacing: var(--ax-track-vast);
+  text-transform: uppercase;
+  color: var(--ax-violet);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--ax-dur-micro) var(--ax-ease);
+}
+.ax-topbar-link:hover { color: var(--ax-gold); }
+
+/* ── Energy symbols — always the canonical export art ────────── */
+.ax-symbol { display: block; width: 34px; height: 34px; object-fit: contain; }
+.ax-symbol-sm { width: 22px; height: 22px; }
+.ax-symbol-lg { width: 44px; height: 44px; }
+
+/* ── Mini component card — one design everywhere ─────────────── */
+.ax-mini-card {
+  position: relative;
+  aspect-ratio: 64 / 94;
+  width: 3.4rem;
+  border: 1.5px solid var(--mini-line, var(--ax-hairline));
+  border-radius: var(--ax-r-md);
+  background: linear-gradient(180deg, var(--mini-bg-2, var(--ax-bg-deep)), var(--mini-bg-1, var(--ax-bg)));
+  box-shadow: 0 0.3rem 0.7rem rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  flex: 0 0 auto;
+}
+.ax-mini-card img.ax-mini-symbol {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.96;
+}
+.ax-mini-card .ax-mini-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 46%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 34%, #171224, #05040a 78%);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08), 0 1px 3px rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ax-font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: var(--mini-bright, var(--ax-text));
+}
+.ax-mini-card.radiance { --mini-bg-1: var(--ax-radiance-bg1); --mini-bg-2: var(--ax-radiance-bg2); --mini-bright: var(--ax-radiance); --mini-line: var(--ax-radiance-line); }
+.ax-mini-card.void     { --mini-bg-1: var(--ax-void-bg1);     --mini-bg-2: var(--ax-void-bg2);     --mini-bright: var(--ax-void);     --mini-line: var(--ax-void-line); }
+.ax-mini-card.flux     { --mini-bg-1: var(--ax-flux-bg1);     --mini-bg-2: var(--ax-flux-bg2);     --mini-bright: var(--ax-flux);     --mini-line: var(--ax-flux-line); }
+.ax-mini-card.aether   { --mini-bg-1: var(--ax-aether-bg1);   --mini-bg-2: var(--ax-aether-bg2);   --mini-bright: var(--ax-aether);   --mini-line: var(--ax-aether-line); }
+.ax-mini-card.wild     { --mini-bg-1: var(--ax-wild-bg1);     --mini-bg-2: var(--ax-wild-bg2);     --mini-bright: var(--ax-wild);     --mini-line: var(--ax-wild-line); }
+
+/* ── Monument label — the signature small heading ─────────────── */
+.ax-label {
+  font-family: var(--ax-font-display);
+  font-weight: 600;
+  font-size: var(--ax-fs-micro);
+  letter-spacing: var(--ax-track-monument);
+  text-transform: uppercase;
+  color: var(--ax-text-dim);
+}

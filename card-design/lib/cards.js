@@ -227,7 +227,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   }
   function getArt(name){
     const reg = window.AA_ART || {};
-    return reg[name] || reg['sigil'] || Object.values(reg)[0];
+    return reg[name] || reg['arcana'] || Object.values(reg)[0];
   }
 
 
@@ -322,7 +322,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   function makeCard(val, elem, opts){
   opts = opts || {};
   const connectorName = opts.connector || 'beacon';
-  const artKind = opts.art || 'relic';
+  const artKind = opts.art || 'arcana';
   const layout    = LayoutVariants[opts.layout || 'classic'];
   const fx = normalizeLayoutFx(opts.layoutFx);
   const sc = opts.scale || 1;

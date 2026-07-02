@@ -36,9 +36,6 @@ card-design/printenbind/.claude/
 card-design/printenbind/.audit-key
 card-design/printenbind/audit.jsonl
 
-# Redundant packaged bundle (unpacked contents live in quick-ref-page/)
-quick-ref-page.zip
-
 # Editor / tool backup files
 *.bak
 *.bak-*

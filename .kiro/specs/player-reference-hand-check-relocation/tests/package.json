@@ -1,0 +1,13 @@
+{
+  "name": "player-reference-hand-check-relocation-tests",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Structural and load-time smoke checks for the Hand Checker relocation spec.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.0"
+  }
+}
