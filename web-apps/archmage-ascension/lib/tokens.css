@@ -1,0 +1,214 @@
+:root {
+  /* ── Page / surface ── */
+  --page-bg: #0a0810;
+  --page-bg-elev: #120a1c;
+  --page-text: #d8cdb8;           /* warm parchment */
+  --page-text-soft: #a898b8;
+  --page-dim: #5a4878;            /* violet-gray */
+  --page-dim-deeper: #4a3868;
+  --hairline: #2a1e48;
+  --hairline-soft: #180e2a;
+
+  /* ── Accent neutral ── */
+  --gold: #c8a84a;
+
+  /* ── Radiance (suit) ── */
+  --radiance-b:    #f5c518;
+  --radiance-m:    #c8961a;
+  --radiance-dim:  #3a2800;
+  --radiance-bg1:  #100e04;
+  --radiance-bg2:  #0c0900;
+  --radiance-border:#9a7010;
+
+  /* ── Void (suit) ── */
+  --void-b:    #c060f0;
+  --void-m:    #6a0dad;
+  --void-dim:  #200840;
+  --void-bg1:  #09060f;
+  --void-bg2:  #06040e;
+  --void-border:#5a10a0;
+
+  /* ── Flux (suit) ── */
+  --flux-b:    #00c8b4;
+  --flux-m:    #008878;
+  --flux-dim:  #002820;
+  --flux-bg1:  #04100d;
+  --flux-bg2:  #02100d;
+  --flux-border:#009080;
+
+  /* ── Aether (suit) ── */
+  --aether-b:    #e8304a;
+  --aether-m:    #c8203a;
+  --aether-dim:  #400010;
+  --aether-bg1:  #0d0205;
+  --aether-bg2:  #0a0102;
+  --aether-border:#a81828;
+
+  /* ── Convergence / Wild (moonstone silver) ── */
+  --wild-b:   #c8d8f8;
+  --wild-m:   #7080b8;
+  --wild-dim: #101828;
+
+  /* ── Card geometry ── */
+  --card-w: 252px;
+  --card-h: 352px;
+  --card-r: 12px;
+  --card-ol: 36px;    /* overlap strip */
+  --card-tm: 16px;    /* top margin of value scale */
+  --card-st: 16px;    /* step (px per value) */
+
+  /* ── Spacing scale (8-based, engraved rhythm) ── */
+  --sp-0: 0;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* ── Radii ── */
+  --r-xs: 3px;
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-card: 12px;
+
+  /* ── Shadows ── */
+  --shadow-text: 0 1px 2.5px rgba(0,0,0,.85);
+  --shadow-card: 0 8px 24px rgba(0,0,0,.55), 0 2px 4px rgba(0,0,0,.4);
+  --shadow-card-hover: 0 14px 40px rgba(0,0,0,.7), 0 0 24px rgba(200,168,74,.18);
+
+  /* ── Type families ── */
+  --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-body:    'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-mono:    'Courier New', ui-monospace, monospace;
+
+  /* ── Base text sizes ── */
+  --fs-micro:   9px;    /* section labels, card-labels, metadata */
+  --fs-tiny:   11px;
+  --fs-small:  13px;
+  --fs-body:   15px;
+  --fs-lead:   17px;
+  --fs-h4:     20px;
+  --fs-h3:     26px;
+  --fs-h2:     36px;
+  --fs-h1:     56px;
+
+  /* ── Tracking (engraved-plaque mannerism) ── */
+  --track-tight:   0.02em;
+  --track-normal:  0.06em;
+  --track-wide:    0.12em;
+  --track-vast:    0.22em;
+  --track-monument:0.35em;
+
+  /* ── Transitions ── */
+  --ease: cubic-bezier(.4,.1,.2,1);
+  --dur-micro: 180ms;
+  --dur-macro: 320ms;
+}
+
+/* ───────────────────────────────────────────────────────────
+   Semantic / element-level tokens
+   ─────────────────────────────────────────────────────────── */
+
+html, body {
+  background: var(--page-bg);
+  color: var(--page-text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: var(--fs-h1);
+  letter-spacing: var(--track-wide);
+  color: #c8b8e8;
+  text-transform: uppercase;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  letter-spacing: var(--track-wide);
+  color: #c8b8e8;
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--track-wide);
+  color: var(--gold);
+}
+h4, .h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h4);
+  letter-spacing: var(--track-wide);
+  color: var(--gold);
+}
+
+/* Monument-spaced small label — the signature heading mannerism */
+.label-monument {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--fs-micro);
+  letter-spacing: var(--track-monument);
+  text-transform: uppercase;
+  color: var(--page-dim-deeper);
+}
+.label-vast {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-tiny);
+  letter-spacing: var(--track-vast);
+  text-transform: uppercase;
+  color: var(--page-dim);
+}
+
+p, .p {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+.lede {
+  font-family: var(--font-body);
+  font-size: var(--fs-lead);
+  font-style: italic;
+  color: var(--page-text-soft);
+}
+.flavor, em.flavor {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--page-dim);
+  font-size: var(--fs-small);
+}
+.caption {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--fs-small);
+  color: var(--page-dim);
+  text-align: center;
+}
+
+code, .mono {
+  font-family: var(--font-mono);
+  font-size: .92em;
+  background: rgba(183,148,246,.12);
+  color: #c8b8e8;
+  padding: .15em .4em;
+  border-radius: var(--r-xs);
+}
+
+hr.sep {
+  border: none;
+  border-top: 1px solid var(--hairline-soft);
+  margin: var(--sp-6) auto;
+  max-width: 700px;
+}

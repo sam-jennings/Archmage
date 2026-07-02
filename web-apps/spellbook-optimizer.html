@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spellbook Optimizer — Archmage Ascension</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="archmage-theme.css" />
+  <style>
+    .page {
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-decoration: none;
+      text-transform: uppercase;
+      margin-bottom: 2rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    .page-header { text-align: center; margin-bottom: 2.5rem; }
+    .page-header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.08em;
+      line-height: 1.2;
+    }
+    .page-header .tagline {
+      font-size: 1rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(183, 148, 246, 0.25);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .field { margin-bottom: 1.25rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field label {
+      display: block;
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .field input[type="text"] {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      font-size: 1.05rem;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.04em;
+    }
+    .field-hint {
+      margin-top: 0.4rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .radio-option {
+      flex: 1;
+      min-width: 160px;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.65rem 1rem;
+      background: rgba(26, 11, 46, 0.4);
+      border: 1px solid rgba(183, 148, 246, 0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .radio-option:has(input:checked) {
+      border-color: rgba(246, 201, 74, 0.5);
+      background: rgba(246, 201, 74, 0.07);
+    }
+    .radio-option input[type="radio"] { accent-color: var(--gold); }
+    .radio-option .opt-label { font-size: 0.95rem; color: var(--text); }
+    .radio-option .opt-sub { font-size: 0.82rem; color: var(--text-dim); }
+
+    .field-row {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+    .field-row .field { flex: 1; }
+    .field select { padding: 0.72rem 1rem; }
+
+    .error-msg {
+      margin-top: 0.75rem;
+      padding: 0.65rem 1rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-radius: 6px;
+      color: #f87171;
+      font-size: 0.95rem;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+
+    .btn-optimise {
+      width: 100%;
+      margin-top: 1.25rem;
+      padding: 0.9rem;
+      background: linear-gradient(135deg, var(--gold) 0%, #d4900f 100%);
+      color: var(--primary);
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-optimise:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(246, 201, 74, 0.45);
+    }
+
+    /* ── Results ── */
+    #results { display: none; }
+    #results.visible { display: block; }
+
+    .stats-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 0.85rem 1.1rem;
+      background: rgba(26, 11, 46, 0.55);
+      border: 1px solid rgba(183, 148, 246, 0.18);
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .stat-item strong { color: var(--accent); font-family: 'Cinzel', serif; }
+    .stat-optimal { color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.95rem; }
+    .stat-nodes { font-size: 0.82rem; color: rgba(168, 156, 201, 0.6); }
+
+    .partition-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(183, 148, 246, 0.18);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1.25rem;
+    }
+    .partition-card.rank-1 {
+      border-color: rgba(246, 201, 74, 0.4);
+      box-shadow: 0 0 0 1px rgba(246, 201, 74, 0.1) inset;
+    }
+
+    .partition-header {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid rgba(183, 148, 246, 0.1);
+      background: rgba(26, 11, 46, 0.3);
+    }
+    .rank-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 0.25rem 0.55rem;
+      background: rgba(183, 148, 246, 0.12);
+      border: 1px solid rgba(183, 148, 246, 0.3);
+      border-radius: 4px;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+    .rank-1 .rank-badge {
+      background: rgba(246, 201, 74, 0.12);
+      border-color: rgba(246, 201, 74, 0.4);
+      color: var(--gold);
+    }
+    .partition-score {
+      font-family: 'Cinzel', serif;
+      font-size: 1.25rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+    .partition-meta {
+      margin-left: auto;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      text-align: right;
+    }
+
+    .spells-list {
+      padding: 0.75rem 1.1rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .spell-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      padding: 0.55rem 0.75rem;
+      background: rgba(26, 11, 46, 0.35);
+      border: 1px solid rgba(183, 148, 246, 0.1);
+      border-radius: 8px;
+    }
+    .spell-type-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.07em;
+      padding: 0.18rem 0.5rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+    .type-Conjuration {
+      background: rgba(96, 165, 250, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      color: #93c5fd;
+    }
+    .type-Transfiguration {
+      background: rgba(183, 148, 246, 0.15);
+      border: 1px solid rgba(183, 148, 246, 0.35);
+      color: var(--accent);
+    }
+    .type-PerfectTransmutation {
+      background: rgba(246, 201, 74, 0.12);
+      border: 1px solid rgba(246, 201, 74, 0.38);
+      color: var(--gold);
+    }
+    .type-Enchantment {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+      color: #6ee7b7;
+    }
+    .spell-pts {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+    }
+    .spell-pts strong { color: var(--text); }
+    .cards-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-left: auto;
+    }
+    .card-chip {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.12rem 0.38rem;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .suit-R { background: rgba(246, 201, 74, 0.15); color: #fcd34d; border: 1px solid rgba(246, 201, 74, 0.3); }
+    .suit-V { background: rgba(183, 148, 246, 0.15); color: var(--accent); border: 1px solid rgba(183, 148, 246, 0.3); }
+    .suit-F { background: rgba(96, 165, 250, 0.15); color: #93c5fd; border: 1px solid rgba(96, 165, 250, 0.3); }
+    .suit-A { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .suit-W { background: rgba(255, 255, 255, 0.06); color: var(--text-dim); border: 1px solid rgba(255, 255, 255, 0.15); }
+
+    .unused-bar {
+      padding: 0.4rem 1.1rem 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .unused-label {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .empty-notice {
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    @media (max-width: 540px) {
+      .field-row { flex-direction: column; }
+      .partition-score { font-size: 1.05rem; }
+      .partition-meta { font-size: 0.8rem; }
+      .cards-list { margin-left: 0; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-link" href="../index.html">← Archmage Ascension</a>
+
+  <div class="page-header">
+    <h1>Spellbook Optimizer</h1>
+    <p class="tagline">Find the optimal partition of a final hand into Recognition Points</p>
+  </div>
+
+  <div class="form-card">
+    <div class="field">
+      <label for="cards-input">Cards</label>
+      <input
+        type="text"
+        id="cards-input"
+        placeholder="e.g. V5,F6,R7,A8,V9,W"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <div class="field-hint">
+        Suits: <strong>R</strong> Radiance · <strong>V</strong> Void · <strong>F</strong> Flux · <strong>A</strong> Aether · <strong>W</strong> Wild
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Player Count</label>
+      <div class="radio-group">
+        <label class="radio-option">
+          <input type="radio" name="player-count" value="15" checked />
+          <span>
+            <span class="opt-label">2–4 players</span><br>
+            <span class="opt-sub">max card value 15</span>
+          </span>
+        </label>
+        <label class="radio-option">
+          <input type="radio" name="player-count" value="20" />
+          <span>
+            <span class="opt-label">5–7 players</span><br>
+            <span class="opt-sub">max card value 20</span>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="top-k">Partitions to show</label>
+        <select id="top-k">
+          <option value="1">Top 1 (optimum only)</option>
+          <option value="2">Top 2</option>
+          <option value="3" selected>Top 3</option>
+          <option value="4">Top 4</option>
+          <option value="5">Top 5</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="error-msg" id="error-msg"></div>
+
+    <button class="btn-optimise" id="btn-optimise" onclick="runOptimizer()">
+      OPTIMISE →
+    </button>
+  </div>
+
+  <div id="results"></div>
+
+</div>
+
+<script>
+// ── Scoring table (rulebook v2.8 / Scoring System Reference) ─────────────────
+
+const SCORE_TABLE = {
+  Conjuration:          { 3:3,  4:4,  5:6,  6:9,  7:13, 8:18, 9:24,
+                          10:31, 11:39, 12:48, 13:58, 14:69, 15:81 },
+  Transfiguration:      { 3:5,  4:7,  5:10, 6:14, 7:19, 8:25, 9:32,
+                          10:40, 11:49, 12:59, 13:70, 14:82, 15:95 },
+  PerfectTransmutation: { 3:7,  4:10, 5:14, 6:19, 7:25, 8:32, 9:40,
+                          10:49, 11:59, 12:70, 13:82, 14:95, 15:109 },
+  Enchantment:          { 3:6, 4:15 },
+};
+
+const SPELL_DISPLAY = {
+  Conjuration:          'Conjuration',
+  Transfiguration:      'Transfiguration',
+  PerfectTransmutation: 'Perfect Transmutation',
+  Enchantment:          'Enchantment',
+};
+
+// ── Card parsing ──────────────────────────────────────────────────────────────
+
+function parseCards(spec, maxValue) {
+  const tokens = spec.split(',').map(t => t.trim()).filter(Boolean);
+  if (tokens.length === 0) throw new Error('No cards entered.');
+  if (tokens.length > 20) throw new Error(`Too many cards (${tokens.length}); maximum is 20.`);
+  return tokens.map((tok, i) => {
+    if (tok.toUpperCase() === 'W') return { suit: null, value: null, isWild: true, index: i };
+    if (tok.length < 2) throw new Error(`Bad card token: "${tok}"`);
+    const suit = tok[0].toUpperCase();
+    if (!'RVFA'.includes(suit)) throw new Error(`Unknown suit in "${tok}" — expected R, V, F, A, or W.`);
+    const value = parseInt(tok.slice(1), 10);
+    if (isNaN(value) || String(value) !== tok.slice(1)) throw new Error(`Bad value in "${tok}".`);
+    if (value < 1 || value > maxValue) throw new Error(`Value ${value} in "${tok}" is out of range 1–${maxValue}.`);
+    return { suit, value, isWild: false, index: i };
+  });
+}
+
+// ── Spell validators ──────────────────────────────────────────────────────────
+
+function nonwilds(cards) { return cards.filter(c => !c.isWild); }
+
+function isConjuration(cards) {
+  if (cards.length < 3) return false;
+  const nw = nonwilds(cards);
+  return nw.length === 0 || new Set(nw.map(c => c.suit)).size === 1;
+}
+
+function isEnchantment(cards) {
+  if (cards.length < 3 || cards.length > 4) return false;
+  const nw = nonwilds(cards);
+  if (nw.length === 0) return true;
+  if (new Set(nw.map(c => c.value)).size !== 1) return false;
+  const suits = nw.map(c => c.suit);
+  return suits.length === new Set(suits).size;
+}
+
+function hasWindow(valueSet, k, maxValue) {
+  if (valueSet.size === 0) return k <= maxValue;
+  const vals = [...valueSet];
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  if (hi - lo > k - 1) return false;
+  return Math.max(1, hi - k + 1) <= Math.min(maxValue - k + 1, lo);
+}
+
+function isTransfiguration(cards, maxValue) {
+  if (cards.length < 3) return false;
+  const nw = nonwilds(cards);
+  const vals = nw.map(c => c.value);
+  if (vals.length !== new Set(vals).size) return false;
+  return hasWindow(new Set(vals), cards.length, maxValue);
+}
+
+function isPerfectTransmutation(cards, maxValue) {
+  if (cards.length < 3) return false;
+  const nw = nonwilds(cards);
+  if (nw.length > 0 && new Set(nw.map(c => c.suit)).size !== 1) return false;
+  return isTransfiguration(cards, maxValue);
+}
+
+function bestSpell(cards, maxValue) {
+  const k = cards.length;
+  let best = null;
+  function consider(type) {
+    const s = SCORE_TABLE[type][k];
+    if (s !== undefined && (best === null || s > best.score)) best = { type, score: s };
+  }
+  if (isPerfectTransmutation(cards, maxValue)) consider('PerfectTransmutation');
+  if (isTransfiguration(cards, maxValue))      consider('Transfiguration');
+  if (isConjuration(cards))                    consider('Conjuration');
+  if (isEnchantment(cards))                    consider('Enchantment');
+  return best;
+}
+
+// ── Candidate enumeration ─────────────────────────────────────────────────────
+
+function popcount(x) {
+  let c = 0; x = x >>> 0; while (x) { c += x & 1; x >>>= 1; } return c;
+}
+
+function lowestBitPos(mask) {
+  return 31 - Math.clz32(mask & -mask);
+}
+
+function enumerateCandidates(cards, maxValue) {
+  const n = cards.length;
+  const candidates = [];
+  for (let mask = 1; mask < (1 << n); mask++) {
+    if (popcount(mask) < 3) continue;
+    const subset = [];
+    for (let i = 0; i < n; i++) if (mask & (1 << i)) subset.push(cards[i]);
+    const r = bestSpell(subset, maxValue);
+    if (r !== null) candidates.push({ mask, score: r.score, type: r.type });
+  }
+  return candidates;
+}
+
+// ── Bitmask DP ────────────────────────────────────────────────────────────────
+
+function solveMax(n, candidates) {
+  const total = 1 << n;
+  const dp = new Int32Array(total);
+  const byLow = {};
+  for (const { mask, score } of candidates) {
+    const low = lowestBitPos(mask);
+    if (!byLow[low]) byLow[low] = [];
+    byLow[low].push({ mask, score });
+  }
+  for (let m = 1; m < total; m++) {
+    const pivot = lowestBitPos(m);
+    let best = dp[m ^ (1 << pivot)];
+    for (const c of (byLow[pivot] || [])) {
+      if ((c.mask & m) === c.mask) {
+        const v = dp[m ^ c.mask] + c.score;
+        if (v > best) best = v;
+      }
+    }
+    dp[m] = best;
+  }
+  return dp;
+}
+
+// ── Top-K partition search ────────────────────────────────────────────────────
+
+function topkPartitions(n, candidates, dp, k, nodeBudget) {
+  if (nodeBudget === undefined) nodeBudget = 2000000;
+  const byLow = {};
+  for (const c of candidates) {
+    const low = lowestBitPos(c.mask);
+    if (!byLow[low]) byLow[low] = [];
+    byLow[low].push(c);
+  }
+  const full = (1 << n) - 1;
+  const found = new Map();
+  let nodes = 0;
+  let threshold = 0;
+
+  function updateThreshold() {
+    if (found.size < k) { threshold = 0; return; }
+    const scores = [...found.values()].map(v => v.score).sort((a, b) => b - a);
+    threshold = scores[k - 1];
+  }
+
+  function keep(partition, score) {
+    const key = partition.map(p => p.mask).sort((a, b) => a - b).join(',');
+    if (found.has(key)) return;
+    const sizes = partition.map(p => popcount(p.mask));
+    found.set(key, {
+      score,
+      partition: partition.map(p => ({ mask: p.mask, score: p.score, type: p.type })),
+      tb: { count: sizes.length, max: sizes.length ? Math.max.apply(null, sizes) : 0 },
+    });
+    updateThreshold();
+  }
+
+  function recurse(mask, score, partition) {
+    nodes++;
+    if (nodes > nodeBudget) return;
+    if (mask === 0) { keep(partition, score); return; }
+    if (score + dp[mask] < threshold) return;
+    const pivot = lowestBitPos(mask);
+    // Option A: skip the pivot card
+    recurse(mask ^ (1 << pivot), score, partition);
+    // Option B: use a spell containing the pivot
+    for (const c of (byLow[pivot] || [])) {
+      if ((c.mask & mask) === c.mask) {
+        partition.push(c);
+        recurse(mask ^ c.mask, score + c.score, partition);
+        partition.pop();
+      }
+    }
+  }
+
+  recurse(full, 0, []);
+
+  const ranked = [...found.values()]
+    .sort((a, b) =>
+      b.score - a.score ||
+      b.tb.count - a.tb.count ||
+      b.tb.max - a.tb.max
+    )
+    .slice(0, k);
+
+  return { ranked, nodes };
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────────
+
+function cardDisplay(card) {
+  return card.isWild ? 'W' : `${card.suit}${card.value}`;
+}
+
+function cardChipHTML(card) {
+  const cls = card.isWild ? 'suit-W' : `suit-${card.suit}`;
+  return `<span class="card-chip ${cls}">${cardDisplay(card)}</span>`;
+}
+
+// ── Main ──────────────────────────────────────────────────────────────────────
+
+function runOptimizer() {
+  const spec     = document.getElementById('cards-input').value.trim();
+  const maxValue = parseInt(document.querySelector('input[name="player-count"]:checked').value, 10);
+  const topK     = parseInt(document.getElementById('top-k').value, 10);
+  const errEl    = document.getElementById('error-msg');
+  const resEl    = document.getElementById('results');
+
+  errEl.textContent = '';
+  errEl.classList.remove('visible');
+  resEl.classList.remove('visible');
+  resEl.innerHTML = '';
+
+  let cards;
+  try {
+    cards = parseCards(spec, maxValue);
+  } catch (e) {
+    errEl.textContent = e.message;
+    errEl.classList.add('visible');
+    return;
+  }
+
+  const n          = cards.length;
+  const nWild      = cards.filter(c => c.isWild).length;
+  const candidates = enumerateCandidates(cards, maxValue);
+  const dp         = solveMax(n, candidates);
+  const full       = (1 << n) - 1;
+  const optimal    = dp[full];
+  const { ranked, nodes } = topkPartitions(n, candidates, dp, topK);
+
+  let html = buildStatsBar(n, nWild, candidates.length, optimal, nodes);
+
+  if (ranked.length === 0 || ranked[0].partition.length === 0) {
+    html += `<div class="partition-card"><div class="empty-notice">No valid spells — 0 Recognition Points.</div></div>`;
+  } else {
+    for (let r = 0; r < ranked.length; r++) {
+      html += buildPartitionCard(r, ranked[r], cards, n);
+    }
+  }
+
+  resEl.innerHTML = html;
+  resEl.classList.add('visible');
+  resEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function buildStatsBar(n, nWild, candidateCount, optimal, nodes) {
+  return `
+    <div class="stats-bar">
+      <span class="stat-item"><strong>${n}</strong> card${n !== 1 ? 's' : ''} · <strong>${nWild}</strong> wild</span>
+      <span class="stat-item"><strong>${candidateCount}</strong> candidate spell${candidateCount !== 1 ? 's' : ''}</span>
+      <span class="stat-optimal">Optimal: <strong>${optimal}</strong> Recognition Points</span>
+      <span class="stat-nodes">${nodes.toLocaleString()} nodes searched</span>
+    </div>`;
+}
+
+function buildPartitionCard(rank, result, cards, n) {
+  const { score, partition } = result;
+  const usedMask = partition.reduce((acc, p) => acc | p.mask, 0);
+  const usedCount = popcount(usedMask);
+  const leftover = n - usedCount;
+  const spellWord = partition.length === 1 ? 'spell' : 'spells';
+  const cardWord  = leftover === 1 ? 'card' : 'cards';
+
+  let html = `<div class="partition-card${rank === 0 ? ' rank-1' : ''}">`;
+
+  // Header
+  html += `<div class="partition-header">`;
+  html += `<span class="rank-badge">#${rank + 1}</span>`;
+  html += `<span class="partition-score">${score} pts</span>`;
+  html += `<span class="partition-meta">${partition.length} ${spellWord}`;
+  if (leftover > 0) html += ` · ${leftover} ${cardWord} unused`;
+  html += `</span></div>`;
+
+  // Spells, largest first
+  html += `<div class="spells-list">`;
+  const sorted = [...partition].sort((a, b) => popcount(b.mask) - popcount(a.mask));
+  for (const spell of sorted) {
+    const spellCards = cards.filter((_, i) => spell.mask & (1 << i));
+    html += `<div class="spell-row">`;
+    html += `<span class="spell-type-badge type-${spell.type}">${SPELL_DISPLAY[spell.type]}</span>`;
+    html += `<span class="spell-pts">k=${spellCards.length} · <strong>${spell.score} pts</strong></span>`;
+    html += `<div class="cards-list">`;
+    for (const card of spellCards) html += cardChipHTML(card);
+    html += `</div></div>`;
+  }
+  html += `</div>`;
+
+  // Unused cards
+  if (leftover > 0) {
+    const unusedCards = cards.filter((_, i) => !(usedMask & (1 << i)));
+    html += `<div class="unused-bar">`;
+    html += `<span class="unused-label">Unused:</span>`;
+    for (const card of unusedCards) html += cardChipHTML(card);
+    html += `</div>`;
+  }
+
+  html += `</div>`;
+  return html;
+}
+
+document.getElementById('cards-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') runOptimizer();
+});
+</script>
+</body>
+</html>
