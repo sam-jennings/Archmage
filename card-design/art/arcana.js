@@ -841,7 +841,7 @@
       if (elem === 'echo')     return renderEcho(elem, cx, cy, artR, e, meta);
       return renderVoid(elem, cx, cy, artR, e, meta);
     },
-    // Convergence art for the wild card (picked up by makeWildCard).
+    // Wild-card art (picked up by makeWildCard).
     renderWild: renderWild
   };
 })();

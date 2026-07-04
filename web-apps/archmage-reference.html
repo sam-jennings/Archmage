@@ -266,10 +266,10 @@
                     <div class="card-icon">🎴</div>
                     <h3>Deck Selection</h3>
                     <ul>
-                        <li><span class="highlight">2–4 players:</span> values 1–15 (60 cards + 2 wilds = 62 cards)</li>
-                        <li><span class="highlight">5–7 players:</span> values 1–20 (80 cards + 4 wilds = 84 cards)</li>
+                        <li><span class="highlight">2–4 players:</span> four energies × ranks 1–15 (60 cards + 2 wilds = 62 cards)</li>
+                        <li><span class="highlight">5–6 players:</span> five energies incl. Echo × ranks 1–15 (75 cards + 4 wilds = 79 cards)</li>
                     </ul>
-                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-dim);">4 energies × values, plus wilds</p>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-dim);">Echo is the fifth energy — 5–6 player games only. Start with 1 counter (2–4p) or 2 counters (5–6p).</p>
                 </div>
 
                 <div class="card">
@@ -309,33 +309,33 @@
                     <h3>The Four Energies</h3>
                     <div class="energy-legend">
                         <div class="energy-row" data-energy="Radiance">
-                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_radiance.svg" alt="Radiance">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_radiance_icon.svg" alt="Radiance">
                             <span class="energy-name" style="color: var(--ax-radiance);">Radiance</span>
                             <span class="energy-desc">The emissive current — warm and gold.</span>
                         </div>
                         <div class="energy-row" data-energy="Void">
-                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_void.svg" alt="Void">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_void_icon.svg" alt="Void">
                             <span class="energy-name" style="color: var(--ax-void);">Void</span>
                             <span class="energy-desc">The absorptive current — quiet, deep violet.</span>
                         </div>
                         <div class="energy-row" data-energy="Flux">
-                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt="Flux">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_flux_icon.svg" alt="Flux">
                             <span class="energy-name" style="color: var(--ax-flux);">Flux</span>
                             <span class="energy-desc">The transitive current — cold teal, always moving.</span>
                         </div>
                         <div class="energy-row" data-energy="Aether">
-                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_aether.svg" alt="Aether">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_aether_icon.svg" alt="Aether">
                             <span class="energy-name" style="color: var(--ax-aether);">Aether</span>
                             <span class="energy-desc">The stabilizing current — crimson, exact, binding.</span>
                         </div>
                         <div class="energy-row" data-energy="Wild" data-wild="true">
-                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_wild.svg" alt="Wild">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_wild_icon.svg" alt="Wild">
                             <span class="energy-name" style="color: var(--ax-wild);">Wild</span>
                             <span class="energy-desc">Substitutes for any energy and value.</span>
                         </div>
                     </div>
                     <div class="note">
-                        Each card is a <strong>magical component</strong>: an energy + a value (1–20). Example: Void 7 is a Void-attuned component with value 7.
+                        Each card is a <strong>magical component</strong>: an energy + a value (1–15). Example: Void 7 is a Void-attuned component with value 7.
                     </div>
                 </div>
 
@@ -360,9 +360,9 @@
                     <p><span class="accent-text">Same Energy</span></p>
                     <figure class="spell-combo-example" aria-label="Example Conjuration: Radiance 4, Radiance 9, and Radiance 13">
                         <div class="spell-combo-cards" aria-hidden="true">
-                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance.svg" alt=""><span class="ax-mini-value">4</span></div>
-                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance.svg" alt=""><span class="ax-mini-value">9</span></div>
-                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance.svg" alt=""><span class="ax-mini-value">13</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">4</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">9</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">13</span></div>
                         </div>
                         <figcaption class="spell-combo-caption">Radiance 4 + 9 + 13<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same energy, any values</span></figcaption>
                     </figure>
@@ -384,9 +384,9 @@
                     <p><span class="accent-text">Sequential Values</span></p>
                     <figure class="spell-combo-example" aria-label="Example Transfiguration: Void 6, Flux 7, and Aether 8">
                         <div class="spell-combo-cards" aria-hidden="true">
-                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void.svg" alt=""><span class="ax-mini-value">6</span></div>
-                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt=""><span class="ax-mini-value">7</span></div>
-                            <div class="ax-mini-card aether"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_aether.svg" alt=""><span class="ax-mini-value">8</span></div>
+                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void_simple.svg" alt=""><span class="ax-mini-value">6</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">7</span></div>
+                            <div class="ax-mini-card aether"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_aether_simple.svg" alt=""><span class="ax-mini-value">8</span></div>
                         </div>
                         <figcaption class="spell-combo-caption">Void 6 + Flux 7 + Aether 8<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">values connect, any energy</span></figcaption>
                     </figure>
@@ -394,8 +394,8 @@
                     <h4>Requirements</h4>
                     <p>3+ components in sequence (any energies)</p>
                     <div class="note">
-                        Cannot loop around (1-20-19 invalid)<br>
-                        1-2-3 and 18-19-20 are valid
+                        Cannot loop around (14-15-1 invalid)<br>
+                        1-2-3 and 13-14-15 are valid
                     </div>
 
                     <h4>Benefit When Cast</h4>
@@ -412,24 +412,25 @@
                     <p><span class="accent-text">Matching Values</span></p>
                     <figure class="spell-combo-example" aria-label="Example Enchantment: Radiance 10, Void 10, and Flux 10">
                         <div class="spell-combo-cards" aria-hidden="true">
-                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance.svg" alt=""><span class="ax-mini-value">10</span></div>
-                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void.svg" alt=""><span class="ax-mini-value">10</span></div>
-                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt=""><span class="ax-mini-value">10</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
+                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
                         </div>
                         <figcaption class="spell-combo-caption">Radiance 10 + Void 10 + Flux 10<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same value, any energy</span></figcaption>
                     </figure>
                     
                     <h4>Requirements</h4>
-                    <p>3-4 components of the same value</p>
+                    <p>3-5 components of the same value (5-component needs the Echo suit — 5-6 player games)</p>
                     
                     <h4>Benefit (Always Active)</h4>
-                    <p><span class="highlight">Enhanced Capability:</span></p>
+                    <p><span class="highlight">Enhanced Capability</span> — capacity is measured in counters (each counter = 1 spell cast + 1 learning action per turn):</p>
                     <ul>
-                        <li>3 components: <span class="highlight">+1 learning action</span> & <span class="highlight">+1 spell cast</span> per turn</li>
-                        <li>4 components: <span class="highlight">Unlimited</span> learning & casting</li>
+                        <li>3 components: <span class="highlight">+1 counter</span></li>
+                        <li>4 components: <span class="highlight">+3 counters</span></li>
+                        <li>5 components: <span class="highlight">Unlimited</span> capacity</li>
                     </ul>
                     <div class="note">
-                        When learned: Gain +1 counter (3-card) or set counters aside (4-card)
+                        When learned: gain +1 counter (3-card), +3 counters (4-card), or set counters aside for the Unlimited Capacity marker (5-card)
                     </div>
                 </div>
 
@@ -439,9 +440,9 @@
                     <p><span class="accent-text">Sequential Same Energy</span></p>
                     <figure class="spell-combo-example" aria-label="Example Perfect Transmutation: Flux 6, Flux 7, and Flux 8">
                         <div class="spell-combo-cards" aria-hidden="true">
-                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt=""><span class="ax-mini-value">6</span></div>
-                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt=""><span class="ax-mini-value">7</span></div>
-                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux.svg" alt=""><span class="ax-mini-value">8</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">6</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">7</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">8</span></div>
                         </div>
                         <figcaption class="spell-combo-caption">Flux 6 + 7 + 8<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same energy, connected values</span></figcaption>
                     </figure>
@@ -595,15 +596,17 @@
                     
                     <h4>Gaining Counters</h4>
                     <ul>
-                        <li>Start: <span class="highlight">1 counter</span></li>
+                        <li>Start: <span class="highlight">1 counter</span> (2-4 players) / <span class="highlight">2 counters</span> (5-6 players)</li>
                         <li>Learn 3-component Enchantment: <span class="highlight">+1 counter</span></li>
-                        <li>Learn 4-component Enchantment: <span class="highlight">Unlimited</span> — take Unlimited Capacity marker; set counters aside</li>
+                        <li>Learn 4-component Enchantment: <span class="highlight">+3 counters</span></li>
+                        <li>Learn 5-component Enchantment: <span class="highlight">Unlimited</span> — take Unlimited Capacity marker; set counters aside</li>
                     </ul>
 
                     <h4>Losing Counters</h4>
                     <ul>
                         <li>Break/Unlearn 3-card Enchantment: <span class="highlight">−1 counter</span></li>
-                        <li>Break/Unlearn 4-card Enchantment: <span class="highlight">return Unlimited Capacity marker</span>; retrieve your counters</li>
+                        <li>Break/Unlearn 4-card Enchantment: <span class="highlight">−3 counters</span></li>
+                        <li>Break/Unlearn 5-card Enchantment: <span class="highlight">return Unlimited Capacity marker</span>; retrieve your counters</li>
                     </ul>
 
                     <div class="note" style="margin-top: 1rem;">
@@ -650,16 +653,16 @@
 
                     <h4>Actions available</h4>
                     <ul>
-                        <li>Base: 1 action &nbsp;|&nbsp; Each 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: unlimited (Unlimited Capacity marker)</li>
+                        <li>Base: 1 action (2 at 5-6 players) &nbsp;|&nbsp; 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: +3 &nbsp;|&nbsp; 5-card Enchantment: unlimited (Unlimited Capacity marker)</li>
                     </ul>
 
                     <h4>Actions (1 counter each)</h4>
                     <ul>
                         <li><span class="highlight">LEARN:</span> Place a valid spell from hand into your Spellbook
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → gain +1 counter now; 4-card → take the Unlimited Capacity marker, set counters aside</span></li>
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → gain +1 counter now; 4-card → +3 counters now; 5-card → take the Unlimited Capacity marker, set counters aside</span></li>
                         <li><span class="highlight">EMPOWER:</span> Add components from hand to an existing spell (can change its spell type)</li>
                         <li><span class="highlight">RESHAPE:</span> Break down and rebuild any spells with the same components — all must remain valid
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: lose 1 counter; breaking a 4-card Enchantment: return the Unlimited Capacity marker</span></li>
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: −1 counter; a 4-card: −3 counters; a 5-card: return the Unlimited Capacity marker</span></li>
                         <li><span class="highlight">UNLEARN:</span> Dissolve one spell — components return to hand but cannot be learned again until next turn
                             <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ 1 counter per spell dissolved — unlearning two spells costs 2 counters. Same Enchantment penalties as Reshape.</span></li>
                     </ul>
@@ -798,8 +801,8 @@
                         </thead>
                         <tbody>
                             <tr><td>3</td><td>3</td><td>5</td><td>7</td><td>6</td></tr>
-                            <tr><td>4</td><td>4</td><td>7</td><td>10</td><td>15</td></tr>
-                            <tr><td>5</td><td>6</td><td>10</td><td>14</td><td>—</td></tr>
+                            <tr><td>4</td><td>4</td><td>7</td><td>10</td><td>12</td></tr>
+                            <tr><td>5</td><td>6</td><td>10</td><td>14</td><td>18</td></tr>
                             <tr><td>6</td><td>9</td><td>14</td><td>19</td><td>—</td></tr>
                             <tr><td>7</td><td>13</td><td>19</td><td>25</td><td>—</td></tr>
                             <tr><td>8</td><td>18</td><td>25</td><td>32</td><td>—</td></tr>
@@ -862,7 +865,7 @@
                     
                     <ul>
                         <li><button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutations</button> score the highest per component</li>
-                        <li><span class="highlight">4-component</span> <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantments</button> have a huge scoring spike (15 points)</li>
+                        <li><span class="highlight">4-component</span> <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantments</button> have a huge scoring spike (12 points), and <span class="highlight">5-component</span> Enchantments reach 18 (5-6 player games only)</li>
                         <li>Longer spells score <span class="highlight">exponentially better</span> than multiple short ones</li>
                         <li>A single 7-component spell often scores more than two 4-component spells</li>
                     </ul>
@@ -1570,13 +1573,13 @@
                 },
                 {
                     name: 'Enchantment spike',
-                    // 3 Conjuration (3) + 4 Conjuration (4) + 4 Enchantment (15) = 22
+                    // 3 Conjuration (3) + 4 Conjuration (4) + 4 Enchantment (12) = 19
                     rows: [
                         { spellName: 'Conjuration', size: 3 },
                         { spellName: 'Conjuration', size: 4 },
                         { spellName: 'Enchantment', size: 4 }
                     ],
-                    expected: 22
+                    expected: 19
                 },
                 {
                     name: 'Large spellbook',
@@ -1611,26 +1614,26 @@
         // ═══════════════════════════════════════════════════════════════
         const ART = '../art/energy-symbols-export/';
         const ENERGIES = {
-          radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
-          void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
-          flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux.svg',     blurb: 'The transitive current — cold teal, always moving.' },
-          aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
+          radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance_simple.svg', icon: ART + 'symbol_radiance_icon.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
+          void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void_simple.svg', icon: ART + 'symbol_void_icon.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
+          flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux_simple.svg', icon: ART + 'symbol_flux_icon.svg',     blurb: 'The transitive current — cold teal, always moving.' },
+          aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
         };
-        const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild.svg', blurb: 'A wild card substitutes for any energy and value.' };
+        const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
 
         /* Recognition Points — exactly the board's table. */
         const RP = {
           conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
           transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
           perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
-          enchantment:     {3:6, 4:15},
+          enchantment:     {3:6, 4:12, 5:18},
         };
         function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
 
         const SPELL_EFFECT_SHORT = {
           conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
           transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
-          enchantment: n => n >= 4 ? 'Always active: Unlimited Capacity.' : 'Always active: +1 counter.',
+          enchantment: n => n >= 5 ? 'Always active: Unlimited Capacity.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
           perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
         };
 
@@ -1676,7 +1679,7 @@
             btn.style.setProperty('--e-bright', en.tone);
             btn.setAttribute('aria-pressed', String(key === hc.energy));
             const img = document.createElement('img');
-            img.src = en.symbol; img.alt = '';
+            img.src = en.icon; img.alt = '';
             btn.appendChild(img);
             btn.appendChild(el('span', null, en.name));
             btn.addEventListener('click', function() {

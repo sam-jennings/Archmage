@@ -48,14 +48,16 @@ That wizard ascends. The currents stabilize. Magic flows again.
 ### Setup Steps
 
 1. Select the appropriate deck for your player count:
-   - 2-4 players: Components valued 1-15 (4 energy types x 15 ranks = 60 cards, plus 2 wilds = 62 cards)
-   - 5-7 players: Components valued 1-20 (4 energy types x 20 ranks = 80 cards, plus 4 wilds = 84 cards)
+   - 2-4 players: Four energy types (Radiance, Void, Flux, Aether) x ranks 1-15 = 60 cards, plus 2 wilds = 62 cards.
+   - 5-6 players: Five energy types (the four above plus **Echo**) x ranks 1-15 = 75 cards, plus 4 wilds = 79 cards.
 2. Deal starting components:
    - All players: 7 cards each
 3. Place 5 cards face-up to form The Array
 4. Place remaining cards face-down as The Source
 5. Randomly determine starting player
-6. Each player takes 1 counter (represents your base magical capacity)
+6. Each player takes their starting counters (base magical capacity):
+   - 2-4 players: 1 counter each.
+   - 5-6 players: 2 counters each.
 
 ---
 
@@ -71,8 +73,8 @@ That wizard ascends. The currents stabilize. Magic flows again.
   - ♥ Hearts: Void
   - ♦ Diamonds: Flux
   - ♣ Clubs: Aether
-- The number (1-20) is the component type - different resonance frequencies.
-  - Maximum value depends on player count (15 or 20).
+- The number (1-15) is the component type - different resonance frequencies.
+  - In 5-6 player games a fifth energy, Echo, joins the four above (still ranks 1-15).
   - Wild cards can substitute for any energy type and value combination.
 
 Example: Void 7 is a Void-attuned component with resonance frequency 7.
@@ -134,7 +136,7 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 
 - Requirements: 3+ components in consecutive sequence (any energies).
   - Examples: 5-6-7 or 12-13-14-15.
-  - Cannot loop around (1-20-19 is invalid; 1-2-3 and 18-19-20 are valid).
+  - Cannot loop around (14-15-1 is invalid; 1-2-3 and 13-14-15 are valid).
 - When cast: Must exchange components using the Array.
   - 3 components: Discard 2 from hand, take 1 from Array.
   - 4+ components: Discard 1 from hand, take 1 from Array.
@@ -145,12 +147,13 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 
 *Stabilising energy within yourself, permanently increasing your capacity*
 
-- Requirements: 3-4 components of the same value.
+- Requirements: 3-5 components of the same value.
 - Always active: Enchantments don't need to be cast - they're woven into your being.
-- What they provide:
-  - Additional casting capacity: 3 components: cast +1 spell per turn; 4 components: cast all your spells.
-  - Additional learning capacity: 3 components: +1 learning action per turn; 4 components: unlimited learning actions.
-  - Physical benefit: Gain +1 counter when you learn a 3-component Enchantment.
+- What they provide (capacity is measured in counters; each counter lets you cast one spell and perform one learning action per turn):
+  - 3 components: +1 counter permanently.
+  - 4 components: +3 counters permanently.
+  - 5 components: Unlimited Capacity (take the Unlimited Capacity marker; set all counters aside).
+- Wild-declaration rule: a wild used in an Enchantment must be declared as one of the energy types present in the current deck. A matching-value set can never represent a "fifth energy" that isn't in play — this keeps 5-component Enchantments out of reach at 2-4 players (four energies + wilds) and only attainable once Echo joins the deck at 5-6 players.
 - What it represents: While casting uses external energy that returns to the world, Enchantment internalises energy permanently - expanding your capacity from within.
 - Example: Radiance-7/Void-7/Flux-7 (three 7s from different energies).
 
@@ -182,25 +185,27 @@ Important: Counters represent your capacity, not a spent resource — the Recall
 
 ### Building Your Capacity
 
-Everyone starts with 1 counter (can cast 1 spell, perform 1 learning action per turn).
+You start with 1 counter in 2-4 player games, or 2 counters in 5-6 player games (each counter lets you cast 1 spell and perform 1 learning action per turn).
 
 You increase capacity by learning Enchantments:
 
 - 3-component Enchantment: +1 counter permanently.
-- 4-component Enchantment: Unlimited capacity (take the Unlimited Capacity marker and place it in front of you; set all your counters aside).
+- 4-component Enchantment: +3 counters permanently.
+- 5-component Enchantment: Unlimited Capacity (take the Unlimited Capacity marker and place it in front of you; set all your counters aside).
 
 You can also lose capacity:
 
 - Unlearn/break apart 3-component Enchantment: -1 counter.
-- Unlearn/break apart 4-component Enchantment: Return the Unlimited Capacity marker and retrieve your counters.
+- Unlearn/break apart 4-component Enchantment: -3 counters.
+- Unlearn/break apart 5-component Enchantment: Return the Unlimited Capacity marker and retrieve your counters.
 
-#### Example progression:
+#### Example progression (2-4 player game):
 
 - Start: 1 counter.
 - After first 3-card Enchantment: 2 counters.
-- After second 3-card Enchantment: 3 counters.
-- After 4-card Enchantment: Unlimited capacity (Unlimited Capacity marker placed in front of you; counters set aside).
-- If you later unlearn that 4-card Enchantment: Return the marker; retrieve your 3 counters.
+- After a 4-card Enchantment: 5 counters.
+- After a 5-card Enchantment: Unlimited Capacity (Unlimited Capacity marker placed in front of you; counters set aside).
+- If you later unlearn that 5-card Enchantment: Return the marker; retrieve your 5 counters.
 
 ---
 
@@ -296,7 +301,8 @@ Place a new spell from your hand into your Spellbook.
 
 - Must be a valid spell type (Conjuration, Transfiguration, Enchantment, or Perfect Transmutation).
 - If 3-component Enchantment: Immediately gain +1 counter (add to your pool now).
-- If 4-component Enchantment: Take the Unlimited Capacity marker and place it in front of you; set all counters aside.
+- If 4-component Enchantment: Immediately gain +3 counters (add to your pool now).
+- If 5-component Enchantment: Take the Unlimited Capacity marker and place it in front of you; set all counters aside.
 
 #### EMPOWER
 
@@ -312,7 +318,8 @@ Reorganize components across multiple spells in your Spellbook.
 - All components must remain in valid spell arrangements.
 - Counts as one learning action regardless of how many spells affected.
 - Warning: If you break apart a 3-component Enchantment, immediately lose 1 counter.
-- Warning: If you break apart a 4-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
+- Warning: If you break apart a 4-component Enchantment, immediately lose 3 counters.
+- Warning: If you break apart a 5-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
 
 #### UNLEARN
 
@@ -322,7 +329,8 @@ Dissolve one spell completely, returning its components to your hand.
 - Useful for reclaiming components for a different strategy.
 - Each Unlearn action targets one spell and costs 1 counter. Unlearning two different spells in the same turn requires 2 separate Unlearn actions at 1 counter each.
 - Warning: If you unlearn a 3-component Enchantment, immediately lose 1 counter.
-- Warning: If you unlearn a 4-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
+- Warning: If you unlearn a 4-component Enchantment, immediately lose 3 counters.
+- Warning: If you unlearn a 5-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
 
 #### 💡 The Recall Step
 
@@ -425,9 +433,9 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 **Counters:** Tokens representing your magical capacity. Used for both casting and learning. Gained by learning Enchantments, lost by breaking them apart.
 
-**Magical Capacity:** How many spells you can cast and how many learning actions you can perform each turn. Starts at 1, increases with Enchantments.
+**Magical Capacity:** How many spells you can cast and how many learning actions you can perform each turn. Starts at 1 (2-4 players) or 2 (5-6 players), increases with Enchantments.
 
-**Unlimited Capacity:** State granted by 4-component Enchantments. Cast all spells, perform unlimited learning actions. Can be lost if that Enchantment is broken apart.
+**Unlimited Capacity:** State granted by 5-component Enchantments. Cast all spells, perform unlimited learning actions. Can be lost if that Enchantment is broken apart.
 
 **Recognition Points:** Points awarded for spell mastery in the final evaluation.
 
@@ -457,11 +465,11 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 ### Counter Tracking
 
-- Start: 1 counter.
-- +1 per 3-component Enchantment learned.
-- 4-component Enchantment: take the Unlimited Capacity marker; set all counters aside.
-- -1 if 3-component Enchantment broken apart.
-- 4-component Enchantment broken apart: return the Unlimited Capacity marker; retrieve your counters.
+- Start: 1 counter (2-4 players) or 2 counters (5-6 players).
+- +1 per 3-component Enchantment learned; +3 per 4-component Enchantment.
+- 5-component Enchantment: take the Unlimited Capacity marker; set all counters aside.
+- Broken apart: -1 counter (3-component) or -3 counters (4-component).
+- 5-component Enchantment broken apart: return the Unlimited Capacity marker; retrieve your counters.
 
 ---
 

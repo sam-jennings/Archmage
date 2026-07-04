@@ -1,0 +1,26 @@
+{
+  "enabled": true,
+  "name": "Drift check after content edits",
+  "description": "After rulebook or web-app content changes, re-run the checker so retired vocabulary and structure drift are caught immediately instead of next session.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "rulebook/**/*.md",
+      "card-design/**/*.js",
+      "card-design/**/*.css",
+      "card-design/**/*.html",
+      "card-design/**/*.md",
+      "web-apps/**/*.html",
+      "web-apps/**/*.js",
+      "web-apps/**/*.jsx",
+      "web-apps/**/*.css",
+      "pitch/**/*.html",
+      "index.html"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A content file changed. Run `node meta/checks/check.mjs`. If it reports new vocab or structure flags caused by this edit, fix them now (or add to meta/QUEUE.md if non-trivial) per meta/process.md. If the edit completed an open propagation checkbox in meta/decisions/, tick it. Stay silent if the run is clean."
+  }
+}

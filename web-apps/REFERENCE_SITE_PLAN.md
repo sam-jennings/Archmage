@@ -175,9 +175,9 @@ tap.
 ## 7. Visual system & the symbol problem
 
 - There are **four energy types — Radiance, Void, Flux, Aether — plus a wild
-  card.** That's it. "Convergence" is *not* an energy type and *not* the name of
-  the wild; it must not appear anywhere player-facing. The wild is just "the
-  wild card."
+  card.** That's it. The retired fifth-energy name is *not* an energy type and
+  *not* the name of the wild; it must not appear anywhere player-facing. The wild
+  is just "the wild card."
 - The site **must** use the current energy artwork. The canonical source is the
   procedural renderer `card-design/art/arcana.js` — **not** the older
   `spell_ref.png` reference card, whose symbols are out of date. Clean exports of
@@ -222,8 +222,8 @@ plan:
 3. Do you want a QR code on the board linking to the site, so players get to it
    without typing a URL?
 
-*(Resolved: energies are Radiance / Void / Flux / Aether + a wild card.
-"Convergence" is not a game term and appears nowhere on the site.)*
+*(Resolved: energies are Radiance / Void / Flux / Aether + a wild card. The
+retired fifth-energy name is not a game term and appears nowhere on the site.)*
 
 ---
 

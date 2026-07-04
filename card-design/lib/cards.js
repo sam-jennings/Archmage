@@ -128,7 +128,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   return out;
 }
 
-  function makeWildConvergenceArt(cx, cy, artR, sc){
+  function makeWildArt(cx, cy, artR, sc){
   const silver = { b:'#d8e2f6', m:'#8a96b8', dim:'#141b28' };
   let art = '';
 
@@ -530,7 +530,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   const wildVariant = (window.AA_ART || {})[opts.art || ''];
   const art = (wildVariant && wildVariant.renderWild)
     ? wildVariant.renderWild(cx, cy, artR, sc)
-    : makeWildConvergenceArt(cx, cy, artR, sc);
+    : makeWildArt(cx, cy, artR, sc);
   // Corner pips removed by request — the wild reads from its art alone.
   const topLeftCorner = '';
   const bottomRightCorner = '';
@@ -744,7 +744,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     makeCardBack,
     uid, polar,
     makeTicks, makeResonanceMarks,
-    makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildConvergenceArt,
+    makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildArt,
     LayoutVariants,
     getConnector, getArt,
     makeCard, makeWildCard,

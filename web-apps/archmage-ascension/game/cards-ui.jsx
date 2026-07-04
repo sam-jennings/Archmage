@@ -9,7 +9,7 @@ const SUIT_NAMES = {
   void: 'Void',
   flux: 'Flux',
   aether: 'Aether',
-  wild: 'Convergence'
+  wild: 'Wild'
 };
 
 const SUIT_COLORS = {
@@ -22,7 +22,7 @@ const SUIT_COLORS = {
 
 function cardLabel(card){
   if (!card) return '';
-  if (card.suit === 'wild') return 'Convergence';
+  if (card.suit === 'wild') return 'Wild';
   return SUIT_NAMES[card.suit] + ' ' + card.value;
 }
 

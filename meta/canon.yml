@@ -1,0 +1,22 @@
+# Machine-checkable canon. The agent updates this in the same turn as any decision
+# that changes vocabulary, versions, or structural facts ("canon delta", process.md §3).
+# check.mjs greps retired_terms across the vocab scan scope.
+
+rulebook_version: v2.8
+energies_base: Radiance, Void, Flux, Aether
+energy_fifth: Echo — 5-6 player decks only (decision 2026-07-02); NOT in 2-4p decks
+spell_types: Conjuration, Transfiguration, Enchantment, Perfect Transmutation
+deck_2_4p: 4 energies x ranks 1-15 + 2 wilds = 62 cards (unchanged, canon)
+deck_5_6p: 5 energies x ranks 1-15 + 4 wilds = 79 cards (under test)
+enchantment_ladder: 3-card = +1 counter / score 6; 4-card = +3 counters / score 12; 5-card = Unlimited Capacity / score 18 (counter values + starting-counter rule settled 2026-07-03; deck structure still under live validation)
+starting_counters: 2-4p = 1 counter; 5-6p = 2 counters (decision 2026-07-03)
+wild_rule: a wild must be declared as one of the energies currently in the deck
+primary_card_design: arcana (art) + beacon (connector) — decision 2026-07-02
+
+# Terms that must no longer appear in content (case-sensitive proper nouns)
+retired_terms: Convergence
+
+# Vocabulary scan scope for check.mjs
+vocab_scan_dirs: rulebook, card-design, web-apps, board, pitch
+vocab_scan_files: index.html
+vocab_exclude: node_modules, snapshots, uploads, dist, .git, .claude, outputs, generated, incoming, export-cs3/svg-cards

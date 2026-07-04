@@ -86,7 +86,7 @@ and via cross-links, so nobody wonders which surface to open.
    product. Cinzel/Cormorant type pairing and the dark-gold palette already in play should be
    the basis. (Ignore the parked game's copy of `colors_and_type.css`.)
 2. **One vocabulary.** Enforce a single glossary across every surface: the four energies +
-   "wild card" (never a fifth energy, never the word **"Convergence"**, never card-suit
+   "wild card" (never a fifth energy, never the retired fifth-energy name, never card-suit
    language like Spades/Hearts). Consistent capitalised game terms: Source, Array, Arcane
    Reserve, Spellbook, Component, Counter/Capacity, Learn/Empower/Reshape/Unlearn, Drought,
    Recognition Points.
@@ -131,7 +131,7 @@ and via cross-links, so nobody wonders which surface to open.
 
 ## Guardrails — do not
 
-- Do not invent a fifth energy or reintroduce the term "Convergence" anywhere player-facing.
+- Do not invent a fifth energy or reintroduce the retired fifth-energy name anywhere player-facing.
 - Do not redraw or replace the `energy-symbols-export` art.
 - Do not collapse the three tiers into one page.
 - Do not change game rules or numbers; if something seems wrong, flag it in the coherence

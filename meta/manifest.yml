@@ -1,0 +1,74 @@
+# Declared project layout. check.mjs verifies the actual tree against this file.
+# Update this IN THE SAME ACTION as creating/moving/deleting files (process.md §5).
+# Format: constrained YAML — top-level keys, "  - item" lists, "  key: value" maps.
+
+root_files:
+  - PROJECT.md
+  - USING_THE_SYSTEM.md
+  - index.html
+  - Playtest Guide - New Player Session.md
+  - .gitattributes
+  - .gitignore
+
+folders:
+  - meta/
+  - playtests/
+  - rulebook/
+  - board/
+  - card-design/
+  - art/
+  - web-apps/
+  - simulation/
+  - tests/
+  - tools/
+  - skills/
+  - course-knowledge/
+  - expansion/
+  - pitch/
+  - _review/
+  - _archive/
+  - outputs/
+  - .kiro/
+  - .github/
+  - .obsidian/
+  - .vscode/
+  - .codex-viewport-check/
+
+# Filename patterns enforced inside specific folders (JS regex, applied to filenames)
+patterns:
+  playtests/: ^(\d{4}-\d{2}-\d{2}-session-\d+\.md|\.gitkeep)$
+  skills/: \.skill$
+  meta/decisions/: ^\d{4}-\d{2}-\d{2}-[a-z0-9-]+\.md$
+  meta/threads/: ^[a-z0-9-]+\.md$
+
+# Single sources of truth — edit these, never create parallel copies
+sources_of_truth:
+  rules: rulebook/Archmage Ascension - Complete Rulebook.md
+  glossary: rulebook/GLOSSARY.md
+  scoring: rulebook/Scoring System Reference.md
+  lore: rulebook/Story.md
+  visual-system: card-design/VISUAL_SYSTEM.md
+  card-renderer: card-design/playtable.html
+  process: meta/process.md
+  canon: meta/canon.yml
+  pitch: pitch/archmage_pitch_sheet.html
+
+# Folder purposes (for orientation; not machine-checked)
+purposes:
+  meta/: all process state — agent-written, script-checked
+  playtests/: one detail file per session; front-matter goal/verdict is the index
+  rulebook/: rules, glossary, scoring, trials variant, lore
+  board/: physical components — A3 board PDF, printable reference cards
+  card-design/: card visuals — renderer, procedural art (arcana), connector (beacon), exports
+  art/: raw offline art library; not referenced by the live renderer
+  web-apps/: player-facing tools + React/Vite 2-player digital build
+  simulation/: Python deck/economy rig with ASSUMPTIONS/RESULTS
+  tests/: property-based tests (hand-checker)
+  tools/: designer-only analysis tools — never player-facing
+  skills/: .skill packages (Cowork adapter + domain skills)
+  course-knowledge/: read-only course material
+  expansion/: parked Stage 4+ concepts — do not develop yet
+  _review/: items awaiting a decision; each must be referenced in meta/QUEUE.md
+  _archive/: superseded material, gitignored, only grows
+  outputs/: generated artifacts, gitignored
+  .codex-viewport-check/: viewport-test scratch; candidate for archiving

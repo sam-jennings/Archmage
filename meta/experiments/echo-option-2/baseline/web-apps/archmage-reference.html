@@ -1,0 +1,1860 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archmage Ascension — Online Rules</title>
+    <link rel="stylesheet" href="archmage-theme.css">
+    <style>
+        .spell-entry-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .spell-combo-example {
+            flex: 0 1 16rem;
+            width: min(16rem, 100%);
+            max-width: 100%;
+            margin: 0.75rem 0 1rem;
+            padding: 0.85rem;
+            background: rgba(26, 11, 46, 0.5);
+            border: 1px solid rgba(183, 148, 246, 0.24);
+            border-radius: 8px;
+        }
+
+        .spell-combo-cards {
+            display: flex;
+            gap: 0.18rem;
+            justify-content: center;
+            min-width: 0;
+        }
+
+        /* Example cards use the shared .ax-mini-card primitive from
+           archmage-tokens.css, with the canonical symbol art from
+           art/energy-symbols-export/ — never redrawn. */
+        .spell-combo-cards .ax-mini-card { width: clamp(3.1rem, 7vw, 3.8rem); }
+
+        /* Energy legend (Set-up tab) */
+        .energy-legend { display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0; }
+        .energy-legend .energy-row {
+            display: flex; align-items: center; gap: 0.9rem; padding: 0.55rem 0.8rem;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--ax-hairline-soft);
+            border-radius: var(--ax-r-md);
+        }
+        .energy-legend .energy-name {
+            font-family: var(--ax-font-display); font-weight: 700; font-size: 0.85rem;
+            letter-spacing: var(--ax-track-wide); text-transform: uppercase;
+        }
+        .energy-legend .energy-desc { color: var(--text-dim); font-size: 0.95rem; }
+
+        .spell-combo-caption {
+            margin-top: 0.65rem;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            line-height: 1.25;
+        }
+
+        .spell-combo-rule {
+            display: block;
+            width: 72%;
+            height: 2px;
+            margin: 0.45rem auto 0.35rem;
+            background: var(--gold);
+            opacity: 0.78;
+        }
+
+        .spell-combo-rule-text {
+            display: block;
+            color: var(--text);
+            font-size: 0.86rem;
+            line-height: 1.25;
+        }
+
+        @media (max-width: 620px) {
+            .spell-entry-header {
+                display: block;
+            }
+
+            .spell-combo-example {
+                width: min(100%, 16rem);
+                margin: 0.5rem 0 1rem;
+            }
+        }
+
+        @media (max-width: 900px) {
+            h1 {
+                font-size: 1.55rem;
+                letter-spacing: 0.02em;
+            }
+
+            .subtitle {
+                font-size: 0.82rem;
+                letter-spacing: 0.12em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                margin-bottom: 1.25rem;
+            }
+
+            .container {
+                padding: 0.85rem 0.85rem 1.5rem;
+            }
+
+            .card {
+                padding: 1.1rem;
+                margin-bottom: 1rem;
+            }
+
+            .tabs {
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+                gap: 0.4rem;
+                padding-bottom: 0.5rem;
+                margin: 0 -0.85rem 1.25rem;
+                padding-left: 0.85rem;
+                padding-right: 0.85rem;
+                scroll-snap-type: x proximity;
+                scrollbar-width: thin;
+                position: relative;
+            }
+
+            .tabs::-webkit-scrollbar {
+                height: 4px;
+            }
+
+            .tabs::-webkit-scrollbar-thumb {
+                background: rgba(183, 148, 246, 0.45);
+                border-radius: 4px;
+            }
+
+            .tab {
+                flex: 0 0 auto;
+                white-space: nowrap;
+                scroll-snap-align: start;
+                padding: 0.6rem 0.85rem;
+                font-size: 0.78rem;
+                letter-spacing: 0.04em;
+                border-bottom-width: 2px;
+            }
+
+            .spell-combo-example {
+                padding: 0.65rem;
+                margin: 0.5rem 0 0.85rem;
+            }
+
+            .spell-combo-caption {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .container {
+                padding: 0.7rem 0.7rem 1.25rem;
+            }
+
+            .spell-combo-example {
+                padding: 0.6rem;
+            }
+
+            .spell-combo-cards .ax-mini-card {
+                width: clamp(2.8rem, 21vw, 3.4rem);
+            }
+
+            .card {
+                padding: 0.95rem;
+            }
+        }
+
+        /* ── Hand checker ───────────────────────────────────────────── */
+        .chip-row { display: flex; gap: 7px; flex-wrap: wrap; }
+
+        .hc { border: 1px solid var(--ax-gold-line); border-radius: var(--ax-r-lg); padding: 15px; background: radial-gradient(ellipse at 50% 0%, rgba(212,175,90,.05), transparent 70%); }
+        .hc-tag { font-style: italic; font-size: 0.85rem; color: var(--ax-text-soft); margin: 4px 0 12px; line-height: 1.5; }
+        .hc-energies { display: flex; gap: 7px; margin-bottom: 10px; }
+        .hc-energy {
+            flex: 1 1 0; appearance: none; cursor: pointer; min-height: 54px; padding: 6px 2px 4px;
+            border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-md);
+            background: linear-gradient(180deg, var(--e-bg2, var(--ax-bg-deep)), var(--e-bg1, var(--ax-bg)));
+            display: flex; flex-direction: column; align-items: center; gap: 3px;
+            transition: border-color var(--ax-dur-micro) var(--ax-ease), transform var(--ax-dur-micro) var(--ax-ease);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hc-energy img { width: 26px; height: 26px; object-fit: contain; }
+        .hc-energy span { font-family: var(--ax-font-display); font-weight: 600; font-size: 0.5rem; letter-spacing: .08em; text-transform: uppercase; color: var(--ax-text-dim); }
+        .hc-energy[aria-pressed="true"] { border-color: var(--e-bright, var(--ax-gold)); box-shadow: 0 0 0 1px var(--e-bright, var(--ax-gold)); transform: translateY(-1px); }
+        .hc-energy[aria-pressed="true"] span { color: var(--e-bright, var(--ax-gold)); }
+
+        .hc-values { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .hc-value {
+            appearance: none; cursor: pointer; min-height: 44px;
+            border: 1px solid var(--ax-hairline); border-radius: var(--ax-r-sm); background: rgba(255,255,255,.02);
+            font-family: var(--ax-font-display); font-weight: 600; font-size: 0.9rem; color: var(--ax-text-soft);
+            transition: border-color var(--ax-dur-micro) var(--ax-ease), color var(--ax-dur-micro) var(--ax-ease);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hc-value:active { border-color: var(--ax-gold); color: var(--ax-gold); }
+        .hc-wild-add {
+            appearance: none; cursor: pointer; width: 100%; min-height: 48px;
+            border: 1px solid var(--ax-wild-line); border-radius: var(--ax-r-md);
+            background: linear-gradient(180deg, var(--ax-wild-bg2), var(--ax-wild-bg1));
+            font-family: var(--ax-font-display); font-weight: 600; font-size: 0.72rem; letter-spacing: var(--ax-track-vast);
+            text-transform: uppercase; color: var(--ax-wild);
+        }
+        .hc-hint { font-size: 0.78rem; color: var(--ax-text-faint); font-style: italic; margin: 8px 0 0; }
+
+        .hc-hand { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ax-hairline-soft); }
+        .hc-hand-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+        .hc-clear {
+            appearance: none; border: none; background: none; cursor: pointer; padding: 4px 0 4px 12px;
+            font-family: var(--ax-font-display); font-weight: 600; font-size: 0.6rem; letter-spacing: var(--ax-track-vast);
+            text-transform: uppercase; color: var(--ax-text-dim);
+        }
+        .hc-clear:hover { color: var(--ax-warn); }
+        .hc-hand .ax-mini-card { width: 2.7rem; cursor: pointer; border-width: 1px; }
+        .hc-hand .ax-mini-card .ax-mini-value { font-size: 0.78rem; }
+        .hc-empty { font-style: italic; font-size: 0.82rem; color: var(--ax-text-dim); }
+
+        .hc-results { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--ax-hairline-soft); }
+        .hc-result { padding: 10px 0; border-top: 1px solid var(--ax-hairline-soft); }
+        .hc-result:first-of-type { border-top: none; padding-top: 2px; }
+        .hc-result-head { display: flex; align-items: baseline; gap: 9px; margin-bottom: 6px; }
+        .hc-result-name { font-family: var(--ax-font-display); font-weight: 700; font-size: 0.82rem; letter-spacing: .03em; color: var(--ax-gold); }
+        .hc-result-size { font-size: 0.78rem; color: var(--ax-text-dim); }
+        .hc-result-rp {
+            margin-left: auto; font-family: var(--ax-font-display); font-weight: 700; font-size: 0.78rem;
+            color: var(--ax-gold-bright); border: 1px solid var(--ax-gold-line); border-radius: 999px; padding: 2px 9px; white-space: nowrap;
+        }
+        .hc-result-effect { font-size: 0.84rem; color: var(--ax-text-soft); margin: 6px 0 0; line-height: 1.45; }
+        .hc-result .chip-row { gap: 5px; }
+        .hc-result .ax-mini-card { width: 2.1rem; border-width: 1px; }
+        .hc-result .ax-mini-card .ax-mini-value { font-size: 0.62rem; }
+        .hc-note { font-style: italic; font-size: 0.76rem; color: var(--ax-text-faint); margin: 12px 0 0; line-height: 1.45; }
+    </style>
+</head>
+<body>
+    <nav class="ax-topbar">
+        <a class="ax-brand" href="../index.html">Archmage Ascension</a>
+        <a class="ax-topbar-link" href="player-reference/player-reference.html">Quick Reference Card →</a>
+    </nav>
+    <div class="container">
+        <header>
+            <h1>ARCHMAGE ASCENSION</h1>
+            <div class="subtitle">Online Rules · The Full Reference</div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab" data-tab="set-up">Set-up</button>
+            <button class="tab" data-tab="spells">Spells</button>
+            <button class="tab" data-tab="normal-turn">Normal Turn</button>
+            <button class="tab" data-tab="drought-turn">Drought Turn</button>
+            <button class="tab" data-tab="recognition-points">Recognition Points</button>
+            <button class="tab" data-tab="ascension-trials">Ascension Trials</button>
+        </div>
+
+        <!-- SET-UP TAB -->
+        <div id="set-up" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon">🎴</div>
+                    <h3>Deck Selection</h3>
+                    <ul>
+                        <li><span class="highlight">2–4 players:</span> values 1–15 (60 cards + 2 wilds = 62 cards)</li>
+                        <li><span class="highlight">5–7 players:</span> values 1–20 (80 cards + 4 wilds = 84 cards)</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-dim);">4 energies × values, plus wilds</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🃏</div>
+                    <h3>Deal &amp; Layout</h3>
+                    <ul>
+                        <li><span class="highlight">All players:</span> 7 cards each</li>
+                        <li><span class="highlight">The Array:</span> 5 cards face-up</li>
+                        <li><span class="highlight">The Source:</span> remaining cards face-down</li>
+                        <li><span class="highlight">First player:</span> determined randomly</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>The Opening</h3>
+                    <p>Before the first player's turn:</p>
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <p><span class="highlight">Each player</span> simultaneously chooses 1 component from their hand and places it in the <span class="highlight">Arcane Reserve</span> (the discard pile)</p>
+                    </div>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; color: var(--text-dim);">This guarantees the Released Reserve holds enough for final preparations when the Drought comes</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔮</div>
+                    <h3>Starting Counters</h3>
+                    <p>Each player takes <span class="highlight">1 counter</span></p>
+                    <p style="margin-top: 1rem;">Counters represent your magical capacity for:</p>
+                    <ul style="margin-top: 0.5rem;">
+                        <li>Casting spells</li>
+                        <li>Taking learning actions</li>
+                    </ul>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">🌟</div>
+                    <h3>The Four Energies</h3>
+                    <div class="energy-legend">
+                        <div class="energy-row" data-energy="Radiance">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_radiance_icon.svg" alt="Radiance">
+                            <span class="energy-name" style="color: var(--ax-radiance);">Radiance</span>
+                            <span class="energy-desc">The emissive current — warm and gold.</span>
+                        </div>
+                        <div class="energy-row" data-energy="Void">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_void_icon.svg" alt="Void">
+                            <span class="energy-name" style="color: var(--ax-void);">Void</span>
+                            <span class="energy-desc">The absorptive current — quiet, deep violet.</span>
+                        </div>
+                        <div class="energy-row" data-energy="Flux">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_flux_icon.svg" alt="Flux">
+                            <span class="energy-name" style="color: var(--ax-flux);">Flux</span>
+                            <span class="energy-desc">The transitive current — cold teal, always moving.</span>
+                        </div>
+                        <div class="energy-row" data-energy="Aether">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_aether_icon.svg" alt="Aether">
+                            <span class="energy-name" style="color: var(--ax-aether);">Aether</span>
+                            <span class="energy-desc">The stabilizing current — crimson, exact, binding.</span>
+                        </div>
+                        <div class="energy-row" data-energy="Wild" data-wild="true">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_wild_icon.svg" alt="Wild">
+                            <span class="energy-name" style="color: var(--ax-wild);">Wild</span>
+                            <span class="energy-desc">Substitutes for any energy and value.</span>
+                        </div>
+                    </div>
+                    <div class="note">
+                        Each card is a <strong>magical component</strong>: an energy + a value (1–20). Example: Void 7 is a Void-attuned component with value 7.
+                    </div>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">🗝️</div>
+                    <h3>Key Reminders</h3>
+                    <ul>
+                        <li><span class="highlight">Wilds</span> substitute for any energy and value.</li>
+                        <li><span class="highlight">Enchantments</span> are always active — never cast.</li>
+                        <li><span class="highlight">Counters are capacity</span>, not a resource — all return at Learning.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPELLS TAB -->
+        <div id="spells" class="tab-content">
+            <div class="grid">
+                <div class="card">
+                    <div class="card-icon">🔮</div>
+                    <h3>Conjuration</h3>
+                    <p><span class="accent-text">Same Energy</span></p>
+                    <figure class="spell-combo-example" aria-label="Example Conjuration: Radiance 4, Radiance 9, and Radiance 13">
+                        <div class="spell-combo-cards" aria-hidden="true">
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">4</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">9</span></div>
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">13</span></div>
+                        </div>
+                        <figcaption class="spell-combo-caption">Radiance 4 + 9 + 13<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same energy, any values</span></figcaption>
+                    </figure>
+                    
+                    <h4>Requirements</h4>
+                    <p>3+ components of the same energy type</p>
+                    
+                    <h4>Benefit When Cast</h4>
+                    <p><span class="highlight">Power Generation:</span> Draw extra components</p>
+                    <ul>
+                        <li>3-5 components: <span class="highlight">+1 component</span></li>
+                        <li>6+ components: <span class="highlight">+2 components</span></li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Transfiguration</h3>
+                    <p><span class="accent-text">Sequential Values</span></p>
+                    <figure class="spell-combo-example" aria-label="Example Transfiguration: Void 6, Flux 7, and Aether 8">
+                        <div class="spell-combo-cards" aria-hidden="true">
+                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void_simple.svg" alt=""><span class="ax-mini-value">6</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">7</span></div>
+                            <div class="ax-mini-card aether"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_aether_simple.svg" alt=""><span class="ax-mini-value">8</span></div>
+                        </div>
+                        <figcaption class="spell-combo-caption">Void 6 + Flux 7 + Aether 8<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">values connect, any energy</span></figcaption>
+                    </figure>
+
+                    <h4>Requirements</h4>
+                    <p>3+ components in sequence (any energies)</p>
+                    <div class="note">
+                        Cannot loop around (1-20-19 invalid)<br>
+                        1-2-3 and 18-19-20 are valid
+                    </div>
+
+                    <h4>Benefit When Cast</h4>
+                    <p><span class="highlight">Transformation Rights:</span> exchange through the Array</p>
+                    <ul>
+                        <li>3 components: Discard 2 from hand, take 1 from the Array</li>
+                        <li>4+ components: Discard 1 from hand, take 1 from the Array</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Enchantment</h3>
+                    <p><span class="accent-text">Matching Values</span></p>
+                    <figure class="spell-combo-example" aria-label="Example Enchantment: Radiance 10, Void 10, and Flux 10">
+                        <div class="spell-combo-cards" aria-hidden="true">
+                            <div class="ax-mini-card radiance"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_radiance_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
+                            <div class="ax-mini-card void"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_void_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">10</span></div>
+                        </div>
+                        <figcaption class="spell-combo-caption">Radiance 10 + Void 10 + Flux 10<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same value, any energy</span></figcaption>
+                    </figure>
+                    
+                    <h4>Requirements</h4>
+                    <p>3-4 components of the same value</p>
+                    
+                    <h4>Benefit (Always Active)</h4>
+                    <p><span class="highlight">Enhanced Capability:</span></p>
+                    <ul>
+                        <li>3 components: <span class="highlight">+1 learning action</span> & <span class="highlight">+1 spell cast</span> per turn</li>
+                        <li>4 components: <span class="highlight">Unlimited</span> learning & casting</li>
+                    </ul>
+                    <div class="note">
+                        When learned: Gain +1 counter (3-card) or set counters aside (4-card)
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">✨</div>
+                    <h3>Perfect Transmutation</h3>
+                    <p><span class="accent-text">Sequential Same Energy</span></p>
+                    <figure class="spell-combo-example" aria-label="Example Perfect Transmutation: Flux 6, Flux 7, and Flux 8">
+                        <div class="spell-combo-cards" aria-hidden="true">
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">6</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">7</span></div>
+                            <div class="ax-mini-card flux"><img class="ax-mini-symbol" src="../art/energy-symbols-export/symbol_flux_simple.svg" alt=""><span class="ax-mini-value">8</span></div>
+                        </div>
+                        <figcaption class="spell-combo-caption">Flux 6 + 7 + 8<span class="spell-combo-rule"></span><span class="spell-combo-rule-text">same energy, connected values</span></figcaption>
+                    </figure>
+                    
+                    <h4>Requirements</h4>
+                    <p>3+ components in sequence of the same energy type</p>
+                    <div class="note">
+                        E.g., Void 8–9–10 (cannot loop)
+                    </div>
+                    
+                    <h4>Benefit When Cast</h4>
+                    <p><span class="highlight">Ultimate Power:</span> grants BOTH effects, in order — both mandatory</p>
+                    <ul>
+                        <li>Conjuration effect (bonus draws from the Source)</li>
+                        <li>Transfiguration effect (exchange through the Array)</li>
+                    </ul>
+                    <p style="margin-top: 0.5rem;">Still uses only <span class="highlight">1 counter</span> when cast</p>
+                </div>
+
+                <div class="card wide-card">
+                    <h3>Key Spell Concepts</h3>
+                    <div class="grid" style="margin-top: 1rem;">
+                        <div class="phase-box">
+                            <h4>Enchantments Don't Need Casting</h4>
+                            <p>They're <strong>always active</strong> and automatically provide their benefits</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>Other Spells Must Be Cast</h4>
+                            <p>Place counters on them at turn start to activate their benefits</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>Wild Cards</h4>
+                            <p>Can substitute for any energy type — but the value still counts for sequential spells</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hc">
+                <span class="ax-label" style="color: var(--ax-gold);">Check your hand</span>
+                <p class="hc-tag">Tap in the components you're holding and see every spell they can form.</p>
+                <div class="hc-energies" id="hcEnergies"></div>
+                <div id="hcEntry"></div>
+                <div class="hc-hand">
+                    <div class="hc-hand-head">
+                        <span class="ax-label" style="margin: 0;">Your components</span>
+                        <button class="hc-clear" id="hcClear" hidden>Clear all</button>
+                    </div>
+                    <div class="chip-row" id="hcHand"><span class="hc-empty">Nothing yet — pick an energy, then a value.</span></div>
+                </div>
+                <div class="hc-results" id="hcResults" hidden></div>
+            </div>
+        </div>
+
+        <!-- NORMAL TURN TAB -->
+        <div id="normal-turn" class="tab-content">
+            <div class="grid">
+                <div class="card wide-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Turn Sequence</h3>
+                    <div class="grid" style="margin-top: 1rem;">
+                        <div class="phase-box">
+                            <h4>1. Collection</h4>
+                            <p>Draw 1 from the Source, or take 1 from the Array (replace from Source)</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>2. Casting</h4>
+                            <p>Cast spells one at a time, placing a counter on each. Resolve effects immediately</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>↩ Recall</h4>
+                            <p>Retrieve all counters from cast spells back into your pool</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>3. Learning</h4>
+                            <p>Use your capacity for Learn / Empower / Reshape / Unlearn (1 counter each)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Understanding Counters</h3>
+                    <div class="grid" style="margin-top: 1rem;">
+                        <div class="phase-box">
+                            <h4>Casting Phase</h4>
+                            <p>Counters represent <strong>spells you can cast</strong></p>
+                            <p style="margin-top: 0.5rem;">Place them on spells to activate their benefits</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>↩ Recall</h4>
+                            <p>Pick up all counters from cast spells — return them to your pool</p>
+                            <p style="margin-top: 0.5rem;">This is a named step, not just a rule to remember</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>Learning Phase</h4>
+                            <p>Same counters now represent <strong>learning actions available</strong></p>
+                            <p style="margin-top: 0.5rem;">Use them to Learn/Empower/Reshape/Unlearn</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📥</div>
+                    <h3>1. Collection Phase</h3>
+                    
+                    <h4>Choose one</h4>
+                    <ul>
+                        <li>Draw 1 from the Source, OR</li>
+                        <li>Take 1 from the Array (immediately replace from the Source)</li>
+                    </ul>
+
+                    <div class="note" style="margin-top: 1rem;">
+                        That's it — no extra draws here. Conjuration bonus draws happen during the Casting Phase when you cast the spell.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>2. Casting Phase</h3>
+
+                    <p>Activate spells by placing <span class="highlight">1 counter per spell</span>. Effects resolve <strong>immediately</strong> — one spell at a time.</p>
+
+                    <h4>Casting Conjuration</h4>
+                    <ul>
+                        <li>3–5 cards: draw <span class="highlight">+1</span> from the Source</li>
+                        <li>6+ cards: draw <span class="highlight">+2</span> from the Source</li>
+                    </ul>
+
+                    <h4>Casting Transfiguration</h4>
+                    <ul>
+                        <li>3-card: discard 2 from hand → take 1 from the Array</li>
+                        <li>4+-card: discard 1 from hand → take 1 from the Array</li>
+                    </ul>
+                    <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--text-dim);">Discarded components go to the Arcane Reserve (not back to the Array). Replace the Array card from the Source immediately.</p>
+
+                    <h4>Casting Perfect Transmutation</h4>
+                    <ul>
+                        <li>Resolve <span class="highlight">both</span> effects in order: Conjuration draws, then the Transfiguration exchange — both mandatory</li>
+                    </ul>
+
+                    <div class="note" style="margin-top: 1rem;">
+                        <strong>Can't resolve = can't cast.</strong> If you lack the cards to complete a Transfiguration exchange, you cannot cast that spell this turn.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎲</div>
+                    <h3>Counter Management</h3>
+                    
+                    <h4>Gaining Counters</h4>
+                    <ul>
+                        <li>Start: <span class="highlight">1 counter</span></li>
+                        <li>Learn 3-component Enchantment: <span class="highlight">+1 counter</span></li>
+                        <li>Learn 4-component Enchantment: <span class="highlight">Unlimited</span> — take Unlimited Capacity marker; set counters aside</li>
+                    </ul>
+
+                    <h4>Losing Counters</h4>
+                    <ul>
+                        <li>Break/Unlearn 3-card Enchantment: <span class="highlight">−1 counter</span></li>
+                        <li>Break/Unlearn 4-card Enchantment: <span class="highlight">return Unlimited Capacity marker</span>; retrieve your counters</li>
+                    </ul>
+
+                    <div class="note" style="margin-top: 1rem;">
+                        Keep your counters in front of you. The Unlimited Capacity marker replaces counter-tracking while in play.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>Strategic Casting</h3>
+                    
+                    <p>Example with 2 counters:</p>
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <p><strong>Option 1:</strong> Cast 2 Conjurations → Maximum gathering</p>
+                        <p style="margin-top: 0.5rem;"><strong>Option 2:</strong> Cast 1 Conjuration + 1 Transfiguration → Gathering + transforming</p>
+                    </div>
+                    
+                    <div class="note" style="margin-top: 1rem;">
+                        <strong>Perfect Transmutation</strong> uses only 1 counter but grants both benefits!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💫</div>
+                    <h3>Enchantments Special Rules</h3>
+                    
+                    <ul>
+                        <li><span class="highlight">Always active</span> - no casting needed</li>
+                        <li><span class="highlight">Don't use counters</span> for activation</li>
+                        <li><span class="highlight">Automatically boost</span> your capacity</li>
+                        <li><span class="highlight">Stack with each other</span></li>
+                    </ul>
+                    
+                    <div class="note" style="margin-top: 1rem;">
+                        3 three-component Enchantments = 4 total counters (1 base + 3 bonus)
+                    </div>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">📚</div>
+                    <h3>3. Learning Phase</h3>
+
+                    <p><span class="highlight">Recall first:</span> pick up all counters from your cast spells and return them to your pool. Those counters now fund your learning actions.</p>
+
+                    <h4>Actions available</h4>
+                    <ul>
+                        <li>Base: 1 action &nbsp;|&nbsp; Each 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: unlimited (Unlimited Capacity marker)</li>
+                    </ul>
+
+                    <h4>Actions (1 counter each)</h4>
+                    <ul>
+                        <li><span class="highlight">LEARN:</span> Place a valid spell from hand into your Spellbook
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → gain +1 counter now; 4-card → take the Unlimited Capacity marker, set counters aside</span></li>
+                        <li><span class="highlight">EMPOWER:</span> Add components from hand to an existing spell (can change its spell type)</li>
+                        <li><span class="highlight">RESHAPE:</span> Break down and rebuild any spells with the same components — all must remain valid
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: lose 1 counter; breaking a 4-card Enchantment: return the Unlimited Capacity marker</span></li>
+                        <li><span class="highlight">UNLEARN:</span> Dissolve one spell — components return to hand but cannot be learned again until next turn
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ 1 counter per spell dissolved — unlearning two spells costs 2 counters. Same Enchantment penalties as Reshape.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- DROUGHT TURN TAB -->
+        <div id="drought-turn" class="tab-content">
+            <div class="grid">
+                <div class="card wide-card">
+                    <div class="card-icon">🌒</div>
+                    <h3>The Drought Has Begun</h3>
+
+                    <h4>When It Happens</h4>
+                    <p>The instant <span class="highlight">the Source runs dry</span>, the Drought begins.</p>
+
+                    <div class="note" style="margin-top: 1rem;">
+                        <strong>Why the Opening matters:</strong> the component each player placed in the Arcane Reserve at set-up guarantees the Released Reserve holds enough for final preparations before the evaluation.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔀</div>
+                    <h3>The Released Reserve</h3>
+
+                    <h4>Immediately</h4>
+                    <ol>
+                        <li>Shuffle <span class="highlight">the Array</span> together with <span class="highlight">the Arcane Reserve</span></li>
+                        <li>This becomes the <span class="highlight">Released Reserve</span> — a limited pool of unstable potential</li>
+                        <li>The Array no longer exists; turn order continues as normal</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h3>Drought Turns</h3>
+
+                    <h4>1. Collection</h4>
+                    <p>Draw <span class="highlight">exactly 1 component</span> from the Released Reserve — no choice; the Source and Array are gone</p>
+
+                    <h4>No Casting Phase</h4>
+                    <p>With the Source and Array gone, spells can't function — the phase simply doesn't exist during the Drought</p>
+
+                    <h4>2. Learning</h4>
+                    <p><span class="highlight">Works completely normally</span> — your last chance to optimize your Spellbook before evaluation</p>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">⚠️</div>
+                    <h3>Why Casting Stops</h3>
+                    <p>With ambient flow exhausted and all regulated channels collapsed, structured spellcasting can no longer be sustained:</p>
+                    <div class="grid" style="margin-top: 1rem;">
+                        <div class="phase-box">
+                            <h4>❌ Conjurations</h4>
+                            <p><strong>No bonus draws</strong> — they drew from the Source's organised reserves, now scattered and chaotic</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>❌ Transfigurations</h4>
+                            <p><strong>No exchanges</strong> — they required the Array's stable framework, now dissolved</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>❌ Perfect Transmutations</h4>
+                            <p><strong>Inert</strong> — they need both the Source and the Array; both are gone</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>✅ Enchantments</h4>
+                            <p><strong>Still work</strong> — always active, never cast; they keep providing their full capacity benefits</p>
+                        </div>
+                    </div>
+
+                    <div class="note" style="margin-top: 1rem;">
+                        No counters are placed on spells during the Drought — collect 1 component, then proceed directly to Learning.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🏁</div>
+                    <h3>The Contest Ends</h3>
+
+                    <p>When the <span class="highlight">Released Reserve is fully depleted</span>, the contest ends immediately. Evaluate your Spellbooks:</p>
+
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <h4>Standard Evaluation</h4>
+                        <p>Tally Recognition Points from all spells — see the Recognition Points tab</p>
+                    </div>
+
+                    <div class="phase-box">
+                        <h4>Advanced Variant: The Ascension Trials</h4>
+                        <p>Allocate power across six trials — see the Ascension Trials tab</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RECOGNITION POINTS TAB -->
+        <div id="recognition-points" class="tab-content">
+            <div class="grid">
+                <div class="card wide-card">
+                    <div class="card-icon">📊</div>
+                    <h3>Standard Evaluation</h3>
+                    <p><span class="accent-text">The Contest Ends</span></p>
+
+                    <p style="margin-top: 1rem;">When the Released Reserve is fully depleted, the contest ends immediately. The Academy evaluates whose Spellbook demonstrates the greatest breadth and depth of understanding.</p>
+
+                    <h4 style="margin-top: 1.5rem;">How to Win</h4>
+                    <ol>
+                        <li>Tally <span class="highlight">Recognition Points</span> from all spells in your Spellbook</li>
+                        <li>The player with the <span class="highlight">most Recognition Points wins</span></li>
+                    </ol>
+
+                    <h4>Tiebreakers (in order)</h4>
+                    <ol>
+                        <li>Most spells</li>
+                        <li>Most components in largest single spell</li>
+                    </ol>
+
+                    <div class="note">
+                        Prefer a power-allocation finale? The <strong>Ascension Trials</strong> tab holds the advanced variant.
+                    </div>
+                </div>
+
+                <div class="card wide-card">
+                    <h3>Recognition Points by Spell Size</h3>
+                    <p class="scroll-hint">Swipe sideways to see every spell type.</p>
+                    <div class="table-scroll" tabindex="0" aria-label="Recognition points table, scroll sideways on small screens">
+                    <table class="scoring-table">
+                        <thead>
+                            <tr>
+                                <th>Size</th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Conjuration"><span class="spell-name-full">Conjuration</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">🔮</span>Conj.</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Transfiguration"><span class="spell-name-full">Transfiguration</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">🔄</span>Transfig.</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Perfect Transmutation"><span class="spell-name-full">Perfect Transmutation</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">✨</span>Perfect</span></button></th>
+                                <th><button type="button" class="spell-ref-button" data-spell="Enchantment"><span class="spell-name-full">Enchantment</span><span class="spell-name-short" aria-hidden="true"><span class="spell-name-icon">⚡</span>Enchant.</span></button></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>3</td><td>3</td><td>5</td><td>7</td><td>6</td></tr>
+                            <tr><td>4</td><td>4</td><td>7</td><td>10</td><td>15</td></tr>
+                            <tr><td>5</td><td>6</td><td>10</td><td>14</td><td>—</td></tr>
+                            <tr><td>6</td><td>9</td><td>14</td><td>19</td><td>—</td></tr>
+                            <tr><td>7</td><td>13</td><td>19</td><td>25</td><td>—</td></tr>
+                            <tr><td>8</td><td>18</td><td>25</td><td>32</td><td>—</td></tr>
+                            <tr><td>9</td><td>24</td><td>32</td><td>40</td><td>—</td></tr>
+                            <tr><td>10</td><td>31</td><td>40</td><td>49</td><td>—</td></tr>
+                            <tr><td>11</td><td>39</td><td>49</td><td>59</td><td>—</td></tr>
+                            <tr><td>12</td><td>48</td><td>59</td><td>70</td><td>—</td></tr>
+                            <tr><td>13</td><td>58</td><td>70</td><td>82</td><td>—</td></tr>
+                            <tr><td>14</td><td>69</td><td>82</td><td>95</td><td>—</td></tr>
+                            <tr><td>15</td><td>81</td><td>95</td><td>109</td><td>—</td></tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📝</div>
+                    <h3>Score Calculator</h3>
+                    <p><span class="accent-text">Build your Spellbook</span></p>
+                    <p class="score-hint">Add each spell, then read your total below. Tap <strong>Remove</strong> on a row to drop just that spell — <strong>Clear</strong> empties the whole list.</p>
+
+                    <div class="score-calculator" id="scoreCalculator">
+                        <div class="score-rows" id="scoreRows" aria-live="polite"></div>
+
+                        <div class="score-actions">
+                            <button type="button" class="btn-primary" id="addScoreRow">+ Add Spell</button>
+                            <button type="button" class="btn-secondary btn-clear" id="clearScoreRows">Clear All</button>
+                            <button type="button" class="btn-gold" id="exportScoreToTrials">Export to Trials</button>
+                        </div>
+
+                        <p class="score-export-status" id="scoreExportStatus" aria-live="polite"></p>
+
+                        <div class="score-total-bar">
+                            <span>Total Recognition</span>
+                            <strong><span id="scoreTotal">0</span> points</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">&#128221;</div>
+                    <h3>Scoring Example</h3>
+                    
+                    <h4>Your Spellbook</h4>
+                    <ul>
+                        <li>5-component <button type="button" class="spell-ref-button inline" data-spell="Conjuration">Conjuration</button> = <span class="highlight">6 points</span></li>
+                        <li>4-component <button type="button" class="spell-ref-button inline" data-spell="Transfiguration">Transfiguration</button> = <span class="highlight">7 points</span></li>
+                        <li>3-component <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantment</button> = <span class="highlight">6 points</span></li>
+                        <li>6-component <button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutation</button> = <span class="highlight">19 points</span></li>
+                    </ul>
+                    
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <h4>Total: 38 Recognition Points</h4>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">💡</div>
+                    <h3>Quick Tips</h3>
+                    
+                    <ul>
+                        <li><button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutations</button> score the highest per component</li>
+                        <li><span class="highlight">4-component</span> <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantments</button> have a huge scoring spike (15 points)</li>
+                        <li>Longer spells score <span class="highlight">exponentially better</span> than multiple short ones</li>
+                        <li>A single 7-component spell often scores more than two 4-component spells</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="spell-popover-backdrop" id="spellPopover" hidden>
+            <div class="spell-popover" role="dialog" aria-modal="true" aria-labelledby="spellPopoverTitle">
+                <button type="button" class="spell-popover-close" aria-label="Close spell reference">&times;</button>
+                <h3 id="spellPopoverTitle"></h3>
+                <dl>
+                    <dt>Combination</dt>
+                    <dd id="spellPopoverCombination"></dd>
+                    <dt>Action</dt>
+                    <dd id="spellPopoverAction"></dd>
+                </dl>
+            </div>
+        </div>
+
+        <!-- ASCENSION TRIALS TAB -->
+        <div id="ascension-trials" class="tab-content">
+            <div class="grid">
+                <div class="card wide-card">
+                    <div class="card-icon">🏆</div>
+                    <h3>The Ascension Trials</h3>
+                    <p><span class="accent-text">Advanced Variant · For Experienced Players</span></p>
+
+                    <p style="margin-top: 1rem; font-size: 1.1rem;">An optional strategic finale that replaces the Standard Evaluation. The wizard who demonstrates the greatest mastery across six magical challenges becomes THE Archmage.</p>
+
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <h4>Strategy Primer: Building Toward the Trials</h4>
+                        <p>From the first turn, your Spellbook is also quietly shaping your options in the Ascension Trial. Each spell you learn can strengthen a particular kind of power: energy domains through Conjurations, transformation through Transfigurations, enchantment through Enchantments, and flexible pressure through Perfect Transmutations and some larger Enchantments.</p>
+                        <p style="margin-top: 0.75rem;">A broad Spellbook gives you more ways to enter different trials and respond to what others might be building. A concentrated Spellbook can make one or two domains much harder to beat, but may leave you with fewer legal or efficient places to apply that strength.</p>
+                        <p style="margin-top: 0.75rem;">Neither path is automatically better. As you build, keep asking: am I creating many possible trial entries, or am I making a smaller number of entries more commanding? The answer can change as the table reveals its ambitions.</p>
+                    </div>
+                    
+                    <div style="text-align: center; margin: 2rem 0;">
+                        <a href="trials-multiplayer.html" style="
+                            display: inline-block;
+                            padding: 1.5rem 3rem;
+                            background: linear-gradient(135deg, var(--gold) 0%, var(--accent) 100%);
+                            color: var(--primary);
+                            text-decoration: none;
+                            font-family: 'Cinzel', serif;
+                            font-size: 1.3rem;
+                            font-weight: 700;
+                            letter-spacing: 0.1em;
+                            border-radius: 8px;
+                            box-shadow: 0 8px 32px rgba(246, 201, 74, 0.4);
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 12px 40px rgba(246, 201, 74, 0.6)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(246, 201, 74, 0.4)'">
+                            LAUNCH ASCENSION TRIAL ⚡
+                        </a>
+                    </div>
+                    
+                    <div class="note">
+                        <strong>The Trials companion app handles all calculations automatically</strong> — power domains, allocations, tie-breakers, and winner determination. Just enter your spells and make your strategic choices!
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚗️</div>
+                    <h3>Overview</h3>
+                    
+                    <h4>The Process</h4>
+                    <ol>
+                        <li>Calculate <span class="highlight">Power</span> from each domain based on your spells</li>
+                        <li>Secretly allocate Power to <span class="highlight">6 Trials</span></li>
+                        <li>Reveal simultaneously</li>
+                        <li>Highest legal power wins each Trial's Recognition Points</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔥</div>
+                    <h3>Power Calculation</h3>
+                    
+                    <div class="formula">
+                        3-4 components: Power = Length<br>
+                        5-6 components: Power = Length × 1.5 (round normally)<br>
+                        7+ components: Power = Length × 2.0
+                    </div>
+                    
+                    <h4 style="margin-top: 1rem;">Examples</h4>
+                    <table style="margin-top: 0.5rem;">
+                        <tr><td>3 components</td><td>= 3 power</td></tr>
+                        <tr><td>5 components</td><td>= 8 power (5 × 1.5 = 7.5 → 8)</td></tr>
+                        <tr><td>7 components</td><td>= 14 power</td></tr>
+                    </table>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">💫</div>
+                    <h3>Power Domains</h3>
+                    <div class="grid" style="margin-top: 1rem;">
+                        <div class="phase-box">
+                            <h4>Energy Power</h4>
+                            <p>Combined power from <span class="highlight">Conjurations</span> in each energy type</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--text-dim);">Four separate domains (Radiance, Void, Flux, Aether)</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>Transformation Power</h4>
+                            <p>Total length of all <span class="highlight">Transfiguration</span> spells</p>
+                            <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--text-dim);">Perfect Transmutations count as Transfigurations</p>
+                        </div>
+                        <div class="phase-box">
+                            <h4>Enchantment Power</h4>
+                            <p>Total size of all <span class="highlight">Enchantments</span></p>
+                            <p style="margin-top: 0.5rem; font-size: 0.95rem; color: var(--text-dim);">Sum of all Enchantment component counts</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">✨</div>
+                    <h3>Wild Magic Power</h3>
+                    
+                    <p>Bonus allocation flexibility:</p>
+                    
+                    <h4>Sources</h4>
+                    <ul>
+                        <li>Each Perfect Transmutation: <span class="highlight">+1 wild magic</span></li>
+                        <li>Each 4-component Enchantment: <span class="highlight">+1 wild magic</span></li>
+                    </ul>
+                    
+                    <h4>Rules</h4>
+                    <ul>
+                        <li>Only add to trials you're already attempting (with ≥1 normal power)</li>
+                        <li>Doesn't count as a domain source</li>
+                        <li>Affects total only (not tie-breakers)</li>
+                    </ul>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">🎯</div>
+                    <h3>The Six Trials</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Trial</th>
+                                <th>Requirements</th>
+                                <th>What Winning Proves</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Energy Purity</strong></td>
+                                <td>Exactly one energy domain</td>
+                                <td>Unmatched mastery of a single energy</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Energy Harmony</strong></td>
+                                <td>2+ different energy domains</td>
+                                <td>Ability to harmonize multiple energies</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Transformation</strong></td>
+                                <td>Transformation domain only</td>
+                                <td>Superior transformation mastery</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Enchantment</strong></td>
+                                <td>Enchantment domain only</td>
+                                <td>Mastery of enduring enchantments</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Focused Power</strong></td>
+                                <td>Exactly one domain (any type)</td>
+                                <td>True mastery through specialization</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Universal Power</strong></td>
+                                <td>2+ different domains (any mix)</td>
+                                <td>Versatility needed to lead all wizards</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card wide-card">
+                    <h3>Recognition Points by Player Count</h3>
+                    
+                    <table style="margin-bottom: 1.5rem;">
+                        <thead>
+                            <tr>
+                                <th>Trial</th>
+                                <th>2p</th>
+                                <th>3p</th>
+                                <th>4p</th>
+                                <th>5p</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Energy Purity</td><td>6</td><td>8</td><td>8</td><td>8</td></tr>
+                            <tr><td>Energy Harmony</td><td>4</td><td>5</td><td>6</td><td>6</td></tr>
+                            <tr><td>Transformation</td><td>7</td><td>9</td><td>9</td><td>9</td></tr>
+                            <tr><td>Enchantment</td><td>4</td><td>5</td><td>6</td><td>6</td></tr>
+                            <tr><td>Focused Power</td><td>6</td><td>7</td><td>7</td><td>7</td></tr>
+                            <tr><td>Universal Power</td><td>3</td><td>4</td><td>5</td><td>5</td></tr>
+                            <tr><td>Complete Mastery</td><td>—</td><td>—</td><td>—</td><td>6</td></tr>
+                            <tr style="background: rgba(246, 201, 74, 0.1);">
+                                <td><strong>Total Pool</strong></td>
+                                <td><strong>30</strong></td>
+                                <td><strong>38</strong></td>
+                                <td><strong>41</strong></td>
+                                <td><strong>47</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="note">
+                        <strong>6–7 Players:</strong> Both 1st and 2nd place score Recognition Points in each trial. Use the <a href="trials-multiplayer.html" style="color: var(--gold);">Trials companion</a> for complete 6–7 player scoring tables.
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">⚖️</div>
+                    <h3>Tie-Breakers</h3>
+
+                    <p>When trials tie, resolve in order:</p>
+
+                    <ol style="margin-top: 1rem;">
+                        <li><span class="highlight">Utilization:</span> Power used ÷ Total capacity of domains used</li>
+                        <li><span class="highlight">Focus:</span> Power on this trial ÷ Total power across all domains</li>
+                        <li><span class="highlight">Breadth:</span> More distinct sources (Harmony/Universal only)</li>
+                        <li><span class="highlight">Shared Recognition:</span> Both players get full points</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <footer style="margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid var(--ax-hairline-soft); text-align: center; color: var(--ax-text-dim); font-size: 0.9rem;">
+            <p style="font-size: 0.9rem; color: var(--ax-text-dim);">
+                At the table? The <a href="player-reference/player-reference.html" style="color: var(--ax-violet); text-decoration: none;">Quick Reference Card</a> answers one question at a time on your phone.
+                &nbsp;·&nbsp; <a href="../index.html" style="color: var(--ax-violet); text-decoration: none;">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab navigation with deep-link support: #set-up, #spells,
+        // #normal-turn, #drought-turn, #recognition-points,
+        // #ascension-trials. The Quick Reference Card links straight
+        // into these sections.
+        function showTab(tabName) {
+            if (!document.getElementById(tabName)) tabName = 'set-up';
+
+            document.querySelectorAll('.tab-content').forEach(function(content) {
+                content.classList.toggle('active', content.id === tabName);
+            });
+
+            document.querySelectorAll('.tab').forEach(function(tab) {
+                tab.classList.toggle('active', tab.dataset.tab === tabName);
+            });
+
+            if (history.replaceState) history.replaceState(null, '', '#' + tabName);
+        }
+
+        document.querySelectorAll('.tab[data-tab]').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                showTab(tab.dataset.tab);
+            });
+        });
+
+        window.addEventListener('hashchange', function() {
+            showTab(location.hash.replace('#', ''));
+        });
+
+        showTab(location.hash.replace('#', '') || 'set-up');
+
+        function getSpellReference(spellName) {
+            const spellCards = document.querySelectorAll('#spells .card');
+            for (const card of spellCards) {
+                const title = card.querySelector('h3');
+                if (!title || title.textContent.trim() !== spellName) continue;
+
+                const actionHeading = spellName === 'Enchantment' ? 'Benefit (Always Active)' : 'Benefit When Cast';
+
+                return {
+                    title: title.textContent.trim(),
+                    combination: getTextAfterHeading(card, 'Requirements', false),
+                    action: getTextAfterHeading(card, actionHeading, true)
+                };
+            }
+
+            return null;
+        }
+
+        function getTextAfterHeading(card, headingText, includeListItems) {
+            const headings = card.querySelectorAll('h4');
+            for (const heading of headings) {
+                if (heading.textContent.trim() !== headingText) continue;
+
+                let node = heading.nextElementSibling;
+                const parts = [];
+                while (node && node.tagName !== 'H4') {
+                    if (node.matches('p, .note')) {
+                        parts.push(node.textContent.trim().replace(/\s+/g, ' '));
+                    }
+
+                    if (includeListItems && node.matches('ul')) {
+                        node.querySelectorAll('li').forEach(function(item) {
+                            parts.push(item.textContent.trim().replace(/\s+/g, ' '));
+                        });
+                    }
+
+                    if (!includeListItems && parts.length) break;
+                    node = node.nextElementSibling;
+                }
+
+                return parts.join(' ');
+            }
+
+            return '';
+        }
+
+        function openSpellPopover(spellName) {
+            const reference = getSpellReference(spellName);
+            if (!reference) return;
+
+            document.getElementById('spellPopoverTitle').textContent = reference.title;
+            document.getElementById('spellPopoverCombination').textContent = reference.combination;
+            document.getElementById('spellPopoverAction').textContent = reference.action;
+            document.getElementById('spellPopover').hidden = false;
+        }
+
+        function closeSpellPopover() {
+            document.getElementById('spellPopover').hidden = true;
+        }
+
+        document.addEventListener('click', function(event) {
+            const trigger = event.target.closest('.spell-ref-button');
+            const popover = document.getElementById('spellPopover');
+
+            if (trigger) {
+                openSpellPopover(trigger.dataset.spell);
+                return;
+            }
+
+            if (event.target.matches('.spell-popover-close') || event.target === popover) {
+                closeSpellPopover();
+            }
+        });
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeSpellPopover();
+            }
+        });
+
+        const scoreCalculator = {
+            rules: [],
+            energies: [],
+            rows: [],
+            nextId: 1
+        };
+
+        function initScoreCalculator() {
+            scoreCalculator.rules = readSimpleScoringRules();
+            scoreCalculator.energies = readEnergyOptions();
+
+            const addButton = document.getElementById('addScoreRow');
+            const clearButton = document.getElementById('clearScoreRows');
+            const exportButton = document.getElementById('exportScoreToTrials');
+            const calculator = document.getElementById('scoreCalculator');
+            const calculatorCard = calculator ? calculator.closest('.card') : null;
+
+            if (!addButton || !clearButton || !exportButton || !calculatorCard || !scoreCalculator.rules.length) return;
+
+            calculatorCard.classList.add('wide-card');
+
+            addButton.addEventListener('click', function() {
+                addScoreRow();
+            });
+
+            clearButton.addEventListener('click', function() {
+                if (!scoreCalculator.rows.length) return;
+                scoreCalculator.rows = [];
+                renderScoreRows();
+                setScoreExportStatus('');
+            });
+
+            exportButton.addEventListener('click', exportScoreToTrials);
+
+            addScoreRow();
+            runScoreCalculatorSelfTest();
+        }
+
+        function readSimpleScoringRules() {
+            const table = document.querySelector('#recognition-points .scoring-table');
+            if (!table) return [];
+
+            const spellNames = Array.from(document.querySelectorAll('#spells .card h3'))
+                .map(function(heading) { return heading.textContent.trim(); });
+
+            const spellHeaders = Array.from(table.querySelectorAll('thead th'))
+                .slice(1)
+                .map(function(header) {
+                    const trigger = header.querySelector('[data-spell]');
+                    if (trigger && trigger.dataset.spell) return trigger.dataset.spell;
+                    return header.textContent.trim().replace(/\s+/g, ' ');
+                });
+
+            const rules = [];
+            table.querySelectorAll('tbody tr').forEach(function(row) {
+                const cells = Array.from(row.children);
+                const size = parseInt(cells[0].textContent, 10);
+
+                spellHeaders.forEach(function(spellName, index) {
+                    if (!spellNames.includes(spellName)) return;
+
+                    const points = parseInt(cells[index + 1].textContent, 10);
+                    if (!Number.isFinite(points)) return;
+
+                    rules.push({
+                        spellName: spellName,
+                        size: size,
+                        points: points
+                    });
+                });
+            });
+
+            return rules;
+        }
+
+        function readEnergyOptions() {
+            // The four energies (the wild is not an energy and is excluded).
+            return Array.from(document.querySelectorAll('#set-up .energy-row'))
+                .filter(function(row) { return !row.dataset.wild; })
+                .map(function(row) {
+                    const energyName = row.dataset.energy || '';
+                    return {
+                        id: normalizeKey(energyName),
+                        energyName: energyName
+                    };
+                }).filter(function(energy) {
+                    return energy.energyName;
+                });
+        }
+
+        function addScoreRow(initialSpellName, initialSize) {
+            const spellName = initialSpellName || getScoreSpellNames()[0] || '';
+            const size = initialSize || getSizesForSpell(spellName)[0] || '';
+
+            scoreCalculator.rows.push({
+                id: scoreCalculator.nextId++,
+                spellName: spellName,
+                size: size,
+                energyId: getDefaultEnergyId(spellName)
+            });
+
+            renderScoreRows();
+        }
+
+        function renderScoreRows() {
+            const rowsContainer = document.getElementById('scoreRows');
+            if (!rowsContainer) return;
+
+            rowsContainer.innerHTML = '';
+
+            scoreCalculator.rows.forEach(function(row, index) {
+                const rowElement = document.createElement('div');
+                rowElement.className = 'score-row';
+                rowElement.dataset.rowId = String(row.id);
+                rowElement.setAttribute('aria-label', 'Spell ' + (index + 1));
+
+                const indexElement = document.createElement('div');
+                indexElement.className = 'score-row-index';
+                indexElement.setAttribute('aria-hidden', 'true');
+                indexElement.textContent = 'Spell ' + (index + 1);
+
+                const spellLabel = document.createElement('label');
+                spellLabel.className = 'score-field score-spell-field';
+                spellLabel.innerHTML = '<span>Spell</span>';
+
+                const spellSelect = document.createElement('select');
+                spellSelect.className = 'score-spell-select';
+                spellSelect.setAttribute('aria-label', 'Spell ' + (index + 1) + ' type');
+                getScoreSpellNames().forEach(function(spellName) {
+                    const option = document.createElement('option');
+                    option.value = spellName;
+                    option.textContent = spellName;
+                    option.selected = spellName === row.spellName;
+                    spellSelect.appendChild(option);
+                });
+
+                spellSelect.addEventListener('change', function() {
+                    row.spellName = spellSelect.value;
+                    row.size = getSizesForSpell(row.spellName)[0];
+                    row.energyId = getDefaultEnergyId(row.spellName);
+                    renderScoreRows();
+                    setScoreExportStatus('');
+                });
+
+                spellLabel.appendChild(spellSelect);
+
+                const sizeLabel = document.createElement('label');
+                sizeLabel.className = 'score-field score-size-field';
+                sizeLabel.innerHTML = '<span>Components</span>';
+
+                const sizeSelect = document.createElement('select');
+                sizeSelect.className = 'score-size-select';
+                sizeSelect.setAttribute('aria-label', 'Spell ' + (index + 1) + ' component count');
+                getSizesForSpell(row.spellName).forEach(function(size) {
+                    const option = document.createElement('option');
+                    option.value = String(size);
+                    option.textContent = String(size);
+                    option.selected = size === row.size;
+                    sizeSelect.appendChild(option);
+                });
+
+                sizeSelect.addEventListener('change', function() {
+                    row.size = parseInt(sizeSelect.value, 10);
+                    updateScoreTotal();
+                    updateScoreRowPoints(rowElement, row);
+                    setScoreExportStatus('');
+                });
+
+                sizeLabel.appendChild(sizeSelect);
+
+                const energyLabel = document.createElement('label');
+                energyLabel.className = 'score-field score-energy-field';
+                energyLabel.innerHTML = '<span>Energy</span>';
+
+                if (spellNeedsEnergy(row.spellName)) {
+                    if (!row.energyId) row.energyId = getDefaultEnergyId(row.spellName);
+
+                    const energySelect = document.createElement('select');
+                    energySelect.className = 'score-energy-select';
+                    energySelect.setAttribute('aria-label', 'Spell ' + (index + 1) + ' energy');
+                    scoreCalculator.energies.forEach(function(energy) {
+                        const option = document.createElement('option');
+                        option.value = energy.id;
+                        option.textContent = energy.energyName;
+                        option.selected = energy.id === row.energyId;
+                        energySelect.appendChild(option);
+                    });
+
+                    energySelect.addEventListener('change', function() {
+                        row.energyId = energySelect.value;
+                        setScoreExportStatus('');
+                    });
+
+                    energyLabel.appendChild(energySelect);
+                } else {
+                    row.energyId = '';
+
+                    const energyValue = document.createElement('div');
+                    energyValue.className = 'score-energy-none';
+                    energyValue.textContent = 'Any energy';
+                    energyLabel.appendChild(energyValue);
+                }
+
+                const pointsElement = document.createElement('div');
+                pointsElement.className = 'score-row-points';
+                pointsElement.setAttribute('aria-label', 'Spell ' + (index + 1) + ' points');
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'score-remove';
+                removeButton.setAttribute('aria-label', 'Remove spell ' + (index + 1));
+                removeButton.setAttribute('title', 'Remove this spell');
+                removeButton.innerHTML = '<span aria-hidden="true">&times;</span><span class="score-remove-label">Remove</span>';
+                removeButton.addEventListener('click', function() {
+                    scoreCalculator.rows = scoreCalculator.rows.filter(function(candidate) {
+                        return candidate.id !== row.id;
+                    });
+
+                    renderScoreRows();
+                    setScoreExportStatus('');
+                });
+
+                rowElement.appendChild(indexElement);
+                rowElement.appendChild(spellLabel);
+                rowElement.appendChild(sizeLabel);
+                rowElement.appendChild(energyLabel);
+                rowElement.appendChild(pointsElement);
+                rowElement.appendChild(removeButton);
+                rowsContainer.appendChild(rowElement);
+
+                updateScoreRowPoints(rowElement, row);
+            });
+
+            if (!scoreCalculator.rows.length) {
+                const empty = document.createElement('div');
+                empty.className = 'score-rows-empty';
+                empty.textContent = 'No spells yet. Tap "+ Add Spell" to begin.';
+                rowsContainer.appendChild(empty);
+            }
+
+            updateScoreTotal();
+        }
+
+        function updateScoreRowPoints(rowElement, row) {
+            const pointsElement = rowElement.querySelector('.score-row-points');
+            const points = getPointsForSpell(row.spellName, row.size);
+
+            pointsElement.innerHTML = '<strong>' + points + '</strong><span>points</span>';
+        }
+
+        function updateScoreTotal() {
+            const totalElement = document.getElementById('scoreTotal');
+            if (!totalElement) return;
+
+            totalElement.textContent = String(getScoreTotal(scoreCalculator.rows));
+        }
+
+        function getScoreSpellNames() {
+            return Array.from(new Set(scoreCalculator.rules.map(function(rule) {
+                return rule.spellName;
+            })));
+        }
+
+        function getSizesForSpell(spellName) {
+            return scoreCalculator.rules
+                .filter(function(rule) { return rule.spellName === spellName; })
+                .map(function(rule) { return rule.size; });
+        }
+
+        function getPointsForSpell(spellName, size) {
+            const rule = scoreCalculator.rules.find(function(candidate) {
+                return candidate.spellName === spellName && candidate.size === size;
+            });
+
+            return rule ? rule.points : 0;
+        }
+
+        function spellNeedsEnergy(spellName) {
+            return spellName === 'Conjuration' || spellName === 'Perfect Transmutation';
+        }
+
+        function getDefaultEnergyId(spellName) {
+            return spellNeedsEnergy(spellName) && scoreCalculator.energies[0] ? scoreCalculator.energies[0].id : '';
+        }
+
+        function getEnergyById(energyId) {
+            return scoreCalculator.energies.find(function(energy) {
+                return energy.id === energyId;
+            }) || null;
+        }
+
+        function normalizeKey(value) {
+            return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+        }
+
+        function getScoreTotal(rows) {
+            return rows.reduce(function(total, row) {
+                return total + getPointsForSpell(row.spellName, row.size);
+            }, 0);
+        }
+
+        function exportScoreToTrials() {
+            const spells = scoreCalculator.rows.map(function(row) {
+                const energy = spellNeedsEnergy(row.spellName) ? getEnergyById(row.energyId) : null;
+
+                return {
+                    spellName: row.spellName,
+                    size: row.size,
+                    points: getPointsForSpell(row.spellName, row.size),
+                    energyId: energy ? energy.id : '',
+                    energyName: energy ? energy.energyName : '',
+                    // Legacy keys kept for the Trials importer; energies only,
+                    // no card-suit language.
+                    suitName: energy ? energy.energyName : '',
+                    suitSymbol: ''
+                };
+            });
+
+            const payload = {
+                source: 'archmage-reference',
+                version: 1,
+                scoring: 'simple',
+                total: getScoreTotal(scoreCalculator.rows),
+                spells: spells
+            };
+
+            const serialized = encodeURIComponent(JSON.stringify(payload));
+            try {
+                localStorage.setItem('archmageTrialsSpellbook', JSON.stringify(payload));
+            } catch (error) {
+                console.warn('Could not write exported spellbook to localStorage.', error);
+            }
+            setScoreExportStatus('Spellbook exported for a future Trials import.');
+            window.location.href = 'trials-multiplayer.html#trialsSpellbook=' + serialized;
+        }
+
+        function setScoreExportStatus(message) {
+            const status = document.getElementById('scoreExportStatus');
+            if (status) status.textContent = message;
+        }
+
+        function runScoreCalculatorSelfTest() {
+            const cases = [
+                {
+                    name: 'Reference example',
+                    // 5 Conjuration (6) + 4 Transfiguration (7) + 3 Enchantment (6) + 6 Perfect Transmutation (19) = 38
+                    rows: [
+                        { spellName: 'Conjuration', size: 5 },
+                        { spellName: 'Transfiguration', size: 4 },
+                        { spellName: 'Enchantment', size: 3 },
+                        { spellName: 'Perfect Transmutation', size: 6 }
+                    ],
+                    expected: 38
+                },
+                {
+                    name: 'Enchantment spike',
+                    // 3 Conjuration (3) + 4 Conjuration (4) + 4 Enchantment (15) = 22
+                    rows: [
+                        { spellName: 'Conjuration', size: 3 },
+                        { spellName: 'Conjuration', size: 4 },
+                        { spellName: 'Enchantment', size: 4 }
+                    ],
+                    expected: 22
+                },
+                {
+                    name: 'Large spellbook',
+                    // 12 Perfect Transmutation (70) + 12 Transfiguration (59) + 3 Enchantment (6) + 10 Conjuration (31) = 166
+                    rows: [
+                        { spellName: 'Perfect Transmutation', size: 12 },
+                        { spellName: 'Transfiguration', size: 12 },
+                        { spellName: 'Enchantment', size: 3 },
+                        { spellName: 'Conjuration', size: 10 }
+                    ],
+                    expected: 166
+                }
+            ];
+
+            cases.forEach(function(testCase) {
+                const actual = getScoreTotal(testCase.rows);
+                if (actual !== testCase.expected) {
+                    console.warn('Score calculator self-test failed:', testCase.name, actual, testCase.expected);
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', initScoreCalculator);
+
+        // ═══════════════════════════════════════════════════════════════
+        // HAND CHECKER — ported from the Quick Reference. Self-contained
+        // widget: pick an energy + value (or a wild), build a hand, and see
+        // every spell those components can form. Its dependencies
+        // (ENERGIES / WILD / RP / rpFor / SPELL_EFFECT_SHORT / el / miniCard)
+        // are ported alongside it. ART is adapted ONE directory up to match
+        // this document's location: '../art/energy-symbols-export/'.
+        // ═══════════════════════════════════════════════════════════════
+        const ART = '../art/energy-symbols-export/';
+        const ENERGIES = {
+          radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance_simple.svg', icon: ART + 'symbol_radiance_icon.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
+          void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void_simple.svg', icon: ART + 'symbol_void_icon.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
+          flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux_simple.svg', icon: ART + 'symbol_flux_icon.svg',     blurb: 'The transitive current — cold teal, always moving.' },
+          aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
+        };
+        const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
+
+        /* Recognition Points — exactly the board's table. */
+        const RP = {
+          conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
+          transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
+          perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
+          enchantment:     {3:6, 4:15},
+        };
+        function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
+
+        const SPELL_EFFECT_SHORT = {
+          conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
+          transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
+          enchantment: n => n >= 4 ? 'Always active: Unlimited Capacity.' : 'Always active: +1 counter.',
+          perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
+        };
+
+        function el(tag, cls, html) {
+          const node = document.createElement(tag);
+          if (cls) node.className = cls;
+          if (html !== undefined) node.innerHTML = html;
+          return node;
+        }
+        function miniCard(card, opts) {
+          const energy = card.e === 'wild' ? WILD : ENERGIES[card.e];
+          const node = el('div', 'ax-mini-card ' + card.e);
+          const img = document.createElement('img');
+          img.className = 'ax-mini-symbol';
+          img.src = energy.symbol;
+          img.alt = energy.name + (card.v != null ? ' ' + card.v : '');
+          node.appendChild(img);
+          const val = el('div', 'ax-mini-value', card.v != null ? String(card.v) : '✶');
+          node.appendChild(val);
+          if (opts && opts.onTap) {
+            node.style.cursor = 'pointer';
+            node.setAttribute('role', 'button');
+            node.setAttribute('aria-label', 'Remove ' + energy.name + (card.v != null ? ' ' + card.v : ''));
+            node.addEventListener('click', opts.onTap);
+          }
+          return node;
+        }
+
+        const SPELL_NAMES = { conjuration: 'Conjuration', transfiguration: 'Transfiguration', enchantment: 'Enchantment', perfect: 'Perfect Transmutation' };
+
+        /* Widget state: the current hand and the energy currently selected
+           for the value keypad. */
+        const hc = { hand: [], energy: 'radiance' };
+
+        function hcRenderEnergies() {
+          const wrap = document.getElementById('hcEnergies');
+          if (!wrap) return;
+          wrap.innerHTML = '';
+          Object.keys(ENERGIES).forEach(function(key) {
+            const en = ENERGIES[key];
+            const btn = el('button', 'hc-energy');
+            btn.type = 'button';
+            btn.style.setProperty('--e-bright', en.tone);
+            btn.setAttribute('aria-pressed', String(key === hc.energy));
+            const img = document.createElement('img');
+            img.src = en.icon; img.alt = '';
+            btn.appendChild(img);
+            btn.appendChild(el('span', null, en.name));
+            btn.addEventListener('click', function() {
+              hc.energy = key;
+              hcRenderEnergies();
+              hcRenderEntry();
+            });
+            wrap.appendChild(btn);
+          });
+        }
+
+        function hcRenderEntry() {
+          const wrap = document.getElementById('hcEntry');
+          if (!wrap) return;
+          wrap.innerHTML = '';
+          const values = el('div', 'hc-values');
+          for (let v = 1; v <= 20; v++) {
+            const b = el('button', 'hc-value', String(v));
+            b.type = 'button';
+            b.addEventListener('click', (function(val) { return function() { hcAdd({ e: hc.energy, v: val }); }; })(v));
+            values.appendChild(b);
+          }
+          wrap.appendChild(values);
+          const wild = el('button', 'hc-wild-add', '✶ Add a wild');
+          wild.type = 'button';
+          wild.addEventListener('click', function() { hcAdd({ e: 'wild', v: null }); });
+          wrap.appendChild(wild);
+          wrap.appendChild(el('p', 'hc-hint', 'Adding ' + ENERGIES[hc.energy].name + ' — tap a value, or add a wild. Pick another energy above to switch.'));
+        }
+
+        function hcAdd(card) {
+          hc.hand.push(card);
+          hcRenderHand();
+        }
+        function hcRemove(index) {
+          hc.hand.splice(index, 1);
+          hcRenderHand();
+        }
+
+        function hcRenderHand() {
+          const wrap = document.getElementById('hcHand');
+          const clear = document.getElementById('hcClear');
+          if (!wrap) return;
+          wrap.innerHTML = '';
+          if (!hc.hand.length) {
+            wrap.appendChild(el('span', 'hc-empty', 'Nothing yet — pick an energy, then a value.'));
+            if (clear) clear.hidden = true;
+          } else {
+            hc.hand.forEach(function(card, i) {
+              wrap.appendChild(miniCard(card, { onTap: (function(idx) { return function() { hcRemove(idx); }; })(i) }));
+            });
+            if (clear) clear.hidden = false;
+          }
+          hcRenderResults();
+        }
+
+        (function() {
+          const clearBtn = document.getElementById('hcClear');
+          if (clearBtn) clearBtn.addEventListener('click', function() {
+            hc.hand = [];
+            hcRenderHand();
+          });
+        })();
+
+        /* Longest consecutive value run over 1..20 covered by the given real
+           cards (values), with up to `wildCount` wilds filling interior gaps
+           or extending the ends. Must use >= 1 real card. Returns the run's
+           size and the ordered components (real cards + wilds) that form it. */
+        function hcBestRun(realCards, wildCount) {
+          if (!realCards.length) return null;
+          const byValue = {};
+          realCards.forEach(function(c) { if (!byValue[c.v]) byValue[c.v] = c; });
+          const wilds = hc.hand.filter(function(c) { return c.e === 'wild'; });
+          let best = null;
+          for (let lo = 1; lo <= 20; lo++) {
+            for (let hi = lo; hi <= 20; hi++) {
+              let gaps = 0, real = 0;
+              for (let v = lo; v <= hi; v++) { if (byValue[v]) real++; else gaps++; }
+              if (gaps > wildCount || real < 1) continue;
+              const size = hi - lo + 1;
+              if (!best || size > best.size) {
+                const uses = [];
+                let wi = 0;
+                for (let v = lo; v <= hi; v++) {
+                  if (byValue[v]) uses.push(byValue[v]);
+                  else { uses.push(wilds[wi] || { e: 'wild', v: null }); wi++; }
+                }
+                best = { size: size, uses: uses };
+              }
+            }
+          }
+          return best;
+        }
+
+        /* Detect every spell the current hand can form. Returns
+           { kind, name, size, uses, effect, rp }[] sorted by RP descending. */
+        function hcFindSpells() {
+          const hand = hc.hand;
+          const wilds = hand.filter(function(c) { return c.e === 'wild'; });
+          const wildCount = wilds.length;
+          const results = [];
+
+          // Conjuration — one energy's cards + all wilds, size >= 3.
+          Object.keys(ENERGIES).forEach(function(key) {
+            const own = hand.filter(function(c) { return c.e === key; });
+            if (!own.length) return;
+            const size = own.length + wildCount;
+            if (size >= 3) {
+              results.push({ kind: 'conjuration', name: SPELL_NAMES.conjuration, size: size, uses: own.concat(wilds), effect: SPELL_EFFECT_SHORT.conjuration(size), rp: rpFor('conjuration', size) });
+            }
+          });
+
+          // Enchantment — same value + wilds, capped at size 4, size >= 3.
+          const valuesSeen = [];
+          hand.forEach(function(c) { if (c.e !== 'wild' && valuesSeen.indexOf(c.v) === -1) valuesSeen.push(c.v); });
+          valuesSeen.forEach(function(v) {
+            const own = hand.filter(function(c) { return c.e !== 'wild' && c.v === v; });
+            const size = Math.min(own.length + wildCount, 4);
+            if (size >= 3) {
+              const uses = own.slice(0, size);
+              for (let i = 0; uses.length < size && i < wildCount; i++) uses.push(wilds[i]);
+              results.push({ kind: 'enchantment', name: SPELL_NAMES.enchantment, size: size, uses: uses, effect: SPELL_EFFECT_SHORT.enchantment(size), rp: rpFor('enchantment', size) });
+            }
+          });
+
+          // Transfiguration — best value run across any energies, size >= 3.
+          const trans = hcBestRun(hand.filter(function(c) { return c.e !== 'wild'; }), wildCount);
+          if (trans && trans.size >= 3) {
+            results.push({ kind: 'transfiguration', name: SPELL_NAMES.transfiguration, size: trans.size, uses: trans.uses, effect: SPELL_EFFECT_SHORT.transfiguration(trans.size), rp: rpFor('transfiguration', trans.size) });
+          }
+
+          // Perfect Transmutation — best value run within a single energy.
+          let best = null;
+          Object.keys(ENERGIES).forEach(function(key) {
+            const run = hcBestRun(hand.filter(function(c) { return c.e === key; }), wildCount);
+            if (run && run.size >= 3 && (!best || run.size > best.size)) best = run;
+          });
+          if (best) {
+            results.push({ kind: 'perfect', name: SPELL_NAMES.perfect, size: best.size, uses: best.uses, effect: SPELL_EFFECT_SHORT.perfect(best.size), rp: rpFor('perfect', best.size) });
+          }
+
+          results.sort(function(a, b) { return b.rp - a.rp; });
+          return results;
+        }
+
+        function hcRenderResults() {
+          const wrap = document.getElementById('hcResults');
+          if (!wrap) return;
+          wrap.innerHTML = '';
+          if (hc.hand.length < 3) { wrap.hidden = true; return; }
+          const spells = hcFindSpells();
+          if (!spells.length) {
+            wrap.hidden = false;
+            wrap.appendChild(el('p', 'hc-note', "These components don't form a valid spell yet — try adding more, or a wild."));
+            return;
+          }
+          wrap.hidden = false;
+          spells.slice(0, 6).forEach(function(sp) {
+            const row = el('div', 'hc-result');
+            const head = el('div', 'hc-result-head');
+            head.appendChild(el('span', 'hc-result-name', sp.name));
+            head.appendChild(el('span', 'hc-result-size', sp.size + ' components'));
+            head.appendChild(el('span', 'hc-result-rp', sp.rp + ' RP'));
+            row.appendChild(head);
+            const chips = el('div', 'chip-row');
+            sp.uses.slice(0, 8).forEach(function(card) { chips.appendChild(miniCard(card)); });
+            row.appendChild(chips);
+            row.appendChild(el('p', 'hc-result-effect', sp.effect));
+            wrap.appendChild(row);
+          });
+        }
+
+        hcRenderEnergies();
+        hcRenderEntry();
+        hcRenderHand();
+    </script>
+</body>
+</html>
+
+
+

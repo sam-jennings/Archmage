@@ -466,7 +466,7 @@ It should feel like **arcane structure**, not electricity or battle magic.
 
 The wild card is **not** a fifth current.
 
-It represents **Convergence**: a temporary or exceptional alignment of all four currents.
+It represents a rare **synthesis**: a temporary or exceptional alignment of all four currents.
 
 That distinction is critical.
 

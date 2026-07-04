@@ -401,7 +401,7 @@
 
   // ── Helpers ──────────────────────────────────────────────
   function labelOf(c){
-    if (c.suit === 'wild') return 'Convergence';
+    if (c.suit === 'wild') return 'Wild';
     return c.suit.charAt(0).toUpperCase()+c.suit.slice(1)+' '+c.value;
   }
   function pickOpeningDiscard(hand){

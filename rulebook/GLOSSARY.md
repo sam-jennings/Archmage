@@ -34,8 +34,8 @@ flows. Used as poetic/flavor synonym for \"the Source.\"
 
 **Capacity** *(Mechanical)* How many spells you can cast per turn and
 how many learning actions you can perform. Represented by counters.
-Starts at 1, increases by learning Enchantments, decreases by breaking
-Enchantments apart.
+Starts at 1 (2-4 players) or 2 (5-6 players), increases by learning
+Enchantments, decreases by breaking Enchantments apart.
 
 **Cast** *(Mechanical)* To activate a spell from your Spellbook during
 the Casting Phase by placing a counter on it. Effects resolve
@@ -57,7 +57,7 @@ exactly 1 from the Released Reserve (no choice).
 
 **Component** *(Mechanical)* A card representing a fragment of magical
 energy. Has an element (Fire, Water, Earth, Air) and a value/resonance
-frequency (1-20).
+frequency (1-15).
 
 **Conjuration** *(Mechanical)* A spell type using 3+ components of the
 same element (any values). When cast, draws additional components from
@@ -90,6 +90,14 @@ becomes impossible. Only Collection and Learning phases remain.
 
 **E**
 
+**Echo** *(Mechanical)* The fifth energy type, present only in 5-6
+player decks (5 energies × ranks 1-15 + 4 wilds = 79 cards). It supplies
+the fifth matching-value option that makes 5-component Enchantments —
+and therefore Unlimited Capacity — attainable. In 2-4 player decks there
+are only four energies, and the wild-declaration rule bars a wild from
+posing as a fifth, so those games cap at 4-component Enchantments;
+Unlimited Capacity is reachable only at 5-6 players.
+
 **Element** *(Mechanical)* One of the four fundamental forces: Fire,
 Water, Earth, Air. Represented by card suit symbols (♠♥♦♣).
 
@@ -97,11 +105,13 @@ Water, Earth, Air. Represented by card suit symbols (♠♥♦♣).
 from your hand to an existing spell in your Spellbook. Costs 1 counter
 (or free with unlimited capacity).
 
-**Enchantment** *(Mechanical + Story)* A spell type using 3-4 components
-of matching value (any elements). Always active---never needs to be
+**Enchantment** *(Mechanical + Story)* A spell type using 3-5 components
+of matching value (distinct energies). Always active---never needs to be
 cast. Permanently increases capacity: 3-component grants +1 counter,
-4-component grants unlimited capacity. Represents internal metamorphosis
-woven into the wizard\'s being.
+4-component grants +3 counters, 5-component grants Unlimited Capacity. A
+wild used in an Enchantment must be declared as an energy present in the
+current deck. Represents internal metamorphosis woven into the
+wizard\'s being.
 
 **External magic** *(Story)* Magic that requires ambient flow and stable
 infrastructure (Conjurations, Transfigurations, Perfect Transmutations).
@@ -127,8 +137,8 @@ independent of external infrastructure.
 **Learn** *(Mechanical)* A learning action. Place a new valid spell from
 your hand into your Spellbook. Costs 1 counter (or free with unlimited
 capacity). When learning a 3-component Enchantment, immediately gain +1
-counter. When learning a 4-component Enchantment, immediately gain
-unlimited capacity.
+counter; a 4-component Enchantment, +3 counters; a 5-component
+Enchantment, Unlimited Capacity.
 
 **Learning Phase** *(Mechanical)* The third phase of each turn. After
 casting (or during Drought, after collection), you perform the Recall
@@ -183,7 +193,7 @@ breaking apart Enchantments reduces capacity.
 the Ascension. Each spell pattern generates resonance strength based on
 its size and type.
 
-**Resonance frequency** *(Mechanical + Story)* The numbered value (1-20)
+**Resonance frequency** *(Mechanical + Story)* The numbered value (1-15)
 on each component. Represents the specific vibrational pattern within an
 element. Used interchangeably with \"value.\"
 
@@ -214,9 +224,9 @@ components flow to Arcane Reserve. Cannot be cast during the Drought.
 **U**
 
 **Unlimited capacity** *(Mechanical)* State granted by learning a
-4-component Enchantment. Cast all spells per turn, perform unlimited
+5-component Enchantment. Cast all spells per turn, perform unlimited
 learning actions per turn. Place the Unlimited Capacity marker in front
-of you and set all counters aside. Lost if that 4-component Enchantment
+of you and set all counters aside. Lost if that 5-component Enchantment
 is broken apart — return the marker and retrieve your counters.
 
 **Unlimited Capacity Ma

@@ -250,12 +250,12 @@
         <span class="ax-label">Set-up</span>
         <div class="panel">
           <ul class="plain">
-            <li><b>2–4 players:</b> values 1–15 (60 cards + 2 wilds = 62 cards).</li>
-            <li><b>5–7 players:</b> values 1–20 (80 cards + 4 wilds = 84 cards).</li>
+            <li><b>2–4 players:</b> four energies × ranks 1–15 (60 cards + 2 wilds = 62 cards).</li>
+            <li><b>5–6 players:</b> five energies incl. Echo × ranks 1–15 (75 cards + 4 wilds = 79 cards).</li>
             <li>Deal <b>7 cards</b> to each player.</li>
             <li>Place <b>5 face-up</b> to form <b>the Array</b>. Place the rest face-down as <b>the Source</b>.</li>
             <li>Each player discards 1 card to <b>the Arcane Reserve</b> <span class="dim">(the Opening)</span>.</li>
-            <li>Each player takes <b>1 counter</b>. Choose a random starting player.</li>
+            <li>Each player takes their starting counters — <b>1</b> (2–4 players) or <b>2</b> (5–6 players). Choose a random starting player.</li>
           </ul>
         </div>
       </div>
@@ -372,7 +372,7 @@
           <div class="action-tile">
             <p class="action-name">Learn</p>
             <p class="action-body">Place a new spell from your hand into your Spellbook.</p>
-            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: gain +1 counter now. 4-card: take the Unlimited Capacity marker.</p>
+            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: +1 counter now. 4-card: +3 counters. 5-card: take the Unlimited Capacity marker.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Empower</p>
@@ -381,7 +381,7 @@
           <div class="action-tile">
             <p class="action-name">Reshape</p>
             <p class="action-body">Break down and rebuild any spells using the same components. One action, however many spells.</p>
-            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. Breaking a 4-card one: return the marker.</p>
+            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. A 4-card: −3 counters. A 5-card: return the marker.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Unlearn</p>
@@ -404,10 +404,10 @@
           <div class="tile-body">
             <p class="tile-tagline">Counters are your capacity, not a spent resource. They work twice each turn: once to cast, then — after the Recall — once to learn.</p>
             <ul class="plain">
-              <li>Start with <b>1 counter</b>.</li>
-              <li>Each 3-card Enchantment learned: <b class="gold">+1 counter</b>, permanently.</li>
-              <li>A 4-card Enchantment: <b class="gold">Unlimited Capacity</b> — take the marker, set counters aside.</li>
-              <li>Break either apart and the bonus is lost again.</li>
+              <li>Start with <b>1 counter</b> (2–4 players) or <b>2</b> (5–6 players).</li>
+              <li>Each 3-card Enchantment learned: <b class="gold">+1 counter</b>; a 4-card: <b class="gold">+3 counters</b>, permanently.</li>
+              <li>A 5-card Enchantment: <b class="gold">Unlimited Capacity</b> — take the marker, set counters aside.</li>
+              <li>Break any apart and the bonus is lost again.</li>
             </ul>
           </div>
         </details>
@@ -432,7 +432,7 @@
           <span class="ax-label" style="display:block; margin-bottom: 8px;">Reading the table</span>
           <ul class="plain">
             <li><b>Perfect Transmutations</b> score highest per component.</li>
-            <li>A <b>4-card Enchantment</b> spikes to 15 points.</li>
+            <li>A <b>4-card Enchantment</b> spikes to 12 points; a 5-card reaches 18 (5–6 player games).</li>
             <li>One long spell usually beats two short ones.</li>
           </ul>
         </div>
@@ -461,19 +461,19 @@
    ════════════════════════════════════════════════════════════════ */
 const ART = '../../art/energy-symbols-export/';
 const ENERGIES = {
-  radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
-  void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
-  flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux.svg',     blurb: 'The transitive current — cold teal, always moving.' },
-  aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
+  radiance: { name: 'Radiance', tone: 'var(--ax-radiance)', bg1: 'var(--ax-radiance-bg1)', bg2: 'var(--ax-radiance-bg2)', symbol: ART + 'symbol_radiance_simple.svg', icon: ART + 'symbol_radiance_icon.svg', blurb: 'The emissive current — drawn outward, warm and gold.' },
+  void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void_simple.svg', icon: ART + 'symbol_void_icon.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
+  flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux_simple.svg', icon: ART + 'symbol_flux_icon.svg',     blurb: 'The transitive current — cold teal, always moving.' },
+  aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
 };
-const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild.svg', blurb: 'A wild card substitutes for any energy and value.' };
+const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
 
 /* Recognition Points — exactly the board's table. */
 const RP = {
   conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
   transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
   perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
-  enchantment:     {3:6, 4:15},
+  enchantment:     {3:6, 4:12, 5:18},
 };
 function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
 
@@ -488,7 +488,7 @@ const SPELLS = [
     ] },
   { key: 'transfiguration', name: 'Transfiguration', dot: 'var(--ax-flux)',
     tagline: 'Sequential values, exchanged through the regulated Array.',
-    req: '3+ components in sequence, any energies.', reqNote: 'Cannot loop around — 18-19-20 is valid; 20-1-2 is not.',
+    req: '3+ components in sequence, any energies.', reqNote: 'Cannot loop around — 13-14-15 is valid; 15-1-2 is not.',
     example: [{e:'void',v:6},{e:'flux',v:7},{e:'aether',v:8}],
     effect: [
       { range: '3 components', result: 'Discard 2 from hand, take 1 from the Array.' },
@@ -497,11 +497,12 @@ const SPELLS = [
     ] },
   { key: 'enchantment', name: 'Enchantment', dot: 'var(--ax-void)',
     tagline: 'Matching values, woven permanently into your capacity.',
-    req: '3–4 components of the same value.', reqNote: 'Always active — never cast.',
+    req: '3–5 components of the same value.', reqNote: 'Always active — never cast.',
     example: [{e:'radiance',v:10},{e:'void',v:10},{e:'flux',v:10}],
     effect: [
       { range: '3 components', result: 'Gain +1 counter — one more cast and one more learning action every turn.' },
-      { range: '4 components', result: 'Unlimited Capacity — cast all your spells, take unlimited learning actions.' },
+      { range: '4 components', result: 'Gain +3 counters — permanently.' },
+      { range: '5 components', result: 'Unlimited Capacity — cast all your spells, take unlimited learning actions (5–6 player games).' },
     ] },
   { key: 'perfect', name: 'Perfect Transmutation', dot: 'var(--ax-gold)',
     tagline: 'Sequential values within a single energy — perfect alignment.',
@@ -514,7 +515,7 @@ const SPELLS = [
 const SPELL_EFFECT_SHORT = {
   conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
   transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
-  enchantment: n => n >= 4 ? 'Always active: Unlimited Capacity.' : 'Always active: +1 counter.',
+  enchantment: n => n >= 5 ? 'Always active: Unlimited Capacity.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
   perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
 };
 
@@ -553,7 +554,7 @@ function miniCard(card, opts) {
     const item = el('div', 'legend-item');
     const img = document.createElement('img');
     img.className = 'ax-symbol';
-    img.src = en.symbol; img.alt = en.name;
+    img.src = en.icon; img.alt = en.name;
     item.appendChild(img);
     const txt = el('div');
     txt.appendChild(el('p', 'legend-name', en.name)).style.color = en.tone;

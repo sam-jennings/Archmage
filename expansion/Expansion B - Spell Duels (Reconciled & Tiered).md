@@ -19,6 +19,8 @@ This document reconciles the three Spell Duels notes files into one coherent des
 
 > **Stage gate (unchanged):** nothing here is Stage-3 work. Zero playtests exist for any version of Spell Duels. This is shelf-ready design, to be tested only after the capacity/counter fix is validated.
 
+> **Deck model (revised 2026-07-02):** the base game is **2–4 players, four energies × 1–15 + 2 wilds**. The **5–6 player extension** adds **Echo 1–15 + 2 wilds** as a fifth full suit. There is no 1–20 deck and no 7-player count. Every tier below runs identically in both configurations; the only extension-specific rule is how Echo strikes declare forms (§ "Echo in a duel"). Values are always 1–15, so all band maths, wild values, and scaling notes use one deck range.
+
 ---
 
 # Part 1 — Reconciliation
@@ -44,11 +46,11 @@ These elements survived every iteration pass and are the fixed spine of every ti
 | **C2** | **Timing in the turn** | *In place of* casting one spell, during Casting | *After* all casting, before Recall | (silent) | **After casting, before Recall.** Follows from C1: if duels don't spend a counter, they can't occupy a cast slot. Also keeps the duel beat in a predictable place for teaching. |
 | **C3** | **What frequency bands do** | Bands **gate** which effect you may attempt (High unlocks Siphon) | Bands are **banned**: "do not use frequency bands to unlock harsher effects" | Bands **scale the magnitude** of one effect (Low/Mid/High thirds) | **Both later documents are right, about different things.** Gating effect *type* behind bands is dead (arbitrary, rewards hoarding). Scaling effect *size* by band is alive and used from Tier 3 up. The two files don't actually conflict once gate vs. scale is named — but no file says this explicitly, so it's ruled here. |
 | **C4** | **Reveal procedure** | Sequential and face-up (strike shown, then guard chosen); simultaneous reveal listed as a *slower, optional* dial | Face-down commits, simultaneous reveal, as **baseline** | (silent — inherits Gambits) | **Face-down, simultaneous.** The blind guess ("is that strike a 3 or a 13?") is where the bluffing lives, and it makes Yield a real decision instead of arithmetic. The Deep Dive's downtime worry is kept as an explicit playtest measure (see every tier's watch list); the "Open guard" face-up dial is the fallback if duels drag. |
-| **C5** | **Wild cards in a clash** | Wild = any value you choose *up to deck maximum* (auto-wins as attacker, auto-ties as defender) | Wild = **one below deck maximum** (14 / 19); natural top card still beats it | (silent) | **One below maximum.** An unbeatable card deletes the guessing game the module runs on. |
+| **C5** | **Wild cards in a clash** | Wild = any value you choose *up to deck maximum* (auto-wins as attacker, auto-ties as defender) | Wild = **one below deck maximum**; natural top card still beats it | (silent) | **One below maximum — always 14** under the single 1–15 deck. An unbeatable card deletes the guessing game the module runs on. |
 | **C6** | **The defence mechanism itself** | Guard must be **≥ strike to repel**, else strike lands and guard is wasted — repelling costs *at least* what the attacker paid | Answer wins on **higher-or-tie**, and the *winner takes spoils* — defending can be profitable | (silent) | **Gambits' version.** The Deep Dive's "guard ≥ or wasted" makes defending strictly punitive, which pushes everyone toward permanent Accept/Yield and kills the clash. Defender-wins-ties + spoils makes Answering attractive exactly often enough. |
 | **C7** | **The effects themselves** | Destabilise (−1 capacity), Suppress (spell can't cast), Siphon (hand theft) | All three rejected: Destabilise attacks capacity, Suppress is binary denial, Siphon is hidden-hand theft. Replaced by Flare/Dampen/Displace/Echo | Replace the Gambits forms with bolder wins (Elemental Powers / Marks / Bend the Magic) | **Destabilise, Suppress, and Siphon are dead at every tier** — each violates a guardrail in §1.1. The Gambits forms are the Tier-2 baseline; Bold's directions are Tiers 3–5. The Deep Dive's *chassis* thinking survives; its *effects menu* does not. |
 | **C8** | **Which version to test first** | (implicitly itself) | "Use Resonance Gambits as the preferred baseline... keep the deep-dive version as a more aggressive variant" | "Prototype Direction 1 (Elemental Powers), and steal the Drought tug-of-war" | **Neither recommendation wins — the tier ladder replaces the question.** Testing starts at Tier 1 and climbs until it breaks. Gambits' forms are Tier 2; Elemental Powers are Tier 3; the tug-of-war is Tier 4. |
-| **C9** | **⚠ The "Echo" name collision** | — | Names the Aether form **Echo**, with **Echo tokens** | (inherits the name) | **Renamed.** The parked fifth energy is called **Echo** (`_review/VISUAL_SYSTEM_with_Echo.md`; STATE.md's fifth-suit note), and the future-expansions work in [[Expansion Directions - Echo and the High Frequencies]] leans on it. An Aether-keyed duel form called Echo, with Echo tokens on spells, becomes untenable the moment Echo-the-energy is printed. The Aether form is now **Imprint** (Imprint tokens). Pure rename — zero mechanical change. |
+| **C9** | **⚠ The "Echo" name collision** | — | Names the Aether form **Echo**, with **Echo tokens** | (inherits the name) | **Renamed.** The fifth energy is called **Echo** (`_review/VISUAL_SYSTEM_with_Echo.md`) — and under the revised deck model it is a *printed reality* at 5–6 players, not parked design space, so the collision is no longer hypothetical. The Aether form is now **Imprint** (Imprint tokens). Pure rename — zero mechanical change. |
 | **C10** | **Source-clock discipline** | (not analysed) | Major fix: only Flare (and a triggered Imprint) may draw from the Source, so duels barely move the Drought clock | Illuminate, Resonate, and Devour-High all touch the Source again | **The Gambits discipline is the rule; Bold's Source-touching is a *budgeted exception*.** At Tier 3 the Source-touch per duel is bounded to ~1 card and the token throttle caps total duels, so worst-case clock drift is small and measurable. Clock drift vs. baseline is a mandatory measure at Tiers 3–5. |
 
 ## 1.3 Open questions (no file resolves these — testing must)
@@ -75,7 +77,20 @@ Five tiers, cumulative unless stated. Each is a complete, playable stopping poin
 | **4** | **The Failing Magic** | The clock itself becomes the prize | Bend option: hasten/stall the Drought, command the Array, seed the Source, seize the seat | ~9 min | + turn/seat marker |
 | **5** | **The Resonance War** | Duels gain a memory that pays off at scoring | Resonance Marks (Tithe / Aegis / Beacon) + Overload + Summed Strikes | ~15 min | + Mark tokens per player colour |
 
-**Shared frequency bands (used from Tier 3 up):** thirds of the deck range — **1–5 / 6–10 / 11–15** (2–4p deck) and **1–7 / 8–14 / 15–20** (5–7p deck). Bands never gate; they only scale.
+**Shared frequency bands (used from Tier 3 up):** thirds of the 1–15 range — **Low 1–5 / Mid 6–10 / High 11–15** — at every player count. Bands never gate; they only scale.
+
+## Echo in a duel (5–6 players, Echo extension in the deck)
+
+The clash itself needs no rule: an Echo component strikes and guards by its frequency like any other card. The only gap is **form declaration** (Tiers 2–3), where forms are keyed to the four base energies. Ruling:
+
+> **An Echo strike may be declared as any of the four forms.** Echo is resonance answering resonance — it takes the shape of whatever it meets. (Guards were always any-energy; nothing changes there.)
+
+Consequences and safeguards:
+
+- Echo cards become slightly premium *duel* cards (form-flexible at natural frequency, unlike wilds they don't lose a point). Bounded: ~1-in-5 of the deck, and Echo cards are simultaneously the extension's most contested *building* cards, so the flexibility has real opportunity cost. **Watch at 5–6p: are Echo cards being hoarded as ammunition instead of built?** If so, the dial is *"an Echo strike resolves at −1 frequency"* (mirrors the wild rule's logic).
+- **Rejected alternative, kept on record:** a fifth Echo-only form ("Resound" — copy the effect of the last form resolved this round). More flavourful, but it adds a memory element and a fifth table row for a card that's absent at 2–4p — a rules asymmetry between configurations that this module doesn't need. Revisit only if mimic-Echo tests flat.
+- Tier 1 needs nothing: no forms exist there.
+- Tiers 4–5 need nothing: Bend options and Marks aren't energy-keyed. (Tier 5's **Beacon** may name Echo as its energy at 5–6p — legal, and worth one balance glance since Echo cards are contested.)
 
 ---
 
@@ -92,7 +107,7 @@ Five tiers, cumulative unless stated. Each is a complete, playable stopping poin
 2. **Defender chooses:**
    - **Yield** — plays nothing. Your strike is revealed and goes to the Arcane Reserve. Nothing else happens.
    - **Answer** — plays one component from their hand face-down. Reveal both together.
-3. **Compare frequency.** Higher wins; **defender wins ties**. A wild counts as one below the deck maximum (14 / 19) and its owner names its energy on reveal.
+3. **Compare frequency.** Higher wins; **defender wins ties**. A wild counts as **14** and its owner names its energy on reveal.
 4. **Spoils** (only if the defender Answered). The winner takes **one** of the two committed cards into hand; the other goes to the Arcane Reserve. **At 2 players:** both committed cards go to the Arcane Reserve instead — the winner never takes the loser's card.
 5. **Warded.** The defender takes a Warded token (whether they Yielded or Answered). They cannot be targeted again until the start of their next turn, when they discard it.
 
@@ -109,11 +124,11 @@ That is the entire tier. No effects, no forms, no reference card needed.
 - **Enchantment:** completely untouched — no capacity interaction of any kind. This tier is safe to test even while the counter fix is still settling (though don't).
 - **Drought:** duels off; zero residue (no tokens persist except an expiring Warded).
 
-## Scaling 2–7
+## Scaling 2–6
 
 - **2p:** gentle spoils (above) makes this *very* thin head-to-head — essentially a bluffing tax. Expected to under-deliver at 2p; that's data, not failure.
-- **3–5p:** two live neighbours each; the sweet spot even at this weight.
-- **6–7p:** fine — local skirmishes, Warded prevents pincers. The 1–20 deck just widens the guessing range.
+- **3–4p:** two live neighbours each; the sweet spot even at this weight.
+- **5–6p (Echo extension):** fine — local skirmishes, Warded prevents pincers. Echo cards need no special rule at this tier (frequency is frequency).
 
 ## First playtest — watch for
 
@@ -134,7 +149,7 @@ That is the entire tier. No effects, no forms, no reference card needed.
 
 ## Complete rules (delta from Tier 1)
 
-**Declare a form before committing your strike.** Your strike card must match the declared energy (a wild may be declared as any energy). If the revealed strike doesn't match the declared form: an Answering defender auto-wins; against a Yield the strike simply fizzles to the Reserve.
+**Declare a form before committing your strike.** Your strike card must match the declared energy (a wild may be declared as any energy; at 5–6p an **Echo** strike may be declared as any form — see "Echo in a duel" above). If the revealed strike doesn't match the declared form: an Answering defender auto-wins; against a Yield the strike simply fizzles to the Reserve.
 
 **If declaring Imprint,** also name one **non-Enchantment** spell in the target's Spellbook (Enchantments are never cast, so they can't be Imprinted).
 
@@ -164,11 +179,11 @@ Resolution order: reveal → compare frequency → **spoils** (as Tier 1) → **
 - **Perfect Transmutation:** the juiciest Imprint target (fires every turn, hates holding back). Intended — Imprint never stops the spell.
 - **Drought:** duels off. If a Gambit effect draws the last Source card: finish the Gambit, trigger the Drought, remove all Imprint tokens (no stable channel to resolve them).
 
-## Scaling 2–7
+## Scaling 2–6
 
 - **2p:** gentle spoils stays the default. Watch Dampen — if repeat-Dampen oppresses, add the dial *"you cannot declare Void against the same target on consecutive turns."*
-- **3–5p:** sweet spot. Warded guarantees nobody eats both neighbours before acting.
-- **6–7p:** fine; more duels per round in absolute terms, so watch total added minutes (target: expansion adds <10 min at 7p).
+- **3–4p:** sweet spot. Warded guarantees nobody eats both neighbours before acting.
+- **5–6p (Echo extension):** more duels per round in absolute terms — watch total added minutes (target: expansion adds <10 min at 6p) — and watch whether mimic-Echo strikes dominate declarations (see "Echo in a duel").
 
 ## First playtest — watch for
 
@@ -191,7 +206,7 @@ Resolution order: reveal → compare frequency → **spoils** (as Tier 1) → **
 
 ## Complete rules (delta from Tier 2)
 
-**The four forms are replaced** by the powers below. Band (Low/Mid/High third of your *winning* card) scales the win.
+**The four forms are replaced** by the powers below. Band (Low/Mid/High third of your *winning* card) scales the win. At 5–6p, an **Echo** strike may channel any of the four powers ("Echo in a duel" rule, unchanged).
 
 | Form (energy) | Win effect (Low / Mid / High) | Yield | Parry win (defender) |
 |---|---|---|---|
@@ -216,11 +231,11 @@ Resolution order: reveal → compare frequency → **spoils** (as Tier 1) → **
 - **Perfect Transmutation:** Resonate's favourite target (copying a PT's double effect is the dream). PTs become prestige objects that attract neighbours' High strikes — thematic, but watch whether PT owners feel farmed.
 - **Drought:** duels off; Gambit tokens are dead weight once the Source empties (spend-them-or-lose-them pressure is intended and shapes late-game pacing). Devour's banishments have already shrunk the Released Reserve — measure how much shorter the Drought runs.
 
-## Scaling 2–7
+## Scaling 2–6
 
 - **2p:** the throttle (4 each) is the anti-snowball wall; gentle spoils stays. Devour head-to-head is the meanest thing in the whole ladder short of Tier 5 — test the *gentle-Devour* dial (the committed card is banished instead; no extra hand card) early.
-- **3–5p:** ideal. 12–20 total duels per game, each meaningful.
-- **6–7p:** up to 28 potential duels; if the game bloats, cut tokens to 3 at 6–7p.
+- **3–4p:** ideal. 12–16 total duels per game, each meaningful.
+- **5–6p (Echo extension):** up to 24 potential duels; if the game bloats, cut tokens to 3 at 5–6p. A mimic-Echo card plus a spent Gambit token is the tier's most efficient play — track it.
 
 ## First playtest — watch for
 
@@ -262,11 +277,11 @@ Yield outcomes are unchanged from Tier 3 (Bend is only available on a genuine cl
 - **Enchantment:** untouched directly; but Stall lengthens games, giving slow enchantment ladders more runway — an *indirect* buff to the exact economy under repair. Measure enchantment uptake at this tier separately.
 - **Drought:** duels still off *during* the Drought — but its **arrival** is now a fought-over prize (Q5). Leader hastens, pack stalls: a built-in rubber band, and the single most thematic idea in the whole module (wizards wrestling the collapse itself).
 
-## Scaling 2–7
+## Scaling 2–6
 
 - **2p:** Hasten/Stall is at its most brutal head-to-head (no third party to balance the tug). Consider capping at once per game per player at 2p.
-- **3–5p:** the tug-of-war shines — genuine multi-party clock politics.
-- **6–7p:** with up to 14 Hasten/Stall plays theoretically possible, the cap matters most here; game length variance is the number to watch.
+- **3–4p:** the tug-of-war shines — genuine multi-party clock politics.
+- **5–6p (Echo extension):** with up to 12 Hasten/Stall plays theoretically possible, the cap matters most here; game length variance is the number to watch. Note the extension's bigger deck already lengthens the Source clock — collect a fresh 5–6p baseline before judging Hasten/Stall drift.
 
 ## First playtest — watch for
 
@@ -316,34 +331,4 @@ Yield against a Mark-intending attacker: the attacker may still place a Tithe, b
 - **Transfiguration:** Summed Strikes give sequence-hoarders a use for duplicate mid-cards; Tithe-shedding via Reshape makes Reshape (the least-used base verb) suddenly matter — a quiet gift to the spell type that owns it.
 - **Enchantment:** Enchantments can't be Imprinted, *can* be Tithed and Aegised. A Tithed 4-card Enchantment is a 4-RP endgame bomb sitting on the game's most contested object — either delicious or hateful; testing decides.
 - **Perfect Transmutation:** attracts Tithes like it attracted Resonate; an Aegis on a big PT is the tier's signature defensive play.
-- **Drought:** duels off, but Marks **persist and score** — Tier 5 is the only tier that reaches through the Drought into the evaluation. Remove nothing at the Drought trigger; Beacons simply go dormant (no Source to draw from).
-
-## Scaling 2–7
-
-- **2p:** actively not recommended (Marks + Overload head-to-head is a feud, not a game); if played: no Overload, gentle spoils, max 2 Tithes.
-- **3–5p:** playable by a table that has climbed the ladder; still the recommended way to *first* experience this tier.
-- **6–7p:** Mark bookkeeping across 6–7 tableaus is the stated overload; expect it to be the first thing testers cut.
-
-## First playtest — watch for
-
-**Could break (expected to, somewhere):**
-- **Cognitive load:** three reward menus × bands × marks. Measure teach time (>15 min = fail) and first-game rules queries (>1 per round after round 3 = fail).
-- **Scoring swing:** total Tithe RP moved at evaluation >15% of the winner's score = the endgame is decided by duels, not spellbooks — cap Tithes at 2 or halve their RP.
-- **Mark stacking on one victim** (both neighbours Tithe the same player): if it happens twice in one game, add "a player's spells may hold at most 2 rival Tithes total."
-- **Beacon snowball** (see Conjuration note).
-
-**Success looks like (the realistic version):**
-- The table finishes the game and can name *which single subsystem* they'd cut. Tier 5's actual job is to generate that sentence — it's a probe disguised as a ruleset.
-- If, against expectation, a heavy-gamer table asks to play it again unchanged: Spell Duels has a deluxe SKU.
-
----
-
-# Part 3 — How to find the middle
-
-1. **Climb, don't sample.** Same group where possible; one tier per session; stop climbing one tier after the first session that ends with "that was slightly too much," then re-test the tier below it as the candidate product.
-2. **Carry the baseline numbers** from a no-expansion game: Source-empty turn, enchantment uptake, completed spells per player, session length. Every tier's watch list keys off deltas, not vibes.
-3. **The 2-player duel-lab from the Gambits playtest plan still applies** (isolated clashes, 7-card hands, <30 s pass condition) — run it once at Tier 2 and once at Tier 3 before any full game at those tiers.
-4. **Predicted landing zone — deliberately not pre-selected.** No tier is flagged as the intended product; the guardrails above define *failure*, and the tables define the rest.
-5. **Prerequisites (unchanged):** counter/capacity fix validated live first; Q2 re-checked against the final counter design before Tier 3.
-
-
+- **Drought:** duels off, but Marks **persist and score** �

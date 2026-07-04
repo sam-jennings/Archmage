@@ -143,7 +143,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
   return out;
 }
 
-  function makeWildConvergenceArt(cx, cy, artR, sc){
+  function makeWildArt(cx, cy, artR, sc){
   const silver = { b:'#d8e2f6', m:'#8a96b8', dim:'#141b28' };
   let art = '';
 
@@ -531,7 +531,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     return out;
   })();
 
-  const art = makeWildConvergenceArt(cx, cy, artR, sc);
+  const art = makeWildArt(cx, cy, artR, sc);
   const topLeftCorner = renderTinyCurrentGlyph('wild', pipX, pipY - pipSz*0.5, pipSz*0.46, sc);
   const bottomRightCorner = `<g transform="translate(${invCX},${invCY}) rotate(180)" opacity=".62">${renderTinyCurrentGlyph('wild', 0, -pipSz*0.5, pipSz*0.46, sc)}</g>`;
   const extraCorners = fx.allCorners
@@ -577,7 +577,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
       ${topLeftCorner}
       ${bottomRightCorner}
       ${extraCorners}
-      <text x="${W/2}" y="${rulesY}" font-family="Cormorant Garamond,serif" font-style="italic" font-size="${rulesSz}" fill="${p.b}" fill-opacity=".36" text-anchor="middle">Convergence of the four currents</text>
+      <text x="${W/2}" y="${rulesY}" font-family="Cormorant Garamond,serif" font-style="italic" font-size="${rulesSz}" fill="${p.b}" fill-opacity=".36" text-anchor="middle">Synthesis of the four currents</text>
     </g>
   </svg>`;
 }
@@ -615,7 +615,7 @@ function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
     EL, EORD, WILD,
     uid, polar,
     makeTicks, makeResonanceMarks,
-    makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildConvergenceArt,
+    makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildArt,
     LayoutVariants,
     getConnector, getArt,
     makeCard, makeWildCard,

@@ -29,8 +29,8 @@ related:
 | Size (components) | Conjuration | Transfiguration | Perfect Transmutation | Enchantment |
 |:-----------------:|:-----------:|:---------------:|:---------------------:|:-----------:|
 | 3  | 3  | 5  | 7  | 6  |
-| 4  | 4  | 7  | 10 | 15 |
-| 5  | 6  | 10 | 14 | — |
+| 4  | 4  | 7  | 10 | 12 |
+| 5  | 6  | 10 | 14 | 18 |
 | 6  | 9  | 14 | 19 | — |
 | 7  | 13 | 19 | 25 | — |
 | 8  | 18 | 25 | 32 | — |
@@ -42,7 +42,7 @@ related:
 | 14 | 69 | 82 | 95 | — |
 | 15 | 81 | 95 | 109 | — |
 
-**Enchantment max size is 4 components** (one per value, 4 energies).
+**Enchantment max size is 5 components** — reachable only at 5-6 players, where the Echo suit supplies a fifth energy (one component per value per energy). At 2-4 players there are only four energies, so Enchantments cap at 4 components. Enchantment scores double as the capacity ladder: 3-card = +1 counter, 4-card = +3 counters, 5-card = Unlimited Capacity.
 
 **Tally all spells. Highest total wins.**
 
