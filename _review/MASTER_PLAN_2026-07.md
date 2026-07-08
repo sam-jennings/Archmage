@@ -10,6 +10,17 @@ evidence_tags: "[FILE] inspected · [INFER] reasoned from multiple files · [GAP
 
 # Master Plan (July 2026)
 
+> **Amendment 2026-07-06 — two-track model supersedes the linear phases below.**
+> The critical-path framing in §4 (safe hygiene → stranger validation →
+> implementation-*after*-evidence) is replaced by two parallel tracks at different clock
+> speeds: **Track A** (fast, solo, continuous — analysis, design, sim, digital build,
+> *provisional* rulebook changes) and **Track B** (slow, opportunity-driven — stranger
+> validation). The gate no longer blocks the *act* of changing reversible artifacts; it
+> blocks only irreversible/paid commitments (prints, mass exports) and labelling
+> anything "validated" without a logged session. Read §3–§5 through that lens. Full
+> rationale: `meta/decisions/2026-07-06-two-track-development-model.md`. The diagnosis
+> (why the project is validation-hungry) still stands; only the *response* changed.
+
 This plan exists to stop the project optimizing locally. The four audits agree on one
 thing the QUEUE does not yet reflect: the binding constraint is **product identity and
 the total absence of stranger evidence**, not implementation cleanliness [FILE: product
@@ -27,6 +38,14 @@ Spellbook monument**, with rummy-literate pattern play as the moment-to-moment v
 [INFER from product viability §10; design review V2 — both converge independently]. Echo /
 5–6p and Ascension Trials are expansion shelf *if the core earns it*, not part of the
 core promise.
+
+> **Amendment 2026-07-06 (decisions F10 + F8).** "Expansion shelf" is superseded for both.
+> **Echo / 5–6p is an *extension* of the base system, not an expansion module**, and carries
+> **equal design priority with 2–4p** for now (packaging remains an undecided product call) —
+> `meta/decisions/2026-07-06-f10-echo-extension-not-expansion.md`. **Ascension Trials is not
+> parked**: it is an active workstream, reconciled test-functionally for 5–6p Echo because
+> some playtesters value it specifically —
+> `meta/decisions/2026-07-06-f8-ascension-trials-reconcile.md`.
 
 **Strongest product version currently implied by the evidence.** Design review's **V2**
 ("the 2–4 player monument race"): the four patterns + Spellbook + Source clock + Drought +
@@ -61,10 +80,15 @@ polish that does not directly enable a test (full stop list §5).
 ## 2. Protected hook
 
 > **It's rummy where your melds stay alive as spell engines — but every spell you cast
-> burns down the shared Source, and when it runs dry the biggest Spellbook wins.**
+> burns down the shared Source, and when it runs dry your Spellbook becomes the proof
+> that decides who can renew the world's magic.**
+>
+> *(Accepted 2026-07-06, DR-HOOK — `meta/decisions/2026-07-06-protect-the-hook.md`.)*
 
-Every word of that sentence is supported by the current rulebook [FILE: turn structure,
-Drought, scoring]. Note what it does *not* contain: counters, Recall, capacity, scoring
+Every word maps to the current rulebook and its premise [FILE: turn structure, Drought,
+scoring, ascension] — the ending is the thematic stakes of the win (the strongest
+Spellbook's owner ascends and renews the depleting magic), not merely "biggest wins."
+Note what it does *not* contain: counters, Recall, capacity, scoring
 tables, Trials, Echo. **Standing rule: no change may make this hook less visible at the
 table.**
 
@@ -98,7 +122,11 @@ judgment rule].
 ## 3. Current project phase
 
 **Classification: product-validation-gated.** (Not implementation-ready, not merely
-decision-gated, not merely playtest-gated for balance.)
+decision-gated, not merely playtest-gated for balance.) **[Amended 2026-07-06: this
+names the *evidence* constraint — the project is starved of stranger data. It does
+*not* mean solo implementation waits for strangers. Under the two-track model, Track A
+work proceeds continuously; only irreversible spend and "validated" claims are gated.
+See the amendment banner and the two-track decision.]**
 
 **Why.** The repo's *process/canon* layer is Kiro-ready — one machine-checkable canon file,
 decision records with propagation checklists, an experiment with a revert kit [FILE: truth
@@ -115,6 +143,16 @@ deciding or from balancing — it comes from putting the game in front of strang
 ---
 
 ## 4. Critical path — the next three phases
+
+> **[Amended 2026-07-06 — read as two tracks, not three sequential phases.]** The
+> "hygiene → validation → implementation" content below is still accurate *work*, but it
+> is no longer a gate sequence. Regroup it as: **Track A (continuous, solo)** = Phase 1
+> hygiene **plus** the Phase 3 implementation work, done as *provisional* changes
+> (`status: experiment` + revert kit) whenever there's a working session — bold, coherent,
+> sim-screened, one subsystem at a time; **Track B (opportunity-driven)** = Phase 2's
+> stranger sessions, which confirm/kill/redirect what Track A built. The only Phase-3
+> items that genuinely wait are irreversible spend (paid prints, mass exports) and the
+> `stranger-validated` label itself. See `meta/decisions/2026-07-06-two-track-development-model.md`.
 
 ### Phase 1 — Safe hygiene (days, not weeks)
 - **Goal:** make the repo trustworthy and the decision graph explicit, without touching any
@@ -186,6 +224,11 @@ Work to pause now because it risks local optimization. Each names the evidence t
   verbal teaching [FILE: L1]. **Unpause when:** a stranger session shows a *specific* passage
   misread that new text could plausibly fix (control-arm text for E1 is the only sanctioned
   prose work now).
+- **Final game-title rename** (DR-NAME part B). "Archmage Ascension" collides with existing
+  games and will change; renaming every surface (repo, canon, rulebook, web-apps, board,
+  exports, pitch) before scope stabilises just means doing it twice. Keep the working title.
+  **Unpause when:** the final name is chosen and the pitch is due (with DR-PITCH / F14). Note:
+  the *end-narrative* rethink (part A) is not paused — it's Track A work with DR-HOOK + Story.md.
 
 **Meta-rule (adopt):** any system iterated twice without new *table* evidence is escalated to a
 redesign/cut decision, not a third iteration [FILE: product viability §9].

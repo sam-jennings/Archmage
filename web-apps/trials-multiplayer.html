@@ -861,8 +861,9 @@
     // =========================================================================
     function VotingPhase({ roomId, players, myPlayer }) {
       const playerCount = players.length;
-      const availableTrials = config.trials.filter(t => !t.minPlayers || t.minPlayers <= playerCount);
-      const recognitionTable = config.recognitionPoints[playerCount] || {};
+      // Guarded against missing config.js so the app fails soft instead of throwing.
+      const availableTrials = safeArray(config.trials).filter(t => !t.minPlayers || t.minPlayers <= playerCount);
+      const recognitionTable = safeObj(config.recognitionPoints)[playerCount] || {};
 
       const [allocations, setAllocations] = useState(() => {
         // Restore from Firebase if rejoining
@@ -1171,8 +1172,9 @@
     // =========================================================================
     function ResultsPhase({ players }) {
       const playerCount = players.length;
-      const availableTrials = config.trials.filter(t => !t.minPlayers || t.minPlayers <= playerCount);
-      const recognitionTable = config.recognitionPoints[playerCount] || {};
+      // Guarded against missing config.js so the app fails soft instead of throwing.
+      const availableTrials = safeArray(config.trials).filter(t => !t.minPlayers || t.minPlayers <= playerCount);
+      const recognitionTable = safeObj(config.recognitionPoints)[playerCount] || {};
 
       // Build wizard objects for calculation (merge allocations from Firebase)
       const wizards = players.map(p => ({

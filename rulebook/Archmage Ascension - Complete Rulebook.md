@@ -2,8 +2,8 @@
 title: Archmage Ascension - Complete Rulebook
 aliases:
   - Archmage Ascension Rulebook
-  - Complete Rulebook v2.8
-version: 2.8
+  - Complete Rulebook v3.0
+version: 3.0
 type: rulebook
 status: working-draft
 tags:
@@ -68,11 +68,11 @@ That wizard ascends. The currents stabilize. Magic flows again.
 #### Magical Components (Cards)
 
 - Each card represents a fragment of magical energy.
-- The suit symbol indicates the energy type this component is attuned to:
-  - ♠ Spades: Radiance
-  - ♥ Hearts: Void
-  - ♦ Diamonds: Flux
-  - ♣ Clubs: Aether
+- Each component is attuned to one of the four energies, shown on the card face by its own colour and arcane symbol:
+  - Radiance — gold (radiant corona)
+  - Void — violet (inward spiral)
+  - Flux — teal (flowing wave)
+  - Aether — crimson (bound lattice)
 - The number (1-15) is the component type - different resonance frequencies.
   - In 5-6 player games a fifth energy, Echo, joins the four above (still ranks 1-15).
   - Wild cards can substitute for any energy type and value combination.
@@ -423,7 +423,7 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 **Transfiguration:** Spell using 3+ sequential components of different energies. When cast, must exchange components using The Array.
 
-**Enchantment:** Spell using 3-4 matching components. Always active (never cast). Permanently increases capacity.
+**Enchantment:** Spell using 3-5 matching components. Always active (never cast). Permanently increases capacity.
 
 **Perfect Transmutation:** Spell using 3+ sequential components of the same energy. When cast, provides both Conjuration AND Transfiguration effects.
 

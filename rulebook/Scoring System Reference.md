@@ -3,7 +3,7 @@ title: Scoring System Reference
 aliases:
   - Archmage Ascension Scoring
   - Recognition Points Table
-version: 2.8
+version: 3.0
 type: reference
 status: working-draft
 tags:

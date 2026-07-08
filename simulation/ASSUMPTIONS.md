@@ -4,7 +4,7 @@ type: reference
 created: 2026-07-02
 relates_to:
   - "[[Archmage Ascension - Complete Rulebook]]"
-  - "[[STATE]]"
+  - "[[QUEUE]]"
 ---
 
 # Deck Simulation Rig — Model Assumptions
@@ -15,7 +15,7 @@ below is what the model does and does not capture. Sanity-check the strategy sec
 against real play before trusting completion-rate numbers to the percentage point —
 relative comparisons between configurations are far more robust than absolute values.
 
-## Rules modelled (from Rulebook v2.8 + the STATE.md parked ladder)
+## Rules modelled (from Rulebook v2.8 + the parked ladder, now in meta/canon.yml)
 
 - 7-card opening hand, 5-card Array, 1-card binding discard per player before turn 1.
 - Collection: take 1 from Array (replaced from Source) or draw 1 blind — either way

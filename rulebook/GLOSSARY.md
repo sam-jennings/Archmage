@@ -24,7 +24,7 @@ Spellbooks and elevates the most powerful wizard to Archmage. This is a
 magical inevitability, not a judged competition.
 
 **Attuned** *(Story)* When a wizard controls a component (in hand), they
-understand its element and resonance frequency. The component is attuned
+understand its energy and resonance frequency. The component is attuned
 to that wizard.
 
 **The aether** *(Story)* The universal field through which ambient magic
@@ -56,11 +56,11 @@ Array (immediately replace from Source). During the Drought, draw
 exactly 1 from the Released Reserve (no choice).
 
 **Component** *(Mechanical)* A card representing a fragment of magical
-energy. Has an element (Fire, Water, Earth, Air) and a value/resonance
-frequency (1-15).
+energy. Has an energy type (Radiance, Void, Flux, Aether) and a
+value/resonance frequency (1-15).
 
 **Conjuration** *(Mechanical)* A spell type using 3+ components of the
-same element (any values). When cast, draws additional components from
+same energy (any values). When cast, draws additional components from
 the Source: +1 for 3-5 card spell, +2 for 6+ card spell. Cannot be cast
 during the Drought.
 
@@ -98,9 +98,6 @@ are only four energies, and the wild-declaration rule bars a wild from
 posing as a fifth, so those games cap at 4-component Enchantments;
 Unlimited Capacity is reachable only at 5-6 players.
 
-**Element** *(Mechanical)* One of the four fundamental forces: Fire,
-Water, Earth, Air. Represented by card suit symbols (♠♥♦♣).
-
 **Empower** *(Mechanical)* A learning action. Add one or more components
 from your hand to an existing spell in your Spellbook. Costs 1 counter
 (or free with unlimited capacity).
@@ -112,6 +109,10 @@ cast. Permanently increases capacity: 3-component grants +1 counter,
 wild used in an Enchantment must be declared as an energy present in the
 current deck. Represents internal metamorphosis woven into the
 wizard\'s being.
+
+**Energy** *(Mechanical)* One of the four fundamental energy types
+(Radiance, Void, Flux, Aether; plus Echo in 5-6 player decks). Each is
+shown on the card face by its own colour and arcane symbol.
 
 **External magic** *(Story)* Magic that requires ambient flow and stable
 infrastructure (Conjurations, Transfigurations, Perfect Transmutations).
@@ -162,10 +163,10 @@ Can be activated when infrastructure exists (casting) or stands as proof
 of knowledge when it doesn\'t (during Drought).
 
 **Perfect Transmutation** *(Mechanical + Story)* A spell type using 3+
-components in sequential values, all from the same element. When cast,
+components in sequential values, all from the same energy. When cast,
 provides BOTH Conjuration effect (draw from Source) AND Transfiguration
 effect (drain catalysts, claim from Array). Both effects are mandatory.
-Represents absolute mastery within one element. Cannot be cast during
+Represents absolute mastery within one energy. Cannot be cast during
 the Drought.
 
 **R**
@@ -195,7 +196,7 @@ its size and type.
 
 **Resonance frequency** *(Mechanical + Story)* The numbered value (1-15)
 on each component. Represents the specific vibrational pattern within an
-element. Used interchangeably with \"value.\"
+energy. Used interchangeably with \"value.\"
 
 **S**
 
@@ -215,7 +216,7 @@ your hand. The Academy immediately replaces it by drawing from the
 Source (making ambient magic crystallize).
 
 **Transfiguration** *(Mechanical + Story)* A spell type using 3+
-components in sequential values (any elements). When cast, must exchange
+components in sequential values (any energies). When cast, must exchange
 with the Array: drain hand components as catalysts to claim Array
 components. 3-component spell: discard 2 from hand, take 1 from Array.
 4+ component spell: discard 1 from hand, take 1 from Array. Drained
@@ -229,4 +230,10 @@ learning actions per turn. Place the Unlimited Capacity marker in front
 of you and set all counters aside. Lost if that 5-component Enchantment
 is broken apart — return the marker and retrieve your counters.
 
-**Unlimited Capacity Ma
+**Unlimited Capacity Marker** *(Mechanical)* The physical token placed
+in front of you when you gain Unlimited Capacity by learning a
+5-component Enchantment. While it is in play you set your counters
+aside: you may cast every spell in your Spellbook and perform unlimited
+learning actions each turn, and you skip the Recall step. If that
+5-component Enchantment is broken apart, return the marker and retrieve
+your counters.

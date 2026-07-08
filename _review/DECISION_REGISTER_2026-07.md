@@ -15,14 +15,27 @@ stay cross-referable. Nothing here is closed unless a `meta/decisions/` file alr
 justifies closure — silent closure is forbidden [process.md §3].
 
 **Three closure lanes:**
-- **SAM-NOW** — Sam can answer in one sitting; needs no table. (DR-HOOK, F3, F4, F5, F6, F8, F10-as-sequencing, F14, DR-PITCH, DR-STATE)
+- **SAM-NOW** — Sam can answer in one sitting; needs no table. (DR-HOOK, F3, F4, F5, F6, F8, F10-as-sequencing, F14, DR-PITCH, DR-STATE, DR-NAME-narrative)
 - **STRANGER** — closes only at a stranger table. (F1, F2, F12, DR-CLOCK, DR-DROUGHT)
 - **KIRO-LATER** — implementation detail, do not start until its parent closes. (F7, F9, F13-cards, DR-STATE-impl)
 
 ---
 
+**2026-07-06 amendments** to F3/F4/F5/F6/F8/F10/F14 (plus DR-SOURCE and the Unlimited
+Capacity ruling) are sourced from `_review/ARCHMAGE_SAM_DECISIONS_F3_F14_2026-07.md` and
+propagated to `meta/decisions/2026-07-06-f*.md`. Note two **reversals** of earlier
+recommendations: **F6** caps size at 15 (no Conjuration 16–17), and **F8** keeps Ascension
+Trials active (not parked).
+
+---
+
 ## DR-HOOK — Protect the one-sentence hook
-- **Status:** decided (recommended; awaiting Sam's explicit sign-off in a decision file)
+- **Status:** ✅ **closed 2026-07-06** — Option A adopted with amended wording; decision
+  file `meta/decisions/2026-07-06-protect-the-hook.md`; recorded in PROJECT.md + MASTER_PLAN §2.
+- **Accepted hook:** *It's rummy where your melds stay alive as spell engines — but every
+  spell you cast burns down the shared Source, and when it runs dry your Spellbook becomes
+  the proof that decides who can renew the world's magic.* (Sam amended the ending from the
+  recommended "biggest Spellbook wins" to the thematic-stakes framing.)
 - **Owner:** Sam
 - **Options:** (A) adopt the "living melds + player-burned Source" one-sentence hook as the
   protected core with a standing "no change may reduce table-visibility of the hook" rule;
@@ -32,10 +45,45 @@ justifies closure — silent closure is forbidden [process.md §3].
   design review §2.
 - **Files affected:** PROJECT.md; new `meta/decisions/` file (canon delta: none — it's a lens).
 - **Dependency:** none. It is the lens the other decisions are judged through.
-- **Closure condition:** decision file written; PROJECT.md carries the sentence + standing rule.
+- **Closure condition:** decision file written; PROJECT.md carries the sentence + standing rule. ✅ met.
+
+## DR-NAME — Game title & end-narrative (retire "Archmage" / "Ascension")
+- **Status:** open — **SAM-NOW** for the narrative (Track A, do when convenient);
+  **finalize-late** for the title string (gated with DR-PITCH / F14).
+- **Owner:** Sam (creative/branding call). Kiro can assist with name-collision research +
+  a candidate shortlist; stranger sessions inform it (the logistics plan captures what
+  players call the game, verbatim).
+- **Problem:** "Archmage Ascension" collides with the board game *Archmage* and the card
+  game *Ascension* — both words should be avoided in the title. Consequence: the
+  end-narrative ("the Archmage ascends") must change too.
+- **Two parts, different timing:**
+  - **(A) End-narrative / premise.** Entangled with **DR-HOOK** and `rulebook/Story.md`.
+    The accepted hook is already name-agnostic (no "Archmage"/"Ascension"; ending =
+    "renew the world's magic"), so it survives — but the lore's ascension framing (incl.
+    the "ascends" phrasing in the DR-HOOK amendment note) is what this revises. Pure
+    Track A design work; no gate.
+  - **(B) The title string.** Widest propagation blast radius in the repo. Keep "Archmage
+    Ascension" as an explicit **working title** now; choose the final name once and
+    propagate in a single pass, *before* any paid print, pitch, or external-facing surface.
+- **Options (timing):** (i) rename everything now — rejected (churn; risks a second
+  rename after scope/testing shifts the identity); (ii) working title now, finalize late —
+  **recommended**, mirrors DR-PITCH exactly.
+- **Files affected:** repo/folder names, `PROJECT.md`, `meta/canon.yml`, rulebook title,
+  `GLOSSARY.md`, `Story.md`, `pitch/`, `web-apps/` titles/headers, `board/`, exports,
+  `index.html` — essentially every surface (hence: do it once).
+- **Dependency:** title finalization gated with DR-PITCH / F14 (finalize before external
+  commitment). Narrative (A) has no gate. DR-HOOK is unaffected by the rename.
+- **Closure condition:** (A) revised end-narrative recorded (decision + `Story.md`);
+  (B) final name chosen + one-pass propagation recorded as its own decision file, done
+  before any paid/external surface.
 
 ## F10 — Product scope: 2–4p core vs 5–6p Echo-first
-- **Status:** open (answer the *sequencing* now; the full product-shape call needs the comparison datum)
+- **Status:** **AMENDED 2026-07-06 — Echo is an *extension* of the base system, not an
+  expansion; equal design priority with 2–4p for now.** Packaging remains undecided
+  (product/manufacturing call, not design-priority). Sequencing intent unchanged (run F1
+  cleanly, then 5–6p Echo + AT). Decision file
+  `meta/decisions/2026-07-06-f10-echo-extension-not-expansion.md`. Was: open, working
+  hypothesis A (2–4p primary).
 - **Owner:** Sam (product-shape); stranger playtest informs
 - **Options:** (A) 2–4p primary band, Echo held as proven-on-paper expansion; (B) 5–6p Echo-first
   (current QUEUE momentum); (C) decide after one comparison session that carries both.
@@ -85,7 +133,9 @@ justifies closure — silent closure is forbidden [process.md §3].
   → status flipped in the decision file.
 
 ## F3 — Enchantment effect timing
-- **Status:** open — **SAM-NOW** (principle now; final wording waits on F1)
+- **Status:** **principle DECIDED 2026-07-06** (gains next turn; losses immediate, reducing
+  only remaining learning actions — no retroactive undo); text gated by F1. Decision file
+  `meta/decisions/2026-07-06-f3-enchantment-timing.md`. Was: open — SAM-NOW.
 - **Owner:** Sam (small); playtest confirms feel
 - **Options:** (A) gains next turn / losses immediate (asymmetry blocks both abuse directions);
   (B) both next turn; (C) keep "now" (ships the exploit).
@@ -98,7 +148,10 @@ justifies closure — silent closure is forbidden [process.md §3].
   closes.
 
 ## F5 — Game-end procedure
-- **Status:** open three-way — **SAM-NOW**
+- **Status:** **REFRAMED 2026-07-06 — keep immediate end for now; open PLAYTEST WATCH**
+  (not SAM-NOW closed). Seat-order unfairness is not automatically a problem; test the
+  worst-case config (6p Echo + AT, low turn counts) before changing. Decision file
+  `meta/decisions/2026-07-06-f5-game-end-procedure.md`. Was: open three-way, recommend C.
 - **Owner:** Sam; analysis supports (C)
 - **Options:** (A) immediate on Released-Reserve depletion (current text; seat-order unfair);
   (B) that player finishes learning (matches the rig); (C) finish the round (turn parity).
@@ -109,7 +162,12 @@ justifies closure — silent closure is forbidden [process.md §3].
 - **Closure condition:** one procedure written; three surfaces reconciled; feel verified next session.
 
 ## F6 — Wild declaration scope + Conjuration 16–17 scores
-- **Status:** open — **SAM-NOW**
+- **Status:** **DECIDED 2026-07-06 (hybrid).** Wild declaration required in **all** spell
+  types, fixed while the spell exists (from option A); but **max size 15 — do NOT extend
+  Conjuration scoring to 16–17** (from option B). This **reverses the prior Recommendation
+  A** below. Coupled ruling: a 5-component Enchantment (hence Unlimited Capacity) is
+  **5–6p/Echo only**, since a wild can only be a deck-present energy. Decision file
+  `meta/decisions/2026-07-06-f6-wild-scope-and-max-size.md`. Was: open — SAM-NOW.
 - **Owner:** Sam (analysis-supported)
 - **Options:** (A) declaration required in all spell types, fixed until the spell dissolves, extend
   Conjuration table to 17; (B) Enchantment-only declaration (rulebook as written), cap table at 15.
@@ -121,7 +179,10 @@ justifies closure — silent closure is forbidden [process.md §3].
 - **Closure condition:** table closed at 17; one wild example per spell type in the rulebook.
 
 ## F4 — Scoring 12/18 override rationale (vs 15/26)
-- **Status:** decided in effect (canon = 12/18); rationale unrecorded — **SAM-NOW** (document-only)
+- **Status:** **DECIDED 2026-07-06 — keep 6/12/18**; rationale recorded; live-play **watch**
+  item (not a settled balance proof). Decision file
+  `meta/decisions/2026-07-06-f4-enchantment-scoring-rationale.md`. Was: decided-in-effect,
+  rationale unrecorded — SAM-NOW.
 - **Owner:** analysis writes the paragraph; Sam signs off
 - **Options:** (A) record rationale, keep 12/18; (B) reopen 18-vs-26.
 - **Recommendation:** A. Enchantment's real payment is capacity; pricing UC at 26 double-pays the
@@ -170,7 +231,10 @@ justifies closure — silent closure is forbidden [process.md §3].
 - **Closure condition:** T5 metrics → decision file.
 
 ## F8 — Ascension Trials status
-- **Status:** open — **SAM-NOW**
+- **Status:** **DECIDED 2026-07-06 — do NOT park; ACTIVE reconciliation** (test-functional,
+  not polish) so 5–6p Echo + AT can run; some playtesters value AT specifically. This
+  **reverses the prior Recommendation A** (park wholesale) below. Decision file
+  `meta/decisions/2026-07-06-f8-ascension-trials-reconcile.md`. Was: open — SAM-NOW.
 - **Owner:** Sam
 - **Options:** (A) park wholesale as Stage-5 expansion (annotate file, close the P3); (B) keep the
   reconciliation task alive now.
@@ -182,7 +246,10 @@ justifies closure — silent closure is forbidden [process.md §3].
 - **Closure condition:** decision file records park; file annotated (not silently edited); P3 closed.
 
 ## F14 — Card export regeneration timing
-- **Status:** open — **SAM-NOW** (the cheapest high-leverage "no" available)
+- **Status:** ✅ **CLOSED 2026-07-06 as HOLD.** No export/print regeneration; existing
+  5×20 + 4 P&B deck stays a flexible prototype (pull cards per test) and must not be read
+  as deck canon. Decision file `meta/decisions/2026-07-06-f14-export-hold.md`. Matches the
+  prior Recommendation A.
 - **Owner:** Sam
 - **Options:** (A) hold all export/print until F1+F2 close (except one legible test reference card/mat);
   (B) regenerate digital files now, no printing; (C) regenerate + print per the card-visuals thread.
@@ -219,6 +286,18 @@ justifies closure — silent closure is forbidden [process.md §3].
 
 ---
 
+## DR-SOURCE — Source-emptying mid-turn timing (new, 2026-07-06)
+- **Status:** **proposed rulebook patch** — principle decided, text pending Sam approval.
+  Decision file `meta/decisions/2026-07-06-source-emptying-timing.md`.
+- **Ruling:** complete the current atomic action (Collection choice or spell effect), then
+  immediately begin the Drought; no further casts once the Source is empty. Conjuration/PT
+  castable only if the Source can fully resolve them; a Transfiguration may be the action
+  that empties the Source via Array replacement. PT must not partially resolve.
+- **Files affected:** rulebook Casting Phase / End-of-the-Drought; `simulation/ASSUMPTIONS.md`.
+- **Closure condition:** Sam approves the patch → written into the rulebook.
+
+---
+
 ## Sub-decisions folded into parents (track, don't action alone)
 - **F7 — capacity derived vs accumulated:** sub-decision of F1 (Option B practically requires derived).
   Decide *with* F1. **KIRO-LATER.**
@@ -228,7 +307,9 @@ justifies closure — silent closure is forbidden [process.md §3].
 - **F11 — wholesale DESIGN_REVIEW adoption:** dissolved into the forks above; treat as closed-by-decomposition.
 
 ## Answerable-now summary
-- **Sam can close this week (cheap):** DR-HOOK, F3 (principle), F4, F5, F6, F8, F10-as-sequencing, F14,
+- **Sam can close this week (cheap):** DR-HOOK ✅, F3 (principle), F4, F5, F6, F8, F10-as-sequencing, F14,
   DR-PITCH-confirm.
+- **Track A design work (no gate):** DR-NAME part A (end-narrative rethink, with DR-HOOK + Story.md).
 - **Needs stranger evidence:** F1, F2, F12, DR-CLOCK, DR-DROUGHT.
 - **Kiro-only after parents close:** F7, F9, F13-cards, DR-STATE.
+- **Finalize late (with pitch/exports):** DR-PITCH, DR-NAME part B (the title string), F14.
