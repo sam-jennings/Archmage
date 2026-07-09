@@ -8,6 +8,7 @@
  *   §1 threads   -> stale/missing-next checks
  *   §2 queue     -> unqueued ACTION: markers, _review linkage
  *   §3 decisions -> open propagation checkboxes, retired-term grep
+ *   §3a versioning -> versioned_files vs rulebook_version mismatch
  *   §5 structure -> tree vs manifest.yml, filename patterns
  */
 import fs from "node:fs";
@@ -131,6 +132,18 @@ if (exists("meta/decisions")) {
   }
 } else flag("decisions", "meta/decisions/ missing");
 
+// ---------- 3a. versioning: versioned_files vs rulebook_version ----------
+if (canon && canon.versioned_files) {
+  const wantRaw = (canon.rulebook_version || "").replace(/^v/i, "").trim();
+  for (const f of csv(canon.versioned_files)) {
+    if (!exists(f)) { flag("versioning", `versioned_files entry missing: ${f}`); continue; }
+    const fm = frontMatter(read(f)) || {};
+    const got = (fm.version || "").toString().replace(/^v/i, "").trim();
+    if (!got) flag("versioning", `${f}: no 'version' in front-matter (canon.yml expects ${wantRaw || "?"})`);
+    else if (wantRaw && got !== wantRaw) flag("versioning", `${f}: version ${got} does not match canon.yml rulebook_version ${wantRaw} — bump + archive per process.md §3a, or update canon.yml`);
+  }
+}
+
 // ---------- 4. threads: front-matter, staleness ----------
 const threads = [];
 if (exists("meta/threads")) {
@@ -195,4 +208,4 @@ if (openDecisions.length) {
 }
 console.log(`\nFLAGS: ${flags.length ? "" : "none — clean"}`);
 for (const f of flags) console.log(`  ! ${f}`);
-process.exit(flags.length ? 1 : 0);
+process.exitCode = flags.length ? 1 : 0;

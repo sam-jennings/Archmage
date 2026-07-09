@@ -1,0 +1,694 @@
+{
+  "title": "Target-shaped utility-model score tables \u2014 recorded input sets + scores",
+  "not_canon": true,
+  "experiment": "vnext-scoring-economy",
+  "workbook": "tools/scoring models/archmage_scoring_m15_utility_model_v4_formula_corrected.xlsx",
+  "sheet": "Utility_Final_Tables (Deck 1 rows 41-53, Deck 2 rows 95-107)",
+  "generated_by": "tools/scoring models/record_target_tables.py",
+  "targets": [
+    "C3 (Conjuration size 3) rounds to 0",
+    "every other score rounds to > 0",
+    "each spell column strictly increasing with size",
+    "PT15 rounds to 100 (model forces PT15 = Conj15 identity)",
+    "PT >= Transfiguration at every size"
+  ],
+  "notes": [
+    "Utility inputs (alpha B7, lambda B23, scale B25, TF-role B36) are GLOBAL; only deck energies differ (B5=4, B6=5). The workbook holds one deck's config at a time.",
+    "Workbook is currently loaded with the deck1 set; fullCalcOnLoad is set so Excel recalculates on open.",
+    "Verified via _m2.build_model (reproduces workbook values <1e-9 both decks). No live Excel/LibreOffice recalc available in-session.",
+    "Revert to stock model: B7=0.8, B23=0.5, B25=2, B36=1.5."
+  ],
+  "decks": {
+    "deck1": {
+      "energies": 4,
+      "inputs_full": {
+        "B4": 15,
+        "B5": 4,
+        "B6": 5,
+        "B7": 0.816,
+        "B9": 15,
+        "B23": 0.27,
+        "B24": 1,
+        "B25": 3.4,
+        "B26": 2,
+        "B27": 1,
+        "B28": 0.25,
+        "B29": 0.6,
+        "B30": 0.8,
+        "B31": 0.65,
+        "B32": 0.75,
+        "B33": 1,
+        "B34": 3,
+        "B35": 5,
+        "B36": 0.15
+      },
+      "changed_from_default": {
+        "B7": {
+          "label": "Raw weight alpha",
+          "default": 0.8,
+          "value": 0.816
+        },
+        "B23": {
+          "label": "Lambda utility weight",
+          "default": 0.5,
+          "value": 0.27
+        },
+        "B25": {
+          "label": "Score scale",
+          "default": 2,
+          "value": 3.4
+        },
+        "B36": {
+          "label": "Transfiguration role incentive",
+          "default": 1.5,
+          "value": 0.15
+        }
+      },
+      "scores_unrounded": {
+        "3": {
+          "Conjuration": 0.458494,
+          "Transfiguration": 2.835232,
+          "PerfectTransmutation": 5.092569,
+          "Enchantment": 4.25349
+        },
+        "4": {
+          "Conjuration": 1.43327,
+          "Transfiguration": 4.114208,
+          "PerfectTransmutation": 11.063554,
+          "Enchantment": 11.222425
+        },
+        "5": {
+          "Conjuration": 2.455165,
+          "Transfiguration": 5.391166,
+          "PerfectTransmutation": 17.808427,
+          "Enchantment": null
+        },
+        "6": {
+          "Conjuration": 2.543704,
+          "Transfiguration": 6.697813,
+          "PerfectTransmutation": 24.012491,
+          "Enchantment": null
+        },
+        "7": {
+          "Conjuration": 6.184273,
+          "Transfiguration": 8.160303,
+          "PerfectTransmutation": 31.398937,
+          "Enchantment": null
+        },
+        "8": {
+          "Conjuration": 12.128769,
+          "Transfiguration": 10.032019,
+          "PerfectTransmutation": 39.094836,
+          "Enchantment": null
+        },
+        "9": {
+          "Conjuration": 19.564229,
+          "Transfiguration": 12.560827,
+          "PerfectTransmutation": 47.150607,
+          "Enchantment": null
+        },
+        "10": {
+          "Conjuration": 28.248955,
+          "Transfiguration": 15.858083,
+          "PerfectTransmutation": 55.638224,
+          "Enchantment": null
+        },
+        "11": {
+          "Conjuration": 38.264607,
+          "Transfiguration": 19.941296,
+          "PerfectTransmutation": 64.660137,
+          "Enchantment": null
+        },
+        "12": {
+          "Conjuration": 49.831356,
+          "Transfiguration": 24.854151,
+          "PerfectTransmutation": 74.371246,
+          "Enchantment": null
+        },
+        "13": {
+          "Conjuration": 63.326362,
+          "Transfiguration": 30.774789,
+          "PerfectTransmutation": 85.029826,
+          "Enchantment": null
+        },
+        "14": {
+          "Conjuration": 79.458897,
+          "Transfiguration": 38.168742,
+          "PerfectTransmutation": 97.142208,
+          "Enchantment": null
+        },
+        "15": {
+          "Conjuration": 99.989492,
+          "Transfiguration": 48.395173,
+          "PerfectTransmutation": 99.989492,
+          "Enchantment": null
+        }
+      },
+      "scores_rounded": {
+        "3": {
+          "Conjuration": 0,
+          "Transfiguration": 3,
+          "PerfectTransmutation": 5,
+          "Enchantment": 4
+        },
+        "4": {
+          "Conjuration": 1,
+          "Transfiguration": 4,
+          "PerfectTransmutation": 11,
+          "Enchantment": 11
+        },
+        "5": {
+          "Conjuration": 2,
+          "Transfiguration": 5,
+          "PerfectTransmutation": 18,
+          "Enchantment": null
+        },
+        "6": {
+          "Conjuration": 3,
+          "Transfiguration": 7,
+          "PerfectTransmutation": 24,
+          "Enchantment": null
+        },
+        "7": {
+          "Conjuration": 6,
+          "Transfiguration": 8,
+          "PerfectTransmutation": 31,
+          "Enchantment": null
+        },
+        "8": {
+          "Conjuration": 12,
+          "Transfiguration": 10,
+          "PerfectTransmutation": 39,
+          "Enchantment": null
+        },
+        "9": {
+          "Conjuration": 20,
+          "Transfiguration": 13,
+          "PerfectTransmutation": 47,
+          "Enchantment": null
+        },
+        "10": {
+          "Conjuration": 28,
+          "Transfiguration": 16,
+          "PerfectTransmutation": 56,
+          "Enchantment": null
+        },
+        "11": {
+          "Conjuration": 38,
+          "Transfiguration": 20,
+          "PerfectTransmutation": 65,
+          "Enchantment": null
+        },
+        "12": {
+          "Conjuration": 50,
+          "Transfiguration": 25,
+          "PerfectTransmutation": 74,
+          "Enchantment": null
+        },
+        "13": {
+          "Conjuration": 63,
+          "Transfiguration": 31,
+          "PerfectTransmutation": 85,
+          "Enchantment": null
+        },
+        "14": {
+          "Conjuration": 79,
+          "Transfiguration": 38,
+          "PerfectTransmutation": 97,
+          "Enchantment": null
+        },
+        "15": {
+          "Conjuration": 100,
+          "Transfiguration": 48,
+          "PerfectTransmutation": 100,
+          "Enchantment": null
+        }
+      }
+    },
+    "deck2": {
+      "energies": 5,
+      "inputs_full": {
+        "B4": 15,
+        "B5": 4,
+        "B6": 5,
+        "B7": 0.84,
+        "B9": 15,
+        "B23": 0.28,
+        "B24": 1,
+        "B25": 3.04,
+        "B26": 2,
+        "B27": 1,
+        "B28": 0.25,
+        "B29": 0.6,
+        "B30": 0.8,
+        "B31": 0.65,
+        "B32": 0.75,
+        "B33": 1,
+        "B34": 3,
+        "B35": 5,
+        "B36": 0.0
+      },
+      "changed_from_default": {
+        "B7": {
+          "label": "Raw weight alpha",
+          "default": 0.8,
+          "value": 0.84
+        },
+        "B23": {
+          "label": "Lambda utility weight",
+          "default": 0.5,
+          "value": 0.28
+        },
+        "B25": {
+          "label": "Score scale",
+          "default": 2,
+          "value": 3.04
+        },
+        "B36": {
+          "label": "Transfiguration role incentive",
+          "default": 1.5,
+          "value": 0.0
+        }
+      },
+      "scores_unrounded": {
+        "3": {
+          "Conjuration": 0.372348,
+          "Transfiguration": 1.812853,
+          "PerfectTransmutation": 5.195563,
+          "Enchantment": 2.850369
+        },
+        "4": {
+          "Conjuration": 1.245058,
+          "Transfiguration": 2.812495,
+          "PerfectTransmutation": 11.304062,
+          "Enchantment": 7.309316
+        },
+        "5": {
+          "Conjuration": 2.345426,
+          "Transfiguration": 3.814106,
+          "PerfectTransmutation": 17.993369,
+          "Enchantment": 15.597402
+        },
+        "6": {
+          "Conjuration": 3.786141,
+          "Transfiguration": 4.85358,
+          "PerfectTransmutation": 24.140968,
+          "Enchantment": null
+        },
+        "7": {
+          "Conjuration": 8.715374,
+          "Transfiguration": 6.066891,
+          "PerfectTransmutation": 31.383568,
+          "Enchantment": null
+        },
+        "8": {
+          "Conjuration": 15.104797,
+          "Transfiguration": 7.704998,
+          "PerfectTransmutation": 38.921556,
+          "Enchantment": null
+        },
+        "9": {
+          "Conjuration": 22.598872,
+          "Transfiguration": 9.985952,
+          "PerfectTransmutation": 46.803516,
+          "Enchantment": null
+        },
+        "10": {
+          "Conjuration": 31.191715,
+          "Transfiguration": 12.987951,
+          "PerfectTransmutation": 55.096099,
+          "Enchantment": null
+        },
+        "11": {
+          "Conjuration": 41.002498,
+          "Transfiguration": 16.712789,
+          "PerfectTransmutation": 63.893487,
+          "Enchantment": null
+        },
+        "12": {
+          "Conjuration": 52.236582,
+          "Transfiguration": 21.199582,
+          "PerfectTransmutation": 73.337659,
+          "Enchantment": null
+        },
+        "13": {
+          "Conjuration": 65.236368,
+          "Transfiguration": 26.616201,
+          "PerfectTransmutation": 83.664779,
+          "Enchantment": null
+        },
+        "14": {
+          "Conjuration": 80.644766,
+          "Transfiguration": 33.391985,
+          "PerfectTransmutation": 95.336714,
+          "Enchantment": null
+        },
+        "15": {
+          "Conjuration": 100.057099,
+          "Transfiguration": 42.765971,
+          "PerfectTransmutation": 100.057099,
+          "Enchantment": null
+        }
+      },
+      "scores_rounded": {
+        "3": {
+          "Conjuration": 0,
+          "Transfiguration": 2,
+          "PerfectTransmutation": 5,
+          "Enchantment": 3
+        },
+        "4": {
+          "Conjuration": 1,
+          "Transfiguration": 3,
+          "PerfectTransmutation": 11,
+          "Enchantment": 7
+        },
+        "5": {
+          "Conjuration": 2,
+          "Transfiguration": 4,
+          "PerfectTransmutation": 18,
+          "Enchantment": 16
+        },
+        "6": {
+          "Conjuration": 4,
+          "Transfiguration": 5,
+          "PerfectTransmutation": 24,
+          "Enchantment": null
+        },
+        "7": {
+          "Conjuration": 9,
+          "Transfiguration": 6,
+          "PerfectTransmutation": 31,
+          "Enchantment": null
+        },
+        "8": {
+          "Conjuration": 15,
+          "Transfiguration": 8,
+          "PerfectTransmutation": 39,
+          "Enchantment": null
+        },
+        "9": {
+          "Conjuration": 23,
+          "Transfiguration": 10,
+          "PerfectTransmutation": 47,
+          "Enchantment": null
+        },
+        "10": {
+          "Conjuration": 31,
+          "Transfiguration": 13,
+          "PerfectTransmutation": 55,
+          "Enchantment": null
+        },
+        "11": {
+          "Conjuration": 41,
+          "Transfiguration": 17,
+          "PerfectTransmutation": 64,
+          "Enchantment": null
+        },
+        "12": {
+          "Conjuration": 52,
+          "Transfiguration": 21,
+          "PerfectTransmutation": 73,
+          "Enchantment": null
+        },
+        "13": {
+          "Conjuration": 65,
+          "Transfiguration": 27,
+          "PerfectTransmutation": 84,
+          "Enchantment": null
+        },
+        "14": {
+          "Conjuration": 81,
+          "Transfiguration": 33,
+          "PerfectTransmutation": 95,
+          "Enchantment": null
+        },
+        "15": {
+          "Conjuration": 100,
+          "Transfiguration": 43,
+          "PerfectTransmutation": 100,
+          "Enchantment": null
+        }
+      }
+    }
+  },
+  "shared_table": {
+    "method": "Deck A = its optimal table (PT15=100). Deck B RE-TUNED (alpha 0.79, lambda 0.55, scale 3.0, TF-role 0.15; PT15 ceiling relaxed -> free scale) to hug Deck A over sizes 3-9. Shared Conj/TF/PT = A-favoured blend: weight on A = 0.65 for sizes 3-9, ramping to 1.0 at size 15. PT15=100 from A; re-tuned Deck B PT15 lands ~96 (relaxed). ENCHANTMENT is decoupled: it uses Deck B STANDALONE (lambda 0.28), not the re-tune, because the re-tune's high lambda over-discounts capacity and flattens the Enchantment top. Enchantment magnitude remains open (UC/capacity).",
+    "deck_A_inputs": {
+      "B4": 15,
+      "B5": 4,
+      "B6": 5,
+      "B7": 0.816,
+      "B9": 15,
+      "B23": 0.27,
+      "B24": 1,
+      "B25": 3.4,
+      "B26": 2,
+      "B27": 1,
+      "B28": 0.25,
+      "B29": 0.6,
+      "B30": 0.8,
+      "B31": 0.65,
+      "B32": 0.75,
+      "B33": 1,
+      "B34": 3,
+      "B35": 5,
+      "B36": 0.15
+    },
+    "deck_B_retuned_inputs": {
+      "B4": 15,
+      "B5": 4,
+      "B6": 5,
+      "B7": 0.79,
+      "B9": 15,
+      "B23": 0.55,
+      "B24": 1,
+      "B25": 3.0,
+      "B26": 2,
+      "B27": 1,
+      "B28": 0.25,
+      "B29": 0.6,
+      "B30": 0.8,
+      "B31": 0.65,
+      "B32": 0.75,
+      "B33": 1,
+      "B34": 3,
+      "B35": 5,
+      "B36": 0.15
+    },
+    "deck_B_retuned_PT15": 96,
+    "enchantment_source": "Deck B standalone (CHANGES.deck2) blended with Deck A; decoupled from the C/TF/PT re-tune",
+    "weight_on_A": {
+      "3": 0.65,
+      "4": 0.65,
+      "5": 0.65,
+      "6": 0.65,
+      "7": 0.65,
+      "8": 0.65,
+      "9": 0.65,
+      "10": 0.7083,
+      "11": 0.7667,
+      "12": 0.825,
+      "13": 0.8833,
+      "14": 0.9417,
+      "15": 1.0
+    },
+    "scores_unrounded": {
+      "3": {
+        "Conjuration": 0.298021,
+        "Transfiguration": 2.822217,
+        "PerfectTransmutation": 5.138515,
+        "Enchantment": 3.762398
+      },
+      "4": {
+        "Conjuration": 1.208457,
+        "Transfiguration": 4.106653,
+        "PerfectTransmutation": 11.232885,
+        "Enchantment": 9.852837
+      },
+      "5": {
+        "Conjuration": 2.346676,
+        "Transfiguration": 5.389979,
+        "PerfectTransmutation": 18.018511,
+        "Enchantment": 15.597402
+      },
+      "6": {
+        "Conjuration": 2.542342,
+        "Transfiguration": 6.704534,
+        "PerfectTransmutation": 23.982803,
+        "Enchantment": null
+      },
+      "7": {
+        "Conjuration": 6.637206,
+        "Transfiguration": 8.176584,
+        "PerfectTransmutation": 31.364541,
+        "Enchantment": null
+      },
+      "8": {
+        "Conjuration": 12.710395,
+        "Transfiguration": 10.052483,
+        "PerfectTransmutation": 39.043241,
+        "Enchantment": null
+      },
+      "9": {
+        "Conjuration": 20.118959,
+        "Transfiguration": 12.564372,
+        "PerfectTransmutation": 47.06765,
+        "Enchantment": null
+      },
+      "10": {
+        "Conjuration": 28.629126,
+        "Transfiguration": 15.81828,
+        "PerfectTransmutation": 55.528448,
+        "Enchantment": null
+      },
+      "11": {
+        "Conjuration": 38.463225,
+        "Transfiguration": 19.848933,
+        "PerfectTransmutation": 64.524987,
+        "Enchantment": null
+      },
+      "12": {
+        "Conjuration": 49.867396,
+        "Transfiguration": 24.718846,
+        "PerfectTransmutation": 74.219619,
+        "Enchantment": null
+      },
+      "13": {
+        "Conjuration": 63.246997,
+        "Transfiguration": 30.624686,
+        "PerfectTransmutation": 84.881313,
+        "Enchantment": null
+      },
+      "14": {
+        "Conjuration": 79.348119,
+        "Transfiguration": 38.052442,
+        "PerfectTransmutation": 97.033301,
+        "Enchantment": null
+      },
+      "15": {
+        "Conjuration": 99.989492,
+        "Transfiguration": 48.395173,
+        "PerfectTransmutation": 99.989492,
+        "Enchantment": null
+      }
+    },
+    "scores_rounded": {
+      "3": {
+        "Conjuration": 0,
+        "Transfiguration": 3,
+        "PerfectTransmutation": 5,
+        "Enchantment": 4
+      },
+      "4": {
+        "Conjuration": 1,
+        "Transfiguration": 4,
+        "PerfectTransmutation": 11,
+        "Enchantment": 10
+      },
+      "5": {
+        "Conjuration": 2,
+        "Transfiguration": 5,
+        "PerfectTransmutation": 18,
+        "Enchantment": 16
+      },
+      "6": {
+        "Conjuration": 3,
+        "Transfiguration": 7,
+        "PerfectTransmutation": 24,
+        "Enchantment": null
+      },
+      "7": {
+        "Conjuration": 7,
+        "Transfiguration": 8,
+        "PerfectTransmutation": 31,
+        "Enchantment": null
+      },
+      "8": {
+        "Conjuration": 13,
+        "Transfiguration": 10,
+        "PerfectTransmutation": 39,
+        "Enchantment": null
+      },
+      "9": {
+        "Conjuration": 20,
+        "Transfiguration": 13,
+        "PerfectTransmutation": 47,
+        "Enchantment": null
+      },
+      "10": {
+        "Conjuration": 29,
+        "Transfiguration": 16,
+        "PerfectTransmutation": 56,
+        "Enchantment": null
+      },
+      "11": {
+        "Conjuration": 38,
+        "Transfiguration": 20,
+        "PerfectTransmutation": 65,
+        "Enchantment": null
+      },
+      "12": {
+        "Conjuration": 50,
+        "Transfiguration": 25,
+        "PerfectTransmutation": 74,
+        "Enchantment": null
+      },
+      "13": {
+        "Conjuration": 63,
+        "Transfiguration": 31,
+        "PerfectTransmutation": 85,
+        "Enchantment": null
+      },
+      "14": {
+        "Conjuration": 79,
+        "Transfiguration": 38,
+        "PerfectTransmutation": 97,
+        "Enchantment": null
+      },
+      "15": {
+        "Conjuration": 100,
+        "Transfiguration": 48,
+        "PerfectTransmutation": 100,
+        "Enchantment": null
+      }
+    },
+    "A_vs_retunedB_rounded_gap_3to9": {
+      "3": {
+        "Conjuration": 0,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      },
+      "4": {
+        "Conjuration": 0,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 1
+      },
+      "5": {
+        "Conjuration": 0,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      },
+      "6": {
+        "Conjuration": 0,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      },
+      "7": {
+        "Conjuration": 1,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      },
+      "8": {
+        "Conjuration": 2,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      },
+      "9": {
+        "Conjuration": 1,
+        "Transfiguration": 0,
+        "PerfectTransmutation": 0
+      }
+    }
+  }
+}

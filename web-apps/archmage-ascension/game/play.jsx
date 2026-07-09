@@ -62,15 +62,15 @@ function PlayScreen({ state, dispatch, animations, aiBusy, transfigPrompt, openi
     ? you.spellbook.find(s => s.id === empoweringSpellId)
     : null;
 
-  const counterCap = you.unlimited ? Infinity : you.counters;
+  const counterCap = you.counters;
   const counterUsed = state.learningCountersUsed;
-  const capacityRemaining = you.unlimited ? '∞' : Math.max(0, counterCap - counterUsed);
+  const capacityRemaining = Math.max(0, counterCap - counterUsed);
 
   // ── Phase actions ────────────────────────────────────────
   const canCast = isYourTurn && state.phase === 'casting';
   const canCollect = isYourTurn && (state.phase === 'collection');
   const canLearn = isYourTurn && (state.phase === 'learning' || state.phase === 'drought-learning')
-                    && (you.unlimited || counterUsed < counterCap);
+                    && (counterUsed < counterCap);
 
   // ── Mobile overlay (log / glossary) ─────────────────────
   const [mobileOverlay, setMobileOverlay] = useState(null); // 'log' | 'glossary'
@@ -277,11 +277,11 @@ function OpponentArea({ archon, state, aiBusy }){
         <div className="status-row">
           <div className="status-key">Capacity</div>
           <div className="status-val">
-            {archon.unlimited ? <span className="unlimited-mark">∞</span> :
-              <div className="counter-row">
-                {Array.from({length: archon.counters}).map((_,i)=> <div key={i} className="counter-pip"/>)}
-              </div>
-            }
+            <div className="counter-row">
+              {Array.from({length: archon.counters}).map((_,i)=> <div key={i} className="counter-pip"/>)}
+              {archon.pendingCapacity > 0 &&
+                <span style={{fontSize:10, color:'var(--ink-dim)', letterSpacing:'0.05em'}}>+{archon.pendingCapacity} next turn</span>}
+            </div>
           </div>
         </div>
       </div>
@@ -374,7 +374,7 @@ function HandZone({ you, state, isYourTurn, canCast, canLearn, openingPrompt, tr
           <div className="hand-label-name">{you.name}'s Hand</div>
           <div style={{fontFamily:'var(--display)', fontSize:10, letterSpacing:'0.2em', color:'var(--ink-faint)'}}>
             {you.hand.length} cards
-            {' · '}{you.unlimited ? '∞' : `${counterCap - counterUsed}/${counterCap}`} cap
+            {' · '}{`${counterCap - counterUsed}/${counterCap}`} cap{you.pendingCapacity > 0 ? ` +${you.pendingCapacity} next turn` : ''}
             {' · '}<span style={{color:'var(--gold-dim)'}}>{yourRP} RP</span>
           </div>
         </div>
@@ -472,7 +472,7 @@ function YourSpellbook({ you, state, canCast, canLearn, empoweringSpellId, onCas
       </div>
     );
   }
-  const counterCap = you.unlimited ? Infinity : you.counters;
+  const counterCap = you.counters;
   const used = state.castSpellsThisTurn.length;
   return (
     <div style={{
@@ -482,7 +482,7 @@ function YourSpellbook({ you, state, canCast, canLearn, empoweringSpellId, onCas
     }}>
       {you.spellbook.map(sp => {
         const cast = state.castSpellsThisTurn.includes(sp.id);
-        const castableNow = canCast && !cast && sp.spec.type !== 'ench' && (you.unlimited || used < counterCap);
+        const castableNow = canCast && !cast && sp.spec.type !== 'ench' && (used < counterCap);
         return (
           <window.AASpellTableau
             key={sp.id} spell={sp} scale={0.42}
@@ -506,7 +506,7 @@ function PhaseControls({ state, isYourTurn, canCast, canLearn, dispatch, you }){
   if (!isYourTurn) return <div style={{height:36}}/>;
   if (state.phase === 'casting'){
     const used = state.castSpellsThisTurn.length;
-    const cap = you.unlimited ? '∞' : you.counters;
+    const cap = you.counters;
     return (
       <div style={{display:'flex', gap:8, alignItems:'center'}}>
         <div style={{fontFamily:'var(--display)', fontSize:10, letterSpacing:'0.2em', color:'var(--ink-dim)'}}>
@@ -553,11 +553,11 @@ function SidePanels({ state, log }){
             <div className="status-row">
               <div className="status-key">Capacity</div>
               <div className="status-val">
-                {you.unlimited ? <span className="unlimited-mark">∞</span> :
-                  <div className="counter-row">
-                    {Array.from({length: you.counters}).map((_,i)=> <div key={i} className="counter-pip"/>)}
-                  </div>
-                }
+                <div className="counter-row">
+                  {Array.from({length: you.counters}).map((_,i)=> <div key={i} className="counter-pip"/>)}
+                  {you.pendingCapacity > 0 &&
+                    <span style={{fontSize:10, color:'var(--ink-dim)', letterSpacing:'0.05em'}}>+{you.pendingCapacity} next turn</span>}
+                </div>
               </div>
             </div>
             <div className="status-row">
@@ -715,7 +715,7 @@ function MobileGlossaryContent(){
     ['Conjuration', 'Three or more matching suits. Scores steadily; casting draws extra components.'],
     ['Transfiguration', 'Three or more sequential values. Casting lets you swap weak hand cards for Array cards.'],
     ['Perfect Transmutation', 'Same suit and sequential values — the rarest, highest-scoring pattern.'],
-    ['Enchantment', 'Three or four matching values. Learning one expands your action capacity; four of a kind unlocks unlimited casts.'],
+    ['Enchantment', 'Three or four matching values. Learning one expands your capacity (+1 counter for three, +3 for four).'],
   ];
   const Row = ({head, body}) => (
     <div className="mobile-glossary-row">

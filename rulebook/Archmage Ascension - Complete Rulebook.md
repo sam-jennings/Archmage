@@ -2,10 +2,10 @@
 title: Archmage Ascension - Complete Rulebook
 aliases:
   - Archmage Ascension Rulebook
-  - Complete Rulebook v2.8
-version: 2.8
+  - Complete Rulebook v3.1
+version: v3.1
 type: rulebook
-status: working-draft
+status: under-test
 tags:
   - archmage-ascension
   - rulebook
@@ -68,11 +68,11 @@ That wizard ascends. The currents stabilize. Magic flows again.
 #### Magical Components (Cards)
 
 - Each card represents a fragment of magical energy.
-- The suit symbol indicates the energy type this component is attuned to:
-  - ♠ Spades: Radiance
-  - ♥ Hearts: Void
-  - ♦ Diamonds: Flux
-  - ♣ Clubs: Aether
+- Each component is attuned to one of the four energies, shown on the card face by its own colour and arcane symbol:
+  - Radiance — gold (radiant corona)
+  - Void — violet (inward spiral)
+  - Flux — teal (flowing wave)
+  - Aether — crimson (bound lattice)
 - The number (1-15) is the component type - different resonance frequencies.
   - In 5-6 player games a fifth energy, Echo, joins the four above (still ranks 1-15).
   - Wild cards can substitute for any energy type and value combination.
@@ -149,10 +149,11 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 
 - Requirements: 3-5 components of the same value.
 - Always active: Enchantments don't need to be cast - they're woven into your being.
-- What they provide (capacity is measured in counters; each counter lets you cast one spell and perform one learning action per turn):
-  - 3 components: +1 counter permanently.
-  - 4 components: +3 counters permanently.
-  - 5 components: Unlimited Capacity (take the Unlimited Capacity marker; set all counters aside).
+- What they provide (capacity is measured in counters; each counter lets you cast one spell and perform one learning action per turn). Each Enchantment's grant is a cumulative total for its size, and each size also scores Recognition Points:
+  - 3 components: +1 counter (scores 4).
+  - 4 components: +3 counters (scores 10).
+  - 5 components: +5 counters (scores 16).
+- Newly learned or empowered Enchantment capacity becomes available only from the start of your next turn (see Enchantment Effect Timing).
 - Wild-declaration rule: a wild used in an Enchantment must be declared as one of the energy types present in the current deck. A matching-value set can never represent a "fifth energy" that isn't in play — this keeps 5-component Enchantments out of reach at 2-4 players (four energies + wilds) and only attainable once Echo joins the deck at 5-6 players.
 - What it represents: While casting uses external energy that returns to the world, Enchantment internalises energy permanently - expanding your capacity from within.
 - Example: Radiance-7/Void-7/Flux-7 (three 7s from different energies).
@@ -187,25 +188,36 @@ Important: Counters represent your capacity, not a spent resource — the Recall
 
 You start with 1 counter in 2-4 player games, or 2 counters in 5-6 player games (each counter lets you cast 1 spell and perform 1 learning action per turn).
 
-You increase capacity by learning Enchantments:
+You increase capacity by learning Enchantments. Added capacity becomes available from the start of your next turn (see Enchantment Effect Timing):
 
-- 3-component Enchantment: +1 counter permanently.
-- 4-component Enchantment: +3 counters permanently.
-- 5-component Enchantment: Unlimited Capacity (take the Unlimited Capacity marker and place it in front of you; set all your counters aside).
+- 3-component Enchantment: +1 counter (cumulative total for that Enchantment).
+- 4-component Enchantment: +3 counters.
+- 5-component Enchantment: +5 counters (5-6 player / Echo decks only).
 
-You can also lose capacity:
+You can also lose capacity. Because each size is a cumulative total, resizing an Enchantment loses only the difference between tiers, while fully dissolving it loses the whole grant. Any such loss applies immediately:
 
-- Unlearn/break apart 3-component Enchantment: -1 counter.
-- Unlearn/break apart 4-component Enchantment: -3 counters.
-- Unlearn/break apart 5-component Enchantment: Return the Unlimited Capacity marker and retrieve your counters.
+- Fully dissolve a 3-component Enchantment: -1 counter.
+- Fully dissolve a 4-component Enchantment: -3 counters.
+- Fully dissolve a 5-component Enchantment: -5 counters.
+- Step a 5-card down to a 4-card: -2 counters.
+- Step a 4-card down to a 3-card: -2 counters.
+- Step a 3-card down (it dissolves): -1 counter.
 
 #### Example progression (2-4 player game):
 
 - Start: 1 counter.
-- After first 3-card Enchantment: 2 counters.
-- After a 4-card Enchantment: 5 counters.
-- After a 5-card Enchantment: Unlimited Capacity (Unlimited Capacity marker placed in front of you; counters set aside).
-- If you later unlearn that 5-card Enchantment: Return the marker; retrieve your 5 counters.
+- After first 3-card Enchantment: 2 counters (available next turn).
+- After a 4-card Enchantment: 5 counters (available next turn).
+
+### Enchantment Effect Timing
+
+Enchantments change your Magical Capacity. The timing depends on whether capacity is gained or lost:
+
+- **Gains** (learning or empowering an Enchantment): the added capacity becomes available only from the **start of your next turn**.
+- **Losses** (reducing or dissolving an Enchantment): the capacity loss applies **immediately**.
+- **Affordability gate:** you may not reduce or dissolve an Enchantment unless you can both pay the action's counter cost (1) AND absorb the immediate capacity loss from the counters you currently have available. If you cannot afford the action plus the loss, the action is blocked.
+
+**Worked example:** Your only Enchantment is a 4-card [8,8,8,8], giving capacity 4 (1 starting + 3 from the Enchantment). Fully dissolving it costs 1 action + 3 capacity loss = 4 — possible only if you have spent no capacity this turn. Stepping it down to a 3-card costs 1 action + 2 capacity loss = 3, leaving a scoring 3-card Enchantment and +1 capacity.
 
 ---
 
@@ -226,20 +238,20 @@ That's all for this phase - you'll draw more if you cast Conjurations in the nex
 
 *Now you activate the spells in your Spellbook. Each spell you cast takes effect immediately, before you cast the next one. The order matters.*
 
-How many spells you can cast:
+How many spells you can cast — cast up to [capacity] spells (one spell per counter):
 
 - 1 counter = up to 1 spell.
 - 2 counters = up to 2 spells.
 - 3 counters = up to 3 spells.
-- Unlimited capacity = all your spells.
+- More counters = up to that many spells.
 
 To cast spells:
 
 1. Choose one spell from your Spellbook.
 2. Place 1 counter on it (marks it as cast this turn).
 3. Immediately resolve its effects (see below).
-4. Repeat if you have more counters or unlimited capacity.
-5. Continue until you've cast all desired spells.
+4. Repeat if you have more counters.
+5. Stop when you've cast the spells you want, or you run out of counters.
 
 Casting restrictions:
 
@@ -284,53 +296,51 @@ If you can't complete the exchange, you cannot cast this spell.
 
 *With the day's active magic complete, you turn to formalizing new knowledge or refining existing spells.*
 
-**Recall (transition step):** Pick up all counters from your cast spells and return them to your pool. If you have unlimited capacity, skip this — your Unlimited Capacity marker is already in front of you and your counters remain set aside.
+**Recall (transition step):** Pick up all counters from your cast spells and return them to your pool. Every player performs Recall.
 
 Your counters now determine learning actions:
 
 - 1 counter = up to 1 learning action.
 - 2 counters = up to 2 learning actions.
 - 3 counters = up to 3 learning actions.
-- Unlimited capacity = unlimited learning actions.
+- More counters = up to that many learning actions.
 
-Each learning action costs 1 counter (or is free with unlimited capacity):
+Each learning action costs 1 counter:
 
 #### LEARN
 
 Place a new spell from your hand into your Spellbook.
 
 - Must be a valid spell type (Conjuration, Transfiguration, Enchantment, or Perfect Transmutation).
-- If 3-component Enchantment: Immediately gain +1 counter (add to your pool now).
-- If 4-component Enchantment: Immediately gain +3 counters (add to your pool now).
-- If 5-component Enchantment: Take the Unlimited Capacity marker and place it in front of you; set all counters aside.
+- If it is an Enchantment, it grants Magical Capacity by size — 3-component: +1 counter (scores 4); 4-component: +3 counters (scores 10); 5-component: +5 counters (scores 16).
+- Added Enchantment capacity becomes available from the start of your next turn, not this turn (see Enchantment Effect Timing).
 
 #### EMPOWER
 
 Add components from your hand to an existing spell in your Spellbook.
 
-- Can make a Conjuration longer, extend a Transfiguration, or convert one spell type to another.
+- Can extend a spell while keeping its type (make a Conjuration longer, extend a Transfiguration, or grow an Enchantment to the next size), or convert among Conjuration, Transfiguration, and Perfect Transmutation.
+- EMPOWER may NOT convert a spell into an Enchantment, nor an Enchantment into another type. Becoming or ceasing to be an Enchantment requires LEARN or UNLEARN.
 
 #### RESHAPE
 
-Reorganize components across multiple spells in your Spellbook.
+Reorganize components across spells in your Spellbook.
 
-- Break down any/all spells and rebuild them using the same components.
-- All components must remain in valid spell arrangements.
-- Counts as one learning action regardless of how many spells affected.
-- Warning: If you break apart a 3-component Enchantment, immediately lose 1 counter.
-- Warning: If you break apart a 4-component Enchantment, immediately lose 3 counters.
-- Warning: If you break apart a 5-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
+- Break down one or more spells and rebuild them using the same components.
+- Costs one counter per spell broken down — breaking N spells costs N counters (this replaces the old "any or all spells for one action").
+- All freed components must be redistributed into valid spell arrangements; every component must end in a valid spell.
+- If a RESHAPE reduces an Enchantment's size, capacity is lost proportionally by the ladder difference (5→4 = -2, 4→3 = -2, 3→dissolved = -1), not a flat full loss. This loss applies immediately (see Enchantment Effect Timing).
 
 #### UNLEARN
 
-Dissolve one spell completely, returning its components to your hand.
+Return one or more components from a single spell to your hand. The remainder must still form a valid spell, or the spell fully dissolves.
 
-- Components can't be learned into new spells until your next turn.
-- Useful for reclaiming components for a different strategy.
-- Each Unlearn action targets one spell and costs 1 counter. Unlearning two different spells in the same turn requires 2 separate Unlearn actions at 1 counter each.
-- Warning: If you unlearn a 3-component Enchantment, immediately lose 1 counter.
-- Warning: If you unlearn a 4-component Enchantment, immediately lose 3 counters.
-- Warning: If you unlearn a 5-component Enchantment, immediately return the Unlimited Capacity marker and retrieve your counters.
+- Costs 1 counter regardless of how many components you return from that one spell.
+- Targets a single spell. Unlearning from two different spells in the same turn requires 2 separate UNLEARN actions at 1 counter each.
+- For runs (Transfiguration, Perfect Transmutation), a single-component partial UNLEARN may only remove an end component — you cannot pull a component out of the middle of a run.
+- Returned components can't be learned into new spells until your next turn.
+- Useful for reclaiming components for a different strategy, or for stepping a spell down a size.
+- If the UNLEARN reduces or dissolves an Enchantment, capacity is lost by the ladder difference: 5→4 = -2, 4→3 = -2, 3→dissolved = -1; a full dissolve loses the whole grant. This loss applies immediately (see Enchantment Effect Timing).
 
 #### 💡 The Recall Step
 
@@ -338,7 +348,7 @@ The Recall is the physical bridge between Casting and Learning. Pick up every co
 
 - Counters represent your capacity, not a depleting resource.
 - Casting fewer spells doesn't give you more learning actions — you always get your full capacity back.
-- Unlimited capacity players skip the Recall entirely; the Unlimited Capacity marker already signals their state.
+- Every player performs Recall each turn.
 
 ---
 
@@ -423,7 +433,7 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 **Transfiguration:** Spell using 3+ sequential components of different energies. When cast, must exchange components using The Array.
 
-**Enchantment:** Spell using 3-4 matching components. Always active (never cast). Permanently increases capacity.
+**Enchantment:** Spell using 3-5 matching components. Always active (never cast). Permanently increases capacity.
 
 **Perfect Transmutation:** Spell using 3+ sequential components of the same energy. When cast, provides both Conjuration AND Transfiguration effects.
 
@@ -434,8 +444,6 @@ Tiebreakers: Most spells, then most components in largest single spell.
 **Counters:** Tokens representing your magical capacity. Used for both casting and learning. Gained by learning Enchantments, lost by breaking them apart.
 
 **Magical Capacity:** How many spells you can cast and how many learning actions you can perform each turn. Starts at 1 (2-4 players) or 2 (5-6 players), increases with Enchantments.
-
-**Unlimited Capacity:** State granted by 5-component Enchantments. Cast all spells, perform unlimited learning actions. Can be lost if that Enchantment is broken apart.
 
 **Recognition Points:** Points awarded for spell mastery in the final evaluation.
 
@@ -466,10 +474,9 @@ Tiebreakers: Most spells, then most components in largest single spell.
 ### Counter Tracking
 
 - Start: 1 counter (2-4 players) or 2 counters (5-6 players).
-- +1 per 3-component Enchantment learned; +3 per 4-component Enchantment.
-- 5-component Enchantment: take the Unlimited Capacity marker; set all counters aside.
-- Broken apart: -1 counter (3-component) or -3 counters (4-component).
-- 5-component Enchantment broken apart: return the Unlimited Capacity marker; retrieve your counters.
+- Enchantment capacity (available from your next turn): +1 per 3-component, +3 per 4-component, +5 per 5-component (5-6 player / Echo decks only).
+- Fully dissolved (loss applies immediately): -1 (3-component), -3 (4-component), -5 (5-component).
+- Stepped down a size: -2 (5→4), -2 (4→3), -1 (3→dissolved) — the ladder difference.
 
 ---
 

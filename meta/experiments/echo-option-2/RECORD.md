@@ -42,3 +42,13 @@ stays retired either way), note why here.
   and added **2 starting counters at 5–6 players**. Written through the four doc files
   above. Scores unchanged (6/12/18). Deck structure (Echo, 79 cards) still awaits live
   5-player validation — only the counter values + starting-counter rule are locked.
+- 2026-07-06 — **Revert-path integrity flag (A8).** `baseline/rulebook/GLOSSARY.md`
+  (9642 bytes) is **truncated** — it ends mid-entry at "Unlimited Capacity Ma", the same
+  cutoff found in the live file and in the very first git commit (`abe6aed`). The tail
+  was lost before the project entered version control, so this baseline is NOT a clean
+  recovery source and a straight revert would restore a broken GLOSSARY. The live file's
+  tail was reconstructed 2026-07-06 (the "Unlimited Capacity Marker" entry, from adjacent
+  canon). **If Echo is ever reverted:** after copying the baseline back, re-apply that
+  reconstructed tail (adjusted to the pre-Echo 4-component UC ladder) — or re-baseline
+  GLOSSARY now as a deliberate follow-up. Other baseline files verified present and
+  non-truncated. The other confirmed-truncated file this session was live GLOSSARY only.

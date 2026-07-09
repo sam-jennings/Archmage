@@ -18,6 +18,13 @@ related:
 
 # Ascension Trials
 
+> [!warning] Status note (2026-07-06 — decision F8)
+> Ascension Trials is an **active advanced endgame under reconciliation** for the current
+> 2–6p / Echo ruleset — not parked. Some older 5–7p language and reward tables may be
+> **stale** until the reconciliation pass is complete. Use only the reconciled test notes
+> for live Echo playtests. Reconciliation checklist:
+> `meta/decisions/2026-07-06-f8-ascension-trials-reconcile.md`.
+
 The Ascension Trials are the advanced endgame variant for experienced players. Instead of using only the standard final evaluation, players calculate power across domains and secretly allocate that power to trials.
 
 > [!info] Core files

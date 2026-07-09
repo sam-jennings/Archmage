@@ -10,6 +10,17 @@ evidence_tags: "[FILE] inspected · [INFER] reasoned · [GAP] unresolved/contrad
 
 # Kiro Handoff (July 2026)
 
+> **Amendment 2026-07-06 — two-track model.** "Do not redesign; only safe hygiene + test
+> prep" was written for a linear plan that gated all implementation behind stranger
+> evidence. That gate is now narrowed: bold, coherent design changes are welcome as
+> *provisional* Track-A work (`status: experiment` + revert kit), de-risked in the sim /
+> digital build, when Sam directs them. What stays protected: no paid prints or mass
+> exports on unvalidated rules (F14 / Anti-Drift Rule 2), no `validated` label without a
+> logged session, canon still changes only via a `meta/decisions/` file, and one coherent
+> hypothesis per stranger session. The anti-drift rules below still apply to *autonomous*
+> work; they are not a veto on Sam-directed iteration. See
+> `meta/decisions/2026-07-06-two-track-development-model.md`.
+
 ## Mission
 
 Kiro's job is **not** to redesign Archmage Ascension. Kiro's job is to:

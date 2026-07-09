@@ -10,6 +10,16 @@ relates_to:
 
 # Scoring Rebalance for the Option 1 / Option 2 Decks
 
+> **⚠️ OVERRIDDEN BY CANON (2026-07-03) — do not "fix" the live table to match this
+> verdict.** This analysis concluded Enchantment-4 = 15 / Enchantment-5 = 26
+> (rarity-priced). Canon shipped **12 / 18** instead (see `meta/canon.yml`,
+> `rulebook/Scoring System Reference.md`). Rationale: Enchantment's real payment is the
+> capacity ladder, so pricing Unlimited Capacity at rarity value (26) double-pays the
+> game's most dominant mechanical advantage and re-creates the rich-get-richer Drought
+> the ladder was designed to fix (argued in `_review/DESIGN_REVIEW_2026-07-03.md` §4 as
+> *analysis*, not adopted here). This file is preserved as the historical analysis; the
+> 15/26 verdict below is superseded. (Decision-register ref: F4.)
+
 **Question.** The Recognition Points table is assumed perfectly balanced for 3–4
 players on the live 4E×1–15+2W deck. How should scores change when spell-completion
 probabilities shift under the Option 1 / Option 2 deck configurations?

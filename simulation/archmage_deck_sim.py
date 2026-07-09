@@ -72,6 +72,8 @@ class Rules:
     start_counters: int = 1
     tier3_counters: int = 1      # counters a 3-card enchantment is worth (total)
     tier4_counters: int = 2      # counters a 4-card enchantment is worth (total) — tunable 2 or 3
+    tier5_counters: int = 0      # counters a 5-card enchantment is worth (total) when uc_enabled=False
+    uc_enabled: bool = True      # canon: 5-card = Unlimited Capacity. vnext: False => tier5_counters instead
     uc_drought_cap: int | None = None  # cap on UC learning actions per Drought turn (None = uncapped)
     conj_big_at: int = 6         # conjuration size at which the cast draws +2 instead of +1
     max_rounds: int = 400        # safety valve
@@ -267,11 +269,11 @@ class Game:
     # ---- learning actions (each returns True if an action was taken) ----
     def _grant_tier(self, p: Player, new_size: int, old_size: int):
         r = self.rules
-        totals = {3: r.tier3_counters, 4: r.tier4_counters}
+        totals = {3: r.tier3_counters, 4: r.tier4_counters, 5: r.tier5_counters}
         gain = totals.get(new_size, 0) - totals.get(old_size, 0)
         if gain > 0:
             p.counters += gain
-        if new_size >= 5:
+        if new_size >= 5 and r.uc_enabled:
             p.uc = True
             if p.uc_draws is None:
                 p.uc_draws = p.draws
@@ -341,7 +343,10 @@ class Game:
             if len(free) >= 3:
                 for v in free:
                     p.remove_card(e, v)
-                p.conj.append({"energy": e, "n": len(free)})
+                # "vals" retains the natural card values banked in this conjuration.
+                # Additive only (nothing in the rig reads it); it lets end-game
+                # analysis reconstruct the exact card pool. See scoring_ev.py.
+                p.conj.append({"energy": e, "n": len(free), "vals": list(free)})
                 p.conj_learned = True
                 return True
         return False
@@ -356,6 +361,7 @@ class Game:
                 for v in free:
                     p.remove_card(cj["energy"], v)
                 cj["n"] += len(free)
+                cj.setdefault("vals", []).extend(free)  # keep exact banked values
                 return True
         return False
 

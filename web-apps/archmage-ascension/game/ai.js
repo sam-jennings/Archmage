@@ -39,7 +39,7 @@
   // Plan casting: cast every uncast spell up to capacity. Skip enchantments.
   function planCasting(state){
     const player = state.players[state.currentPlayer];
-    const cap = player.unlimited ? Infinity : player.counters;
+    const cap = player.counters;
     const arrayLeft = state.array.filter(Boolean).length;
     const available = player.spellbook.filter(sp => {
       if (sp.spec.type === 'ench') return false;
@@ -97,7 +97,7 @@
     while (safety-- > 0){
       const player = working.players[working.currentPlayer];
       const used = working.learningCountersUsed;
-      const cap = player.unlimited ? Infinity : player.counters;
+      const cap = player.counters;
       if (used >= cap) break;
 
       // Option 1: best learnable from hand
@@ -140,9 +140,9 @@
         player.hand = player.hand.filter(c=>!ids.has(c.id));
         const spec = E.classify(cards);
         player.spellbook.push({ id: 'sp'+Math.random(), cards, spec });
-        if (spec.type === 'ench' && spec.length === 3) player.counters += 1;
-        if (spec.type === 'ench' && spec.length === 4) player.unlimited = true;
-        if (!player.unlimited) working.learningCountersUsed += 1;
+        // v3.1: learning an Enchantment grants capacity from next turn (deferred),
+        // so it does not raise this turn's available capacity during planning.
+        working.learningCountersUsed += 1;
       } else if (bestEmpower && bestEmpowerGain > 0){
         actions.push({ type:'EMPOWER', spellId: bestEmpower.spellId, cards: bestEmpower.cards });
         const sp = player.spellbook.find(x=>x.id===bestEmpower.spellId);
@@ -151,7 +151,7 @@
         player.hand = player.hand.filter(c=>!ids.has(c.id));
         sp.cards = sp.cards.concat(adds);
         sp.spec = E.classify(sp.cards);
-        if (!player.unlimited) working.learningCountersUsed += 1;
+        working.learningCountersUsed += 1;
       } else {
         break;
       }

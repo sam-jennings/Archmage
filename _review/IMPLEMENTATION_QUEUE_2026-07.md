@@ -10,6 +10,16 @@ evidence_tags: "[FILE] · [INFER] · [GAP]"
 
 # Implementation Queue (July 2026)
 
+> **Amendment 2026-07-06 — the gate is narrower than "don't start C/D until strangers
+> play."** Under the two-track model, Track A may implement design changes (rulebook
+> text, mechanics, `state.js`, sim) as *provisional* work (`status: experiment` + revert
+> kit) between sessions — boldly and coherently, one subsystem at a time. Categories C/D
+> are re-read as: **do not make irreversible/paid commitments** (prints, mass exports)
+> and **do not label anything `validated`** until the gating decision or session exists.
+> "Kiro executes A and B only" still holds for *unprompted* autonomous work; Sam-directed
+> Track-A changes are expected and fine. See
+> `meta/decisions/2026-07-06-two-track-development-model.md`.
+
 Categories: **A safe now** · **B playtest-kit (non-canon)** · **C decision-gated** ·
 **D playtest-gated** · **E parked**. Kiro executes **A** and **B** only; **C/D/E** are
 listed so Kiro *recognises and refuses* them until their gate opens. Every task cites its
