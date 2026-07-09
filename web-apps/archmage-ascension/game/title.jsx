@@ -100,7 +100,7 @@ function TitleInfoPanel({ mode, onClose }){
     ['Conjuration', 'Three or more matching suits. Scores steadily and draws extra components when cast.'],
     ['Transfiguration', 'Three or more sequential values. Cast it to exchange weak hand cards for Array cards.'],
     ['Perfect Transmutation', 'Same suit and sequential values. The rarest, highest-scoring spell pattern.'],
-    ['Enchantment', 'Three or four matching values. Learning one expands your action capacity; four unlocks unlimited capacity.']
+    ['Enchantment', 'Three or four matching values. Learning one expands your capacity (+1 counter for three, +3 for four).']
   ];
   return (
     <div className="modal-overlay">

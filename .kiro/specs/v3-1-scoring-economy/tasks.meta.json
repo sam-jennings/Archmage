@@ -1,0 +1,318 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "1. Confirm working tree is clean/committed as the v3.0 baseline, then archive v3.0 byte-exact.": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597133888
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597174697
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597521744
+      }
+    ],
+    "2. Set the governing decision to `experiment` (under-test) and add `status: under-test`": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597133963
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597537455
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783598745602
+      }
+    ],
+    "3. `rulebook/Scoring System Reference.md`: replace the table with the v3.1 values (design §1),": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134016
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783598766732
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783599132894
+      }
+    ],
+    "4. `rulebook/Archmage Ascension - Complete Rulebook.md`: apply all rule edits and bump": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134064
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783599163121
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783600128921
+      }
+    ],
+    "5. `rulebook/GLOSSARY.md`: remove/replace \"Unlimited Capacity\"; update Magical Capacity,": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134112
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783600135783
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783600945286
+      }
+    ],
+    "6. `web-apps/archmage-ascension/RULES_SUMMARY.md`: mirror the rule changes.": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134163
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783600961353
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783601141815
+      }
+    ],
+    "7. `web-apps/archmage-reference.html`: score table, enchantment ladder, reshape/unlearn/empower": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134217
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783601154995
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783602239959
+      }
+    ],
+    "8. `web-apps/player-reference/player-reference.html`: same updates.": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134296
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783602246789
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783602742494
+      }
+    ],
+    "9. `web-apps/archmage-ascension/game/state.js`: score values; enchantment ladder +1/+3/+5;": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134346
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783602756842
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783604487390
+      }
+    ],
+    "10. `web-apps/archmage-ascension/game/*.jsx` (`app`, `play`, `spell-tableau`, `title`): scoring": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134395
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783604501865
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783605078142
+      }
+    ],
+    "11. Update/rerun any affected tests (e.g. `web-apps/tests/hand-checker` golden master) if they": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134435
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783605096039
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783605999046
+      }
+    ],
+    "12. `simulation/scoring_ev.py`: set the `SCORE` dict and `assert_matches_canon()` anchors to": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134485
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783606009267
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783606533658
+      }
+    ],
+    "13. `meta/canon.yml`: `rulebook_version: v3.1`; rewrite `enchantment_ladder`; then (last, after": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134550
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783606547427
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783606840299
+      }
+    ],
+    "14. Finalise `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`: tick propagation boxes as": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134603
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783606852432
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783607055751
+      }
+    ],
+    "15. Update F3 (`2026-07-06-f3-enchantment-timing.md`) to the \"cannot afford → blocked\" gate;": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134669
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783607061199
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783607466463
+      }
+    ],
+    "16. Run `node meta/checks/check.mjs`: versioned files == v3.1, \"Unlimited Capacity\" absent from": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134730
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783607504112
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783608129124
+      }
+    ],
+    "17. Spot-check: table identity (Conj-15 = PT-15 = 100) and strictly-increasing columns; read the": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134781
+      },
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783608134085
+      },
+      {
+        "executionId": "91bbe8af-b25f-4cf0-85b9-7a646291ee9f",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783608922062
+      }
+    ],
+    "18. Update the `capacity-economy` thread (campsite) and note in the experiment RECORD that v3.1": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134833
+      },
+      {
+        "executionId": "91bbe8af-b25f-4cf0-85b9-7a646291ee9f",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783609017193
+      },
+      {
+        "executionId": "91bbe8af-b25f-4cf0-85b9-7a646291ee9f",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783609426164
+      }
+    ],
+    "19. On playtest PASS: set the governing decision `canon`, remove `under-test` markers, retire": [
+      {
+        "executionId": "c5292bec-0e9b-4ab9-984c-42ca3291dfb6",
+        "chatSessionId": "sess_5c56ff56-c00b-4cf2-98c6-9d43c1830ec2",
+        "timestamp": 1783597134885
+      }
+    ]
+  }
+}

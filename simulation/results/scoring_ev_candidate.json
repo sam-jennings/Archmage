@@ -1,0 +1,1772 @@
+{
+ "2p": {
+  "deck": "4E x 1-15 + 2W (62)",
+  "part_a": {
+   "a": 2.3835572756991157,
+   "beta": 1.565565258600897,
+   "headline_tf7_vs_pt5": {
+    "is_inversion": false,
+    "price_gap": -10,
+    "pt5_price": 23,
+    "pt5_reach_p": 0.89042,
+    "tf7_easier_than_pt5": true,
+    "tf7_price": 13,
+    "tf7_reach_p": 0.98176
+   },
+   "inversions": [
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 29,
+      "reach_p": 0.9102,
+      "size": 9
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 17,
+     "reach_ratio": 1.0614577259475217
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 23,
+      "reach_p": 0.89042,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 11,
+     "reach_ratio": 1.0383906705539359
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.9737,
+      "size": 8
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 10,
+     "reach_ratio": 1.1355102040816325
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 29,
+      "reach_p": 0.9102,
+      "size": 9
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 19,
+      "reach_p": 0.90236,
+      "size": 10
+     },
+     "price_gap": 10,
+     "reach_ratio": 1.0086883283833503
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.9965,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.99185,
+      "size": 3
+     },
+     "price_gap": 9,
+     "reach_ratio": 1.004688208902556
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.9737,
+      "size": 8
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 15,
+      "reach_p": 0.9603,
+      "size": 8
+     },
+     "price_gap": 7,
+     "reach_ratio": 1.0139539727168594
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.9737,
+      "size": 8
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 15,
+      "reach_p": 0.96354,
+      "size": 4
+     },
+     "price_gap": 7,
+     "reach_ratio": 1.0105444506714822
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 19,
+      "reach_p": 0.90236,
+      "size": 10
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 7,
+     "reach_ratio": 1.0523148688046646
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 29,
+      "reach_p": 0.9102,
+      "size": 9
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 23,
+      "reach_p": 0.89042,
+      "size": 5
+     },
+     "price_gap": 6,
+     "reach_ratio": 1.0222142359785271
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.9737,
+      "size": 8
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 17,
+      "reach_p": 0.93222,
+      "size": 9
+     },
+     "price_gap": 5,
+     "reach_ratio": 1.0444959344360774
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 17,
+      "reach_p": 0.93222,
+      "size": 9
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 5,
+     "reach_ratio": 1.0871370262390672
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.99996,
+      "size": 6
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.99185,
+      "size": 3
+     },
+     "price_gap": 4,
+     "reach_ratio": 1.0081766396128446
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.9965,
+      "size": 7
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 11,
+      "reach_p": 0.99168,
+      "size": 6
+     },
+     "price_gap": 4,
+     "reach_ratio": 1.0048604388512423
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.99996,
+      "size": 6
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 7,
+      "reach_p": 0.99976,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.0002000480115227
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.99996,
+      "size": 6
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.99698,
+      "size": 3
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.0029890268611206
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.9965,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.1620991253644315
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.9737,
+      "size": 8
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 19,
+      "reach_p": 0.90236,
+      "size": 10
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.0790593554678842
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.99782,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.99185,
+      "size": 3
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.0060190553007007
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 15,
+      "reach_p": 0.9603,
+      "size": 8
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.1198833819241982
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 15,
+      "reach_p": 0.96354,
+      "size": 4
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.8575,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.1236618075801748
+    }
+   ],
+   "mean_cards_seen": 32.0,
+   "n_inversions": 27,
+   "rows": [
+    {
+     "family": "conjuration",
+     "implied_price": 10.843407327212573,
+     "price_over_implied": 0.27666580342059194,
+     "reach_p": 1.0,
+     "size": 3,
+     "table_price": 3
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.843407327212573,
+     "price_over_implied": 0.3688877378941226,
+     "reach_p": 1.0,
+     "size": 4,
+     "table_price": 4
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.843407327212573,
+     "price_over_implied": 0.6455535413147145,
+     "reach_p": 1.0,
+     "size": 5,
+     "table_price": 7
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.84408640452864,
+     "price_over_implied": 0.922161593605881,
+     "reach_p": 0.99996,
+     "size": 6,
+     "table_price": 10
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.903091420954713,
+     "price_over_implied": 1.3757566015792013,
+     "reach_p": 0.9965,
+     "size": 7,
+     "table_price": 15
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 11.305425796937314,
+     "price_over_implied": 1.9459682806427239,
+     "reach_p": 0.9737,
+     "size": 8,
+     "table_price": 22
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 12.564341429414327,
+     "price_over_implied": 2.3081193839661363,
+     "reach_p": 0.9102,
+     "size": 9,
+     "table_price": 29
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 16.270095849557034,
+     "price_over_implied": 2.3355732105926457,
+     "reach_p": 0.77168,
+     "size": 10,
+     "table_price": 38
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.843407327212573,
+     "price_over_implied": 0.46110967236765327,
+     "reach_p": 1.0,
+     "size": 3,
+     "table_price": 5
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.847482836733583,
+     "price_over_implied": 0.6453110002898935,
+     "reach_p": 0.99976,
+     "size": 4,
+     "table_price": 7
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.880518901840995,
+     "price_over_implied": 0.8271664321521642,
+     "reach_p": 0.99782,
+     "size": 5,
+     "table_price": 9
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.98617063876358,
+     "price_over_implied": 1.001258797236193,
+     "reach_p": 0.99168,
+     "size": 6,
+     "table_price": 11
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 11.160456115804836,
+     "price_over_implied": 1.164826944804711,
+     "reach_p": 0.98176,
+     "size": 7,
+     "table_price": 13
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 11.553375084519596,
+     "price_over_implied": 1.2983219094218232,
+     "reach_p": 0.9603,
+     "size": 8,
+     "table_price": 15
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 12.102822971311737,
+     "price_over_implied": 1.4046309724843884,
+     "reach_p": 0.93222,
+     "size": 9,
+     "table_price": 17
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 12.735662788157422,
+     "price_over_implied": 1.4918736712837302,
+     "reach_p": 0.90236,
+     "size": 10,
+     "table_price": 19
+    },
+    {
+     "family": "perfect",
+     "implied_price": 10.894874360462646,
+     "price_over_implied": 0.6425039673153925,
+     "reach_p": 0.99698,
+     "size": 3,
+     "table_price": 7
+    },
+    {
+     "family": "perfect",
+     "implied_price": 11.492611701117736,
+     "price_over_implied": 1.305186357122041,
+     "reach_p": 0.96354,
+     "size": 4,
+     "table_price": 15
+    },
+    {
+     "family": "perfect",
+     "implied_price": 13.004038175028443,
+     "price_over_implied": 1.768681365775035,
+     "reach_p": 0.89042,
+     "size": 5,
+     "table_price": 23
+    },
+    {
+     "family": "perfect",
+     "implied_price": 16.064946574617604,
+     "price_over_implied": 1.867419842366584,
+     "reach_p": 0.77796,
+     "size": 6,
+     "table_price": 30
+    },
+    {
+     "family": "perfect",
+     "implied_price": 22.00299166637461,
+     "price_over_implied": 1.7270378763117165,
+     "reach_p": 0.63636,
+     "size": 7,
+     "table_price": 38
+    },
+    {
+     "family": "perfect",
+     "implied_price": 34.37302999908005,
+     "price_over_implied": 1.338258512596391,
+     "reach_p": 0.47858,
+     "size": 8,
+     "table_price": 46
+    },
+    {
+     "family": "perfect",
+     "implied_price": 59.918781204535684,
+     "price_over_implied": 0.9012199332905048,
+     "reach_p": 0.33558,
+     "size": 9,
+     "table_price": 54
+    },
+    {
+     "family": "perfect",
+     "implied_price": 114.53065858819383,
+     "price_over_implied": 0.5326084801392041,
+     "reach_p": 0.22186,
+     "size": 10,
+     "table_price": 61
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 10.983222829435007,
+     "price_over_implied": 0.546287742056914,
+     "reach_p": 0.99185,
+     "size": 3,
+     "table_price": 6
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 13.794059681546843,
+     "price_over_implied": 0.8699396897675551,
+     "reach_p": 0.8575,
+     "size": 4,
+     "table_price": 12
+    },
+    {
+     "family": "enchantment",
+     "implied_price": null,
+     "price_over_implied": null,
+     "reach_p": 0.0,
+     "size": 5,
+     "table_price": 18
+    }
+   ]
+  },
+  "part_b": {
+   "cards_per_counter": 4,
+   "mean_end_counters": 5.53205,
+   "n_players": 20000,
+   "trials": 10000,
+   "variants": {
+    "cost_scaled": {
+     "family_mix": {
+      "built": 0.2729,
+      "conjuration": 0.4244,
+      "perfect": 0.2968,
+      "transfiguration": 0.0059
+     },
+     "marginal_vs_no_reshape": 11.249449999999996,
+     "mean_score": 48.68105,
+     "reshape_taken_share": 0.7271,
+     "reshaped_tf_share": 0.0059
+    },
+    "no_reshape": {
+     "family_mix": {
+      "built": 1.0
+     },
+     "marginal_vs_no_reshape": 0.0,
+     "mean_score": 37.4316,
+     "reshape_taken_share": 0.0,
+     "reshaped_tf_share": 0.0
+    },
+    "size_capped_10": {
+     "family_mix": {
+      "built": 0.35735,
+      "conjuration": 0.2223,
+      "perfect": 0.41735,
+      "transfiguration": 0.003
+     },
+     "marginal_vs_no_reshape": 7.4933499999999995,
+     "mean_score": 44.92495,
+     "reshape_taken_share": 0.64265,
+     "reshaped_tf_share": 0.003
+    },
+    "size_capped_6": {
+     "family_mix": {
+      "built": 0.8459,
+      "conjuration": 0.0002,
+      "perfect": 0.1529,
+      "transfiguration": 0.001
+     },
+     "marginal_vs_no_reshape": 0.8399999999999963,
+     "mean_score": 38.2716,
+     "reshape_taken_share": 0.1541,
+     "reshaped_tf_share": 0.001
+    },
+    "size_capped_8": {
+     "family_mix": {
+      "built": 0.5449,
+      "conjuration": 0.0247,
+      "perfect": 0.4298,
+      "transfiguration": 0.0006
+     },
+     "marginal_vs_no_reshape": 3.9361999999999995,
+     "mean_score": 41.3678,
+     "reshape_taken_share": 0.4551,
+     "reshaped_tf_share": 0.0006
+    },
+    "unbounded": {
+     "family_mix": {
+      "built": 0.26085,
+      "conjuration": 0.45225,
+      "perfect": 0.27535,
+      "transfiguration": 0.01155
+     },
+     "marginal_vs_no_reshape": 11.724899999999998,
+     "mean_score": 49.1565,
+     "reshape_taken_share": 0.73915,
+     "reshaped_tf_share": 0.01155
+    }
+   }
+  },
+  "players": 2
+ },
+ "3p": {
+  "deck": "4E x 1-15 + 2W (62)",
+  "part_a": {
+   "a": 2.2379350765940105,
+   "beta": 0.504123818583865,
+   "headline_tf7_vs_pt5": {
+    "is_inversion": false,
+    "price_gap": -10,
+    "pt5_price": 23,
+    "pt5_reach_p": 0.50542,
+    "tf7_easier_than_pt5": true,
+    "tf7_price": 13,
+    "tf7_reach_p": 0.82274
+   },
+   "inversions": [
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.58482,
+      "size": 8
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 10,
+     "reach_ratio": 1.096468970689332
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 17,
+      "reach_p": 0.61532,
+      "size": 9
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 5,
+     "reach_ratio": 1.1536528966939565
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.97728,
+      "size": 6
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.9100666666666667,
+      "size": 3
+     },
+     "price_gap": 4,
+     "reach_ratio": 1.0738553952091423
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.97728,
+      "size": 6
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.93354,
+      "size": 3
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.046853910919725
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.85272,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.5987500781201176
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.58482,
+      "size": 8
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 19,
+      "reach_p": 0.51648,
+      "size": 10
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.1323187732342006
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.95932,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.9100666666666667,
+      "size": 3
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.054120577247088
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 15,
+      "reach_p": 0.71858,
+      "size": 8
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.3472532966689583
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 15,
+      "reach_p": 0.73912,
+      "size": 4
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.3857633897881383
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 7,
+      "reach_p": 0.9999,
+      "size": 5
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 5,
+      "reach_p": 0.9995,
+      "size": 3
+     },
+     "price_gap": 2,
+     "reach_ratio": 1.00040020010005
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.85272,
+      "size": 7
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 13,
+      "reach_p": 0.82274,
+      "size": 7
+     },
+     "price_gap": 2,
+     "reach_ratio": 1.0364392153049566
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.95932,
+      "size": 5
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.93354,
+      "size": 3
+     },
+     "price_gap": 2,
+     "reach_ratio": 1.0276153137519548
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 7,
+      "reach_p": 0.9999,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.9100666666666667,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.0987107171635777
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.97728,
+      "size": 6
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.95932,
+      "size": 5
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.0187215944627446
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 7,
+      "reach_p": 0.99082,
+      "size": 4
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.9100666666666667,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.0887334261226285
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 13,
+      "reach_p": 0.82274,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.5333666666666667,
+      "size": 4
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.5425410911818012
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.93354,
+      "size": 3
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.9100666666666667,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.0257929821991063
+    }
+   ],
+   "mean_cards_seen": 21.666666666666668,
+   "n_inversions": 17,
+   "rows": [
+    {
+     "family": "conjuration",
+     "implied_price": 9.373954790183454,
+     "price_over_implied": 0.32003568047305336,
+     "reach_p": 1.0,
+     "size": 3,
+     "table_price": 3
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 9.373954790183454,
+     "price_over_implied": 0.4267142406307378,
+     "reach_p": 1.0,
+     "size": 4,
+     "table_price": 4
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 9.37442738911452,
+     "price_over_implied": 0.7467122747281953,
+     "reach_p": 0.9999,
+     "size": 5,
+     "table_price": 7
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 9.483191243712724,
+     "price_over_implied": 1.0544973461997738,
+     "reach_p": 0.97728,
+     "size": 6,
+     "table_price": 10
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.157924292167978,
+     "price_over_implied": 1.4766796412890562,
+     "reach_p": 0.85272,
+     "size": 7,
+     "table_price": 15
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 12.284924860665196,
+     "price_over_implied": 1.7908127440356814,
+     "reach_p": 0.58482,
+     "size": 8,
+     "table_price": 22
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 17.3530730961202,
+     "price_over_implied": 1.671173736165718,
+     "reach_p": 0.29476,
+     "size": 9,
+     "table_price": 29
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 28.67747648445409,
+     "price_over_implied": 1.3250817246977642,
+     "reach_p": 0.10882,
+     "size": 10,
+     "table_price": 38
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 9.376318495988773,
+     "price_over_implied": 0.5332583361091051,
+     "reach_p": 0.9995,
+     "size": 3,
+     "table_price": 5
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 9.417637924332565,
+     "price_over_implied": 0.7432861675339992,
+     "reach_p": 0.99082,
+     "size": 4,
+     "table_price": 7
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 9.572282000450361,
+     "price_over_implied": 0.9402146739488624,
+     "reach_p": 0.95932,
+     "size": 5,
+     "table_price": 9
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 9.88287460898871,
+     "price_over_implied": 1.1130364833320094,
+     "reach_p": 0.90044,
+     "size": 6,
+     "table_price": 11
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.34286819012177,
+     "price_over_implied": 1.2569047348409597,
+     "reach_p": 0.82274,
+     "size": 7,
+     "table_price": 13
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 11.073302457194186,
+     "price_over_implied": 1.3546094363434178,
+     "reach_p": 0.71858,
+     "size": 8,
+     "table_price": 15
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 11.974077039947975,
+     "price_over_implied": 1.419733641539512,
+     "reach_p": 0.61532,
+     "size": 9,
+     "table_price": 17
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 13.079146837005723,
+     "price_over_implied": 1.4526941425752635,
+     "reach_p": 0.51648,
+     "size": 10,
+     "table_price": 19
+    },
+    {
+     "family": "perfect",
+     "implied_price": 9.704642811544922,
+     "price_over_implied": 0.7213042392114215,
+     "reach_p": 0.93354,
+     "size": 3,
+     "table_price": 7
+    },
+    {
+     "family": "perfect",
+     "implied_price": 10.91708705034027,
+     "price_over_implied": 1.3739928912202337,
+     "reach_p": 0.73912,
+     "size": 4,
+     "table_price": 15
+    },
+    {
+     "family": "perfect",
+     "implied_price": 13.222656823929558,
+     "price_over_implied": 1.7394386246473554,
+     "reach_p": 0.50542,
+     "size": 5,
+     "table_price": 23
+    },
+    {
+     "family": "perfect",
+     "implied_price": 17.7738212221412,
+     "price_over_implied": 1.6878756472822178,
+     "reach_p": 0.28108,
+     "size": 6,
+     "table_price": 30
+    },
+    {
+     "family": "perfect",
+     "implied_price": 26.099175949048682,
+     "price_over_implied": 1.4559846668793044,
+     "reach_p": 0.13118,
+     "size": 7,
+     "table_price": 38
+    },
+    {
+     "family": "perfect",
+     "implied_price": 41.387668468795795,
+     "price_over_implied": 1.1114421686904559,
+     "reach_p": 0.05256,
+     "size": 8,
+     "table_price": 46
+    },
+    {
+     "family": "perfect",
+     "implied_price": 67.46397131204095,
+     "price_over_implied": 0.800427234712198,
+     "reach_p": 0.01994,
+     "size": 9,
+     "table_price": 54
+    },
+    {
+     "family": "perfect",
+     "implied_price": 120.01967355045508,
+     "price_over_implied": 0.5082500076485894,
+     "reach_p": 0.00636,
+     "size": 10,
+     "table_price": 61
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 9.830034124983802,
+     "price_over_implied": 0.610374279856316,
+     "reach_p": 0.9100666666666667,
+     "size": 3,
+     "table_price": 6
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 12.868727812091691,
+     "price_over_implied": 0.9324931085048346,
+     "reach_p": 0.5333666666666667,
+     "size": 4,
+     "table_price": 12
+    },
+    {
+     "family": "enchantment",
+     "implied_price": null,
+     "price_over_implied": null,
+     "reach_p": 0.0,
+     "size": 5,
+     "table_price": 18
+    }
+   ]
+  },
+  "part_b": {
+   "cards_per_counter": 4,
+   "mean_end_counters": 3.1079666666666665,
+   "n_players": 30000,
+   "trials": 10000,
+   "variants": {
+    "cost_scaled": {
+     "family_mix": {
+      "built": 0.39866666666666667,
+      "conjuration": 0.21626666666666666,
+      "enchantment": 0.0009333333333333333,
+      "perfect": 0.32293333333333335,
+      "transfiguration": 0.0612
+     },
+     "marginal_vs_no_reshape": 5.224799999999998,
+     "mean_score": 24.753533333333333,
+     "reshape_taken_share": 0.6013333333333334,
+     "reshaped_tf_share": 0.0612
+    },
+    "no_reshape": {
+     "family_mix": {
+      "built": 1.0
+     },
+     "marginal_vs_no_reshape": 0.0,
+     "mean_score": 19.528733333333335,
+     "reshape_taken_share": 0.0,
+     "reshaped_tf_share": 0.0
+    },
+    "size_capped_10": {
+     "family_mix": {
+      "built": 0.3495666666666667,
+      "conjuration": 0.26303333333333334,
+      "enchantment": 0.00046666666666666666,
+      "perfect": 0.2996666666666667,
+      "transfiguration": 0.08726666666666667
+     },
+     "marginal_vs_no_reshape": 6.032033333333331,
+     "mean_score": 25.560766666666666,
+     "reshape_taken_share": 0.6504333333333333,
+     "reshaped_tf_share": 0.08726666666666667
+    },
+    "size_capped_6": {
+     "family_mix": {
+      "built": 0.5565,
+      "conjuration": 0.020466666666666668,
+      "enchantment": 0.0011333333333333334,
+      "perfect": 0.38353333333333334,
+      "transfiguration": 0.03836666666666667
+     },
+     "marginal_vs_no_reshape": 2.956366666666664,
+     "mean_score": 22.4851,
+     "reshape_taken_share": 0.4435,
+     "reshaped_tf_share": 0.03836666666666667
+    },
+    "size_capped_8": {
+     "family_mix": {
+      "built": 0.41633333333333333,
+      "conjuration": 0.17736666666666667,
+      "enchantment": 0.00046666666666666666,
+      "perfect": 0.36696666666666666,
+      "transfiguration": 0.03886666666666667
+     },
+     "marginal_vs_no_reshape": 4.885866666666665,
+     "mean_score": 24.4146,
+     "reshape_taken_share": 0.5836666666666667,
+     "reshaped_tf_share": 0.03886666666666667
+    },
+    "unbounded": {
+     "family_mix": {
+      "built": 0.3349666666666667,
+      "conjuration": 0.2618666666666667,
+      "enchantment": 0.00046666666666666666,
+      "perfect": 0.2722,
+      "transfiguration": 0.1305
+     },
+     "marginal_vs_no_reshape": 6.490433333333332,
+     "mean_score": 26.019166666666667,
+     "reshape_taken_share": 0.6650333333333334,
+     "reshaped_tf_share": 0.1305
+    }
+   }
+  },
+  "players": 3
+ },
+ "4p": {
+  "deck": "4E x 1-15 + 2W (62)",
+  "part_a": {
+   "a": 2.1029586229762223,
+   "beta": 0.3202579469199175,
+   "headline_tf7_vs_pt5": {
+    "is_inversion": false,
+    "price_gap": -10,
+    "pt5_price": 23,
+    "pt5_reach_p": 0.2177,
+    "tf7_easier_than_pt5": true,
+    "tf7_price": 13,
+    "tf7_reach_p": 0.53262
+   },
+   "inversions": [
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 10,
+      "reach_p": 0.76086,
+      "size": 6
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.7591,
+      "size": 3
+     },
+     "price_gap": 4,
+     "reach_ratio": 1.002318535107364
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 23,
+      "reach_p": 0.2177,
+      "size": 5
+     },
+     "harder": {
+      "family": "transfiguration",
+      "price": 19,
+      "reach_p": 0.17736,
+      "size": 10
+     },
+     "price_gap": 4,
+     "reach_ratio": 1.22744700045106
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 15,
+      "reach_p": 0.40442,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.292275,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.3836968608331195
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.82612,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.7591,
+      "size": 3
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.0882887630088263
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 15,
+      "reach_p": 0.38474,
+      "size": 8
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.292275,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.3163630142844924
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 15,
+      "reach_p": 0.47962,
+      "size": 4
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.292275,
+      "size": 4
+     },
+     "price_gap": 3,
+     "reach_ratio": 1.6409887947994184
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 9,
+      "reach_p": 0.82612,
+      "size": 5
+     },
+     "harder": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.77214,
+      "size": 3
+     },
+     "price_gap": 2,
+     "reach_ratio": 1.0699096018856682
+    },
+    {
+     "easier": {
+      "family": "conjuration",
+      "price": 7,
+      "reach_p": 0.97008,
+      "size": 5
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.7591,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.2779343959952576
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 7,
+      "reach_p": 0.93918,
+      "size": 4
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.7591,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.2372282966671058
+    },
+    {
+     "easier": {
+      "family": "transfiguration",
+      "price": 13,
+      "reach_p": 0.53262,
+      "size": 7
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 12,
+      "reach_p": 0.292275,
+      "size": 4
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.8223248652809854
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 7,
+      "reach_p": 0.77214,
+      "size": 3
+     },
+     "harder": {
+      "family": "enchantment",
+      "price": 6,
+      "reach_p": 0.7591,
+      "size": 3
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.0171782373863787
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 23,
+      "reach_p": 0.2177,
+      "size": 5
+     },
+     "harder": {
+      "family": "conjuration",
+      "price": 22,
+      "reach_p": 0.14372,
+      "size": 8
+     },
+     "price_gap": 1,
+     "reach_ratio": 1.5147509045365992
+    },
+    {
+     "easier": {
+      "family": "perfect",
+      "price": 30,
+      "reach_p": 0.0755,
+      "size": 6
+     },
+     "harder": {
+      "family": "conjuration",
+      "price": 29,
+      "reach_p": 0.0362,
+      "size": 9
+     },
+     "price_gap": 1,
+     "reach_ratio": 2.0856353591160217
+    }
+   ],
+   "mean_cards_seen": 16.5,
+   "n_inversions": 13,
+   "rows": [
+    {
+     "family": "conjuration",
+     "implied_price": 8.190366306852587,
+     "price_over_implied": 0.36628398384209104,
+     "reach_p": 1.0,
+     "size": 3,
+     "table_price": 3
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 8.190366306852587,
+     "price_over_implied": 0.48837864512278806,
+     "reach_p": 1.0,
+     "size": 4,
+     "table_price": 4
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 8.270434229875544,
+     "price_over_implied": 0.8463884489539478,
+     "reach_p": 0.97008,
+     "size": 5,
+     "table_price": 7
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 8.939565725819866,
+     "price_over_implied": 1.1186225714653357,
+     "reach_p": 0.76086,
+     "size": 6,
+     "table_price": 10
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 10.945063914135229,
+     "price_over_implied": 1.3704808046509385,
+     "reach_p": 0.40442,
+     "size": 7,
+     "table_price": 15
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 15.244568452295699,
+     "price_over_implied": 1.4431369486675756,
+     "reach_p": 0.14372,
+     "size": 8,
+     "table_price": 22
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 23.707641958594174,
+     "price_over_implied": 1.2232342655861357,
+     "reach_p": 0.0362,
+     "size": 9,
+     "table_price": 29
+    },
+    {
+     "family": "conjuration",
+     "implied_price": 40.053021772874004,
+     "price_over_implied": 0.9487423998989155,
+     "reach_p": 0.00704,
+     "size": 10,
+     "table_price": 38
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 8.207965813367009,
+     "price_over_implied": 0.6091643305649854,
+     "reach_p": 0.99332,
+     "size": 3,
+     "table_price": 5
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 8.356621416382906,
+     "price_over_implied": 0.8376591030289717,
+     "reach_p": 0.93918,
+     "size": 4,
+     "table_price": 7
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 8.707047635622217,
+     "price_over_implied": 1.0336454303039824,
+     "reach_p": 0.82612,
+     "size": 5,
+     "table_price": 9
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 9.259688896088626,
+     "price_over_implied": 1.1879448784339284,
+     "reach_p": 0.6817,
+     "size": 6,
+     "table_price": 11
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 10.021213272178993,
+     "price_over_implied": 1.2972481122710708,
+     "reach_p": 0.53262,
+     "size": 7,
+     "table_price": 13
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 11.121331377526975,
+     "price_over_implied": 1.3487593787836143,
+     "reach_p": 0.38474,
+     "size": 8,
+     "table_price": 15
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 12.503459058271314,
+     "price_over_implied": 1.3596237585753619,
+     "reach_p": 0.26688,
+     "size": 9,
+     "table_price": 17
+    },
+    {
+     "family": "transfiguration",
+     "implied_price": 14.251588149097396,
+     "price_over_implied": 1.3331847511467232,
+     "reach_p": 0.17736,
+     "size": 10,
+     "table_price": 19
+    },
+    {
+     "family": "perfect",
+     "implied_price": 8.897531980807383,
+     "price_over_implied": 0.7867350199020924,
+     "reach_p": 0.77214,
+     "size": 3,
+     "table_price": 7
+    },
+    {
+     "family": "perfect",
+     "implied_price": 10.363310395574155,
+     "price_over_implied": 1.4474139466483633,
+     "reach_p": 0.47962,
+     "size": 4,
+     "table_price": 15
+    },
+    {
+     "family": "perfect",
+     "implied_price": 13.34625522374286,
+     "price_over_implied": 1.7233298490413416,
+     "reach_p": 0.2177,
+     "size": 5,
+     "table_price": 23
+    },
+    {
+     "family": "perfect",
+     "implied_price": 18.734828903412954,
+     "price_over_implied": 1.6012956485839511,
+     "reach_p": 0.0755,
+     "size": 6,
+     "table_price": 30
+    },
+    {
+     "family": "perfect",
+     "implied_price": 27.921399644696653,
+     "price_over_implied": 1.360963292798886,
+     "reach_p": 0.02172,
+     "size": 7,
+     "table_price": 38
+    },
+    {
+     "family": "perfect",
+     "implied_price": 43.60358971549274,
+     "price_over_implied": 1.0549590136991815,
+     "reach_p": 0.0054,
+     "size": 8,
+     "table_price": 46
+    },
+    {
+     "family": "perfect",
+     "implied_price": 69.14206110932781,
+     "price_over_implied": 0.7810007271061084,
+     "reach_p": 0.00128,
+     "size": 9,
+     "table_price": 54
+    },
+    {
+     "family": "perfect",
+     "implied_price": 110.03560606428238,
+     "price_over_implied": 0.5543660109834269,
+     "reach_p": 0.0003,
+     "size": 10,
+     "table_price": 61
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 8.946198391344753,
+     "price_over_implied": 0.6706759382627672,
+     "reach_p": 0.7591,
+     "size": 3,
+     "table_price": 6
+    },
+    {
+     "family": "enchantment",
+     "implied_price": 12.144727897418228,
+     "price_over_implied": 0.9880830679253839,
+     "reach_p": 0.292275,
+     "size": 4,
+     "table_price": 12
+    },
+    {
+     "family": "enchantment",
+     "implied_price": null,
+     "price_over_implied": null,
+     "reach_p": 0.0,
+     "size": 5,
+     "table_price": 18
+    }
+   ]
+  },
+  "part_b": {
+   "cards_per_counter": 4,
+   "mean_end_counters": 2.225625,
+   "n_players": 40000,
+   "trials": 10000,
+   "variants": {
+    "cost_scaled": {
+     "family_mix": {
+      "built": 0.4192,
+      "conjuration": 0.132825,
+      "enchantment": 0.003925,
+      "perfect": 0.252925,
+      "transfiguration": 0.191125
+     },
+     "marginal_vs_no_reshape": 3.467650000000001,
+     "mean_score": 15.66275,
+     "reshape_taken_share": 0.5808,
+     "reshaped_tf_share": 0.191125
+    },
+    "no_reshape": {
+     "family_mix": {
+      "built": 1.0
+     },
+     "marginal_vs_no_reshape": 0.0,
+     "mean_score": 12.1951,
+     "reshape_taken_share": 0.0,
+     "reshaped_tf_share": 0.0
+    },
+    "size_capped_10": {
+     "family_mix": {
+      "built": 0.344,
+      "conjuration": 0.2161,
+      "enchantment": 0.0021,
+      "perfect": 0.22265,
+      "transfiguration": 0.21515
+     },
+     "marginal_vs_no_reshape": 4.705200000000001,
+     "mean_score": 16.9003,
+     "reshape_taken_share": 0.656,
+     "reshaped_tf_share": 0.21515
+    },
+    "size_capped_6": {
+     "family_mix": {
+      "built": 0.438375,
+      "conjuration": 0.09975,
+      "enchantment": 0.0036,
+      "perfect": 0.312225,
+      "transfiguration": 0.14605
+     },
+     "marginal_vs_no_reshape": 3.3546250000000004,
+     "mean_score": 15.549725,
+     "reshape_taken_share": 0.561625,
+     "reshaped_tf_share": 0.14605
+    },
+    "size_capped_8": {
+     "family_mix": {
+      "built": 0.3683,
+      "conjuration": 0.219375,
+      "enchantment": 0.0021,
+      "perfect": 0.23445,
+      "transfiguration": 0.175775
+     },
+     "marginal_vs_no_reshape": 4.304525000000002,
+     "mean_score": 16.499625,
+     "reshape_taken_share": 0.6317,
+     "reshaped_tf_share": 0.175775
+    },
+    "unbounded": {
+     "family_mix": {
+      "built": 0.34275,
+      "conjuration": 0.2155,
+      "enchantment": 0.0021,
+      "perfect": 0.21745,
+      "transfiguration": 0.2222
+     },
+     "marginal_vs_no_reshape": 4.816424999999999,
+     "mean_score": 17.011525,
+     "reshape_taken_share": 0.65725,
+     "reshaped_tf_share": 0.2222
+    }
+   }
+  },
+  "players": 4
+ },
+ "meta": {
+  "caps": [
+   6,
+   8,
+   10
+  ],
+  "cards_per_counter": 4,
+  "hand_trials": 50000,
+  "score_table": "candidate: results/candidate_table.json",
+  "seed": 42,
+  "trials": 10000
+ }
+}

@@ -32,8 +32,8 @@ Confirmed by reading `archmage_deck_sim.py`, `scoring_rebalance_stats.py`, and `
 
 | Dependency | Source | Reuse |
 |---|---|---|
-| `DeckConfig`, `Rules`, `Game`, `Player`, `WILD` | `archmage_deck_sim` | Import; `Game` gets additive end-pool capture (Req 2) |
-| `_max_run_with_wilds(values, wilds, ranks)` | `archmage_deck_sim` | Import; used by the evaluator for TF/PT runs |
+| `DeckConfig`, `Rules`, `Game`, `Player`, `WILD` | `archmage_deck_sim` | Import; rig gets an additive `cj["vals"]` capture (Req 2) |
+| `_max_run_with_wilds(values, wilds, ranks)` | `scoring_rebalance_stats` | Import; used by the evaluator for TF/PT runs |
 | `sim_composition(...)` → `ench_tier_ge`, `seen_hist` | `scoring_rebalance_stats` | Import; Enchantment reach + cards-seen distribution |
 | `hand_model(...)` → `tf_run_ge`, `pt_run_ge`, `suit_ge` | `scoring_rebalance_stats` | Import; TF/PT/Conjuration reach-probabilities for Part A |
 | β ≈ 0.45 rarity convention | `SCORING_REBALANCE.md` | Reused method for Implied_Price |
@@ -102,12 +102,12 @@ part_a_pricing(config) -> list[row]
 Add to `Player`: a method/derived accessor returning the Realisable_Pool. Because `Player` uses `__slots__`, add one slot (e.g. `banked` if needed) or reconstruct the pool at game end from existing structures:
 
 - Enchantment cards: `en["value"]` × `en["energies"]` (naturals) + `en["wild_used"]` wilds.
-- Conjuration cards: `cj["n"]` cards of `cj["energy"]` (values are not individually tracked by the rig; for pool purposes model them as `n` cards of that energy — sufficient for Conjuration/one-energy counting, and a documented approximation for run reconstruction).
+- Conjuration cards: the exact banked values `cj["vals"]` (added to the rig) at energy `cj["energy"]` — cards locked in conjurations contribute their real values to TF/PT run reconstruction, not just a pile count.
 - Hand: `hand_vals` / `hand_energy` naturals + `wilds`.
 
-Expose `Game.end_pools() -> list[Pool]` where `Pool = { naturals: Counter[(energy,value)], energy_counts: Counter[energy], wilds: int, built_score: int }`. `built_score` is the as-played spellbook score (for the `no_reshape` baseline). Capture must not alter agent decisions (Req 2.3) — it reads final state only.
+Pool reconstruction lives in the analysis module as `scoring_ev.realisable_pool(player)`, which returns `(naturals: Counter[(energy,value)], wilds: int, built)` where `built = {"ench": [sizes], "conj": [sizes]}` supplies the as-played spellbook for the `no_reshape` baseline. It reads final game state only and does not alter agent decisions (Req 2.3).
 
-Note on the Conjuration value-tracking approximation: the rig stores conjuration size, not the specific values, so exact PT/TF run reconstruction from cards currently inside conjurations is approximate. v1 documents this; if it materially affects results, a follow-up can extend the rig to retain conjuration card values (additive, behavior-preserving).
+**As-built:** conjuration card values are retained via an additive `cj["vals"]` field on the rig (nothing else reads it, so behavior/outputs are unchanged), making the pool reconstruction **exact** for hand + enchantment + conjuration cards — no approximation. This supersedes the originally-planned v1 approximation: conjuration cards are exactly what the end-game exploit dumps-then-reshapes, so approximating them would have skewed the Q2 answer.
 
 ### Component 4: Part B2 — best-single-spell evaluator
 

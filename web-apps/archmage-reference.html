@@ -427,10 +427,10 @@
                     <ul>
                         <li>3 components: <span class="highlight">+1 counter</span></li>
                         <li>4 components: <span class="highlight">+3 counters</span></li>
-                        <li>5 components: <span class="highlight">Unlimited</span> capacity</li>
+                        <li>5 components: <span class="highlight">+5 counters</span></li>
                     </ul>
                     <div class="note">
-                        When learned: gain +1 counter (3-card), +3 counters (4-card), or set counters aside for the Unlimited Capacity marker (5-card)
+                        When learned: gain +1 counter (3-card), +3 counters (4-card), or +5 counters (5-card). Enchantments score 4 / 10 / 16 Recognition Points (3 / 4 / 5-card).
                     </div>
                 </div>
 
@@ -599,18 +599,19 @@
                         <li>Start: <span class="highlight">1 counter</span> (2-4 players) / <span class="highlight">2 counters</span> (5-6 players)</li>
                         <li>Learn 3-component Enchantment: <span class="highlight">+1 counter</span></li>
                         <li>Learn 4-component Enchantment: <span class="highlight">+3 counters</span></li>
-                        <li>Learn 5-component Enchantment: <span class="highlight">Unlimited</span> — take Unlimited Capacity marker; set counters aside</li>
+                        <li>Learn 5-component Enchantment: <span class="highlight">+5 counters</span></li>
                     </ul>
 
                     <h4>Losing Counters</h4>
                     <ul>
                         <li>Break/Unlearn 3-card Enchantment: <span class="highlight">−1 counter</span></li>
                         <li>Break/Unlearn 4-card Enchantment: <span class="highlight">−3 counters</span></li>
-                        <li>Break/Unlearn 5-card Enchantment: <span class="highlight">return Unlimited Capacity marker</span>; retrieve your counters</li>
+                        <li>Break/Unlearn 5-card Enchantment: <span class="highlight">−5 counters</span></li>
+                        <li>Step an Enchantment down one size — lose only the ladder difference: <span class="highlight">5→4 = −2</span>, <span class="highlight">4→3 = −2</span>, <span class="highlight">3→dissolved = −1</span></li>
                     </ul>
 
                     <div class="note" style="margin-top: 1rem;">
-                        Keep your counters in front of you. The Unlimited Capacity marker replaces counter-tracking while in play.
+                        <strong>Timing (F3):</strong> capacity you <em>gain</em> from an Enchantment applies from the start of your next turn; capacity you <em>lose</em> (reduce or dissolve) applies immediately. You cannot reduce or dissolve an Enchantment unless you can pay the action (1 counter) <strong>and</strong> absorb the capacity loss from your currently available counters.
                     </div>
                 </div>
 
@@ -653,18 +654,18 @@
 
                     <h4>Actions available</h4>
                     <ul>
-                        <li>Base: 1 action (2 at 5-6 players) &nbsp;|&nbsp; 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: +3 &nbsp;|&nbsp; 5-card Enchantment: unlimited (Unlimited Capacity marker)</li>
+                        <li>Base: 1 action (2 at 5-6 players) &nbsp;|&nbsp; 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: +3 &nbsp;|&nbsp; 5-card Enchantment: +5</li>
                     </ul>
 
                     <h4>Actions (1 counter each)</h4>
                     <ul>
                         <li><span class="highlight">LEARN:</span> Place a valid spell from hand into your Spellbook
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → gain +1 counter now; 4-card → +3 counters now; 5-card → take the Unlimited Capacity marker, set counters aside</span></li>
-                        <li><span class="highlight">EMPOWER:</span> Add components from hand to an existing spell (can change its spell type)</li>
-                        <li><span class="highlight">RESHAPE:</span> Break down and rebuild any spells with the same components — all must remain valid
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: −1 counter; a 4-card: −3 counters; a 5-card: return the Unlimited Capacity marker</span></li>
-                        <li><span class="highlight">UNLEARN:</span> Dissolve one spell — components return to hand but cannot be learned again until next turn
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ 1 counter per spell dissolved — unlearning two spells costs 2 counters. Same Enchantment penalties as Reshape.</span></li>
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → +1 counter; 4-card → +3 counters; 5-card → +5 counters. Enchantment capacity becomes available from your next turn.</span></li>
+                        <li><span class="highlight">EMPOWER:</span> Add components from hand to an existing spell; may convert among Conjuration / Transfiguration / Perfect Transmutation, but NOT into or out of an Enchantment (use LEARN/UNLEARN for that)</li>
+                        <li><span class="highlight">RESHAPE:</span> Break down one or more spells and rebuild with the same components — all must remain valid; costs one counter per spell broken down (N spells = N counters)
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: −1 counter; a 4-card: −3 counters; a 5-card: −5 counters. Reducing an Enchantment's size loses capacity by the ladder difference immediately (5→4 −2, 4→3 −2, 3→dissolve −1).</span></li>
+                        <li><span class="highlight">UNLEARN:</span> Return one or more components from a single spell to hand; the remainder stays a valid spell or the spell dissolves. For runs (Transfiguration / Perfect Transmutation) a single-component step removes only an END component. Returned components cannot be learned again until next turn
+                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ 1 counter regardless of how many components you return from that one spell. Same Enchantment capacity penalties as Reshape.</span></li>
                     </ul>
                 </div>
             </div>
@@ -800,19 +801,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>3</td><td>3</td><td>5</td><td>7</td><td>6</td></tr>
-                            <tr><td>4</td><td>4</td><td>7</td><td>10</td><td>12</td></tr>
-                            <tr><td>5</td><td>6</td><td>10</td><td>14</td><td>18</td></tr>
-                            <tr><td>6</td><td>9</td><td>14</td><td>19</td><td>—</td></tr>
-                            <tr><td>7</td><td>13</td><td>19</td><td>25</td><td>—</td></tr>
-                            <tr><td>8</td><td>18</td><td>25</td><td>32</td><td>—</td></tr>
-                            <tr><td>9</td><td>24</td><td>32</td><td>40</td><td>—</td></tr>
-                            <tr><td>10</td><td>31</td><td>40</td><td>49</td><td>—</td></tr>
-                            <tr><td>11</td><td>39</td><td>49</td><td>59</td><td>—</td></tr>
-                            <tr><td>12</td><td>48</td><td>59</td><td>70</td><td>—</td></tr>
-                            <tr><td>13</td><td>58</td><td>70</td><td>82</td><td>—</td></tr>
-                            <tr><td>14</td><td>69</td><td>82</td><td>95</td><td>—</td></tr>
-                            <tr><td>15</td><td>81</td><td>95</td><td>109</td><td>—</td></tr>
+                            <tr><td>3</td><td>0</td><td>3</td><td>5</td><td>4</td></tr>
+                            <tr><td>4</td><td>1</td><td>4</td><td>11</td><td>10</td></tr>
+                            <tr><td>5</td><td>2</td><td>5</td><td>18</td><td>16</td></tr>
+                            <tr><td>6</td><td>3</td><td>7</td><td>24</td><td>—</td></tr>
+                            <tr><td>7</td><td>7</td><td>8</td><td>31</td><td>—</td></tr>
+                            <tr><td>8</td><td>13</td><td>10</td><td>39</td><td>—</td></tr>
+                            <tr><td>9</td><td>20</td><td>13</td><td>47</td><td>—</td></tr>
+                            <tr><td>10</td><td>29</td><td>16</td><td>56</td><td>—</td></tr>
+                            <tr><td>11</td><td>38</td><td>20</td><td>65</td><td>—</td></tr>
+                            <tr><td>12</td><td>50</td><td>25</td><td>74</td><td>—</td></tr>
+                            <tr><td>13</td><td>63</td><td>31</td><td>85</td><td>—</td></tr>
+                            <tr><td>14</td><td>79</td><td>38</td><td>97</td><td>—</td></tr>
+                            <tr><td>15</td><td>100</td><td>48</td><td>100</td><td>—</td></tr>
                         </tbody>
                     </table>
                     </div>
@@ -848,14 +849,14 @@
                     
                     <h4>Your Spellbook</h4>
                     <ul>
-                        <li>5-component <button type="button" class="spell-ref-button inline" data-spell="Conjuration">Conjuration</button> = <span class="highlight">6 points</span></li>
-                        <li>4-component <button type="button" class="spell-ref-button inline" data-spell="Transfiguration">Transfiguration</button> = <span class="highlight">7 points</span></li>
-                        <li>3-component <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantment</button> = <span class="highlight">6 points</span></li>
-                        <li>6-component <button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutation</button> = <span class="highlight">19 points</span></li>
+                        <li>5-component <button type="button" class="spell-ref-button inline" data-spell="Conjuration">Conjuration</button> = <span class="highlight">2 points</span></li>
+                        <li>4-component <button type="button" class="spell-ref-button inline" data-spell="Transfiguration">Transfiguration</button> = <span class="highlight">4 points</span></li>
+                        <li>3-component <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantment</button> = <span class="highlight">4 points</span></li>
+                        <li>6-component <button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutation</button> = <span class="highlight">24 points</span></li>
                     </ul>
                     
                     <div class="phase-box" style="margin-top: 1rem;">
-                        <h4>Total: 38 Recognition Points</h4>
+                        <h4>Total: 34 Recognition Points</h4>
                     </div>
                 </div>
 
@@ -865,7 +866,7 @@
                     
                     <ul>
                         <li><button type="button" class="spell-ref-button inline" data-spell="Perfect Transmutation">Perfect Transmutations</button> score the highest per component</li>
-                        <li><span class="highlight">4-component</span> <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantments</button> have a huge scoring spike (12 points), and <span class="highlight">5-component</span> Enchantments reach 18 (5-6 player games only)</li>
+                        <li><span class="highlight">4-component</span> <button type="button" class="spell-ref-button inline" data-spell="Enchantment">Enchantments</button> score 10 points, and <span class="highlight">5-component</span> Enchantments reach 16 (5-6 player games only)</li>
                         <li>Longer spells score <span class="highlight">exponentially better</span> than multiple short ones</li>
                         <li>A single 7-component spell often scores more than two 4-component spells</li>
                     </ul>
@@ -1562,35 +1563,35 @@
             const cases = [
                 {
                     name: 'Reference example',
-                    // 5 Conjuration (6) + 4 Transfiguration (7) + 3 Enchantment (6) + 6 Perfect Transmutation (19) = 38
+                    // 5 Conjuration (2) + 4 Transfiguration (4) + 3 Enchantment (4) + 6 Perfect Transmutation (24) = 34
                     rows: [
                         { spellName: 'Conjuration', size: 5 },
                         { spellName: 'Transfiguration', size: 4 },
                         { spellName: 'Enchantment', size: 3 },
                         { spellName: 'Perfect Transmutation', size: 6 }
                     ],
-                    expected: 38
+                    expected: 34
                 },
                 {
                     name: 'Enchantment spike',
-                    // 3 Conjuration (3) + 4 Conjuration (4) + 4 Enchantment (12) = 19
+                    // 3 Conjuration (0) + 4 Conjuration (1) + 4 Enchantment (10) = 11
                     rows: [
                         { spellName: 'Conjuration', size: 3 },
                         { spellName: 'Conjuration', size: 4 },
                         { spellName: 'Enchantment', size: 4 }
                     ],
-                    expected: 19
+                    expected: 11
                 },
                 {
                     name: 'Large spellbook',
-                    // 12 Perfect Transmutation (70) + 12 Transfiguration (59) + 3 Enchantment (6) + 10 Conjuration (31) = 166
+                    // 12 Perfect Transmutation (74) + 12 Transfiguration (25) + 3 Enchantment (4) + 10 Conjuration (29) = 132
                     rows: [
                         { spellName: 'Perfect Transmutation', size: 12 },
                         { spellName: 'Transfiguration', size: 12 },
                         { spellName: 'Enchantment', size: 3 },
                         { spellName: 'Conjuration', size: 10 }
                     ],
-                    expected: 166
+                    expected: 132
                 }
             ];
 
@@ -1623,17 +1624,17 @@
 
         /* Recognition Points — exactly the board's table. */
         const RP = {
-          conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
-          transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
-          perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
-          enchantment:     {3:6, 4:12, 5:18},
+          conjuration:     {3:0, 4:1, 5:2, 6:3, 7:7, 8:13, 9:20, 10:29, 11:38, 12:50, 13:63, 14:79, 15:100},
+          transfiguration: {3:3, 4:4, 5:5, 6:7, 7:8, 8:10, 9:13, 10:16, 11:20, 12:25, 13:31, 14:38, 15:48},
+          perfect:         {3:5, 4:11, 5:18, 6:24, 7:31, 8:39, 9:47, 10:56, 11:65, 12:74, 13:85, 14:97, 15:100},
+          enchantment:     {3:4, 4:10, 5:16},
         };
         function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
 
         const SPELL_EFFECT_SHORT = {
           conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
           transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
-          enchantment: n => n >= 5 ? 'Always active: Unlimited Capacity.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
+          enchantment: n => n >= 5 ? 'Always active: +5 counters.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
           perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
         };
 

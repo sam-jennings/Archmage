@@ -372,21 +372,21 @@
           <div class="action-tile">
             <p class="action-name">Learn</p>
             <p class="action-body">Place a new spell from your hand into your Spellbook.</p>
-            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: +1 counter now. 4-card: +3 counters. 5-card: take the Unlimited Capacity marker.</p>
+            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: +1 counter (from your next turn). 4-card: +3 counters. 5-card: +5 counters.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Empower</p>
-            <p class="action-body">Add components from your hand to an existing spell — it may become a different spell type.</p>
+            <p class="action-body">Add components from your hand to an existing spell; may convert among Conjuration, Transfiguration, or Perfect Transmutation — but not into or out of an Enchantment.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Reshape</p>
-            <p class="action-body">Break down and rebuild any spells using the same components. One action, however many spells.</p>
-            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. A 4-card: −3 counters. A 5-card: return the marker.</p>
+            <p class="action-body">Break down and rebuild one or more spells using the same components. One counter per spell broken down.</p>
+            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. A 4-card: −3 counters. A 5-card: −5 counters. Stepping down one size loses the ladder difference (5→4 −2, 4→3 −2, 3→dissolve −1).</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Unlearn</p>
-            <p class="action-body">Dissolve one spell; components return to hand but can't be learned again until next turn.</p>
-            <p class="action-warn">One spell per action. Same Enchantment warnings apply.</p>
+            <p class="action-body">Return one or more components from a single spell; the remainder stays valid or the spell dissolves. Components can't be learned again until next turn. For runs, remove only an end component.</p>
+            <p class="action-warn">1 counter regardless of how many components you return. Same Enchantment warnings apply.</p>
           </div>
         </div>
       </div>
@@ -406,8 +406,9 @@
             <ul class="plain">
               <li>Start with <b>1 counter</b> (2–4 players) or <b>2</b> (5–6 players).</li>
               <li>Each 3-card Enchantment learned: <b class="gold">+1 counter</b>; a 4-card: <b class="gold">+3 counters</b>, permanently.</li>
-              <li>A 5-card Enchantment: <b class="gold">Unlimited Capacity</b> — take the marker, set counters aside.</li>
-              <li>Break any apart and the bonus is lost again.</li>
+              <li>A 5-card Enchantment: <b class="gold">+5 counters</b> (5–6 player games).</li>
+              <li>Capacity you gain applies from your next turn; capacity you lose applies immediately — you can't reduce or dissolve an Enchantment unless you can pay the action and absorb the loss now.</li>
+              <li>Break one down and the bonus is lost immediately, proportional to the ladder step.</li>
             </ul>
           </div>
         </details>
@@ -432,7 +433,7 @@
           <span class="ax-label" style="display:block; margin-bottom: 8px;">Reading the table</span>
           <ul class="plain">
             <li><b>Perfect Transmutations</b> score highest per component.</li>
-            <li>A <b>4-card Enchantment</b> spikes to 12 points; a 5-card reaches 18 (5–6 player games).</li>
+            <li>A <b>4-card Enchantment</b> spikes to 10 points; a 5-card reaches 16 (5–6 player games).</li>
             <li>One long spell usually beats two short ones.</li>
           </ul>
         </div>
@@ -470,10 +471,10 @@ const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', 
 
 /* Recognition Points — exactly the board's table. */
 const RP = {
-  conjuration:     {3:3, 4:4, 5:6, 6:9, 7:13, 8:18, 9:24, 10:31, 11:39, 12:48, 13:58, 14:69, 15:81},
-  transfiguration: {3:5, 4:7, 5:10, 6:14, 7:19, 8:25, 9:32, 10:40, 11:49, 12:59, 13:70, 14:82, 15:95},
-  perfect:         {3:7, 4:10, 5:14, 6:19, 7:25, 8:32, 9:40, 10:49, 11:59, 12:70, 13:82, 14:95, 15:109},
-  enchantment:     {3:6, 4:12, 5:18},
+  conjuration:     {3:0, 4:1, 5:2, 6:3, 7:7, 8:13, 9:20, 10:29, 11:38, 12:50, 13:63, 14:79, 15:100},
+  transfiguration: {3:3, 4:4, 5:5, 6:7, 7:8, 8:10, 9:13, 10:16, 11:20, 12:25, 13:31, 14:38, 15:48},
+  perfect:         {3:5, 4:11, 5:18, 6:24, 7:31, 8:39, 9:47, 10:56, 11:65, 12:74, 13:85, 14:97, 15:100},
+  enchantment:     {3:4, 4:10, 5:16},
 };
 function rpFor(kind, size) { const t = RP[kind]; return t[Math.min(size, 15)] || 0; }
 
@@ -502,7 +503,7 @@ const SPELLS = [
     effect: [
       { range: '3 components', result: 'Gain +1 counter — one more cast and one more learning action every turn.' },
       { range: '4 components', result: 'Gain +3 counters — permanently.' },
-      { range: '5 components', result: 'Unlimited Capacity — cast all your spells, take unlimited learning actions (5–6 player games).' },
+      { range: '5 components', result: 'Gain +5 counters (5–6 player games).' },
     ] },
   { key: 'perfect', name: 'Perfect Transmutation', dot: 'var(--ax-gold)',
     tagline: 'Sequential values within a single energy — perfect alignment.',
@@ -515,7 +516,7 @@ const SPELLS = [
 const SPELL_EFFECT_SHORT = {
   conjuration: n => n >= 6 ? 'Cast: draw 2 additional components from the Source.' : 'Cast: draw 1 additional component from the Source.',
   transfiguration: n => n >= 4 ? 'Cast: discard 1 from hand, take 1 from the Array.' : 'Cast: discard 2 from hand, take 1 from the Array.',
-  enchantment: n => n >= 5 ? 'Always active: Unlimited Capacity.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
+  enchantment: n => n >= 5 ? 'Always active: +5 counters.' : n === 4 ? 'Always active: +3 counters.' : 'Always active: +1 counter.',
   perfect: () => 'Cast: both Conjuration and Transfiguration effects, in order.',
 };
 
@@ -593,7 +594,7 @@ function miniCard(card, opts) {
       body.appendChild(r);
     });
     const rpNote = spell.key === 'enchantment'
-      ? 'Worth 6 (3 cards) or 15 (4 cards) Recognition Points.'
+      ? 'Worth 4 (3 cards) or 10 (4 cards) Recognition Points.'
       : 'Recognition Points grow with size — see Scoring.';
     body.appendChild(el('p', 'tile-note', rpNote));
     tile.appendChild(body);

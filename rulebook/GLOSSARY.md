@@ -1,3 +1,10 @@
+---
+title: Glossary
+type: reference
+updated: 2026-07-09
+status: under-test
+---
+
 **GLOSSARY**
 
 **A**
@@ -35,7 +42,8 @@ flows. Used as poetic/flavor synonym for \"the Source.\"
 **Capacity** *(Mechanical)* How many spells you can cast per turn and
 how many learning actions you can perform. Represented by counters.
 Starts at 1 (2-4 players) or 2 (5-6 players), increases by learning
-Enchantments, decreases by breaking Enchantments apart.
+Enchantments (+1 / +3 / +5 counters by size), decreases when an
+Enchantment is reduced or dissolved (by the ladder difference).
 
 **Cast** *(Mechanical)* To activate a spell from your Spellbook during
 the Casting Phase by placing a counter on it. Effects resolve
@@ -92,22 +100,27 @@ becomes impossible. Only Collection and Learning phases remain.
 
 **Echo** *(Mechanical)* The fifth energy type, present only in 5-6
 player decks (5 energies × ranks 1-15 + 4 wilds = 79 cards). It supplies
-the fifth matching-value option that makes 5-component Enchantments —
-and therefore Unlimited Capacity — attainable. In 2-4 player decks there
-are only four energies, and the wild-declaration rule bars a wild from
-posing as a fifth, so those games cap at 4-component Enchantments;
-Unlimited Capacity is reachable only at 5-6 players.
+the fifth matching-value option that makes 5-component Enchantments
+(which grant +5 counters, score 16) attainable, reachable only at 5-6
+players. In 2-4 player decks there are only four energies, and the
+wild-declaration rule bars a wild from posing as a fifth, so those games
+cap at 4-component Enchantments.
 
 **Empower** *(Mechanical)* A learning action. Add one or more components
-from your hand to an existing spell in your Spellbook. Costs 1 counter
-(or free with unlimited capacity).
+from your hand to an existing spell in your Spellbook. Costs 1 counter.
+EMPOWER may extend a spell or convert among Conjuration,
+Transfiguration, and Perfect Transmutation, but may NOT convert a spell
+into an Enchantment or an Enchantment into another type (those need
+LEARN or UNLEARN).
 
 **Enchantment** *(Mechanical + Story)* A spell type using 3-5 components
 of matching value (distinct energies). Always active---never needs to be
-cast. Permanently increases capacity: 3-component grants +1 counter,
-4-component grants +3 counters, 5-component grants Unlimited Capacity. A
-wild used in an Enchantment must be declared as an energy present in the
-current deck. Represents internal metamorphosis woven into the
+cast. Permanently increases capacity: 3-component grants +1 counter
+(scores 4), 4-component grants +3 counters (scores 10), 5-component
+grants +5 counters (scores 16). Added capacity becomes available from
+the start of your next turn. A wild used in an Enchantment must be
+declared as an energy present in the current deck. Represents
+internal metamorphosis woven into the
 wizard\'s being.
 
 **Energy** *(Mechanical)* One of the four fundamental energy types
@@ -136,10 +149,10 @@ independent of external infrastructure.
 **L**
 
 **Learn** *(Mechanical)* A learning action. Place a new valid spell from
-your hand into your Spellbook. Costs 1 counter (or free with unlimited
-capacity). When learning a 3-component Enchantment, immediately gain +1
-counter; a 4-component Enchantment, +3 counters; a 5-component
-Enchantment, Unlimited Capacity.
+your hand into your Spellbook. Costs 1 counter. When learning a
+3-component Enchantment, +1 counter; a 4-component, +3 counters; a
+5-component, +5 counters. The added capacity becomes available from the
+start of your next turn.
 
 **Learning Phase** *(Mechanical)* The third phase of each turn. After
 casting (or during Drought, after collection), you perform the Recall
@@ -174,9 +187,8 @@ the Drought.
 **Recall** *(Mechanical)* The transition step between Casting Phase and
 Learning Phase. Pick up all counters from your cast spells and return
 them to your pool. This physical act signals the phase change — the same
-counters now determine your learning actions. Players with unlimited
-capacity skip the Recall (their Unlimited Capacity marker already
-signals their state).
+counters now determine your learning actions. Every player performs
+Recall each turn.
 
 **The Released Reserve** *(Mechanical)* The final draw pile, formed when
 the Drought begins by shuffling the Array and Arcane Reserve together.
@@ -184,11 +196,12 @@ Limited, unstable magical energy for final preparations. When depleted,
 triggers the Ascension.
 
 **Reshape** *(Mechanical)* A learning action. Reorganize components
-across multiple spells in your Spellbook. Break down any/all spells and
-rebuild using the same components. All components must remain in valid
-spell arrangements. Costs 1 counter (or free with unlimited capacity).
-Counts as one action regardless of how many spells affected. Warning:
-breaking apart Enchantments reduces capacity.
+across multiple spells in your Spellbook. Break down one or more spells
+and rebuild using the same components. All components must remain in
+valid spell arrangements. Costs one counter per spell broken down
+(breaking N spells costs N counters). Warning: reducing an Enchantment
+via Reshape loses capacity proportionally by the ladder difference (not
+a flat full loss), applied immediately.
 
 **Resonance** *(Story + Mechanical)* The power measurement used during
 the Ascension. Each spell pattern generates resonance strength based on
@@ -224,16 +237,12 @@ components flow to Arcane Reserve. Cannot be cast during the Drought.
 
 **U**
 
-**Unlimited capacity** *(Mechanical)* State granted by learning a
-5-component Enchantment. Cast all spells per turn, perform unlimited
-learning actions per turn. Place the Unlimited Capacity marker in front
-of you and set all counters aside. Lost if that 5-component Enchantment
-is broken apart — return the marker and retrieve your counters.
-
-**Unlimited Capacity Marker** *(Mechanical)* The physical token placed
-in front of you when you gain Unlimited Capacity by learning a
-5-component Enchantment. While it is in play you set your counters
-aside: you may cast every spell in your Spellbook and perform unlimited
-learning actions each turn, and you skip the Recall step. If that
-5-component Enchantment is broken apart, return the marker and retrieve
-your counters.
+**Unlearn** *(Mechanical)* A learning action. Return one or more
+components from a single spell to your hand; the remainder must still
+form a valid spell, or the spell fully dissolves. Costs 1 counter
+regardless of how many components are returned from that one spell. For
+runs (Transfiguration, Perfect Transmutation), a single-component
+partial Unlearn may only remove an end component. If it reduces or
+dissolves an Enchantment, capacity is lost by the ladder difference
+(5→4 = −2, 4→3 = −2, 3→dissolved = −1), applied immediately. Returned
+components can't be learned into new spells until your next turn.

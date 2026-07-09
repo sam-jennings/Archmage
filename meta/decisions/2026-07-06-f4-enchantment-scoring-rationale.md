@@ -2,10 +2,23 @@
 title: F4 — Keep Enchantment scoring 6/12/18 (record rationale, watch in play)
 type: decision
 date: 2026-07-06
-status: canon
+status: superseded
 ---
 
 # 2026-07-06 — F4 Enchantment scoring 12/18 override rationale
+
+## Superseded (2026-07-09, v3.1)
+
+**This decision's basis is void.** Its rationale was: *Enchantment's reward is capacity;
+the 5-card Enchantment already grants **Unlimited Capacity** (the strongest capacity
+reward in the game), so keep its Recognition Points low (6 / 12 / 18) to avoid
+double-paying that advantage.* The **v3.1 scoring & economy bump**
+(`meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`) **removes Unlimited Capacity**
+entirely — the ladder is now a finite **+1 / +3 / +5** counter grant — and sets Enchantment
+scoring to **4 / 10 / 16**. With no Unlimited Capacity to under-price, the "keep points low
+because UC is the reward" argument no longer applies, and the playtest-watch questions below
+about UC are **moot** (no UC exists). The historical rationale is retained below for the
+record; it is no longer canon.
 
 Source: `_review/ARCHMAGE_SAM_DECISIONS_F3_F14_2026-07.md`, §F4.
 

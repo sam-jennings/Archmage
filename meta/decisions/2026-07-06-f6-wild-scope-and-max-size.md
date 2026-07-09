@@ -28,6 +28,19 @@ Conjuration score table to 16–17). Sam's decision caps configuration size at *
 
 ## Unlimited Capacity availability (coupled ruling)
 
+> **SUPERSEDED (2026-07-09, v3.1) — this UC-availability clause only.** The **v3.1 scoring
+> & economy bump** (`meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`) **removes
+> Unlimited Capacity entirely.** The 5-component Enchantment no longer grants UC; it now
+> grants a finite **+5 counters (score 16)** on the v3.1 ladder. It **remains 5–6p / Echo
+> only** for the same deck-composition reason given below — a wild can only stand for an
+> energy present in the current deck, so a five-distinct-energy Enchantment is only
+> reachable once a fifth energy (Echo) exists. (The `meta/canon.yml enchantment_ladder`
+> annotation was updated to the v3.1 form in the bump's Task 13.)
+>
+> **F6's other rulings STAND, unchanged and NOT superseded:** the **maximum-spell-size-15**
+> ruling (no 16–17 Conjuration column) and the **wild-declaration-scope** rulings (below)
+> are unaffected by v3.1 — only this Unlimited-Capacity-availability clause is superseded.
+
 Because a wild can only be a deck-present energy, a **5-component Enchantment** (five
 matching values across five distinct legal energies) is only reachable when a fifth
 energy exists — i.e. **5–6p / Echo only**. In 2–4p (four energies) the ceiling is a

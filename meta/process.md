@@ -67,6 +67,27 @@ decision are flagged every session until ticked (a settled or under-test change 
 unmade edits is drift; `proposed`/`reverted`/`superseded` are exempt);
 retired terms in `canon.yml` are grepped across content folders.
 
+## 3a — Version control for canon files (mandatory, no exceptions)
+
+Git alone is **not** version control for this project — git ops time out in this
+OneDrive folder (§4) and are not relied on for recovery. Any edit that changes the
+substance of a canon-bearing file (rulebook, scoring reference, or any file carrying
+a `version:` front-matter field) must, **in the same turn as the edit**:
+
+1. Copy the pre-edit file byte-exact into `_archive/<basename>-v<old-version>-<YYYY-MM-DD>/`
+   before overwriting it.
+2. Add an index line for that archive to `_archive/README.md`.
+3. Bump the `version:` front-matter field on the edited file, and update
+   `meta/canon.yml`'s corresponding version field (e.g. `rulebook_version`) to match.
+4. Record the bump as a decision (§3) if it isn't already covered by one, noting old
+   version, new version, and why (patch vs. major).
+
+This applies even to small edits — no "too minor to bother" exception. Detection:
+`check.mjs` compares each file listed in `canon.yml`'s `versioned_files` against its
+own front-matter `version:` and flags any mismatch with `rulebook_version` (this is
+exactly the failure mode from `2026-07-06-rulebook-version-bump.md`: content moved on
+while the label and archive didn't).
+
 ## 4 — Experiments (`meta/experiments/`)
 
 Anything provisional with a real chance of reverting gets, **before** artifacts are
