@@ -1,0 +1,113 @@
+{
+  "id": "A7",
+  "name": "monotonicity_trap",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A7; design \u00a76.4; MATH-8a",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A7 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A7 'Monotonicity trap': one Purity Trial worth 6; state 0 both allocate Void 5; state 1 gives A an extra Enchantment 3 with unchanged Trial allocations; 'Legacy/hybrid Commitment convention: normal on Trial / total normal power'; 'Expected resolver profiles: state 0 shared result; state 1 B wins under Commitment; state 1 remains shared under the local default chain'). This is the VS1 profile-resolution half of A7 (§12.2, MATH-8a); the best-achievable enumeration (MATH-8b) is VS2. Commitment is design §6.4: normal-on-Trial / player's total normal Spellbook power, so adding A's unused Enchantment 3 drops A's ratio 5/5->5/8 while B stays 5/5 and overtakes A -- the deliberate non-monotonicity. Config, states, allocations and expected outcomes transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "configs": {
+    "commitment": {
+      "id": "a7_commitment",
+      "version": "1.0",
+      "supported_player_counts": [2],
+      "power_formula": {
+        "profile": "declarative",
+        "standard_spell_power": {"type": "linear", "expression": "n"}
+      },
+      "domains": [
+        {"id": "void", "class": "energy"},
+        {"id": "enchantment", "class": "enchantment"}
+      ],
+      "trials": [
+        {
+          "id": "purity",
+          "active_player_counts": [2],
+          "eligibility": {
+            "allowed_domain_classes": ["energy"],
+            "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+          },
+          "entry_floor": {"value": 0, "scope": "normal"},
+          "tie_award": {"type": "shared_full"},
+          "trial_tiebreaks": ["hybrid_commitment", "shared"],
+          "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+        }
+      ],
+      "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+    },
+    "local": {
+      "id": "a7_local",
+      "version": "1.0",
+      "supported_player_counts": [2],
+      "power_formula": {
+        "profile": "declarative",
+        "standard_spell_power": {"type": "linear", "expression": "n"}
+      },
+      "domains": [
+        {"id": "void", "class": "energy"},
+        {"id": "enchantment", "class": "enchantment"}
+      ],
+      "trials": [
+        {
+          "id": "purity",
+          "active_player_counts": [2],
+          "eligibility": {
+            "allowed_domain_classes": ["energy"],
+            "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+          },
+          "entry_floor": {"value": 0, "scope": "normal"},
+          "tie_award": {"type": "shared_full"},
+          "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+          "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+        }
+      ],
+      "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+    }
+  },
+  "states": {
+    "state_0": {
+      "A": {"player_id": "A", "normal_power": {"void": 5}, "wild_power": 0},
+      "B": {"player_id": "B", "normal_power": {"void": 5}, "wild_power": 0}
+    },
+    "state_1": {
+      "A": {"player_id": "A", "normal_power": {"void": 5, "enchantment": 3}, "wild_power": 0},
+      "B": {"player_id": "B", "normal_power": {"void": 5}, "wild_power": 0}
+    }
+  },
+  "allocations": {
+    "state_0": {
+      "A": {"player_id": "A", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}},
+      "B": {"player_id": "B", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}}
+    },
+    "state_1": {
+      "A": {"player_id": "A", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {"enchantment": 3}, "wild": 0}},
+      "B": {"player_id": "B", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}}
+    }
+  },
+  "resolutions": [
+    {
+      "name": "state 0 under Commitment -> shared",
+      "config": "commitment",
+      "state": "state_0",
+      "expected": {"shared_first": true, "sole_first": null, "recognition": {"A": 6, "B": 6}, "win_utility": {"A": 0, "B": 0}}
+    },
+    {
+      "name": "state 1 under Commitment -> B wins (non-monotone)",
+      "config": "commitment",
+      "state": "state_1",
+      "expected": {"shared_first": false, "sole_first": "B", "recognition": {"A": 0, "B": 6}, "win_utility": {"A": -1, "B": 1}}
+    },
+    {
+      "name": "state 1 under local default chain -> shared",
+      "config": "local",
+      "state": "state_1",
+      "expected": {"shared_first": true, "sole_first": null, "recognition": {"A": 6, "B": 6}, "win_utility": {"A": 0, "B": 0}}
+    }
+  ],
+  "ratio_oracle": {
+    "convention": "hybrid_commitment (design §6.4): normal-on-Trial / player's total normal Spellbook power",
+    "state_1": {"A": "5/8", "B": "1", "decision": "B > A so B wins outright"}
+  }
+}

@@ -6,6 +6,7 @@
 
 # Generated outputs / scratch work
 outputs/
+simulation/ascension_trials_model/outputs/
 
 # Archived material (superseded; kept locally, not tracked)
 _archive/
@@ -18,6 +19,10 @@ __pycache__/
 *.pyc
 .pytest_cache/
 pytest-cache-files-*/
+# Local Python virtual environments (dev-created; never tracked)
+.venv/
+venv/
+simulation/ascension_trials_model/.venv/
 
 # Generated per-card export PDFs (final bundles stay tracked)
 card-design/export-printenbind/*-[0-9][0-9].pdf

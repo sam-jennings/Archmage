@@ -1,0 +1,10 @@
+{
+  "spellbook_id": "maya",
+  "provenance": "A16 worked example (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §A16); Spellbook transcribed from source, not reverse-engineered (REQ-9.4)",
+  "spells": [
+    {"spell_id": "maya_void_conj_7", "type": "conjuration", "size": 7, "energy_domain": "void"},
+    {"spell_id": "maya_transfig_5", "type": "transfiguration", "size": 5},
+    {"spell_id": "maya_ench_4", "type": "enchantment", "size": 4},
+    {"spell_id": "maya_aether_pt_6", "type": "perfect_transmutation", "size": 6, "energy_domain": "aether"}
+  ]
+}

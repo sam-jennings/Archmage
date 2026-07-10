@@ -1,0 +1,16 @@
+# Exact dependency pins for the Ascension Trials model.
+#
+# VS1 (this milestone slice) needs NONE of the analysis packages below — the
+# resolver, config loader, power derivation and fixtures are pure-stdlib.
+# Only the test runner is required to execute the VS1 suite:
+pytest==9.0.3
+
+# --- VS2 equilibrium laboratory (install before starting VS2) ---
+# These provide the zero-sum LP (scipy.optimize.linprog method="highs") and the
+# maximum-entropy equilibrium selection (scipy constrained optimization).
+# scipy 1.16.0 supports Python 3.11-3.13 and requires NumPy >= 1.25 (verified
+# against the SciPy 1.16.0 release notes). numpy 2.3.3 is the version verified
+# importable in the development environment (Python 3.13.5); re-confirm both
+# against the implementation environment when VS2 begins.
+numpy==2.3.3
+scipy==1.16.0

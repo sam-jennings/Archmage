@@ -1,0 +1,25 @@
+{
+  "id": "A17",
+  "name": "formula_comparison",
+  "player_count": null,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A17; design \u00a75.1.2/\u00a75.1.3; MATH-4",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Worked example A17 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A17). The same Maya Spellbook under the current-candidate v2.8 (legacy) profile vs the experimental hybrid 2n-3 profile, isolating the Trials-power profile F_C(S) as the sole cause of the difference (standard scoring q(S) is unchanged). Legacy 5-card standard spell power = 8 (1.5*5 = 7.5, half-up); hybrid 5-card standard spell power = 7 (2*5-3); hybrid Enchantment table 4/8/12. Under the legacy profile Maya derives Void 14, Aether 9, Transformation 17, Enchantment 4, Wild 2; under the hybrid profile Void 11, Aether 9, Transformation 16, Enchantment 8, Wild 2. Values transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "spellbook_ref": "maya_spellbook.json",
+  "profiles": {
+    "v28": {"profile_ref": "trials_power_v28.json", "experimental": false},
+    "hybrid_2n_minus_3": {"profile_ref": "hybrid_2n_minus_3_experimental.json", "experimental": true}
+  },
+  "expected": {
+    "derived_state": {
+      "v28": {"void": 14, "aether": 9, "transformation": 17, "enchantment": 4, "wild": 2},
+      "hybrid_2n_minus_3": {"void": 11, "aether": 9, "transformation": 16, "enchantment": 8, "wild": 2}
+    },
+    "five_card_standard_spell_power": {"v28": 8, "hybrid_2n_minus_3": 7},
+    "hybrid_enchantment_table": {"3": 4, "4": 8, "5": 12},
+    "difference_attributed_to": "F_C(S) Trials power profile; standard Recognition Points q(S) are identical under both profiles"
+  }
+}

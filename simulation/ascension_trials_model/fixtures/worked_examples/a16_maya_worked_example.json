@@ -1,0 +1,31 @@
+{
+  "id": "A16",
+  "name": "maya_worked_example",
+  "player_count": 5,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A16; _review/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md \u00a712 'Worked Example'; MATH-3",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Worked example A16 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A16). Maya's Spellbook (7-card Void Conjuration, 5-card Transfiguration, 4-card Enchantment, 6-card Aether Perfect Transmutation) under the EXPERIMENTAL hybrid 2n-3 profile derives Void 11, Aether 9, Transformation 16, Enchantment 8, Wild 2 (proposal \u00a712 Step 1). Her secret three-Trial allocation (proposal \u00a712 Step 2) exhausts every domain ledger exactly (Void 11/11, Aether 9/9, Transformation 16/16, Enchantment 8/8, Wild 2/2) and yields Trial totals Transformation Mastery 10, Complete Mastery 21, Energy Harmony 15 (proposal \u00a712 Step 3). The acceptance oracle is the source-backed allocation plus those totals; the allocation is transcribed verbatim from the proposal, not reverse-engineered from engine output to match the totals (REQ-9.4).",
+  "spellbook_ref": "maya_spellbook.json",
+  "profile_ref": "hybrid_2n_minus_3_experimental.json",
+  "config_ref": "../../configs/hybrid_rebuild.json",
+  "expected": {
+    "derived_state": {"void": 11, "aether": 9, "transformation": 16, "enchantment": 8, "wild": 2},
+    "allocation": {
+      "transformation_mastery": {"normal": {"transformation": 10}, "wild": 0},
+      "complete_mastery": {"normal": {"void": 6, "transformation": 6, "enchantment": 8}, "wild": 1},
+      "energy_harmony": {"normal": {"void": 5, "aether": 9}, "wild": 1}
+    },
+    "ledger": {
+      "void": {"used": 11, "available": 11},
+      "aether": {"used": 9, "available": 9},
+      "transformation": {"used": 16, "available": 16},
+      "enchantment": {"used": 8, "available": 8},
+      "wild": {"used": 2, "available": 2}
+    },
+    "trial_totals": {"transformation_mastery": 10, "complete_mastery": 21, "energy_harmony": 15},
+    "not_entered": ["energy_purity", "enchantment_mastery", "focused_power", "universal_power"]
+  }
+}
