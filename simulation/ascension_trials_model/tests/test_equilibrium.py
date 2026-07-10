@@ -16,6 +16,7 @@ import pytest
 from ascension_trials import equilibrium as eq
 from ascension_trials.enumerate import enumerate_allocations
 from ascension_trials.matrix import build_two_player_payoff_matrix
+from ascension_trials.metrics import compute_small_state_metrics, margin_value_of_information, _bilinear
 from ascension_trials.schema import PlayerState
 
 from vs2_support import load_referenced_config, load_vs2_fixture
@@ -151,3 +152,57 @@ def test_maximize_equilibrium_mass_matches_set_computation():
     lp = eq.solve_zero_sum(M, "win")
     for i, want in enumerate([0.5, 0.5, 1.0, 0.0]):
         assert abs(eq.maximize_equilibrium_mass(M, i, lp.value) - want) <= 1e-6
+
+
+# --------------------------------------------------------------------------- #
+# VS2-C D1 - corrected margin VOI (VOI_M = sum_b y_b max_a margin[a,b] - v_M)    #
+# --------------------------------------------------------------------------- #
+
+
+def test_margin_voi_matching_pennies_is_exactly_one():
+    """Audit D1/RT-1: matching pennies margin [[1,-1],[-1,1]] has v=0, uniform
+    canonical column mixture, and VOI_M = 1 exactly."""
+    margin = np.array([[1, -1], [-1, 1]], dtype=float)
+    lp = eq.solve_zero_sum(margin, "margin")
+    assert abs(lp.value) <= 1e-9
+    col = eq.max_entropy_equilibrium_column(margin, lp.value)
+    assert np.allclose(col.probabilities, [0.5, 0.5], atol=1e-6)
+    voi = margin_value_of_information(margin, lp.value, col.probabilities)
+    assert abs(voi - 1.0) <= 1e-6
+
+
+def test_a4_margin_voi_is_corrected_and_not_the_old_row_max_mean():
+    """Audit D1/RT-2: A4 margin VOI ~ 4.5167 under the canonical column mixture,
+    and definitely not the pre-correction unweighted row-max mean of 8.0."""
+    fx, cfg, state = _cfg_state("A4")
+    m = compute_small_state_metrics(cfg, state, player_count=2)
+    assert m.margin_voi == pytest.approx(4.5166667, abs=1e-4)
+    # The discredited metric returned mean_i max_j margin[i,j] - v_M = 8.0.
+    assert abs(m.margin_voi - 8.0) > 1.0
+
+
+# --------------------------------------------------------------------------- #
+# VS2-C D4 - equilibrium-weighted tie / final-chain-decided metrics             #
+# --------------------------------------------------------------------------- #
+
+
+def test_a5_equilibrium_weighted_final_tie_probability_is_one():
+    """Audit D4: A5 (every ordered pair is a final tie) has equilibrium-weighted
+    final-tie probability 1 under any canonical mixture."""
+    fx, cfg, state = _cfg_state("A5")
+    m = compute_small_state_metrics(cfg, state, player_count=2)
+    assert m.final_tie_rate_eq_weighted == pytest.approx(1.0, abs=1e-6)
+
+
+def test_chain_decided_rate_matches_analytic_on_hand_built_2x2():
+    """Audit D4: a hand-built 2x2 where both off-diagonal pairs are decided by the
+    final Spellbook chain (win != 0, margin == 0) has chain-decided rate 1/2, both
+    uniform and equilibrium-weighted under the uniform mixture."""
+    win = np.array([[0, 1], [-1, 0]], dtype=float)
+    margin = np.zeros((2, 2), dtype=float)
+    chain = ((win != 0) & (margin == 0)).astype(float)
+    # Uniform: 2 of 4 ordered pairs are chain-decided.
+    assert chain.sum() / chain.size == 0.5
+    # Equilibrium-weighted under the uniform mixture equals the analytic 0.5.
+    uniform = np.array([0.5, 0.5])
+    assert _bilinear(chain, uniform, uniform) == pytest.approx(0.5, abs=1e-12)

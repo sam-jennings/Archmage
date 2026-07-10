@@ -1,0 +1,50 @@
+{
+  "id": "interchangeable_5_3",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for adversarial fixture A19 'Interchangeable domains' (VS2-C audit D5).",
+    "Two interchangeable normal domains d1 and d2 (both class 'fungible'); two Trials worth 5 and 3; every positive amount is a legal entry; optional allocation; winner-take-all with shared-full ties; no tiebreak before shared.",
+    "The two domains are strategically interchangeable: swapping d1<->d2 preserves every per-Trial total and source count, so a domain-swap pair collapses to one behavioural class. This is the only committed fixture whose collapsed count (6) is strictly below its legal count (9) via a GENUINE strategic merge, not equivalence inflation.",
+    "Player budget (1 of each domain) and the 9-legal / 6-collapsed / class-sizes {1,1,1,2,2,2} oracle live in the A19 fixture, transcribed from the audit's hand-derivation (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "d1", "class": "fungible"},
+    {"id": "d2", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "trial_a",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+    },
+    {
+      "id": "trial_b",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 3, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

@@ -171,15 +171,20 @@ def eliminate_strictly_dominated(
 
 
 # --------------------------------------------------------------------------- #
-# Strict-beater query (fixture A3: "(4,0) has zero strict beaters")            #
+# Strict-dominator query (fixture A3: "(4,0) has zero strict dominators")       #
 # --------------------------------------------------------------------------- #
 
 
-def strict_row_dominators_of(win: np.ndarray, index: int) -> list[int]:
-    """Every row that strictly dominates row ``index`` over ALL columns (REQ-11.3).
+def strict_dominators_of(win: np.ndarray, index: int) -> list[int]:
+    """Every row that strictly *dominates* row ``index`` over ALL columns (REQ-11.3).
 
-    A "strict beater" of a strategy is a row that beats it in every column. An
-    empty list means the strategy is not strictly dominated by any single strategy.
+    A *strict dominator* of a strategy is a row that improves on it in **every**
+    column (``win[r', c] > win[index, c]`` for all ``c``). An empty list means the
+    strategy is not strictly dominated by any single strategy — it is not the same
+    statement as "unbeaten": a strategy with no strict dominator may still lose
+    head-to-head (``win[a, b] = 1``) to some column. The words are kept distinct
+    (audit D6): "dominator" = better against every opposing strategy;
+    "head-to-head winner / counter" = ``win[a, b] = 1`` for a single pair.
     """
     win = np.asarray(win)
     n_rows, n_cols = win.shape
@@ -191,6 +196,15 @@ def strict_row_dominators_of(win: np.ndarray, index: int) -> list[int]:
         if all(win[rp, c] > win[index, c] for c in cols):
             out.append(rp)
     return out
+
+
+# Deprecated alias retained so existing call sites keep working (audit D6). The
+# name wrongly suggested a "strict beater" (head-to-head), which is a different
+# relation; prefer :func:`strict_dominators_of`.
+def strict_row_dominators_of(win: np.ndarray, index: int) -> list[int]:
+    """Deprecated alias for :func:`strict_dominators_of` (audit D6). Do not use in
+    new code; retained only for backward compatibility."""
+    return strict_dominators_of(win, index)
 
 
 # --------------------------------------------------------------------------- #

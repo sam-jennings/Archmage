@@ -17,13 +17,15 @@ from ascension_trials.schema import Configuration, PlayerState
 PACKAGE_ROOT = Path(__file__).resolve().parent.parent
 ADVERSARIAL = PACKAGE_ROOT / "fixtures" / "adversarial"
 
-# The committed VS2 fixtures authored for Tasks 16-24.
+# The committed VS2 fixtures authored for Tasks 16-24 and the VS2-C audit pass (D5/D7).
 VS2_FIXTURES = {
     "A3": ADVERSARIAL / "a3_turtle.json",
     "A4": ADVERSARIAL / "a4_counter_cycle.json",
     "A5": ADVERSARIAL / "a5_tie_fest.json",
     "A6": ADVERSARIAL / "a6_counterable_poor.json",
     "A15": ADVERSARIAL / "a15_equivalence_inflation.json",
+    "A19": ADVERSARIAL / "a19_interchangeable_collapse.json",
+    "A20": ADVERSARIAL / "a20_shared_trace.json",
     "MATH-13": ADVERSARIAL / "math13_weak_not_strict.json",
     "MATH-14": ADVERSARIAL / "math14_equilibrium_mass.json",
 }

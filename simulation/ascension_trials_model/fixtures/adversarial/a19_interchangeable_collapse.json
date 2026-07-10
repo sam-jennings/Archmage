@@ -1,0 +1,20 @@
+{
+  "id": "A19",
+  "name": "interchangeable_collapse",
+  "player_count": 2,
+  "oracle": {
+    "source": "_review/ASCENSION_TRIALS_05_VS2_LAB_AUDIT_2026-07-10.md §D5 (audited interchangeable-domain merge, hand-derived)",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A19 'Interchangeable domains' (VS2-C audit D5). Two interchangeable normal domains d1 and d2 (both class 'fungible'), budget one unit of each, two Trials worth 5 and 3, every positive amount a legal entry, optional allocation. Each domain unit is placed on trial_a, trial_b, or left as residue, giving 3x3 = 9 legal allocations. Because d1 and d2 are interchangeable, allocations differing only by swapping the two domains have identical per-Trial totals and source counts and therefore collapse to one behavioural class: the domain-swap pairs {(1,0) via d1, (1,0) via d2}, {(0,1) via d1, (0,1) via d2}, and the two ways to make (1,1) each merge (size 2), while (0,0), both-on-trial_a (2,0) and both-on-trial_b (0,2) are singletons. Result: 9 legal, 6 collapsed classes, class sizes {1,1,1,2,2,2}. This is the only committed fixture whose collapse is a GENUINE strategic merge (collapsed < legal), so it is the only one that can catch a merge that fails to merge or merges wrongly (A15 tests inflation invariance only). The oracle is hand-derived in the audit, not reverse-engineered from engine output (REQ-9.4). Config lives in configs/toy/interchangeable_5_3.json.",
+  "config_ref": "configs/toy/interchangeable_5_3.json",
+  "state": {"player_id": "A", "normal_power": {"d1": 1, "d2": 1}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 9,
+    "collapsed_classes": 6,
+    "collapsed_class_sizes": [1, 1, 1, 2, 2, 2],
+    "trial_order": ["trial_a", "trial_b"],
+    "notes": "9 legal (3 placements per domain x 2 domains); 6 behavioural classes after collapsing the three interchangeable domain-swap pairs; class-size multiset {1,1,1,2,2,2}."
+  }
+}

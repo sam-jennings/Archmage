@@ -715,8 +715,9 @@ def vs2_evidence_class_table() -> list[dict[str, Any]]:
         "exact-given-profile": "single-profile resolution is the VS1 layer, used per matrix cell",
         "sampled": "no Monte Carlo / sampled estimate — enumeration is exhaustive (NFR-4)",
         "design judgement": (
-            "counterability / margin-VOI / dead power / reward concentration are "
-            "reported diagnostics, never a test failure (REQ-14.5)"
+            "dead power and reward concentration are reported diagnostics; the "
+            "counterability (G4/G5) and tie-discipline (G7) hard gates and margin-VOI "
+            "are computed metrics, not test failures asserted by this module (REQ-14.5)"
         ),
     }
     return [
@@ -730,13 +731,40 @@ def vs2_evidence_class_table() -> list[dict[str, Any]]:
 
 
 def vs2_hard_gates(metrics: Any) -> list[dict[str, Any]]:
-    """Hard-gate table for a VS2 small-state analysis (REQ-14.4).
+    """Hard-gate table for a VS2 small-state analysis (REQ-14.4; model §11 G4/G5/G7).
 
-    VS2 can evaluate the game-theoretic gates the VS1 report marked
-    ``not_evaluated``: the zero-sum LPs converged, the reasonable set and
-    equilibrium-relevant set are computed exactly, and the canonical equilibrium
-    validated. Each gate is pass / fail, never silently assumed (NFR-4).
+    Every row is a real pass/fail condition (audit D3). The zero-sum LPs must
+    converge and the canonical equilibrium must validate; equal-state
+    counterability (G4) is the ∀b∃a head-to-head-counter boolean over both ``R``
+    and ``E^{0.01}``; counter quality (G5) is the per-opponent RP-margin floor over
+    ``E^{0.01}``; and the tie-discipline gates (G7) bound the equilibrium-weighted
+    final shared-winner probability, the equilibrium-weighted final-chain-decided
+    rate, and the per-Trial shared-award rate. The reasonable-set / equilibrium-
+    relevant *sizes* are NOT gates — they are diagnostic counts (report §2), never a
+    row that cannot fail.
     """
+    from .metrics import (
+        G5_MARGIN_FLOOR,
+        G7_FINAL_CHAIN_MAX,
+        G7_FINAL_SHARED_MAX,
+        G7_TRIAL_SHARED_MAX,
+    )
+
+    cr = metrics.counter_R
+    ce = metrics.counter_E
+    tie_w = metrics.final_tie_rate_eq_weighted
+    chain_w = metrics.chain_decided_rate_eq_weighted
+    trial_shared = float(metrics.trial_shared_award_rate)
+
+    def _unbeaten_detail(gate) -> str:
+        if gate.c1_holds:
+            return f"every strategy in {gate.set_name} has a Recognition-Point counter in the set"
+        labels = [u.get("normal_totals") or u.get("strategy_id") for u in gate.unbeaten]
+        return (
+            f"C1 fails over {gate.set_name}: uncounterable strategy(ies) {labels} never lose "
+            f"(an uncounterable pure strategy exists)"
+        )
+
     return [
         {
             "gate": "zero_sum_lp_converged",
@@ -751,14 +779,47 @@ def vs2_hard_gates(metrics: Any) -> list[dict[str, Any]]:
             "detail": metrics.canonical_equilibrium.status,
         },
         {
-            "gate": "reasonable_set_R",
-            "status": GATE_PASS,
-            "detail": f"|R| = {metrics.reasonable_set_size} (iterated true strict dominance)",
+            "gate": "equal_state_counterability_R",
+            "status": GATE_PASS if cr.c1_holds else GATE_FAIL,
+            "detail": _unbeaten_detail(cr),
         },
         {
-            "gate": "equilibrium_relevant_set_E_0_01",
-            "status": GATE_PASS,
-            "detail": f"|E^0.01| = {metrics.equilibrium_relevant_size}",
+            "gate": "equal_state_counterability_E_0_01",
+            "status": GATE_PASS if ce.c1_holds else GATE_FAIL,
+            "detail": _unbeaten_detail(ce),
+        },
+        {
+            "gate": "counter_quality_G5_over_E_0_01",
+            "status": GATE_PASS if ce.g5_floor_ok else GATE_FAIL,
+            "detail": (
+                f"max_a margin[a,b] >= {G5_MARGIN_FLOOR} for every b in E^0.01"
+                if ce.g5_floor_ok
+                else f"some b in E^0.01 has best counter margin < {G5_MARGIN_FLOOR}"
+            ),
+        },
+        {
+            "gate": "tie_discipline_final_shared_G7",
+            "status": GATE_PASS if tie_w <= G7_FINAL_SHARED_MAX else GATE_FAIL,
+            "detail": (
+                f"equilibrium-weighted final shared-winner probability {tie_w:.6f} "
+                f"(threshold <= {G7_FINAL_SHARED_MAX})"
+            ),
+        },
+        {
+            "gate": "tie_discipline_final_chain_decided_G7",
+            "status": GATE_PASS if chain_w <= G7_FINAL_CHAIN_MAX else GATE_FAIL,
+            "detail": (
+                f"equilibrium-weighted final-Spellbook-tiebreak rate {chain_w:.6f} "
+                f"(threshold <= {G7_FINAL_CHAIN_MAX})"
+            ),
+        },
+        {
+            "gate": "tie_discipline_per_trial_shared_G7",
+            "status": GATE_PASS if trial_shared <= G7_TRIAL_SHARED_MAX else GATE_FAIL,
+            "detail": (
+                f"per-Trial shared-award rate {trial_shared:.6f} "
+                f"(target <= {G7_TRIAL_SHARED_MAX}; from resolver shared_first traces)"
+            ),
         },
     ]
 
@@ -812,8 +873,9 @@ def build_small_state_report(
                 "status": "reported, not gated",
                 "evidence_class": "design judgement",
                 "note": (
-                    "Counterability, margin-VOI, dead power and reward concentration "
-                    "are reported diagnostics, not mathematical test failures (REQ-14.5)."
+                    "Margin-VOI, dead power and reward concentration are reported "
+                    "diagnostics; the G4/G5 counterability and G7 tie-discipline hard "
+                    "gates are evaluated in the hard-gate table above (REQ-14.5)."
                 ),
             }
         ],
@@ -832,6 +894,9 @@ def _md_small_state(report: dict[str, Any]) -> str:
     ers = equil.get("equilibrium_relevant_set") or {}
     ties = report.get("ties") or {}
     counter = report.get("counterability") or {}
+    _counter_R = counter.get("c1_over_R") or {}
+    _counter_E = counter.get("c1_over_E_0_01") or {}
+    _voi = counter.get("margin_voi") or {}
     diag = report.get("diagnostics") or {}
 
     parts: list[list[str]] = [
@@ -871,13 +936,18 @@ def _md_small_state(report: dict[str, Any]) -> str:
         [
             "## 4. Ties and counterability",
             "",
-            f"- Final tie rate: {_fmt(ties.get('final_tie_rate'))} ({_fmt(ties.get('final_tie_rate_float'))})",
-            f"- Trial shared-award rate: {_fmt(ties.get('trial_shared_award_rate'))}",
-            f"- Final-tiebreak usage: {_fmt(ties.get('final_tiebreak_usage'))}",
-            f"- Counterability over R: {_fmt(counter.get('counterability_over_R'))}",
-            f"- Mean counter margin: {_fmt(counter.get('mean_counter_margin'))}",
-            f"- Mean counter distance: {_fmt(counter.get('mean_counter_distance'))}",
-            f"- Margin VOI: {_fmt(counter.get('margin_voi'))}",
+            f"- Final tie rate (uniform): {_fmt(ties.get('final_tie_rate'))} ({_fmt(ties.get('final_tie_rate_float'))})",
+            f"- Final tie rate (equilibrium-weighted, G7): {_fmt(ties.get('final_tie_rate_equilibrium_weighted'))}",
+            f"- Final chain-decided rate (uniform): {_fmt(ties.get('final_chain_decided_rate_uniform'))} ({_fmt(ties.get('final_chain_decided_rate_uniform_float'))})",
+            f"- Final chain-decided rate (equilibrium-weighted, G7): {_fmt(ties.get('final_chain_decided_rate_equilibrium_weighted'))}",
+            f"- Trial shared-award rate: {_fmt(ties.get('trial_shared_award_rate'))} ({_fmt(ties.get('trial_shared_award_rate_float'))}) [{_fmt(ties.get('trial_shared_award_rate_source'))}]",
+            f"- Final shared-winner pairs: {_fmt(ties.get('final_shared_pairs'))}",
+            f"- G4 counterability over R holds: {_fmt(_counter_R.get('c1_holds'))}; unbeaten: {_fmt([u.get('normal_totals') or u.get('strategy_id') for u in (_counter_R.get('unbeaten_strategies') or [])])}",
+            f"- G4 counterability over E^0.01 holds: {_fmt(_counter_E.get('c1_holds'))}; unbeaten: {_fmt([u.get('normal_totals') or u.get('strategy_id') for u in (_counter_E.get('unbeaten_strategies') or [])])}",
+            f"- G5 counter-quality margin floor over E^0.01: {_fmt(_counter_E.get('g5_margin_floor_ok'))}",
+            f"- Mean counter fraction over R (diagnostic): {_fmt(_counter_R.get('mean_counter_fraction'))}",
+            f"- Mean counter distance (diagnostic): {_fmt(counter.get('mean_counter_distance'))}",
+            f"- Margin VOI: {_fmt(_voi.get('value'))} ({_fmt(_voi.get('mixture'))}; mixture valid={_fmt(_voi.get('mixture_valid'))})",
         ],
         [
             "## 5. Diagnostics",

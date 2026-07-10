@@ -14,7 +14,7 @@ import pytest
 from ascension_trials.dominance import (
     diagnose_weak_dominance,
     eliminate_strictly_dominated,
-    strict_row_dominators_of,
+    strict_dominators_of,
 )
 from ascension_trials.enumerate import enumerate_allocations, find_allocation_by_normal_totals
 from ascension_trials.matrix import build_two_player_payoff_matrix, strategy_id
@@ -66,21 +66,26 @@ def test_math13_weak_diagnostics_flag_the_weakly_dominated():
 
 
 # --------------------------------------------------------------------------- #
-# A3 - (4,0) has zero strict beaters                                           #
+# A3 - (4,0) has zero strict dominators and is uncounterable                    #
 # --------------------------------------------------------------------------- #
 
 
-def test_a3_4_0_has_zero_strict_beaters():
+def test_a3_4_0_has_zero_strict_dominators():
     fx, cfg, state = _cfg_state("A3")
     allocs = enumerate_allocations(cfg, state, player_count=2)
     M = build_two_player_payoff_matrix(cfg, state, state, allocs, allocs, player_count=2)
     totals = tuple(fx["expected"]["named_strategy"]["normal_totals"])
     a40 = find_allocation_by_normal_totals(cfg, allocs, totals, player_count=2)
     idx = M.row_strategy_ids.index(strategy_id(cfg, state, a40))
-    assert strict_row_dominators_of(M.win, idx) == []
+    # No single strategy strictly dominates (4,0): zero strict dominators.
+    assert strict_dominators_of(M.win, idx) == []
     # (4,0) survives iterated strict-dominance elimination.
     result = eliminate_strictly_dominated(M.win)
     assert idx in result.surviving_rows
+    # C1 fails because (4,0) never loses — no strategy beats it head-to-head
+    # through Recognition Points (an uncounterable pure strategy exists, audit D6).
+    assert M.win[idx].min() >= 0
+    assert not any(M.win[a, idx] == 1 and M.margin[a, idx] > 0 for a in range(M.win.shape[0]))
 
 
 # --------------------------------------------------------------------------- #

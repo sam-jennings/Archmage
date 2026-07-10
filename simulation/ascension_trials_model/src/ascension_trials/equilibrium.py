@@ -316,6 +316,46 @@ def max_entropy_equilibrium(
     )
 
 
+def max_entropy_equilibrium_column(
+    matrix: np.ndarray, value: Optional[float] = None
+) -> MaxEntropyEquilibrium:
+    """Canonical maximum-entropy equilibrium for the COLUMN player of ``matrix``.
+
+    The column player of the row-payoff game ``M`` minimizes the row's payoff; that
+    is exactly the row player of the transformed game ``N = -Mᵀ`` (maximizing
+    ``-Mᵀ`` over the columns of ``M`` minimizes ``max_i (My)_i``). This returns the
+    canonical max-entropy point of the column player's optimal-strategy polytope by
+    solving :func:`max_entropy_equilibrium` on ``N`` at value ``-value``.
+
+    ``probabilities`` is the column mixture ``y`` (a distribution over the columns
+    of ``M``). At an identical-state (parity) game the payoff matrix is
+    antisymmetric, so ``y`` equals the row mixture from
+    :func:`max_entropy_equilibrium`; the two are computed separately so the metric
+    layer already has the per-side mixture it will need for asymmetric states
+    (design §10.1; audit D1/D4). ``value`` is the ROW game value; the transformed
+    game's value is ``-value``.
+    """
+    M = np.asarray(matrix, dtype=float)
+    if value is None:
+        value, _x, _res = _solve_row_maximin(M)
+    col_eq = max_entropy_equilibrium(-M.T, -float(value))
+    # Report the column equilibrium against the ORIGINAL row game value, so callers
+    # read a consistent ``value`` regardless of which side's mixture they asked for.
+    return MaxEntropyEquilibrium(
+        value=float(value),
+        probabilities=col_eq.probabilities,
+        entropy=col_eq.entropy,
+        normalized_entropy=col_eq.normalized_entropy,
+        support_1e_9=col_eq.support_1e_9,
+        support_1e_3=col_eq.support_1e_3,
+        support_1e_2=col_eq.support_1e_2,
+        feasibility_residual=col_eq.feasibility_residual,
+        optimality_residual=col_eq.optimality_residual,
+        status=col_eq.status,
+        valid=col_eq.valid,
+    )
+
+
 # --------------------------------------------------------------------------- #
 # Equilibrium-relevant set E^{0.01} (REQ-13.4/13.5; impl spec §11.4)           #
 # --------------------------------------------------------------------------- #

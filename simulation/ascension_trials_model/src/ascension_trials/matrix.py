@@ -85,6 +85,13 @@ class PayoffMatrix:
     final_tie: np.ndarray
     row_award_signatures: tuple[tuple[tuple[int, ...], ...], ...]
     trial_ids: tuple[str, ...]
+    # Per-cell, per-Trial shared-first flags taken straight from the resolver's
+    # ``TrialResult.shared_first`` (design §7.8) — cell (i,j) carries a tuple of
+    # booleans in ``trial_ids`` order. This is the audited source for per-Trial
+    # shared-award rates (audit D7): a Trial is shared iff its first-place group
+    # had more than one member, which is a resolver fact, never inferred from
+    # award-value collisions.
+    trial_shared_flags: tuple[tuple[tuple[bool, ...], ...], ...] = ()
     row_allocations: tuple[Allocation, ...] = field(default=(), repr=False)
     column_allocations: tuple[Allocation, ...] = field(default=(), repr=False)
 
@@ -115,6 +122,17 @@ def _award_signature(trial_results, player_id: str, trial_ids: Sequence[str]) ->
     """Row player's per-Trial Recognition-Point award, in sorted Trial-id order."""
     by_trial = {tr.trial_id: tr.rewards_awarded.get(player_id, 0) for tr in trial_results}
     return tuple(by_trial.get(tid, 0) for tid in trial_ids)
+
+
+def _trial_shared_signature(trial_results, trial_ids: Sequence[str]) -> tuple[bool, ...]:
+    """Per-Trial shared-first flags, in sorted Trial-id order (audit D7).
+
+    Read directly from :class:`~ascension_trials.resolver.TrialResult.shared_first`
+    — a Trial-level fact (the first-place group had >1 member), identical for both
+    players in a resolve, so cell (i, j) and its mirror (j, i) carry the same flags.
+    """
+    by_trial = {tr.trial_id: bool(tr.shared_first) for tr in trial_results}
+    return tuple(by_trial.get(tid, False) for tid in trial_ids)
 
 
 # --------------------------------------------------------------------------- #
@@ -180,6 +198,7 @@ def build_two_player_payoff_matrix(
     margin = np.zeros((rows, cols), dtype=np.int64)
     final_tie = np.zeros((rows, cols), dtype=bool)
     row_sigs: list[list[tuple[int, ...]]] = [[() for _ in range(cols)] for _ in range(rows)]
+    shared_flags: list[list[tuple[bool, ...]]] = [[() for _ in range(cols)] for _ in range(rows)]
 
     symmetric = _symmetric_inputs(config, state_a, state_b, row_ids, col_ids)
 
@@ -189,6 +208,7 @@ def build_two_player_payoff_matrix(
         pr = result.player_results.get(ROW_PLAYER)
         final_tie[i, j] = bool(pr.shared_first) if pr is not None else False
         row_sigs[i][j] = _award_signature(result.trial_results, ROW_PLAYER, trial_ids)
+        shared_flags[i][j] = _trial_shared_signature(result.trial_results, trial_ids)
 
     if symmetric:
         for i in range(rows):
@@ -211,6 +231,9 @@ def build_two_player_payoff_matrix(
                     row_sigs[j][i] = _award_signature(
                         result.trial_results, COL_PLAYER, trial_ids
                     )
+                    # Per-Trial shared-first is a Trial-level property of the same
+                    # resolve, identical for the mirror cell (audit D7).
+                    shared_flags[j][i] = shared_flags[i][j]
     else:
         for i in range(rows):
             for j in range(cols):
@@ -230,6 +253,7 @@ def build_two_player_payoff_matrix(
         final_tie=final_tie,
         row_award_signatures=tuple(tuple(row) for row in row_sigs),
         trial_ids=trial_ids,
+        trial_shared_flags=tuple(tuple(row) for row in shared_flags),
         row_allocations=tuple(allocations_a),
         column_allocations=tuple(allocations_b),
     )
@@ -330,12 +354,16 @@ def collapse_strategies(matrix: PayoffMatrix) -> CollapseResult:
     margin = np.zeros((k, k), dtype=np.int64)
     final_tie = np.zeros((k, k), dtype=bool)
     sigs: list[list[tuple[int, ...]]] = [[() for _ in range(k)] for _ in range(k)]
+    shared: list[list[tuple[bool, ...]]] = [[() for _ in range(k)] for _ in range(k)]
+    have_shared = bool(matrix.trial_shared_flags)
     for a, ia in enumerate(reps):
         for b, ib in enumerate(reps):
             win[a, b] = matrix.win[ia, ib]
             margin[a, b] = matrix.margin[ia, ib]
             final_tie[a, b] = matrix.final_tie[ia, ib]
             sigs[a][b] = matrix.row_award_signatures[ia][ib]
+            if have_shared:
+                shared[a][b] = matrix.trial_shared_flags[ia][ib]
 
     reduced = PayoffMatrix(
         row_strategy_ids=rep_ids,
@@ -345,6 +373,7 @@ def collapse_strategies(matrix: PayoffMatrix) -> CollapseResult:
         final_tie=final_tie,
         row_award_signatures=tuple(tuple(row) for row in sigs),
         trial_ids=matrix.trial_ids,
+        trial_shared_flags=tuple(tuple(row) for row in shared) if have_shared else (),
         row_allocations=tuple(matrix.row_allocations[idx] for idx in reps)
         if matrix.row_allocations
         else (),

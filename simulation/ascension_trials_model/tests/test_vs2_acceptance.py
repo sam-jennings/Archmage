@@ -19,7 +19,7 @@ from ascension_trials import equilibrium as eq
 from ascension_trials.dominance import (
     diagnose_weak_dominance,
     eliminate_strictly_dominated,
-    strict_row_dominators_of,
+    strict_dominators_of,
 )
 from ascension_trials.enumerate import (
     enumerate_allocations,
@@ -87,8 +87,8 @@ def test_a3_acceptance():
     totals = tuple(exp["named_strategy"]["normal_totals"])
     a40 = find_allocation_by_normal_totals(cfg, allocs, totals, player_count=2)
     idx = M.row_strategy_ids.index(strategy_id(cfg, state, a40))
-    assert strict_row_dominators_of(M.win, idx) == []  # zero strict beaters
-    # (4,0) never loses, so the turtle is unbeaten (C1's unique-solve criterion fails).
+    assert strict_dominators_of(M.win, idx) == []  # zero strict dominators
+    # (4,0) never loses, so the turtle is unbeaten (C1's counterability criterion fails).
     assert M.win[idx].min() >= 0
     assert exp["c1_fails"] is True
 
@@ -233,6 +233,107 @@ def test_math14_acceptance():
 
 
 # --------------------------------------------------------------------------- #
+# VS2-C D2 - equal-state counterability gates (G4/G5) over R and E^0.01         #
+# --------------------------------------------------------------------------- #
+
+
+def test_a3_counterability_fails_and_lists_turtle_unbeaten():
+    """Audit D2/RT-3: A3 fails C1 over R (and E) with (4,0) listed unbeaten."""
+    fx = load_vs2_fixture("A3")
+    cfg = load_referenced_config(fx)
+    state = _state(fx)
+    m = compute_small_state_metrics(cfg, state, player_count=2)
+
+    assert m.counter_R.c1_holds is False
+    assert m.counter_E.c1_holds is False
+    unbeaten_R = [u["normal_totals"] for u in m.counter_R.unbeaten]
+    unbeaten_E = [u["normal_totals"] for u in m.counter_E.unbeaten]
+    assert [4, 0] in unbeaten_R
+    assert [4, 0] in unbeaten_E
+    # Exactly the turtle is uncounterable over the (single-survivor) reasonable set.
+    assert unbeaten_R == fx["expected"]["unbeaten_normal_totals"]
+
+
+@pytest.mark.parametrize("fixture_id", ["A4", "A6"])
+def test_counterability_holds_over_R_and_E(fixture_id):
+    """Audit D2/RT-3: A4 and A6 pass equal-state counterability over R and E^0.01."""
+    fx = load_vs2_fixture(fixture_id)
+    cfg = load_referenced_config(fx)
+    state = _state(fx)
+    m = compute_small_state_metrics(cfg, state, player_count=2)
+
+    assert m.counter_R.c1_holds is True
+    assert m.counter_E.c1_holds is True
+    assert m.counter_R.unbeaten == []
+    assert m.counter_E.unbeaten == []
+
+
+# --------------------------------------------------------------------------- #
+# VS2-C D5 - genuine strategic collapse (A19)                                   #
+# --------------------------------------------------------------------------- #
+
+
+def test_a19_interchangeable_domains_collapse():
+    """Audit D5: two interchangeable domains -> 9 legal, 6 collapsed classes,
+    class sizes {1,1,1,2,2,2} (the only committed fixture with a genuine merge)."""
+    fx = load_vs2_fixture("A19")
+    cfg = load_referenced_config(fx)
+    state = _state(fx)
+    exp = fx["expected"]
+
+    allocs = enumerate_allocations(cfg, state, player_count=fx["player_count"])
+    assert len(allocs) == exp["legal_allocations"] == 9
+    M = build_two_player_payoff_matrix(
+        cfg, state, state, allocs, allocs, player_count=fx["player_count"]
+    )
+    collapse = collapse_strategies(M)
+    assert collapse.class_count == exp["collapsed_classes"] == 6
+    sizes = sorted(len(members) for members in collapse.classes.values())
+    assert sizes == exp["collapsed_class_sizes"] == [1, 1, 1, 2, 2, 2]
+    # The merge is genuine (collapsed strictly below legal), unlike A15 inflation.
+    assert collapse.class_count < len(allocs)
+
+
+# --------------------------------------------------------------------------- #
+# VS2-C D7 - trial-shared rate from resolver traces (A20)                       #
+# --------------------------------------------------------------------------- #
+
+
+def test_a20_trial_shared_rate_ignores_award_value_collision():
+    """Audit D7: the per-Trial shared rate is derived from resolver shared_first
+    traces, so a non-tied pair banking equal first/second award values is NOT
+    counted as shared (the discredited award-signature method would over-count)."""
+    fx = load_vs2_fixture("A20")
+    cfg = load_referenced_config(fx)
+    state = _state(fx)
+    exp = fx["expected"]
+
+    allocs = enumerate_allocations(cfg, state, player_count=fx["player_count"])
+    assert len(allocs) == exp["legal_allocations"] == 3
+    M = build_two_player_payoff_matrix(
+        cfg, state, state, allocs, allocs, player_count=fx["player_count"]
+    )
+    m = compute_small_state_metrics(cfg, state, player_count=fx["player_count"])
+    assert m.trial_shared_award_rate == Fraction(exp["trial_shared_award_rate"]) == Fraction(2, 9)
+
+    # Locate the non-tied-trial pair (2 units vs 1 unit): the 2-unit allocation wins
+    # the Trial outright (sole first) and banks first=2; the 1-unit allocation takes
+    # second=2. Both bank an award value of 2 for the single Trial (a collision), and
+    # since first==second the FINAL Recognition-Point result is even a 2-2 tie — yet
+    # the TRIAL itself was NOT a shared first place.
+    idx = {normal_totals_by_trial(cfg, a, 2): i for i, a in enumerate(allocs)}
+    i2, i1 = idx[(2,)], idx[(1,)]
+    assert M.row_award_signatures[i2][i1] == (2,)  # winner banks first = 2
+    assert M.row_award_signatures[i1][i2] == (2,)  # loser banks second = 2 (collision)
+    assert M.trial_shared_flags[i2][i1] == (False,)  # resolver: sole first, NOT shared
+    assert M.trial_shared_flags[i1][i2] == (False,)
+    assert M.win[i2][i1] == 0  # equal award values -> 2-2 final RP tie, not a Trial share
+    # The genuine Trial ties are the (1,1) and (2,2) mirror pairs.
+    assert M.trial_shared_flags[i1][i1] == (True,)
+    assert M.trial_shared_flags[i2][i2] == (True,)
+
+
+# --------------------------------------------------------------------------- #
 # Fixture metadata / provenance (REQ-9.4, REQ-14)                              #
 # --------------------------------------------------------------------------- #
 
@@ -264,7 +365,7 @@ REQUIREMENT_COVERAGE = {
         ("self", "test_a3_acceptance"),
         ("self", "test_a4_acceptance_counts_and_cycle"),
     ],
-    "REQ-11": [  # strategic equivalence + dominance
+    "REQ-11": [  # strategic equivalence + dominance + counterability (G4/G5)
         ("test_matrix_collapse", "test_collapse_partitions_all_strategies_and_maps_members"),
         ("test_matrix_collapse", "test_a15_unenterable_trial_does_not_change_collapsed_count_or_metrics"),
         ("test_dominance", "test_math13_strict_retains_weakly_dominated_strategy"),
@@ -272,6 +373,9 @@ REQUIREMENT_COVERAGE = {
         ("test_dominance", "test_strictly_dominated_removed_simultaneously_in_one_round"),
         ("test_dominance", "test_fixed_point_is_independent_of_row_permutation"),
         ("self", "test_a3_acceptance"),
+        ("self", "test_a3_counterability_fails_and_lists_turtle_unbeaten"),
+        ("self", "test_counterability_holds_over_R_and_E"),
+        ("self", "test_a19_interchangeable_domains_collapse"),
         ("self", "test_a15_acceptance_collapse_invariance"),
         ("self", "test_math13_acceptance"),
     ],
@@ -293,7 +397,10 @@ REQUIREMENT_COVERAGE = {
     "REQ-14": [  # reports + evidence labelling (VS2 additions)
         ("test_vs2_reports", "test_small_state_report_has_metadata_and_evidence_labels"),
         ("test_vs2_reports", "test_small_state_report_is_byte_stable"),
+        ("test_vs2_reports", "test_a3_report_fails_counterability_gate"),
+        ("test_vs2_reports", "test_a5_report_fails_tie_gate"),
         ("self", "test_vs2_fixture_carries_provenance_and_oracle"),
+        ("self", "test_a20_trial_shared_rate_ignores_award_value_collision"),
     ],
 }
 

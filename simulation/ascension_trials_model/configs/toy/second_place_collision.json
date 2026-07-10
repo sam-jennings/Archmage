@@ -1,0 +1,36 @@
+{
+  "id": "second_place_collision",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for adversarial fixture A20 'Second-place collision' (VS2-C audit D7).",
+    "One fungible normal domain; a single Trial that awards first=2 AND second=2 (equal award values); optional allocation; winner-take-all group with shared-full ties.",
+    "Purpose: when first and second award the same value, a non-tied pair banks equal awards for the Trial. Reconstructing 'shared' from award-value signatures would falsely flag such a pair as a shared first place. The correct per-Trial shared flag comes from the resolver's TrialResult.shared_first (only a genuine first-place tie is shared). Budget (2) and the shared-rate oracle live in the A20 fixture (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "trial_a",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 2}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

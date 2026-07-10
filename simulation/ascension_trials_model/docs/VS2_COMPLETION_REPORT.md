@@ -6,9 +6,22 @@ scope: VS2
 updated: 2026-07-10
 status: approved
 approved: 2026-07-10
+vs2c_gate: approved
+vs2c_approved: 2026-07-10
 ---
 
 # VS2 Completion Report — Ascension Trials Configuration Model
+
+> **VS2-C correction pass (2026-07-10):** the VS2 exact engine was accepted by the
+> narrow adversarial audit (`_review/ASCENSION_TRIALS_05_VS2_LAB_AUDIT_2026-07-10.md`),
+> which found blocking defects **D1–D7 in the derived-metrics/reporting layer only**.
+> Those defects are now fixed. Sections 1–12 below describe the original VS2 milestone
+> (pre-correction) and are retained as the historical gate record; **§13 documents the
+> VS2-C corrections, the corrected metrics, and the new test counts/commands, and is the
+> current state of the package.** The exact engine (enumeration, matrices, collapse,
+> dominance, LP, max-entropy, E^0.01) is unchanged — every count/value in §1–12 still
+> reproduces.
+
 
 This report is the **VS2 approval gate** (spec Task 25, REQ-14 / REQ-15). It is the
 stop-for-review artifact for VS2 — the small-state exact laboratory: allocation
@@ -329,3 +342,186 @@ The completed VS1 and VS2 implementation is captured as a single deliberate mile
 commit on top of `71cad20`. VS3–VS6 remain unstarted and require a **new Kiro spec**
 (its own requirements, design, and tasks); the current Tasks 1–25 end here at the VS2
 gate and are not to be extended by ad hoc coding.
+
+---
+
+## 13. VS2-C correction pass (2026-07-10)
+
+This section is the **VS2-C approval gate**. The VS2 exact engine was accepted by the
+narrow adversarial audit (`_review/ASCENSION_TRIALS_05_VS2_LAB_AUDIT_2026-07-10.md`,
+verdict "trustworthy with corrections"). The audit independently reproduced the exact
+core end to end and located blocking defects **only in the derived-metrics/reporting
+layer**. This bounded pass fixes D1–D7; no change was made to enumeration, payoff
+construction, strategic collapse, iterated strict dominance, the zero-sum LP, the
+maximum-entropy equilibrium, or E^0.01, so every count and value in §1–12 still
+reproduces exactly.
+
+### 13.1 Corrections implemented
+
+- **D1 — margin VOI (fixes B1).** `metrics.margin_voi` now computes the model's VOI_M
+  (`VOI_M = Σ_b y_b · max_a margin[a,b] − v_M`) with `y` the canonical maximum-entropy
+  **column** mixture of the *margin* game (`equilibrium.max_entropy_equilibrium_column`;
+  equal to the row mixture at parity, computed per side so it generalizes to asymmetric
+  states). The report records which mixture was used and that VOI depends on equilibrium
+  selection. The pre-correction metric returned the unweighted mean of per-row maxima.
+  - **A4 margin VOI: old (defective) `8.0` → new `4.516666770127806` (≈ 4.5167).**
+    Regressions: matching-pennies `[[1,−1],[−1,1]]` gives VOI_M = 1 exactly (RT-1); A4
+    pins to ≈ 4.5167 with an explicit assertion that the value is **not** the old `8.0`
+    (RT-2).
+
+- **D2 — real counterability gates (fixes B2).** `SmallStateMetrics` now carries the
+  G4 boolean (`counter_R.c1_holds`, `counter_E.c1_holds`) over both `R` and `E^0.01`,
+  the unbeaten-strategy list, the per-opponent best counter margin, and the G5 margin
+  floor. A counter counts only if it wins **through Recognition Points** — `win = 1`
+  *and* `margin > 0` — never on the final Spellbook tiebreak alone. Regressions: A3
+  fails counterability over both sets and lists `(4,0)` unbeaten (RT-3); A4 and A6 pass
+  over both `R` and `E^0.01`.
+
+- **D3 — repaired hard-gate table (fixes B3).** `reports.vs2_hard_gates` no longer emits
+  the unconditional `reasonable_set_R` / `equilibrium_relevant_set_E_0_01` PASS rows
+  (those sizes are diagnostic counts in report §2). It now emits real, failable gates:
+  equal-state counterability (G4) over `R` and `E^0.01`, counter quality (G5) over
+  `E^0.01`, and the three equilibrium-weighted tie gates (G7). **A3 now produces a
+  failed counterability gate; A5 produces a failed tie gate.**
+
+- **D4 — equilibrium-weighted tie metrics (fixes C1/C2).** Added the equilibrium-
+  weighted final-tie probability (`xᵀ T y` under the canonical row/column win-game
+  mixtures) and the final-chain-decided rate (`win ≠ 0 & margin == 0`) both uniform and
+  equilibrium-weighted. The bilinear form uses the row and column mixtures separately
+  (asymmetric-ready). Regressions: A5 equilibrium-weighted tie probability = 1; a
+  hand-built 2×2 chain-decided rate matches the analytic 1/2.
+
+- **D5 — genuine collapse fixture A19.** Committed
+  `fixtures/adversarial/a19_interchangeable_collapse.json` (+ `configs/toy/interchangeable_5_3.json`):
+  two interchangeable domains, budget `(1,1)`, Trials `(5,3)` → **9 legal, 6 collapsed
+  classes, class sizes `{1,1,1,2,2,2}`**. This is the only committed fixture whose
+  collapse is a genuine merge (collapsed < legal), so it can catch a merge bug that
+  A15's inflation-invariance cannot.
+
+- **D6 — terminology / C1 prose (fixes C4).** `dominance.strict_row_dominators_of` is
+  renamed to `strict_dominators_of` (deprecated alias retained). "Dominator" is reserved
+  for improvement against **every** opposing strategy; "head-to-head winner/counter" for
+  `win[a,b] = 1`. The A3 fixture prose and this report now read: **"C1 fails because
+  `(4,0)` never loses; an uncounterable pure strategy exists."**
+
+- **D7 — trial-sharing from resolver traces (fixes C3).** `PayoffMatrix.trial_shared_flags`
+  is populated from the resolver's `TrialResult.shared_first`, and
+  `trial_shared_award_rate` is derived from it — never reconstructed from award-value
+  signatures. Regression A20 (`a20_shared_trace.json`, first = second = 2): a non-tied
+  Trial whose winner and runner-up bank the same award value is **not** counted as
+  shared; the corrected rate is `2/9` (the discredited award-signature method reported
+  `4/9`).
+
+### 13.2 Corrected metrics for the four toys (regenerated `analyse-small` reports)
+
+Reports regenerated to `outputs/{a3,a4,a5,a6}/` (git-ignored, REQ-15.4). Gate outcomes
+below are **honest**: A3/A5 are broken-by-design and now fail the appropriate gates; A4
+is a counter-cycle exemplar (it passes counterability but legitimately fails the tie
+gates, as it was never a tie-discipline exemplar).
+
+| Fixture | Margin VOI | G4 over R | G4 over E^0.01 | G5 over E^0.01 | G7 final-shared (eq-wt) | Per-Trial shared |
+|---|---|---|---|---|---|---|
+| **A3** turtle | ≈ 2.0e-7 | **fail** — `(4,0)` unbeaten | **fail** — `(4,0)` unbeaten | fail | fail (1.000) | 2/15 |
+| **A4** counter cycle | **4.51667** (was 8.0) | pass | pass | pass | fail (0.0928) | 29/252 |
+| **A5** tie-fest | 0.0 | fail (all 5 unbeaten) | fail | fail | **fail (1.000)** | 4/25 |
+| **A6** counterable-poor | 4.0 | pass | pass | pass | fail (0.482) | 29/252 |
+
+Uniform tie rates are unchanged from §2 (A4 `1/84`, A5 `1`, A6 `1/3`); the corrected
+equilibrium-weighted G7 figures are new.
+
+### 13.3 Tests and exact commands/outputs
+
+Run from `simulation/ascension_trials_model/`. Environment unchanged: CPython 3.13.5,
+NumPy 2.3.3, SciPy 1.16.0.
+
+Complete suite (378 VS1 preserved + VS2 including 13 new VS2-C regressions = 456):
+
+```
+python -m pytest -q
+```
+```
+456 passed in 117.67s (0:01:57)
+```
+
+VS2 modules under warnings-as-errors (no solver warning promoted to failure):
+
+```
+python -m pytest tests/test_enumeration.py tests/test_matrix_collapse.py \
+  tests/test_dominance.py tests/test_equilibrium.py \
+  tests/test_vs2_reports.py tests/test_vs2_acceptance.py \
+  -W error::UserWarning -W error::RuntimeWarning -q
+```
+```
+78 passed in 115.06s (0:01:55)
+```
+
+New VS2-C regressions: `test_a4_margin_voi_is_corrected_and_not_the_old_row_max_mean`,
+`test_margin_voi_matching_pennies_is_exactly_one`,
+`test_a5_equilibrium_weighted_final_tie_probability_is_one`,
+`test_chain_decided_rate_matches_analytic_on_hand_built_2x2` (test_equilibrium.py);
+`test_a3_counterability_fails_and_lists_turtle_unbeaten`,
+`test_counterability_holds_over_R_and_E` (A4, A6),
+`test_a19_interchangeable_domains_collapse`,
+`test_a20_trial_shared_rate_ignores_award_value_collision` (test_vs2_acceptance.py);
+`test_a3_report_fails_counterability_gate`, `test_a5_report_fails_tie_gate`
+(test_vs2_reports.py); plus the renamed/strengthened
+`test_a3_4_0_has_zero_strict_dominators` (test_dominance.py). All prior VS1 and VS2
+tests are preserved; the two report tests that asserted the removed unconditional
+set-size gates were updated to assert the new real gates.
+
+### 13.4 Files changed in VS2-C
+
+- Source: `metrics.py` (D1/D2/D4/D7 metrics + gate helpers), `equilibrium.py`
+  (`max_entropy_equilibrium_column`), `matrix.py` (`PayoffMatrix.trial_shared_flags`
+  from resolver traces), `dominance.py` (`strict_dominators_of` rename + alias +
+  terminology), `reports.py` (real `vs2_hard_gates`, updated small-state Markdown and
+  notes).
+- New fixtures/configs: `fixtures/adversarial/a19_interchangeable_collapse.json`,
+  `fixtures/adversarial/a20_shared_trace.json`, `configs/toy/interchangeable_5_3.json`,
+  `configs/toy/second_place_collision.json`. A3 fixture prose corrected.
+- Tests: `test_equilibrium.py`, `test_vs2_acceptance.py`, `test_vs2_reports.py`,
+  `test_dominance.py`, `vs2_support.py` (A19/A20 registered).
+
+### 13.5 Gate decision
+
+**Stop at the VS2-C approval gate.** D1–D7 are implemented with RT-1..RT-3 and the
+D3/D4/D5/D7 regressions green; the full suite is `456 passed`, zero solver warnings under
+`-W error`; A3 shows a failed counterability gate and A5 a failed tie gate; the A4 margin
+VOI is corrected from `8.0` to `4.5167`. Per the audit and the working-system standing
+rule, **VS3–VS6 have not been started and must not begin without a new approval**:
+no asymmetric-state support, best-response optimization, integer programming, double
+oracle or multiplayer analysis was added in this pass.
+
+### 13.6 VS2-C approval
+
+**Status: VS2-C gate approved — 2026-07-10.** The stop-for-review at §13.5 was
+satisfied and the VS2-C correction pass is accepted at its gate. This approval is
+**additive to, and does not alter, the record above**: §13.1–§13.5 (the D1–D7
+corrections, the corrected metrics table in §13.2, the test counts/commands in §13.3,
+and the files-changed list in §13.4) are retained verbatim as the gate record.
+
+Specifically retained as **truthful, accepted fixture outcomes** (not defects to be
+"fixed away"):
+
+- **A4** (counter-cycle exemplar): passes counterability (G4/G5) but **legitimately
+  fails the equilibrium-weighted final-shared tie gate G7 (≈ 0.0928)**. A4 was never a
+  tie-discipline exemplar; the failure is the correct, honest reading of the fixture.
+- **A6** (counterable-poor): passes counterability (G4/G5) but **legitimately fails G7
+  (≈ 0.482)**, again the correct reading.
+- **A3** (turtle) fails counterability by design (`(4,0)` uncounterable); **A5**
+  (tie-fest) fails the tie gate by design (equilibrium-weighted tie probability = 1).
+
+These are accepted as understood and correctly characterized, exactly as the §12 VS2
+approval accepted the numerical deviations. Approval does not erase or resolve them.
+
+The completed **VS1 + VS2 + VS2-C** work is captured as a deliberate milestone commit
+(the VS2-C correction pass on top of the VS1+VS2 milestone `8b605f0`). The resolved
+milestone hash and the from-committed-state reproduction of `python -m pytest -q`, the
+VS2 warnings-as-errors command, and `node meta/checks/check.mjs` are recorded in the
+accompanying session verification log
+(`docs/VS2C_MILESTONE_VERIFICATION.md`).
+
+**VS3–VS6 remain unstarted.** Per the audit and the working-system standing rule they
+must not begin without a new approval; VS3 and VS4 are now scoped in the new Kiro spec
+`.kiro/specs/ascension-trials-scalable-two-player-analysis/`, which is itself
+stop-for-review before any implementation.
