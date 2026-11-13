@@ -1,0 +1,30 @@
+{
+  "id": "BR-WINMARGIN-1",
+  "name": "win_optimum_differs_from_margin_optimum",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 9; REQ-7.3 win optimum != margin optimum; REQ-5). Best-response values hand-derived from the rules of configs/toy/win_margin_divergence.json (authored for VS3 Task 7); the same divergence is exercised by tests/test_best_response_win.py::test_win_optimum_differs_from_margin_optimum.",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 best-response planted fixture BR-WINMARGIN-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from oracle output). Config configs/toy/win_margin_divergence.json: one fungible domain; Trials t1 (first=2) and t2 (first=3), second=0; optional allocation; shared-full ties; local total_power tiebreak; no final tiebreak. Acting side A holds fungible=2; fixed opponent B holds fungible=2 and plays the MIXTURE {B empty with prob 1/2, B=(1 on t1, 1 on t2) with prob 1/2}. Hand-derivation: A=(1,1) sweeps both Trials vs the empty B (margin +5, win +1) but only ties the (1,1) B on both Trials (shared-full, margin 0, win 0), so E[margin] = 5/2 and E[win] = 1/2. A=(0,2) guarantees winning the richer t2 (worth 3) against BOTH opponents while conceding t1: vs empty B margin +3 win +1, vs (1,1) B margin +1 win +1, so E[margin] = 2 and E[win] = 1. The MARGIN best response is uniquely (1,1) (5/2 > 2); the WIN best response is uniquely (0,2) (1 > 1/2). The two objectives are NOT interchangeable: the margin optimum (1,1) scores only E[win] = 1/2 < 1, and the win optimum (0,2) scores only E[margin] = 2 < 5/2.",
+  "config_ref": "configs/toy/win_margin_divergence.json",
+  "trial_order": ["t1", "t2"],
+  "state_a": {"player_id": "A", "normal_power": {"fungible": 2}, "wild_power": 0},
+  "state_b": {"player_id": "B", "normal_power": {"fungible": 2}, "wild_power": 0},
+  "expected": {
+    "opponent_mixture": [
+      {"totals": [0, 0], "prob": "1/2"},
+      {"totals": [1, 1], "prob": "1/2"}
+    ],
+    "win_best_totals": [0, 2],
+    "win_best_value": 1,
+    "margin_best_totals": [1, 1],
+    "margin_best_value": "5/2",
+    "optima_differ": true,
+    "cross_objective": {
+      "margin_alloc_win_value": "1/2",
+      "win_alloc_margin_value": 2
+    }
+  }
+}

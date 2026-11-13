@@ -1,0 +1,48 @@
+{
+  "id": "asym_two_trial",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for VS3 unequal-state fixture ASYM-1 (.kiro spec ascension-trials-scalable-two-player-analysis, Task 4).",
+    "One fungible normal domain; two Trials each worth first=2, second=0; optional allocation with residue; winner-take-all with shared-full ties; trial tiebreak total_power then shared; no final tiebreak declared, so Recognition-Point ties resolve as a shared final result.",
+    "Purpose: with a single fungible domain and two equal-value Trials, unequal budgets (A=2, B=1) give a genuinely rectangular 6x3 game whose every cell, per-side collapse and per-side canonical mixtures are hand-derivable from the rules. Budgets, matrix, collapse and mixture oracles live in the ASYM-1 fixture (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "trial_a",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 0}}}
+    },
+    {
+      "id": "trial_b",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

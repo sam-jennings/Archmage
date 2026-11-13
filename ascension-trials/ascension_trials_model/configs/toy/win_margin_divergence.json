@@ -1,0 +1,48 @@
+{
+  "id": "win_margin_divergence",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for VS3 Task 7 planted fixture WIN-MARGIN-1 (.kiro spec ascension-trials-scalable-two-player-analysis): a state + opponent mixture where the WIN-utility best response differs from the MARGIN-utility best response (REQ-7.3).",
+    "One fungible normal domain; two Trials worth first=2 (t1) and first=3 (t2), second=0; optional allocation with residue; winner-take-all with shared-full ties; trial tiebreak total_power then shared; no final tiebreak, so Recognition-Point ties resolve as a shared final result (win utility 0).",
+    "Hand oracle (A budget 2, B budget 2, opponent mixture {B plays nothing, B plays (1 on t1, 1 on t2)} each prob 1/2): A=(1,1) sweeps both Trials vs the empty B (margin +5, win +1) but only ties the (1,1) B (margin 0, win 0), so E[margin]=5/2 and E[win]=1/2. A=(0,2) guarantees winning the richer t2 (worth 3) against BOTH opponents while conceding t1: vs empty B margin +3 win +1, vs (1,1) B margin +1 win +1, so E[margin]=2 and E[win]=1. Thus the margin oracle uniquely picks (1,1) (5/2 > 2) while the win oracle uniquely picks (0,2) (1 > 1/2): the two objectives are not interchangeable (REQ-5, REQ-7.3). Oracles are transcribed from the rules, not reverse-engineered from oracle output (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "t1",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 0}}}
+    },
+    {
+      "id": "t2",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 3, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

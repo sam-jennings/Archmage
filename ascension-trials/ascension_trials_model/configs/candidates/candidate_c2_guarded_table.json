@@ -1,0 +1,509 @@
+{
+ "id": "candidate_c2_guarded_table",
+ "version": "0.1",
+ "historical_candidate": false,
+ "stale_by_design": false,
+ "supported_player_counts": [
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "notes": [
+  "CANDIDATE candidate_c2_guarded_table from ascension-trials/design-history/ASCENSION_TRIALS_07_CANDIDATE_SHORTLIST_2026-07-11.md (Stage 0-5 screening). NOT canon; playtest candidate.",
+  "Derived from configs/hybrid_rebuild.json (2n-3 power model, experimental).",
+  "RULE NOT EXPRESSIBLE IN SCHEMA - Champion's Mark (2p only): each player secretly marks one active Trial; +4 RP if they win it (shared win counts). Screened via exact extended-matrix overlay.",
+  "Minimum Claim 5 at every player count (Wild never counts toward the floor).",
+  "No baseline Wild. TM/EM stay at 8 (hybrid pricing)."
+ ],
+ "rounding": {
+  "mode": "half_up"
+ },
+ "power_formula": {
+  "profile": "hybrid_2n_minus_3",
+  "version": "0.1-experimental",
+  "experimental": true,
+  "standard_spell_power": {
+   "type": "linear",
+   "expression": "2*n-3"
+  },
+  "enchantment_power": {
+   "type": "table",
+   "table": {
+    "3": 4,
+    "4": 8,
+    "5": 12
+   }
+  },
+  "contributions": {
+   "conjuration": {
+    "energy": "standard_spell_power"
+   },
+   "transfiguration": {
+    "transformation": "standard_spell_power"
+   },
+   "perfect_transmutation": {
+    "energy": "standard_spell_power",
+    "transformation": "standard_spell_power",
+    "wild": 1
+   },
+   "enchantment": {
+    "enchantment": "enchantment_power"
+   }
+  },
+  "enchantment_wild_sizes": [
+   4,
+   5
+  ]
+ },
+ "domains": [
+  {
+   "id": "radiance",
+   "class": "energy"
+  },
+  {
+   "id": "void",
+   "class": "energy"
+  },
+  {
+   "id": "flux",
+   "class": "energy"
+  },
+  {
+   "id": "aether",
+   "class": "energy"
+  },
+  {
+   "id": "echo",
+   "class": "energy"
+  },
+  {
+   "id": "transformation",
+   "class": "transformation"
+  },
+  {
+   "id": "enchantment",
+   "class": "enchantment"
+  }
+ ],
+ "wild": {
+  "enabled": true,
+  "can_enter_alone": false,
+  "requires_legal_normal_entry": true,
+  "counts_as_source": false,
+  "can_satisfy_source_minimum": false,
+  "can_break_source_maximum": false,
+  "included_in_primary_total": true,
+  "included_in_tiebreaks": false
+ },
+ "trials": [
+  {
+   "id": "energy_purity",
+   "active_player_counts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "allowed_domain_classes": [
+     "energy"
+    ],
+    "source_count": {
+     "universe": "class:energy",
+     "minimum": 1,
+     "maximum": 1
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "2": {
+      "first": 8,
+      "second": 0
+     },
+     "3": {
+      "first": 8,
+      "second": 0
+     },
+     "4": {
+      "first": 8,
+      "second": 0
+     },
+     "5": {
+      "first": 8,
+      "second": 0
+     },
+     "6": {
+      "first": 8,
+      "second": 3
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "energy_harmony",
+   "active_player_counts": [
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "allowed_domain_classes": [
+     "energy"
+    ],
+    "source_count": {
+     "universe": "class:energy",
+     "minimum": 2
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "breadth",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "4": {
+      "first": 6,
+      "second": 0
+     },
+     "5": {
+      "first": 6,
+      "second": 0
+     },
+     "6": {
+      "first": 6,
+      "second": 2
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "transformation_mastery",
+   "active_player_counts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "allowed_domain_ids": [
+     "transformation"
+    ],
+    "required_domain_counts": {
+     "transformation": {
+      "minimum": 1
+     }
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "2": {
+      "first": 8,
+      "second": 0
+     },
+     "3": {
+      "first": 8,
+      "second": 0
+     },
+     "4": {
+      "first": 8,
+      "second": 0
+     },
+     "5": {
+      "first": 8,
+      "second": 0
+     },
+     "6": {
+      "first": 8,
+      "second": 3
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "enchantment_mastery",
+   "active_player_counts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "allowed_domain_ids": [
+     "enchantment"
+    ],
+    "required_domain_counts": {
+     "enchantment": {
+      "minimum": 1
+     }
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "2": {
+      "first": 8,
+      "second": 0
+     },
+     "3": {
+      "first": 8,
+      "second": 0
+     },
+     "4": {
+      "first": 8,
+      "second": 0
+     },
+     "5": {
+      "first": 8,
+      "second": 0
+     },
+     "6": {
+      "first": 8,
+      "second": 3
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "focused_power",
+   "active_player_counts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "source_count": {
+     "universe": "all_normal",
+     "minimum": 1,
+     "maximum": 1
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "3": {
+      "first": 7,
+      "second": 0
+     },
+     "4": {
+      "first": 7,
+      "second": 0
+     },
+     "5": {
+      "first": 7,
+      "second": 0
+     },
+     "6": {
+      "first": 7,
+      "second": 3
+     },
+     "2": {
+      "first": 7,
+      "second": 0
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "universal_power",
+   "active_player_counts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "eligibility": {
+    "source_count": {
+     "universe": "all_normal",
+     "minimum": 2
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "breadth",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "2": {
+      "first": 6,
+      "second": 0
+     },
+     "3": {
+      "first": 6,
+      "second": 0
+     },
+     "4": {
+      "first": 6,
+      "second": 0
+     },
+     "5": {
+      "first": 6,
+      "second": 0
+     },
+     "6": {
+      "first": 6,
+      "second": 2
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  },
+  {
+   "id": "complete_mastery",
+   "active_player_counts": [
+    5,
+    6
+   ],
+   "eligibility": {
+    "source_count": {
+     "universe": "all_normal",
+     "minimum": 3
+    },
+    "required_class_counts": {
+     "energy": {
+      "minimum": 1
+     },
+     "transformation": {
+      "minimum": 1
+     },
+     "enchantment": {
+      "minimum": 1
+     }
+    }
+   },
+   "entry_floor": {
+    "value": 5,
+    "scope": "normal"
+   },
+   "tie_award": {
+    "type": "shared_full"
+   },
+   "trial_tiebreaks": [
+    "total_power",
+    "normal_power",
+    "breadth",
+    "shared"
+   ],
+   "rewards": {
+    "by_player_count": {
+     "5": {
+      "first": 9,
+      "second": 0
+     },
+     "6": {
+      "first": 9,
+      "second": 4
+     }
+    }
+   },
+   "suppress_lower_on_shared_first": true
+  }
+ ],
+ "allocation": {
+  "completion": "maximal",
+  "residue_allowed": true,
+  "infeasible_full_fallback": "reject",
+  "invalidation": {
+   "illegal_trial_entry": "ignore_entry",
+   "overallocated_domain": "invalidate_entries_using_domain",
+   "overallocated_wild": "invalidate_entries_using_wild",
+   "malformed_allocation": "reject_profile"
+  }
+ },
+ "declared_tiebreak_stats": [
+  "spell_count",
+  "largest_spell"
+ ],
+ "final_result": {
+  "final_tiebreaks": [
+   "first_place_trial_count",
+   "total_normal_power",
+   "spell_count",
+   "largest_spell",
+   "shared"
+  ]
+ },
+ "final_tiebreaks": [
+  "first_place_trial_count",
+  "total_normal_power",
+  "spell_count",
+  "largest_spell",
+  "shared"
+ ]
+}

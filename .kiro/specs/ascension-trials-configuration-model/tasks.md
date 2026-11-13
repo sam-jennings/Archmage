@@ -33,7 +33,7 @@ Kiro must pause feature coding until Requirements and Design are approved. Exist
   - _Requirements: REQ-1, REQ-2, REQ-3, REQ-4, REQ-5, REQ-6, REQ-7, REQ-8, REQ-15_
 
 - [x] 2. Finalize package and repository integration
-  - Ensure `simulation/ascension_trials_model/` uses the approved package layout.
+  - Ensure `ascension-trials/ascension_trials_model/` uses the approved package layout.
   - Add `requirements.md`, `design.md` and `tasks.md` under the Kiro spec location and mirror/reference them in project docs as appropriate.
   - Pin pytest, NumPy and SciPy dependencies.
   - Ignore generated outputs.

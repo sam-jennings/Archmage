@@ -1,0 +1,31 @@
+{
+  "id": "BR-TRAP-1",
+  "name": "illegal_entry_trap",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 9; REQ-7.3 illegal-entry trap; REQ-4/REQ-5/REQ-6). Best-response values hand-derived from the rules of configs/toy/illegal_entry_trap.json (eligibility source-count predicate, model v2.1 §4.1; illegal-entry drop, spec v1.1 §7.3).",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 best-response planted fixture BR-TRAP-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from oracle output). Config configs/toy/illegal_entry_trap.json: two energy domains (void, flux); Trial 'grand' (reward first=10) requires TWO energy sources; Trial 'minor' (reward first=4) is mono (one energy source); optional allocation, winner-take-all shared-full ties, local total_power tiebreak, no final tiebreak. Acting side A holds void=2 (ONE energy source) and faces an empty opponent B. Because A has a single energy domain, every entry it could place on 'grand' has one source (< 2) and is illegal: the resolver drops it (ignore_entry) and awards 0. The tempting 10-point 'grand' reward is therefore unreachable. The only legal Recognition Points come from the mono Trial 'minor', which A wins uncontested for 4. Hand-derivation of the best response: A's legal allocations place void only on 'minor' or in residue (grand entries are filtered as illegal), so the row margin best response banks 4 (A 4, B 0 -> margin +4) and the row win best response is +1 (4 > 0). The illegal 'grand' trap (void:2 on grand) scores 0 (margin 0, win 0, a 0-0 shared final), strictly worse -- the oracle must avoid it. Legal A allocation per-Trial totals (grand, minor) are (0,0), (0,1), (0,2).",
+  "config_ref": "configs/toy/illegal_entry_trap.json",
+  "trial_order": ["grand", "minor"],
+  "state_a": {"player_id": "A", "normal_power": {"void": 2}, "wild_power": 0},
+  "state_b": {"player_id": "B", "normal_power": {"void": 2}, "wild_power": 0},
+  "expected": {
+    "opponent": "B plays nothing (empty allocation)",
+    "row_margin_best_value": 4,
+    "row_win_best_value": 1,
+    "best_response_enters_trial": "minor",
+    "best_response_avoids_trial": "grand",
+    "legal_allocation_totals": [[0, 0], [0, 1], [0, 2]],
+    "trap": {
+      "description": "Piling both void units on the 10-point 'grand' Trial is tempting but illegal (1 energy source < 2 required).",
+      "allocation_totals": [2, 0],
+      "grand_entry_legal": false,
+      "grand_entry_reason_contains": "sources in class:energy",
+      "row_margin_value": 0,
+      "row_win_value": 0
+    }
+  }
+}

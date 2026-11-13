@@ -1,0 +1,64 @@
+{
+  "id": "ASYM-1",
+  "name": "unequal_budget",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 4; REQ-1/REQ-2/REQ-3/REQ-7.2). Matrix, per-side collapse and per-side canonical mixtures hand-derived from the rules of configs/toy/asym_two_trial.json.",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 unequal-state fixture ASYM-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from engine output). Config configs/toy/asym_two_trial.json: one fungible domain, two Trials (trial_a, trial_b) each first=2/second=0, shared_full ties, trial tiebreak total_power then shared, optional allocation with residue, no final tiebreak (so Recognition-Point ties resolve shared). Player A holds fungible power 2, player B power 1 -> A has 6 legal allocations (distributions of up to 2 units over 2 Trials: C(4,2)=6), B has 3 (C(3,2)=3), a genuinely rectangular 6x3 game. Per-Trial award to A given A places a and B places b units on a Trial: 0 if a=0; else 2 if b=0 or a>b (sole first) or a=b>=1 (shared_full, both bank 2); 0 if a<b. Recognition Points sum the two Trials; higher RP wins (win +1/-1), equal RP -> shared final (win 0, margin 0). Hand-derivation: A=(1,1) enters both Trials, so against B's single unit it banks 4 vs at most 2 and wins every column -> row (1,1) has win row all +1 and is the pure maximin strategy for both the win game (value +1) and the margin game (value +2, its worst column giving margin 2). The win game's column player is indifferent (A=(1,1) scores +1 against every column), so the canonical column mixture is uniform and E^0.01 includes all three columns; the margin game's column player must avoid the empty column B=(0,0) (which concedes margin 4) and is indifferent between the two one-unit columns, giving the canonical margin column mixture [0, 1/2, 1/2]. Strict dominance removes only A=(0,0) (dominated by (1,1)), so A's reasonable set has 5 members and B's has 3. No two strategies share a full behaviour signature on either side, so the per-side collapse merges nothing (6 row classes, 3 column classes). Counterability (G4/G5) is an equal-state gate and is not_applicable to this unequal state (REQ-3.3). Trial-shared rate: over the 18 ordered pairs x 2 Trials, a Trial is shared only when A and B place equal >=1 units on it -> pairs (A=(1,0),B=(1,0)) [trial_a], (A=(0,1),B=(0,1)) [trial_b], (A=(1,1),B=(1,0)) [trial_a], (A=(1,1),B=(0,1)) [trial_b] = 4 shared slots / 36 = 1/9. Final-tie pairs = 7/18. No cell is decided by a final tiebreak (chain-decided rate 0). Reward concentration (Herfindahl of first rewards {2,2}) = 0.5; A's dead power = 0 (both Trials accept a lone fungible unit).",
+  "config_ref": "configs/toy/asym_two_trial.json",
+  "trial_order": ["trial_a", "trial_b"],
+  "state_a": {"player_id": "A", "normal_power": {"fungible": 2}, "wild_power": 0},
+  "state_b": {"player_id": "B", "normal_power": {"fungible": 1}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": {"A": 6, "B": 3},
+    "matrix_shape": [6, 3],
+    "collapsed_classes": {"A": 6, "B": 3},
+    "reasonable_set_R": {"A": 5, "B": 3},
+    "equilibrium_relevant_E_0_01": {"A": 1, "B": 3},
+    "matrix": [
+      {"a": [0, 0], "b": [0, 0], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [0, 0], "b": [1, 0], "win": -1, "margin": -2, "final_tie": false},
+      {"a": [0, 0], "b": [0, 1], "win": -1, "margin": -2, "final_tie": false},
+      {"a": [1, 0], "b": [0, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [1, 0], "b": [1, 0], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [1, 0], "b": [0, 1], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [0, 1], "b": [0, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [0, 1], "b": [1, 0], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [0, 1], "b": [0, 1], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [2, 0], "b": [0, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [2, 0], "b": [1, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [2, 0], "b": [0, 1], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [1, 1], "b": [0, 0], "win": 1, "margin": 4, "final_tie": false},
+      {"a": [1, 1], "b": [1, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [1, 1], "b": [0, 1], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [0, 2], "b": [0, 0], "win": 1, "margin": 2, "final_tie": false},
+      {"a": [0, 2], "b": [1, 0], "win": 0, "margin": 0, "final_tie": true},
+      {"a": [0, 2], "b": [0, 1], "win": 1, "margin": 2, "final_tie": false}
+    ],
+    "win_game": {
+      "value": 1,
+      "value_tolerance": 1e-9,
+      "row_maximin_pure": [1, 1],
+      "column_mixture": {"comment": "column player indifferent -> uniform", "probabilities_by_b_totals": {"(0,0)": 0.3333333333, "(1,0)": 0.3333333333, "(0,1)": 0.3333333333}},
+      "row_E_0_01_totals": [[1, 1]],
+      "column_E_0_01_totals": [[0, 0], [1, 0], [0, 1]]
+    },
+    "margin_game": {
+      "value": 2,
+      "value_tolerance": 1e-9,
+      "row_maximin_pure": [1, 1],
+      "column_mixture": {"comment": "avoid empty column, indifferent between one-unit columns", "probabilities_by_b_totals": {"(0,0)": 0.0, "(1,0)": 0.5, "(0,1)": 0.5}}
+    },
+    "final_tie_rate": "7/18",
+    "trial_shared_award_rate": "1/9",
+    "final_chain_decided_rate_uniform": "0",
+    "reward_concentration_herfindahl": 0.5,
+    "dead_power_A": 0,
+    "margin_voi_abs_max": 1e-3,
+    "counterability": "not_applicable",
+    "mixture_tolerance": 1e-3
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "id": "shared_award_coupling",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for VS3 Task 9 planted fixture BR-SHARED-1 (.kiro spec ascension-trials-scalable-two-player-analysis): a shared Trial award that couples the two sides' payoffs (REQ-7.3 'a shared Trial award coupling the two sides' payoffs').",
+    "One fungible normal domain. Two Trials t1, t2, each reward first=4 with tie_award DIVIDED, second=0, local total_power tiebreak, optional allocation, no final tiebreak. A DIVIDED first-place tie splits the 4-point award: if both sides tie for first on a Trial each banks 4//2=2; if one side wins the Trial outright it banks the full 4 and the other banks 0. A side's per-Trial award therefore depends on whether the OTHER side contests -- the shared award couples the two sides' payoffs.",
+    "Acting side A holds fungible=3. Fixed opponent B holds fungible=2 and plays 1 unit on t1 and 1 unit on t2. Per-Trial margin contribution to A on a Trial where B has 1 unit: A places 0 -> B wins outright (A 0, B 4) contribution -4; A places 1 -> divided tie (A 2, B 2) contribution 0; A places 2+ -> A wins outright (A 4, B 0) contribution +4. With 3 units over 2 Trials A maximises by winning one Trial outright (2 units) and tying the other (1 unit): margin = +4 + 0 = +4; the tied Trial banks only the divided half (2, not 4), which is the coupling. r_A = 4 + 2 = 6, r_B = 0 + 2 = 2 -> win +1. Hand oracle: row margin best response +4, win +1; the divided/shared award is what makes the tied Trial worth 2 rather than 4. Oracle transcribed from the tie-award rules (model v2.1 §5; spec v1.1 §7.8 divided awards), not reverse-engineered from engine output (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "t1",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "divided"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 4, "second": 0}}}
+    },
+    {
+      "id": "t2",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "divided"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 4, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

@@ -97,7 +97,7 @@ Allocation JSON ────────────────┤
 ## 3. Repository Layout
 
 ```text
-simulation/ascension_trials_model/
+ascension-trials/ascension_trials_model/
 ├── README.md
 ├── pyproject.toml
 ├── requirements.lock

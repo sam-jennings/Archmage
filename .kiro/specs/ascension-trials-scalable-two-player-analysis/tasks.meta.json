@@ -1,0 +1,217 @@
+{
+  "pbtResults": {},
+  "executionHistory": {
+    "2. Rectangular / asymmetric payoff construction": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982005
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715991625
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783717185777
+      }
+    ],
+    "3. Per-side strategic collapse (in `matrix.py`) and canonical row/column mixtures": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982078
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783717190232
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783718342429
+      }
+    ],
+    "4. Extend metrics to unequal states, preserving parity": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982179
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783718345701
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783720214408
+      }
+    ],
+    "5. Memoized resolution wrapper": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982238
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715992639
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783717186809
+      }
+    ],
+    "6. Exact margin best-response oracle": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982296
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783720231344
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783721513942
+      }
+    ],
+    "7. Exact win best-response oracle (expected-sign MILP)": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982356
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783721514900
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783723543977
+      }
+    ],
+    "8. Mandatory resolver re-validation and row-payoff convention": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982425
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783723548782
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783745524163
+      }
+    ],
+    "9. Best-response validation suite": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982492
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783745528769
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783747047849
+      }
+    ],
+    "10. VS3 reports and CLI": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982570
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783747051965
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783750407456
+      }
+    ],
+    "11. VS3 gate — stop for review": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982640
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783750412859
+      },
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783751043633
+      }
+    ],
+    "12. Restricted-game driver": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982730
+      }
+    ],
+    "13. Full-space best-response integration and profitable-deviation loop": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982861
+      }
+    ],
+    "14. Oracle-certified exploitability (the sole convergence certificate)": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715982972
+      }
+    ],
+    "15. Convergence and non-convergence reporting": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715983057
+      }
+    ],
+    "16. Double-oracle validation and scaling evidence": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715983125
+      }
+    ],
+    "17. VS4 gate — stop for review": [
+      {
+        "executionId": "110fa819-2765-4112-9a63-c78c03f99a35",
+        "chatSessionId": "sess_e2453285-d5b7-4769-88d8-8abd0ad8f0d7",
+        "timestamp": 1783715983191
+      }
+    ]
+  }
+}

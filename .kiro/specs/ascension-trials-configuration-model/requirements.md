@@ -433,7 +433,7 @@ As a repository maintainer, I want the subsystem integrated cleanly so that it c
 
 ### Acceptance criteria
 
-1. Use `simulation/ascension_trials_model/`.
+1. Use `ascension-trials/ascension_trials_model/`.
 2. Use a local Python package with:
    - `pyproject.toml`;
    - `src/ascension_trials/`;

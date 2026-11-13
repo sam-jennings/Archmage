@@ -16,8 +16,8 @@
  *   - Per-trial 1st/2nd Recognition Point splits for 6p / 7p (the rulebook
  *     explicitly flags these as unresolved).
  *   - Anything from the hybrid rebuild proposal set:
- *       `_review/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md` (the ruleset)
- *       `_review/ASCENSION_TRIALS_03_HYBRID_REBUILD_CRITIQUE_2026-07-06.md` (proposed fixes)
+ *       `ascension-trials/design-history/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md` (the ruleset)
+ *       `ascension-trials/design-history/ASCENSION_TRIALS_03_HYBRID_REBUILD_CRITIQUE_2026-07-06.md` (proposed fixes)
  *     — new power curve (2n−3), 4/8/12 Enchantment scale, RP table, Trial set.
  *
  * Purpose here is narrow: restore the app to functional so it stops throwing

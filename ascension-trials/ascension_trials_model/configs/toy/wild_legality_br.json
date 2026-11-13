@@ -1,0 +1,59 @@
+{
+  "id": "wild_legality_br",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for VS3 Task 9 planted fixture BR-WILD-1 (.kiro spec ascension-trials-scalable-two-player-analysis): a Wild-legality best-response case where a Wild unit DOES legally raise a Trial total on one Trial and does NOT on another (REQ-7.3 'Wild that does/does not legally raise a Trial total').",
+    "Two energy domains (void, flux). Trial 'purity' is mono (source_count class:energy minimum 1 maximum 1, reward first=6); Trial 'harmony' requires TWO energy sources (source_count class:energy minimum 2, reward first=6). Wild is enabled, requires a legal normal entry, and is included in the primary total. Optional allocation, winner-take-all with shared-full ties, local total_power tiebreak decides contested Trials, no final tiebreak.",
+    "Acting side A holds void=1 and Wild=1 (one energy source). Fixed opponent B holds void=1 and plays it on 'purity'. On 'purity' (mono) A's entry {void:1}+Wild:1 is legal and Wild raises A's total from 1 to 2, beating B's total 1 on the total_power tiebreak: A wins purity outright (6) instead of a shared-full tie (6-6). On 'harmony' A has only one energy source, so any A entry there is illegal (Wild is never a source and cannot satisfy the 2-source minimum); the Wild is dropped and the entry scores 0 -- Wild cannot legally raise a total it may not join. Hand oracle: A's best response is {void:1, Wild:1} on 'purity' -> margin +6, win +1; the Wild is decisive (without it purity ties 6-6, margin 0). Oracle transcribed from the Wild rules (model v2.1 §4.3; spec v1.1 §7.3 A10), not reverse-engineered from engine output (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "void", "class": "energy"},
+    {"id": "flux", "class": "energy"}
+  ],
+  "wild": {
+    "enabled": true,
+    "can_enter_alone": false,
+    "requires_legal_normal_entry": true,
+    "counts_as_source": false,
+    "can_satisfy_source_minimum": false,
+    "can_break_source_maximum": false,
+    "included_in_primary_total": true,
+    "included_in_tiebreaks": false
+  },
+  "trials": [
+    {
+      "id": "purity",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+    },
+    {
+      "id": "harmony",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 2}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

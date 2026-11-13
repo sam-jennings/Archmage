@@ -17,7 +17,7 @@ nothing is "complete" on the strength of importing, compiling or hand-verificati
 artifact, produced *before* any code changes in tasks 2–25.
 
 Every claim below was re-verified by reading the actual source in
-`simulation/ascension_trials_model/src/ascension_trials/` (not inferred from the prior
+`ascension-trials/ascension_trials_model/src/ascension_trials/` (not inferred from the prior
 note). The required six sections are §3 (inventory), §4 (item→requirement/design map),
 §5 (missing behaviour), §6 (conflicting semantics), §7 (unused code) and §8 (per-module
 verdict). §9 is a compact discrepancy register that the sections reference; §10 records
@@ -25,7 +25,7 @@ proposed (non-"complete") task status.
 
 ## 0. What exists, and where
 
-- **Only code copy:** `simulation/ascension_trials_model/src/ascension_trials/` —
+- **Only code copy:** `ascension-trials/ascension_trials_model/src/ascension_trials/` —
   `__init__.py`, `schema.py`, `config_loader.py`, `spellbook.py`, `power.py`,
   `eligibility.py`, `resolver.py`, `canonical.py`, `provenance.py`.
 - **Package scaffolding present:** `pyproject.toml`, `README.md`, `requirements.lock`,
