@@ -336,7 +336,7 @@
                         <div class="energy-row" data-energy="Wild" data-wild="true">
                             <img class="ax-symbol" src="../art/energy-symbols-export/symbol_wild_icon.svg" alt="Wild">
                             <span class="energy-name" style="color: var(--ax-wild);">Wild</span>
-                            <span class="energy-desc">Substitutes for any energy and value.</span>
+                            <span class="energy-desc">Whatever the spell needs. In a sequence it declares a number, fixed while the spell exists.</span>
                         </div>
                     </div>
                     <div class="note">
@@ -348,7 +348,7 @@
                     <div class="card-icon">🗝️</div>
                     <h3>Key Reminders</h3>
                     <ul>
-                        <li><span class="highlight">Wilds</span> substitute for any energy and value.</li>
+                        <li><span class="highlight">Wilds</span> are whatever the spell needs — in a sequence, declare the number.</li>
                         <li><span class="highlight">Enchantments</span> are always active — never cast.</li>
                         <li><span class="highlight">Counters are capacity</span>, not a resource — all return at Learning.</li>
                     </ul>
@@ -425,7 +425,7 @@
                     </figure>
                     
                     <h4>Requirements</h4>
-                    <p>3-5 components of the same value (5-component needs the Echo suit — 5-6 player games)</p>
+                    <p>3-5 components of the same value. Max <span class="highlight">4 components at 2–4 players</span>, max 5 at 5–6 players. A wild takes the value and needs no energy.</p>
                     
                     <h4>Benefit (Always Active)</h4>
                     <p><span class="highlight">Enhanced Capability</span> — capacity is measured in counters (each counter = 1 spell cast + 1 learning action per turn):</p>
@@ -480,7 +480,7 @@
                         </div>
                         <div class="phase-box">
                             <h4>Wild Cards</h4>
-                            <p>Can substitute for any energy type — but the value still counts for sequential spells</p>
+                            <p>Whatever the spell needs — a wild never declares an energy. In a Transfiguration or Perfect Transmutation, declare the number it stands for when you learn the spell; it stays fixed while the spell exists (Empower doesn't change it; a rebuild declares it again).</p>
                         </div>
                     </div>
                 </div>
@@ -562,7 +562,10 @@
                         <li>Resolve <span class="highlight">both</span> effects in order — Conjuration draws, then the Transfiguration exchange (both mandatory). Still just 1 counter.</li>
                     </ul>
                     <div class="note" style="margin-top: 1rem;">
-                        <strong>Enchantments are always active</strong> — never cast, and they never take a counter. <strong>Can't resolve = can't cast:</strong> if you lack the cards to finish a Transfiguration exchange, you can't cast that spell this turn.
+                        <strong>Enchantments are always active</strong> — never cast, and they never take a counter. <strong>Can't resolve = can't cast:</strong> if you lack the cards to finish a Transfiguration exchange, you can't cast that spell this turn. A Conjuration needs enough cards left in the Source for its full draw; a Perfect Transmutation needs enough for its draw <em>and</em> the Array refill.
+                    </div>
+                    <div class="note" style="margin-top: 1rem;">
+                        <strong>If the Source runs dry mid-turn:</strong> finish the current effect, then the Drought begins at once — cast nothing more this turn and go straight to Learning.
                     </div>
                 </div>
 
@@ -580,7 +583,7 @@
                         <li><span class="highlight">LEARN</span> — place a valid spell from your hand into your Spellbook. <span style="color:var(--text-dim);">(An Enchantment also raises your capacity — see Counters &amp; capacity below.)</span></li>
                         <li><span class="highlight">EMPOWER</span> — add components from your hand to a spell you already have, to make it bigger or change its type.</li>
                         <li><span class="highlight">RESHAPE</span> — break down one or more spells and rebuild from the same components; every component must end up in a valid spell. Costs <span class="highlight">1 counter per spell broken down</span> (break 3, pay 3).</li>
-                        <li><span class="highlight">UNLEARN</span> — take one or more components from a single spell back to your hand. What's left stays a valid spell, or the whole spell comes apart (those components return to your hand too). From a run (Transfiguration / Perfect Transmutation) you may only remove an <em>end</em> component. Returned components can't be learned again until your next turn.</li>
+                        <li><span class="highlight">UNLEARN</span> — take one or more components from a single spell back to your hand. What's left stays a valid spell, or the whole spell comes apart (those components return to your hand too). From a run (Transfiguration / Perfect Transmutation) you may only remove an <em>end</em> component. Returned components can be learned again straight away, this turn.</li>
                     </ul>
                 </div>
 
@@ -623,6 +626,7 @@
 
                     <h4>When It Happens</h4>
                     <p>The instant <span class="highlight">the Source runs dry</span>, the Drought begins.</p>
+                    <p style="margin-top: 0.5rem;">If a draw or an Array refill takes the last card mid-turn, finish that Collection choice or spell effect first — no spell half-resolves. Then the Drought begins: the active player casts nothing more and goes on to Learning under Drought rules.</p>
 
                     <div class="note" style="margin-top: 1rem;">
                         <strong>Why the Opening matters:</strong> the component each player placed in the Arcane Reserve at set-up guarantees the Released Reserve holds enough for final preparations before the evaluation.
@@ -1563,7 +1567,7 @@
           flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux_simple.svg', icon: ART + 'symbol_flux_icon.svg',     blurb: 'The transitive current — cold teal, always moving.' },
           aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
         };
-        const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
+        const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card is whatever the spell needs; in a sequence it declares a number.' };
 
         /* Recognition Points — exactly the board's table. */
         const RP = {
@@ -1736,7 +1740,7 @@
             }
           });
 
-          // Enchantment — same value + wilds, capped at size 4, size >= 3.
+          // Enchantment — same value + wilds (a wild needs no energy), capped at 4 — the 2–4 player size cap; this checker uses the 2–4p deck. Size >= 3.
           const valuesSeen = [];
           hand.forEach(function(c) { if (c.e !== 'wild' && valuesSeen.indexOf(c.v) === -1) valuesSeen.push(c.v); });
           valuesSeen.forEach(function(v) {

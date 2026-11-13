@@ -19,8 +19,10 @@
 //   • values run 1–15 (the old keypad allowed 1–20);
 //   • no spell may exceed maxSpellSize (15);
 //   • Echo exists only in the 5–6 player deck, where Enchantments may reach 5;
-//   • every wild in a result carries a legal declaration (`as`: energy + value) using
-//     only energies present in the deck.
+//   • wilds are flexible (rules v3.2): a wild never declares an energy. In a run
+//     (Transfiguration, Perfect Transmutation) it carries the number it stands for
+//     (`as: { v }`); in a Conjuration or an Enchantment it carries no declaration.
+//   • an Enchantment never exceeds the player-count size cap (deck.enchantmentMax).
 
 export const WILD = 'wild';
 const isWild = (card) => card.e === WILD;
@@ -56,11 +58,12 @@ export function canAdd(hand, card, deck) {
   return validateHand(hand.concat([card]), deck).length === 0;
 }
 
-const declared = (wildCard, e, v) => ({ e: WILD, v: null, as: { e, v }, ref: wildCard });
+const bare = (wildCard) => ({ e: WILD, v: null, ref: wildCard });
+const numbered = (wildCard, v) => ({ e: WILD, v: null, as: { v }, ref: wildCard });
 
 // Longest consecutive-value run covered by `realCards`, with wilds filling gaps or
 // extending the ends. Needs at least one real card. Lowest-starting longest run wins.
-function bestRun(realCards, wilds, deck, energyForWild) {
+function bestRun(realCards, wilds, deck) {
   if (!realCards.length) return null;
   const byValue = new Map();
   for (const card of realCards) if (!byValue.has(card.v)) byValue.set(card.v, card);
@@ -81,7 +84,7 @@ function bestRun(realCards, wilds, deck, energyForWild) {
   let w = 0;
   for (let v = best.lo; v <= best.hi; v++) {
     if (byValue.has(v)) uses.push(byValue.get(v));
-    else uses.push(declared(wilds[w++], energyForWild(v), v));
+    else uses.push(numbered(wilds[w++], v));
   }
   return { size: best.size, uses };
 }
@@ -92,12 +95,11 @@ function bestRun(realCards, wilds, deck, energyForWild) {
  * @param deck   deck profile
  * @param points (kind, size) => Recognition Points | null
  * @returns [{ kind, size, uses, rp }] — `uses` holds the hand's own card objects; wilds
- *          are { e:'wild', v:null, as:{ e, v } }.
+ *          are { e:'wild', v:null } — plus as:{ v } (the declared number) in a run.
  */
 export function findSpells(hand, deck, points) {
   const wilds = hand.filter(isWild);
   const reals = hand.filter((c) => !isWild(c));
-  const held = new Set(reals.map((c) => c.e + ':' + c.v));
   const rp = (kind, size) => {
     const value = points(kind, size);
     return value == null ? 0 : value;
@@ -111,17 +113,13 @@ export function findSpells(hand, deck, points) {
     if (!own.length) continue;
     const size = Math.min(own.length + wilds.length, deck.maxSpellSize);
     if (size < deck.minSpellSize) continue;
-    const taken = new Set(own.map((c) => c.v));
     const uses = own.slice(0, size);
-    for (let i = 0, v = deck.minValue; uses.length < size; i++) {
-      while (taken.has(v) && v <= deck.maxValue) v++;
-      uses.push(declared(wilds[i], key, v <= deck.maxValue ? v : null));
-      taken.add(v);
-    }
+    for (let i = 0; uses.length < size; i++) uses.push(bare(wilds[i]));
     push('conjuration', size, uses);
   }
 
-  // Enchantment — one value across energies plus wilds; never larger than the deck allows.
+  // Enchantment — one value across energies plus wilds (a wild needs no energy); never larger
+  // than the player-count size cap.
   const values = [];
   for (const c of reals) if (!values.includes(c.v)) values.push(c.v);
   for (const v of values) {
@@ -129,20 +127,18 @@ export function findSpells(hand, deck, points) {
     const size = Math.min(own.length + wilds.length, deck.enchantmentMax);
     if (size < deck.minSpellSize) continue;
     const uses = own.slice(0, size);
-    const free = deck.energies.filter((e) => !own.some((c) => c.e === e));
-    for (let i = 0; uses.length < size; i++) uses.push(declared(wilds[i], free[i] ?? null, v));
+    for (let i = 0; uses.length < size; i++) uses.push(bare(wilds[i]));
     push('enchantment', size, uses);
   }
 
   // Transfiguration — the longest value run across any energies.
-  const anyEnergy = (v) => deck.energies.find((e) => !held.has(e + ':' + v)) ?? deck.energies[0];
-  const run = bestRun(reals, wilds, deck, anyEnergy);
+  const run = bestRun(reals, wilds, deck);
   if (run && run.size >= deck.minSpellSize) push('transfiguration', run.size, run.uses);
 
   // Perfect Transmutation — the longest value run within one energy.
   let perfect = null;
   for (const key of deck.energies) {
-    const candidate = bestRun(reals.filter((c) => c.e === key), wilds, deck, () => key);
+    const candidate = bestRun(reals.filter((c) => c.e === key), wilds, deck);
     if (candidate && candidate.size >= deck.minSpellSize && (!perfect || candidate.size > perfect.size)) perfect = candidate;
   }
   if (perfect) push('perfect', perfect.size, perfect.uses);

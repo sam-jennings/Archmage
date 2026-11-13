@@ -1,8 +1,8 @@
 ---
 title: Glossary
 type: reference
-updated: 2026-07-09
-status: under-test
+updated: 2026-11-13
+status: canon
 ---
 
 **GLOSSARY**
@@ -100,27 +100,24 @@ becomes impossible. Only Collection and Learning phases remain.
 **E**
 
 **Echo** *(Mechanical)* The fifth energy type, present only in 5-6
-player decks (5 energies × ranks 1-15 + 4 wilds = 79 cards). It supplies
-the fifth matching-value option that makes 5-component Enchantments
-(which grant +5 counters, score 16) attainable, reachable only at 5-6
-players. In 2-4 player decks there are only four energies, and the
-wild-declaration rule bars a wild from posing as a fifth, so those games
-cap at 4-component Enchantments.
+player decks (5 energies × ranks 1-15 + 4 wilds = 79 cards). 5-6 player
+games also allow 5-component Enchantments (which grant +5 counters,
+score 16); at 2-4 players Enchantments are capped at 4 components.
 
 **Empower** *(Mechanical)* A learning action. Add one or more components
 from your hand to an existing spell in your Spellbook. Costs 1 counter.
-EMPOWER may extend a spell or convert among Conjuration,
-Transfiguration, and Perfect Transmutation, but may NOT convert a spell
-into an Enchantment or an Enchantment into another type (those need
-LEARN or UNLEARN).
+EMPOWER may extend a spell, grow an Enchantment to the next size, or
+convert one spell type to another. Wilds already in the spell keep their
+declared number.
 
 **Enchantment** *(Mechanical + Story)* A spell type using 3-5 components
-of matching value (distinct energies). Always active---never needs to be
+of matching value. Max 4 components at 2-4 players, max 5 at 5-6
+players. Always active---never needs to be
 cast. Permanently increases capacity: 3-component grants +1 counter
 (scores 4), 4-component grants +3 counters (scores 10), 5-component
 grants +5 counters (scores 16). Added capacity becomes available from
-the start of your next turn. A wild used in an Enchantment must be
-declared as an energy present in the current deck. Represents
+the start of your next turn. A wild in an Enchantment takes its value
+and needs no energy. Represents
 internal metamorphosis woven into the
 wizard\'s being.
 
@@ -247,4 +244,13 @@ runs (Transfiguration, Perfect Transmutation), a single-component
 partial Unlearn may only remove an end component. If it makes an
 Enchantment smaller or takes it apart, its capacity drops to match the
 new size (or to none), applied immediately. Returned
-components can't be learned into new spells until your next turn.
+components can be learned into a new spell straight away, this turn.
+
+**W**
+
+**Wild** *(Mechanical)* A card that is whatever the spell needs. A wild
+never declares an energy. In a sequence (Transfiguration, Perfect
+Transmutation) it declares only a number when the spell is learned; the
+number stays fixed while that spell exists and is declared again only if
+the spell is broken down and rebuilt (empowering does not change it). In
+a Conjuration or Enchantment it declares nothing.

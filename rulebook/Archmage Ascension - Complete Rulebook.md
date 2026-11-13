@@ -2,10 +2,10 @@
 title: Archmage Ascension - Complete Rulebook
 aliases:
   - Archmage Ascension Rulebook
-  - Complete Rulebook v3.1
-version: v3.1
+  - Complete Rulebook v3.2
+version: v3.2
 type: rulebook
-status: under-test
+status: canon
 tags:
   - archmage-ascension
   - rulebook
@@ -75,7 +75,9 @@ That wizard ascends. The currents stabilize. Magic flows again.
   - Aether — crimson (bound lattice)
 - The number (1-15) is the component type - different resonance frequencies.
   - In 5-6 player games a fifth energy, Echo, joins the four above (still ranks 1-15).
-  - Wild cards can substitute for any energy type and value combination.
+  - Wild cards are whatever the spell needs. A wild never declares an energy.
+  - In a sequence (Transfiguration, Perfect Transmutation) a wild declares only a number, when the spell is learned. That number stays fixed while the spell exists; it is declared again only if the spell is broken down and rebuilt. Empowering the spell does not change it.
+  - In a Conjuration or an Enchantment a wild declares nothing: it simply takes the spell's energy (Conjuration) or value (Enchantment).
 
 Example: Void 7 is a Void-attuned component with resonance frequency 7.
 
@@ -137,6 +139,7 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 - Requirements: 3+ components in consecutive sequence (any energies).
   - Examples: 5-6-7 or 12-13-14-15.
   - Cannot loop around (14-15-1 is invalid; 1-2-3 and 13-14-15 are valid).
+  - Wilds: declare the number each wild stands for when you learn the spell (see Components).
 - When cast: Must exchange components using the Array.
   - 3 components: Discard 2 from hand, take 1 from Array.
   - 4+ components: Discard 1 from hand, take 1 from Array.
@@ -148,13 +151,14 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 *Stabilising energy within yourself, permanently increasing your capacity*
 
 - Requirements: 3-5 components of the same value.
+  - Enchantments: max 4 components at 2-4 players, max 5 at 5-6 players.
+  - A wild in an Enchantment takes its value and needs no energy.
 - Always active: Enchantments don't need to be cast - they're woven into your being.
 - What they provide (capacity is measured in counters; each counter lets you cast one spell and perform one learning action per turn). Each Enchantment's grant is a cumulative total for its size, and each size also scores Recognition Points:
   - 3 components: +1 counter (scores 4).
   - 4 components: +3 counters (scores 10).
   - 5 components: +5 counters (scores 16).
 - Newly learned or empowered Enchantment capacity becomes available only from the start of your next turn (see Enchantment Effect Timing).
-- Wild-declaration rule: a wild used in an Enchantment must be declared as one of the energy types present in the current deck. A matching-value set can never represent a "fifth energy" that isn't in play — this keeps 5-component Enchantments out of reach at 2-4 players (four energies + wilds) and only attainable once Echo joins the deck at 5-6 players.
 - What it represents: While casting uses external energy that returns to the world, Enchantment internalises energy permanently - expanding your capacity from within.
 - Example: Radiance-7/Void-7/Flux-7 (three 7s from different energies).
 
@@ -165,6 +169,7 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 - Requirements: 3+ components in sequence, all from the same energy.
   - Example: Aether 8-9-10.
   - Cannot loop around.
+  - Wilds: declare the number each wild stands for when you learn the spell (see Components).
 - When cast: Receives BOTH Conjuration and Transfiguration benefits (both mandatory).
 - What it represents: The pinnacle achievement - perfect alignment within a single energy type.
 
@@ -253,6 +258,7 @@ Casting restrictions:
 - Each spell can be cast once per turn maximum (one counter per spell).
 - Enchantments are always active - don't cast them, they just work.
 - If you can't legally resolve a spell's effects, you cannot cast it.
+- If The Source runs dry during your turn, finish the current effect, then the Drought begins: you cast nothing more this turn and go straight to Learning (see The Drought).
 
 #### Spell Effects (Immediate When Cast)
 
@@ -263,6 +269,8 @@ Immediately draw bonus components from The Source:
 - 3-5 cards: +1 component.
 - 6+ cards: +2 components.
 
+Castable only if The Source holds enough cards for the full draw.
+
 ##### 🔄 Transfiguration
 
 Must exchange with The Array:
@@ -272,7 +280,7 @@ Must exchange with The Array:
 
 Discarded components go to Arcane Reserve (not back to Array).
 
-Replace the Array card from The Source.
+Replace the Array card from The Source. A Transfiguration may be the spell that empties The Source this way.
 
 If you can't discard enough components, you cannot cast this spell.
 
@@ -285,7 +293,7 @@ Resolve both effects in order:
 
 Both effects are mandatory.
 
-If you can't complete the exchange, you cannot cast this spell.
+If you can't complete the exchange, you cannot cast this spell. It is also castable only if The Source holds enough cards for the whole spell: the full draw plus the Array refill. It never half-resolves.
 
 ### 3. Learning Phase
 
@@ -307,6 +315,7 @@ Each learning action costs 1 counter:
 Place a new spell from your hand into your Spellbook.
 
 - Must be a valid spell type (Conjuration, Transfiguration, Enchantment, or Perfect Transmutation).
+- If it is a sequence (Transfiguration or Perfect Transmutation), declare the number of each wild in it now.
 - If it is an Enchantment, it grants Magical Capacity by size — 3-component: +1 counter (scores 4); 4-component: +3 counters (scores 10); 5-component: +5 counters (scores 16).
 - Added Enchantment capacity becomes available from the start of your next turn, not this turn (see Enchantment Effect Timing).
 
@@ -314,8 +323,8 @@ Place a new spell from your hand into your Spellbook.
 
 Add components from your hand to an existing spell in your Spellbook.
 
-- Can extend a spell while keeping its type (make a Conjuration longer, extend a Transfiguration, or grow an Enchantment to the next size), or convert among Conjuration, Transfiguration, and Perfect Transmutation.
-- EMPOWER may NOT convert a spell into an Enchantment, nor an Enchantment into another type. Becoming or ceasing to be an Enchantment requires LEARN or UNLEARN.
+- Can extend a spell (make a Conjuration longer or extend a Transfiguration), grow an Enchantment to the next size, or convert one spell type to another.
+- Wilds already in the spell keep their declared number.
 
 #### RESHAPE
 
@@ -324,6 +333,7 @@ Reorganize components across spells in your Spellbook.
 - Break down one or more spells and rebuild them using the same components.
 - Costs one counter per spell broken down — breaking N spells costs N counters (this replaces the old "any or all spells for one action").
 - All freed components must be redistributed into valid spell arrangements; every component must end in a valid spell.
+- Rebuilt sequences declare the numbers of their wilds again.
 - If a RESHAPE makes an Enchantment smaller, its capacity drops to match the new size; that loss applies immediately (see Enchantment Effect Timing).
 
 #### UNLEARN
@@ -333,7 +343,7 @@ Return one or more components from a single spell to your hand. The remainder mu
 - Costs 1 counter regardless of how many components you return from that one spell.
 - Targets a single spell. Unlearning from two different spells in the same turn requires 2 separate UNLEARN actions at 1 counter each.
 - For runs (Transfiguration, Perfect Transmutation), a single-component partial UNLEARN may only remove an end component — you cannot pull a component out of the middle of a run.
-- Returned components can't be learned into new spells until your next turn.
+- Returned components go back to your hand and can be learned into a new spell straight away, this turn.
 - Useful for reclaiming components for a different strategy, or for stepping a spell down a size.
 - If the UNLEARN makes an Enchantment smaller or takes it apart, its capacity drops to match the new size (or to none); that loss applies immediately (see Enchantment Effect Timing).
 
@@ -354,6 +364,8 @@ The Recall is the physical bridge between Casting and Learning. Pick up every co
 ### The Drought
 
 Trigger: The instant The Source runs dry.
+
+If a draw from The Source, or an Array refill from it, takes the last card, finish the current Collection choice or spell effect first, then begin the Drought at once. No spell half-resolves, and no further spells are cast: the active player skips any remaining Casting and continues with Learning, under Drought rules. Once The Source is empty the Array is gone too, so there is never a moment when The Source is empty but the Array still accepts casts.
 
 What happens:
 
@@ -428,9 +440,11 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 **Transfiguration:** Spell using 3+ sequential components of different energies. When cast, must exchange components using The Array.
 
-**Enchantment:** Spell using 3-5 matching components. Always active (never cast). Permanently increases capacity.
+**Enchantment:** Spell using 3-5 matching components (max 4 at 2-4 players, 5 at 5-6 players). Always active (never cast). Permanently increases capacity.
 
 **Perfect Transmutation:** Spell using 3+ sequential components of the same energy. When cast, provides both Conjuration AND Transfiguration effects.
+
+**Wild:** A card that is whatever the spell needs. Never declares an energy; in a sequence it declares a number, fixed while the spell exists.
 
 **Casting:** Activating spells from your Spellbook by placing counters on them one at a time. Effects resolve immediately.
 
@@ -470,8 +484,8 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 - Start: 1 counter (2-4 players) or 2 counters (5-6 players).
 - Enchantment capacity (available from your next turn): +1 per 3-component, +3 per 4-component, +5 per 5-component (5-6 player / Echo decks only).
-- Fully dissolved (loss applies immediately): -1 (3-component), -3 (4-component), -5 (5-component).
-- Stepped down a size: -2 (5→4), -2 (4→3), -1 (3→dissolved) — the ladder difference.
+- Taken apart (loss applies immediately): -1 (3-component), -3 (4-component), -5 (5-component).
+- Stepped down a size: -2 (5→4), -2 (4→3), -1 (3→taken apart) — the ladder difference.
 
 ---
 

@@ -16,8 +16,8 @@
 //   Layer B  Same engine, CANON 2–4p deck → every corpus hand that can exist in the real
 //            deck must still match exactly; every other hand must be rejected by
 //            validateHand() with a named reason.
-//   Layer C  Canon-only behaviour the old widget could not express (Echo, size cap, wild
-//            declarations).
+//   Layer C  Canon-only behaviour the old widget could not express (Echo, size caps,
+//            flexible wilds).
 
 import test from 'node:test';
 import assert from 'node:assert/strict';
@@ -38,7 +38,7 @@ export const INTENDED_DIFFERENCES = [
   'A deck holds one of each energy/value. The old widget accepted duplicate cards; they are now rejected as duplicate-card.',
   'No spell may exceed 15 components (canon max_spell_size). The old widget only clamped the points lookup.',
   'Echo is a legal energy in the 5–6 player deck only, and Enchantments may reach 5 components there. The old widget knew four energies and capped Enchantments at 4.',
-  'Each wild in a result now carries a declaration (`as`: energy + value) limited to energies in the deck. The old widget returned bare wilds; the snapshot comparison ignores `as`.',
+  'Wilds are flexible (rules v3.2): a wild in a run carries its declared number (`as: { v }`); in a Conjuration or Enchantment it carries nothing. The old widget returned bare wilds; the snapshot comparison ignores `as`.',
   'The module returns structured effects (kind/size → data/current.js castTier) instead of English sentences; this test rebuilds the old sentences from that structure to compare.',
   'The module returns `kind` only; display names come from the rules data. This test maps kind → the old names to compare.',
 ];
@@ -163,22 +163,46 @@ test('Layer C — canon behaviour the old widget could not express', async (t) =
     assert.equal(ench.rp, 10);
   });
 
-  await t.test('2–4p: three 7s plus two wilds stops at 4, the wild declared as the missing energy', () => {
+  await t.test('2–4p: three 7s plus two wilds stops at 4 (the size cap), wilds declaring nothing', () => {
     const hand = ['radiance', 'void', 'flux'].map((e) => ({ e, v: 7 })).concat([W(), W()]);
     const ench = findSpells(hand, base, pts).find((r) => r.kind === 'enchantment');
     assert.equal(ench.size, 4);
-    assert.deepEqual(ench.uses[3].as, { e: 'aether', v: 7 });
+    assert.equal(ench.uses[3].e, 'wild');
+    assert.equal(ench.uses[3].as, undefined);
   });
 
-  await t.test('5–6p: a 5-component Enchantment exists, with Echo or a wild declared as Echo', () => {
-    const five = ['radiance', 'void', 'flux', 'aether', 'echo'].map((e) => ({ e, v: 9 }));
-    const a = findSpells(five, echo, pts).find((r) => r.kind === 'enchantment');
-    assert.equal(a.size, 5);
-    assert.equal(a.rp, 16);
-    const withWild = five.slice(0, 4).concat([W()]);
-    const b = findSpells(withWild, echo, pts).find((r) => r.kind === 'enchantment');
+  await t.test('a wild in an Enchantment needs no energy', () => {
+    // One real 7 and two wilds: the wilds are not "Void 7" or "Flux 7", just 7s.
+    const hand = [{ e: 'radiance', v: 7 }, W(), W()];
+    const ench = findSpells(hand, base, pts).find((r) => r.kind === 'enchantment');
+    assert.equal(ench.size, 3);
+    assert.equal(ench.rp, 4);
+    for (const c of ench.uses.filter((u) => u.e === 'wild')) assert.equal(c.as, undefined);
+    // 5–6p: four energies' 9s plus a wild make 5 — the wild need not "be" Echo.
+    const four = ['radiance', 'void', 'flux', 'aether'].map((e) => ({ e, v: 9 })).concat([W()]);
+    const b = findSpells(four, echo, pts).find((r) => r.kind === 'enchantment');
     assert.equal(b.size, 5);
-    assert.deepEqual(b.uses[4].as, { e: 'echo', v: 9 });
+    assert.equal(b.uses[4].as, undefined);
+  });
+
+  await t.test('a 5-card Enchantment is refused at 2–4p and allowed at 5–6p', () => {
+    const hand = ['radiance', 'void', 'flux', 'aether'].map((e) => ({ e, v: 9 })).concat([W()]);
+    const at24 = findSpells(hand, base, pts);
+    assert.equal(at24.find((r) => r.kind === 'enchantment').size, 4);
+    assert.equal(wholeHandSpell(hand, at24), null, 'all five cards are not one spell at 2–4p');
+    const at56 = findSpells(hand, echo, pts);
+    assert.equal(wholeHandSpell(hand, at56).kind, 'enchantment');
+    assert.equal(wholeHandSpell(hand, at56).size, 5);
+    assert.equal(wholeHandSpell(hand, at56).rp, 16);
+    const five = ['radiance', 'void', 'flux', 'aether', 'echo'].map((e) => ({ e, v: 9 }));
+    assert.equal(findSpells(five, echo, pts).find((r) => r.kind === 'enchantment').size, 5);
+  });
+
+  await t.test('in a sequence each wild carries a declared number that fills the run', () => {
+    const hand = [{ e: 'void', v: 5 }, { e: 'void', v: 7 }, W()];
+    const pt = findSpells(hand, base, pts).find((r) => r.kind === 'perfect');
+    assert.equal(pt.size, 3);
+    assert.deepEqual(pt.uses.map((c) => (c.e === 'wild' ? c.as : c.v)), [5, { v: 6 }, 7]);
   });
 
   await t.test('no spell exceeds 15 components', () => {
@@ -189,17 +213,18 @@ test('Layer C — canon behaviour the old widget could not express', async (t) =
     assert.equal(results.find((r) => r.kind === 'perfect').rp, 100);
   });
 
-  await t.test('wild declarations are legal: deck energy, value in range, no clash inside the spell', () => {
+  await t.test('wild declarations are legal: a number in range in runs only, never an energy', () => {
     const hand = [{ e: 'flux', v: 3 }, { e: 'flux', v: 5 }, { e: 'aether', v: 6 }, W(), W()];
     for (const r of findSpells(hand, base, pts)) {
-      const ids = new Set();
+      const run = r.kind === 'transfiguration' || r.kind === 'perfect';
+      const values = new Set();
       for (const c of r.uses) {
-        const e = c.e === 'wild' ? c.as.e : c.e;
-        const v = c.e === 'wild' ? c.as.v : c.v;
-        assert.ok(base.energies.includes(e), `${r.kind}: declared energy ${e}`);
-        assert.ok(v >= base.minValue && v <= base.maxValue, `${r.kind}: declared value ${v}`);
-        assert.ok(!ids.has(e + ':' + v), `${r.kind}: duplicate ${e} ${v}`);
-        ids.add(e + ':' + v);
+        if (c.e !== 'wild') { values.add(c.v); continue; }
+        if (!run) { assert.equal(c.as, undefined, `${r.kind}: a wild here declares nothing`); continue; }
+        assert.deepEqual(Object.keys(c.as), ['v'], `${r.kind}: a run wild declares a number only`);
+        assert.ok(c.as.v >= base.minValue && c.as.v <= base.maxValue, `${r.kind}: declared number ${c.as.v}`);
+        assert.ok(!values.has(c.as.v), `${r.kind}: duplicate number ${c.as.v}`);
+        values.add(c.as.v);
       }
     }
   });

@@ -33,6 +33,11 @@ relative comparisons between configurations are far more robust than absolute va
 - Drought: triggers the instant the Source empties; Array + Reserve shuffle into the
   Released Reserve; 1 draw + learning only (no casting); last Released card drawn →
   that player finishes their learning, then the game ends.
+- Source emptying mid-turn (rulebook v3.2, decision `2026-07-06-source-emptying-timing.md`):
+  the sim matches the ruling — casting stops the instant the Source empties (also when
+  Collection takes the last card) and the turn goes on to Learning. One gap: a 6+ card
+  Conjuration with only 1 card left in the Source is still cast and draws that card, where
+  v3.2 forbids the cast. At most one card once per game; ignored.
 - Optional `--uc-drought-cap N` limits a UC player's Drought learning actions
   (STATE.md's "Unlimited with Drought cap" lever). Default: uncapped.
 

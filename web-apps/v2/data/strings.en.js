@@ -11,7 +11,7 @@ export const STRINGS = {
   skip: 'Skip to content',
   theme: { toDay: 'Switch to daylight theme', toDark: 'Switch to dark theme' },
   badge: { 'under-test': 'Rules v{version} · under test', canon: 'Rules v{version}' },
-  badgeTitle: 'What "under test" means',
+  badgeTitle: 'Rules version and the variants under test',
   pageTitle: { home: '{title}', play: 'Play · {title}', learn: 'Learn · {title}', rules: 'Rules · {title}', studio: 'Studio · {title}', trials: 'Ascension Trials · {title}' },
 
   status: { 'under-test': 'Under test', variant: 'Variant', clarification: 'Rule clarification', reminder: 'Reminder', proposed: 'Proposed', reconciling: 'In revision' },
@@ -74,7 +74,7 @@ export const STRINGS = {
       largest: 'Not one spell together. Largest: {spell}, {size} · {pts}',
       alsoHeading: 'These components also make',
       wildAs: '= {card}',
-      wildNote: 'Wilds are shown with one legal declaration. You choose when you Learn the spell; then it is fixed.',
+      wildNote: 'In a run, a wild shows one number it can stand for. You choose the number when you Learn the spell; then it is fixed. In a Conjuration or an Enchantment a wild declares nothing.',
       results: 'Every spell in these components',
     },
     spells: { title: 'The four spells', wilds: 'Wilds', wildsSub: 'Any energy and value in this deck', example: 'Example', points: 'Recognition Points: {min} at {minSize} components, up to {max} at {maxSize}.', notAtThisCount: 'A {size}-component Enchantment needs Echo: 5–6 players only.' },

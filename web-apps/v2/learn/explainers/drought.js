@@ -22,7 +22,7 @@ export function frames(group) {
     f('setup', { source: source0, array: S.arraySize, reserve: reserve0, released: null }, { say: T('setup', { players, source: source0, reserve: reserve0, opening: S.openingDiscard }) }),
     f('late', { source: 2, array: S.arraySize, reserve: late, released: null }, { say: T('late'), example: true }),
     f('last', { source: 1, array: S.arraySize, reserve: late, released: null }, { say: T('last', { n: 1 }), example: true }),
-    f('dry', { source: 0, array: S.arraySize, reserve: late, released: null }, { say: T('dry', { trigger: D.trigger }), note: T('dryNote'), example: true }),
+    f('dry', { source: 0, array: S.arraySize, reserve: late, released: null }, { say: T('dry', { trigger: D.trigger }) + ' ' + plain(D.midTurn), example: true }),
     f('release', { source: null, array: null, reserve: null, released }, { say: T('release', { array: S.arraySize, reserve: late, released }) + ' ' + plain(D.steps[3]), example: true }),
     f('turn', { source: null, array: null, reserve: null, released: released - 1 }, { say: RULES.turn.drought.map((p) => p.name + ': ' + plain(p.short)).join(' '), turn: true, example: true }),
     f('works', { source: null, array: null, reserve: null, released: released - 1 }, { say: T('works'), works: true, example: true }),

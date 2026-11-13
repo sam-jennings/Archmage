@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as X from '../learn/explainers/drought.js';
 import { BASE_RULES as R, deckSize } from '../data/current.js';
+import { plain } from '../learn/explainers/kit.js';
 
 for (const group of R.players.groups) {
   test(`drought · ${group.id} players`, async (t) => {
@@ -42,9 +43,10 @@ for (const group of R.players.groups) {
       assert.equal(frames.at(-1).key, 'end');
     });
 
-    await t.test('the two unwritten timings are flagged, not decided', () => {
-      assert.ok(by.dry.note && by.end.note);
-      const s = X.apply(X.init(group.id), 'goto:' + frames.indexOf(by.dry));
+    await t.test('the mid-turn Source-emptying rule is stated (v3.2); the end timing is still flagged', () => {
+      assert.ok(!by.dry.note && by.end.note);
+      assert.ok(by.dry.say.includes(plain(R.drought.midTurn)), by.dry.say);
+      const s = X.apply(X.init(group.id), 'goto:' + frames.indexOf(by.end));
       assert.equal(s.notes[0].kind, 'unclear');
     });
 
