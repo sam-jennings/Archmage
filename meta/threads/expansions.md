@@ -3,7 +3,7 @@ thread: expansions
 status: active
 updated: 2026-11-13
 goal: Develop the expansion line — Ascension Trials locked in; everything else is ideas at different stages, no settled sequencing
-next: Sam reviews each expansion concept one at a time with Arcane (audit `_review/EXPANSION_AUDIT_2026-07.md` as the reference), then picks one to develop.
+next: Sam reviews each expansion concept one at a time with Arcane, using `_review/EXPANSION_READINESS_REVIEW_2026-11.md` (readiness-now ratings, recommended review order, Living Array recommendation) with the July audit `_review/EXPANSION_AUDIT_2026-07.md` as background, then picks one to develop.
 hypothesis: The base loop stays light; strategic depth and audience breadth are delivered through modular expansions (Session-4 depth brief)
 ---
 
@@ -86,6 +86,18 @@ Work done 2026-07-16 (third session — portfolio audit):
   11 concepts, audiences, axes owned, unowned axes (2p-dedicated, team, campaign, scenario,
   content-only), combination matrix + bundles, potential scores. Modifier-stacking rule
   promoted to EXPANSION_INDEX governance rule 5 as a side-effect.
+
+Work done 2026-11-13 (readiness review, analysis only — nothing changed in rules,
+expansion docs or decisions):
+- **`_review/EXPANSION_READINESS_REVIEW_2026-11.md`** — all 13 concepts (incl. Living Array,
+  Conclave, the Schism, the Attuned Rival, Trials, and the co-op "Direction 4" whose working
+  title is a retired term) scored on one 5-criterion /10 "suitable to start now" scale
+  (independence from unsettled base rules, maturity, test cost, fit, learning value).
+  Top: Last Rites 9, Schools 9, Attuned Rival 8, Living Array 8, Schism 7. New findings vs
+  the July audit: Schools' Lucent Order clashes with the 2026-11-13 flexible-wilds rule;
+  Last Rites' Final Pattern is worth far more on the v3.1 table (Conj 14→15 = +21); no
+  session log shows any live expansion play, Trials included. Recommends (doesn't decide)
+  reclassifying Living Array as a free base variant / test tool.
 
 Concept inventory: Trials (locked), Spell Duels (reconciled + tiered), Schools (v0.1),
 Last Rites (v0.1), Rituals & Seals (v0.1), Null Cabal (v0.1), Foci & Conduits (v0.1),
