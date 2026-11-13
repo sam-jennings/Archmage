@@ -2,10 +2,15 @@
 title: Experiment opened — vnext scoring & economy bundle
 type: decision
 date: 2026-07-08
-status: experiment
+status: canon
 thread: capacity-economy
 experiment: meta/experiments/vnext-scoring-economy/RECORD.md
 ---
+
+> **CONCLUDED 2026-11-13 by designer approval.** Sam approved the bundle without the live
+> confirm/kill; it is canon as rulebook **v3.2** (`2026-11-13-v3-2-designer-approval.md`; A4
+> amended, A6 dropped). Status set to `canon` per process.md §4. The experiment folder is kept
+> (not deleted, Sam's instruction) because it holds the playtest kit and the old-vs-new summary.
 
 # 2026-07-08 — Open experiment: vnext-scoring-economy
 

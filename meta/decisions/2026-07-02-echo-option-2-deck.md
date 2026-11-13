@@ -2,10 +2,18 @@
 title: Adopt Option 2 deck structure (Echo suit at 5–6p only)
 type: decision
 date: 2026-07-02
-status: experiment
+status: canon
 thread: capacity-economy
 experiment: meta/experiments/echo-option-2/
 ---
+
+> **CANON 2026-11-13** — Sam approved the Echo addition ("Approve of echo addition"), recorded in
+> `2026-11-13-v3-2-designer-approval.md`: the 5–6p deck (5 energies × 1–15 + 4 wilds = 79 cards)
+> and the 2-counter start are canon. **Still open (QUEUE):** 5–6p wild count 4 vs 6, and
+> Conjuration viability under suit dilution. **Superseded quotes below:** the ladder "6 / 12 / 18"
+> scores and "5-card = Unlimited Capacity" were replaced in v3.1 (scores 4 / 10 / 16, 5-card =
+> +5 counters, no Unlimited Capacity), and the "wild-declaration rule" was replaced by flexible
+> wilds + a stated size cap (max 4 at 2–4p, 5 at 5–6p) in v3.2.
 
 # 2026-07-02 — Adopt Option 2 deck structure (Echo suit at 5–6p only)
 

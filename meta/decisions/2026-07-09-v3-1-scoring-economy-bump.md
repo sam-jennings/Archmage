@@ -1,11 +1,17 @@
 ---
 title: Rulebook v3.1 — scoring & economy bump (vnext bundle)
 type: decision
-status: experiment
+status: canon
 date: 2026-07-09
 spec: .kiro/specs/v3-1-scoring-economy/
 supersedes-consider: 2026-07-06-f3-enchantment-timing.md, F4 (enchantment scoring), F6 (UC-5-6p clause)
 ---
+
+> **CANON 2026-11-13 — approved by Sam without the live confirm/kill.** Governing decision:
+> `meta/decisions/2026-11-13-v3-2-designer-approval.md` (rulebook **v3.2**). Approved as below
+> except: **A4 amended** (returned components may be learned again the same turn) and **A6
+> dropped** (EMPOWER may convert one spell type to another, Enchantments included). The rollback
+> procedure below is now historical; v3.1 copies are in `_archive/*-v3.1-2026-11-13/`.
 
 # Decision — apply the vnext scoring/economy bundle as rulebook v3.1
 
@@ -34,8 +40,8 @@ table-level, removes the unbounded Unlimited-Capacity state, and makes RESHAPE/U
 what they tear down. Analysis: `simulation/SCORING_EV_vnext.md`.
 
 ## Status
-`experiment` (under-test) — execution has begun; the bundle is being applied as v3.1 and held
-under-test pending a live playtest. Flip to `canon` on playtest PASS; to `reverted` on FAIL.
+`canon` (2026-11-13, designer approval — see banner). Previously `experiment` (under-test) pending a
+live playtest; that playtest is no longer required to settle it.
 
 ## Canon delta (APPLIED 2026-07-09)
 - `meta/canon.yml`: `rulebook_version: v3.0 → v3.1`; rewrite `enchantment_ladder` (+1/+3/+5, scores

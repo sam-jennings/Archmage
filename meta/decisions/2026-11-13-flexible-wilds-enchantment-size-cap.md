@@ -2,7 +2,7 @@
 title: Flexible wilds — declare only a number, only in sequences; Enchantment max 4 at 2–4p
 type: decision
 date: 2026-11-13
-status: proposed
+status: canon
 ---
 
 # 2026-11-13 — Flexible wilds; Enchantment size cap by player count
@@ -12,7 +12,9 @@ Source: DM thread with Sam, 2026-11-13 (answer to review brief 2,
 size 4. I think this would be obvious to most players and doesn't need a detailed
 explanation. So no need to declare wilds in enchantments. Decided."
 
-**Status note:** decided by Sam. Held as `proposed` only because the rulebook is under
+**Status: canon (2026-11-13)** — written into rulebook v3.2 as part of `2026-11-13-v3-2-designer-approval.md` (B7).
+
+**Earlier status note:** decided by Sam. Held as `proposed` only because the rulebook is under
 test as v3.1 (`2026-07-09-v3-1-scoring-economy-bump.md`, status `experiment`): the
 rulebook text changes in the rulebook pass after the v3.1 confirm/kill, so the v3.0
 rollback stays clean. Gameplay at 2–4p is unchanged (the 4-card ceiling is the same),
@@ -55,13 +57,15 @@ Applied to `meta/canon.yml` this turn:
 - [x] `meta/review-briefs-2026-11.md` — brief 2 marked decided (2026-11-13)
 - [x] `meta/QUEUE.md` — the F6 wild-wording P1 retargeted to this decision, demoted to
   the post-confirm/kill rulebook pass (2026-11-13, now P2)
-- [ ] Complete Rulebook — Components (wild cards) + each spell type: replace the
+- [x] Complete Rulebook — Components (wild cards) + each spell type: replace the
   Enchantment-only "Wild-declaration rule" with the flexible rule; add "max 4 components
   at 2–4 players, max 5 at 5–6 players" to Enchantment requirements (after v3.1
-  confirm/kill)
-- [ ] `rulebook/Scoring System Reference.md`, `rulebook/GLOSSARY.md` — wild / Enchantment
-  wording, if they carry the old declaration rule
-- [ ] `web-apps/archmage-reference.html`, `web-apps/player-reference.html`, the v2 player
+  confirm/kill) — done in v3.2 (2026-11-13)
+- [x] `rulebook/Scoring System Reference.md`, `rulebook/GLOSSARY.md` — wild / Enchantment
+  wording, if they carry the old declaration rule — done in v3.2 (2026-11-13)
+- [x] `web-apps/archmage-reference.html`, `web-apps/player-reference.html`, the v2 player
   site rules pages, and the hand checker (`tests/hand-checker/`) — wild handling and the
-  2–4p Enchantment cap
-- [ ] Board / reference card text, next time they are regenerated (F14 export hold applies)
+  2–4p Enchantment cap — done in v3.2 (2026-11-13): both classic pages, v2 rules data +
+  shared hand checker + wild explainer, tests in `tests/hand-checker/` and `web-apps/v2/tests/`
+- **(held — F14)** Board / reference card text (incl. the Screentop board patch), next time they
+  are regenerated — not a pending edit while F14 holds.
