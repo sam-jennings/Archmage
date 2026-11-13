@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archmage Ascension — Référence du joueur</title>
+<style>
+  :root{
+    --ink:#1a1626; --ink-soft:#4a4358; --line:#d8d2e4; --paper:#fffdf9;
+    --gold:#b8860b; --violet:#6b3fa0; --teal:#0f7f8c; --crimson:#b03a4a; --echo:#8a8fa8;
+    --accent:#4a2d7a; --bg-soft:#f5f1fa;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:16px; background:#ece7f3; color:var(--ink);
+    font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .page{
+    background:var(--paper); max-width:820px; margin:0 auto 20px; padding:22px 26px 26px;
+    border-radius:6px; box-shadow:0 2px 14px rgba(40,20,70,.14);
+  }
+  h1{font-size:24px; margin:0 0 2px; letter-spacing:.5px; color:var(--accent)}
+  .sub{font-size:12.5px; color:var(--ink-soft); margin:0 0 14px; border-bottom:2px solid var(--line); padding-bottom:10px}
+  h2{
+    font-size:14px; text-transform:uppercase; letter-spacing:1.2px; color:#fff;
+    background:var(--accent); padding:5px 10px; border-radius:3px; margin:18px 0 10px;
+  }
+  h3{font-size:14.5px; margin:12px 0 4px; color:var(--accent)}
+  p{margin:5px 0}
+  ul{margin:5px 0 5px 0; padding-left:18px}
+  li{margin:2px 0}
+  .goal{background:var(--bg-soft); border-left:4px solid var(--accent); padding:9px 12px; border-radius:0 4px 4px 0; margin:10px 0}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px}
+  .card{border:1px solid var(--line); border-radius:5px; padding:10px 12px; background:#fff}
+  .card.spell{border-top:4px solid var(--accent)}
+  .spell .name{font-weight:700; font-size:15px; color:var(--accent); margin:0}
+  .spell .tag{font-size:11px; text-transform:uppercase; letter-spacing:.8px; color:var(--ink-soft); margin:0 0 6px}
+  .req{font-size:13.5px; margin:4px 0}
+  .eff{font-size:13.5px; background:var(--bg-soft); padding:6px 8px; border-radius:4px; margin-top:6px}
+  table{border-collapse:collapse; width:100%; font-size:12.5px; margin-top:6px}
+  th,td{border:1px solid var(--line); padding:3px 5px; text-align:center}
+  th{background:var(--bg-soft); font-size:11.5px; text-transform:uppercase; letter-spacing:.4px}
+  td.lbl{text-align:left; font-weight:600}
+  .en{font-weight:700; color:var(--accent)}
+  h2 .en{color:#fff}
+  .fr{color:var(--ink-soft); font-style:italic}
+  .steps{counter-reset:s; list-style:none; padding:0; margin:8px 0}
+  .steps > li{counter-increment:s; position:relative; padding:8px 10px 8px 42px; border:1px solid var(--line); border-radius:5px; margin-bottom:7px; background:#fff}
+  .steps > li::before{
+    content:counter(s); position:absolute; left:10px; top:8px; width:22px; height:22px;
+    background:var(--accent); color:#fff; border-radius:50%; text-align:center; line-height:22px; font-size:12px; font-weight:700;
+  }
+  .steps > li.recall{background:#fff8e6; border-color:var(--gold); counter-increment:none}
+  .steps > li.recall::before{content:"↩"; background:var(--gold); font-size:14px}
+  .energy{display:flex; align-items:center; gap:7px; padding:3px 0; font-size:13.5px}
+  .dot{width:15px; height:15px; border-radius:50%; flex:0 0 15px; border:1px solid rgba(0,0,0,.18)}
+  .note{font-size:12.5px; color:var(--ink-soft); background:#fff8e6; border:1px solid #eddCa8; padding:7px 10px; border-radius:4px; margin-top:8px}
+  .key{background:var(--accent); color:#fff; padding:10px 13px; border-radius:5px; margin-top:14px}
+  .key h3{color:#fff; margin:0 0 5px; font-size:13px; text-transform:uppercase; letter-spacing:1px}
+  .key ul{margin:0; padding-left:18px}
+  .key li{margin:3px 0; font-size:13.5px}
+  .ex{font-family:ui-monospace,Menlo,Consolas,monospace; font-size:12px; color:var(--ink-soft)}
+  .pg{text-align:right; font-size:11px; color:var(--ink-soft); margin-top:14px}
+  @media (max-width:640px){ .grid2,.grid3{grid-template-columns:1fr} body{padding:8px} .page{padding:16px} }
+  @media print{
+    html{zoom:.85}
+    body{background:#fff; padding:0}
+    .page{box-shadow:none; max-width:none; margin:0; padding:10mm; page-break-after:always; border-radius:0}
+    .page:last-child{page-break-after:auto}
+    h2{background:#4a2d7a !important; -webkit-print-color-adjust:exact; print-color-adjust:exact}
+    *{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+    @page{size:A4; margin:8mm}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1 ============ -->
+<div class="page">
+  <h1>ARCHMAGE ASCENSION</h1>
+  <p class="sub">Référence du joueur — partie à 6 joueurs · v3.1<br>
+  <strong>Les mots en gras et en anglais</strong> (The Source, The Array…) sont ceux imprimés sur le plateau et les cartes. Gardez-les tels quels : c'est ce que vous verrez sur la table.</p>
+
+  <div class="goal">
+    <strong>Le but.</strong> Vous êtes un mage. Chaque tour, vous récoltez des composants magiques, vous les assemblez en sorts devant vous, et vous lancez ces sorts pour récolter davantage.
+    Quand la pioche est épuisée, le mage dont le <span class="en">Spellbook</span> <span class="fr">(grimoire)</span> est le plus puissant l'emporte.
+  </div>
+
+  <h2>Mise en place</h2>
+  <div class="grid2">
+    <div class="card">
+      <ul>
+        <li><strong>7 cartes</strong> en main pour chaque joueur.</li>
+        <li><strong>5 cartes face visible</strong> au centre : <span class="en">The Array</span> <span class="fr">(l'étal)</span>.</li>
+        <li>Le reste, face cachée : <span class="en">The Source</span> <span class="fr">(la pioche)</span>.</li>
+        <li>Chaque joueur prend <strong>2 jetons</strong> (à 5–6 joueurs).</li>
+        <li>Premier joueur : au hasard.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Avant le premier tour</h3>
+      <p>Tous les joueurs <strong>en même temps</strong> : choisissez 1 carte de votre main et posez-la dans <span class="en">Arcane Reserve</span> <span class="fr">(la défausse)</span>.</p>
+      <p class="fr" style="font-size:12.5px">Cette réserve resservira à la fin de la partie.</p>
+    </div>
+  </div>
+
+  <h2>Les cartes</h2>
+  <div class="grid2">
+    <div class="card">
+      <p style="margin-top:0">Chaque carte = <strong>une énergie</strong> + <strong>une valeur de 1 à 15</strong>.<br>
+      <span class="ex">Exemple : Void 7 = énergie Void, valeur 7.</span></p>
+      <div class="energy"><span class="dot" style="background:var(--gold)"></span><span class="en">Radiance</span> <span class="fr">— or</span></div>
+      <div class="energy"><span class="dot" style="background:var(--violet)"></span><span class="en">Void</span> <span class="fr">— violet</span></div>
+      <div class="energy"><span class="dot" style="background:var(--teal)"></span><span class="en">Flux</span> <span class="fr">— turquoise</span></div>
+      <div class="energy"><span class="dot" style="background:var(--crimson)"></span><span class="en">Aether</span> <span class="fr">— cramoisi</span></div>
+      <div class="energy"><span class="dot" style="background:var(--echo)"></span><span class="en">Echo</span> <span class="fr">— pâle (5–6 joueurs uniquement)</span></div>
+      <div class="energy"><span class="dot" style="background:linear-gradient(135deg,#b8860b,#6b3fa0,#0f7f8c)"></span><span class="en">Wild</span> <span class="fr">— joker</span></div>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">Le joker (<span class="en">Wild</span>)</h3>
+      <p>Un joker remplace <strong>n'importe quelle énergie et n'importe quelle valeur</strong>.</p>
+      <p>Quand vous le posez dans un sort, <strong>annoncez à voix haute</strong> ce qu'il représente (énergie + valeur). Ce choix est <strong>fixé</strong> tant que le sort existe.</p>
+      <p>L'énergie annoncée doit exister dans le jeu en cours.</p>
+      <div class="note">Aucun sort ne peut dépasser <strong>15 composants</strong>.</div>
+    </div>
+  </div>
+
+  <p class="pg">1 / 4</p>
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+  <h1>LES QUATRE SORTS</h1>
+  <p class="sub">Vous posez ces sorts devant vous, dans votre <span class="en">Spellbook</span>. Ce sont eux qui rapportent les points.</p>
+
+  <div class="grid2">
+    <div class="card spell">
+      <p class="name">🔮 Conjuration</p>
+      <p class="tag">même énergie</p>
+      <p class="req"><strong>Il faut :</strong> 3 composants ou plus de la <strong>même énergie</strong> (valeurs quelconques).</p>
+      <p class="ex">Radiance 4 · Radiance 9 · Radiance 13</p>
+      <div class="eff"><strong>Quand vous le lancez :</strong> piochez dans <span class="en">The Source</span> —<br>
+      3 à 5 composants : <strong>+1 carte</strong> · 6 composants ou plus : <strong>+2 cartes</strong></div>
+    </div>
+    <div class="card spell">
+      <p class="name">🔄 Transfiguration</p>
+      <p class="tag">valeurs qui se suivent</p>
+      <p class="req"><strong>Il faut :</strong> 3 composants ou plus dont les valeurs <strong>se suivent</strong> (énergies quelconques).</p>
+      <p class="ex">Void 6 · Flux 7 · Aether 8 &nbsp;— 14-15-1 est interdit</p>
+      <div class="eff"><strong>Quand vous le lancez :</strong> échange <strong>obligatoire</strong> avec <span class="en">The Array</span> —<br>
+      3 composants : défaussez <strong>2</strong> cartes de votre main, prenez <strong>1</strong> carte de l'étal.<br>
+      4 composants ou plus : défaussez <strong>1</strong>, prenez <strong>1</strong>.<br>
+      Les cartes défaussées vont dans <span class="en">Arcane Reserve</span>, jamais sur l'étal. Remplacez aussitôt la carte prise depuis <span class="en">The Source</span>.</div>
+    </div>
+    <div class="card spell">
+      <p class="name">⚡ Enchantement</p>
+      <p class="tag">valeurs identiques</p>
+      <p class="req"><strong>Il faut :</strong> 3 à 5 composants de la <strong>même valeur</strong> (énergies différentes).</p>
+      <p class="ex">Radiance 10 · Void 10 · Flux 10</p>
+      <div class="eff"><strong>Ne se lance jamais — il est toujours actif.</strong> Il augmente votre capacité :<br>
+      3 composants : <strong>+1 jeton</strong> · 4 composants : <strong>+3 jetons</strong> · 5 composants : <strong>+5 jetons</strong><br>
+      <span class="fr">(total pour cette taille, pas un cumul par étape)</span></div>
+    </div>
+    <div class="card spell">
+      <p class="name">✨ Transmutation Parfaite</p>
+      <p class="tag">valeurs qui se suivent, même énergie</p>
+      <p class="req"><strong>Il faut :</strong> 3 composants ou plus qui <strong>se suivent</strong> et sont de la <strong>même énergie</strong>.</p>
+      <p class="ex">Flux 6 · Flux 7 · Flux 8</p>
+      <div class="eff"><strong>Quand vous le lancez :</strong> les <strong>deux</strong> effets, dans cet ordre, et les deux sont obligatoires — d'abord la pioche de la Conjuration, puis l'échange de la Transfiguration. Cela ne coûte qu'<strong>1 jeton</strong>.</div>
+    </div>
+  </div>
+
+  <div class="note">Si vous ne pouvez pas exécuter entièrement l'effet d'un sort (par exemple : pas assez de cartes à défausser pour l'échange), <strong>vous ne pouvez pas le lancer</strong> ce tour-ci.</div>
+
+  <p class="pg">2 / 4</p>
+</div>
+
+<!-- ============ PAGE 2 ============ -->
+<div class="page">
+  <h1>LE TOUR</h1>
+  <p class="sub">Un tour se déroule toujours dans cet ordre.</p>
+
+  <ol class="steps">
+    <li>
+      <strong>Collecte</strong> — au choix :
+      <ul>
+        <li>piochez <strong>1 carte</strong> dans <span class="en">The Source</span>, <strong>ou</strong></li>
+        <li>prenez <strong>1 carte</strong> de <span class="en">The Array</span> (remplacez-la aussitôt depuis <span class="en">The Source</span>).</li>
+      </ul>
+      <span class="fr">C'est tout pour cette phase. Les cartes bonus des Conjurations viennent à la phase suivante.</span>
+    </li>
+    <li>
+      <strong>Lancement</strong> — vous pouvez lancer <strong>autant de sorts que vous avez de jetons</strong> (1 jeton = 1 sort).
+      <ul>
+        <li>Posez <strong>1 jeton sur le sort</strong> pour le lancer.</li>
+        <li>Résolvez son effet <strong>immédiatement</strong>, avant de lancer le suivant.</li>
+        <li>Chaque sort ne peut être lancé qu'<strong>une fois par tour</strong>.</li>
+        <li>Les Enchantements ne se lancent pas et ne prennent jamais de jeton.</li>
+      </ul>
+    </li>
+    <li class="recall">
+      <strong>Rappel</strong> <span class="fr">(Recall)</span> — <strong>reprenez tous les jetons</strong> posés sur vos sorts et remettez-les dans votre réserve personnelle.<br>
+      <strong>Vous les récupérez tous, à chaque tour.</strong> Les jetons ne sont pas une ressource qui s'épuise : ils mesurent votre capacité. Les mêmes jetons qui viennent de lancer vos sorts servent maintenant à apprendre.
+    </li>
+    <li>
+      <strong>Apprentissage</strong> — vous pouvez faire <strong>autant d'actions que vous avez de jetons</strong>. Chaque action coûte <strong>1 jeton</strong>.
+    </li>
+  </ol>
+
+  <h2>Les quatre actions d'apprentissage</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3 style="margin-top:0"><span class="en">LEARN</span> <span class="fr">— apprendre</span></h3>
+      <p>Posez un <strong>nouveau sort</strong> depuis votre main devant vous. Il doit former un sort valide (l'un des quatre types).</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0"><span class="en">EMPOWER</span> <span class="fr">— renforcer</span></h3>
+      <p>Ajoutez des composants de votre main à un sort <strong>déjà posé</strong> : pour l'agrandir, ou pour le changer de type.</p>
+      <p class="fr" style="font-size:12.5px">Impossible de transformer un sort en Enchantement, ou un Enchantement en autre chose, avec cette action.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0"><span class="en">RESHAPE</span> <span class="fr">— remodeler</span></h3>
+      <p>Défaites un ou plusieurs de vos sorts et <strong>reconstruisez-les autrement</strong> avec les mêmes composants.</p>
+      <p><strong>Coût : 1 jeton par sort défait.</strong> Chaque composant libéré doit finir dans un sort valide.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0"><span class="en">UNLEARN</span> <span class="fr">— désapprendre</span></h3>
+      <p>Reprenez en main un ou plusieurs composants d'<strong>un seul</strong> sort. Ce qui reste doit rester un sort valide, sinon le sort entier revient en main.</p>
+      <p><strong>Coût : 1 jeton</strong>, quel que soit le nombre de composants repris. Dans une suite, on ne peut retirer qu'une carte <strong>d'un bout</strong>, jamais du milieu.</p>
+      <p class="fr" style="font-size:12.5px">Les cartes reprises ne peuvent pas être reposées avant votre prochain tour.</p>
+    </div>
+  </div>
+
+  <p class="pg">3 / 4</p>
+</div>
+
+<!-- ============ PAGE 4 ============ -->
+<div class="page">
+  <h1>CAPACITÉ, FIN DE PARTIE, POINTS</h1>
+  <p class="sub">La dernière page — à lire une fois, puis à garder sous la main.</p>
+
+  <h2>Jetons et capacité</h2>
+  <div class="grid2">
+    <div class="card">
+      <p style="margin-top:0">Vos jetons servent <strong>deux fois par tour</strong> : d'abord pour lancer des sorts, puis — après le <strong>Rappel</strong> — pour apprendre. Lancer moins de sorts ne donne pas plus d'actions : vous récupérez toujours tout.</p>
+      <p><strong>Un Enchantement donne de la capacité selon sa taille actuelle :</strong> 3 composants → 1 · 4 → 3 · 5 → 5.</p>
+    </div>
+    <div class="card">
+      <p style="margin-top:0"><strong>Gain de capacité :</strong> utilisable seulement <strong>à partir de votre prochain tour</strong>.</p>
+      <p><strong>Perte de capacité :</strong> effet <strong>immédiat</strong>. Si vous réduisez un Enchantement, sa capacité tombe à celle de sa nouvelle taille ; si vous le défaites entièrement, elle disparaît.</p>
+      <p class="fr" style="font-size:12.5px">Vous ne pouvez pas réduire un Enchantement si vous n'avez pas de quoi payer l'action <em>et</em> encaisser la perte.</p>
+    </div>
+  </div>
+
+  <h2><span class="en">The Drought</span> <span style="font-weight:400;text-transform:none;letter-spacing:0">— la Sécheresse (fin de partie)</span></h2>
+  <div class="grid2">
+    <div class="card">
+      <p style="margin-top:0"><strong>Déclencheur :</strong> l'instant où <span class="en">The Source</span> est vide.</p>
+      <ol style="padding-left:18px;margin:5px 0">
+        <li>Mélangez <span class="en">The Array</span> avec <span class="en">Arcane Reserve</span> (la défausse).</li>
+        <li>Cela devient <span class="en">Released Reserve</span> — la dernière pioche.</li>
+        <li><span class="en">The Array</span> n'existe plus.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <p style="margin-top:0"><strong>Les tours changent :</strong></p>
+      <ul style="margin:5px 0">
+        <li><strong>Collecte :</strong> piochez exactement 1 carte dans <span class="en">Released Reserve</span>.</li>
+        <li><strong>Plus aucun lancement de sort</strong> — cette phase disparaît.</li>
+        <li><strong>Apprentissage :</strong> normal, avec toute votre capacité.</li>
+      </ul>
+      <p><strong>Quand <span class="en">Released Reserve</span> est vide, la partie s'arrête immédiatement.</strong> On compte les points.</p>
+    </div>
+  </div>
+
+  <h2>Points de reconnaissance</h2>
+  <table>
+    <tr><th>Taille</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th></tr>
+    <tr><td class="lbl">🔮 Conjuration</td><td>0</td><td>1</td><td>2</td><td>3</td><td>7</td><td>13</td><td>20</td><td>29</td><td>38</td><td>50</td><td>63</td><td>79</td><td>100</td></tr>
+    <tr><td class="lbl">🔄 Transfiguration</td><td>3</td><td>4</td><td>5</td><td>7</td><td>8</td><td>10</td><td>13</td><td>16</td><td>20</td><td>25</td><td>31</td><td>38</td><td>48</td></tr>
+    <tr><td class="lbl">✨ Transm. Parfaite</td><td>5</td><td>11</td><td>18</td><td>24</td><td>31</td><td>39</td><td>47</td><td>56</td><td>65</td><td>74</td><td>85</td><td>97</td><td>100</td></tr>
+    <tr><td class="lbl">⚡ Enchantement</td><td>4</td><td>10</td><td>16</td><td colspan="10">— (maximum 5 composants)</td></tr>
+  </table>
+  <p style="font-size:12.5px;margin-top:6px">Additionnez tous les sorts posés devant vous. <strong>Le total le plus élevé gagne.</strong><br>
+  Égalité : le plus grand nombre de sorts, puis le sort le plus grand.</p>
+
+  <div class="key">
+    <h3>À retenir</h3>
+    <ul>
+      <li>Les <strong>Enchantements</strong> ne se lancent jamais : ils sont toujours actifs.</li>
+      <li>Les <strong>jetons</strong> ne s'épuisent pas — vous les reprenez tous au <strong>Rappel</strong>, chaque tour.</li>
+      <li>Un <strong>joker</strong> doit être annoncé (énergie + valeur) et ce choix reste fixé.</li>
+      <li>Un sort lancé ne peut pas l'être <strong>deux fois dans le même tour</strong>.</li>
+      <li>Aucun sort ne dépasse <strong>15 composants</strong>.</li>
+    </ul>
+  </div>
+
+  <p class="pg">4 / 4</p>
+</div>
+
+</body>
+</html>

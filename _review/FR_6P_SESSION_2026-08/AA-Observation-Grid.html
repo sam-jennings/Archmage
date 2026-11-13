@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Archmage Ascension — Observation grid (6p FR session)</title>
+<style>
+  :root{--ink:#1a1626;--soft:#5a5268;--line:#c2bad2;--accent:#4a2d7a;--bg:#f5f1fa;--warn:#b03a4a}
+  *{box-sizing:border-box}
+  body{margin:0;padding:16px;background:#ece7f3;color:var(--ink);
+       font:13.5px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .page{background:#fffdf9;max-width:860px;margin:0 auto 20px;padding:18px 24px;border-radius:6px;
+        box-shadow:0 2px 14px rgba(40,20,70,.14)}
+  h1{font-size:19px;margin:0 0 2px;color:var(--accent)}
+  .sub{font-size:12px;color:var(--soft);margin:0 0 10px;border-bottom:2px solid var(--line);padding-bottom:7px}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:1.1px;color:#fff;background:var(--accent);
+     padding:4px 9px;border-radius:3px;margin:14px 0 7px}
+  table{border-collapse:collapse;width:100%;font-size:12px}
+  th,td{border:1px solid var(--line);padding:4px 5px;vertical-align:top}
+  th{background:var(--bg);font-size:10.5px;text-transform:uppercase;letter-spacing:.4px}
+  td.topic{font-weight:600;width:31%}
+  td.tally{height:26px}
+  .tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 2px}
+  .tier{border:1px solid var(--line);border-radius:4px;padding:6px 8px;background:#fff;font-size:12px}
+  .tier b{color:var(--accent)}
+  .tier.t3{border-color:var(--warn)}
+  .tier.t3 b{color:var(--warn)}
+  .box{border:1px solid var(--line);border-radius:4px;padding:8px 10px;background:#fff;margin:7px 0}
+  .lines{border-bottom:1px solid var(--line);height:19px}
+  .hint{font-size:11.5px;color:var(--soft);font-style:italic;margin:3px 0 0}
+  .flag{background:#fdf0f2;border-left:4px solid var(--warn);padding:7px 10px;border-radius:0 4px 4px 0;font-size:12.5px;margin:8px 0}
+  ul{margin:4px 0;padding-left:17px} li{margin:2px 0}
+  @media print{
+    html{zoom:.82}
+    body{background:#fff;padding:0}
+    .page{box-shadow:none;max-width:none;margin:0;padding:9mm;border-radius:0;page-break-after:always}
+    .page:last-child{page-break-after:auto}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    @page{size:A4;margin:7mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+  <h1>Observation grid — 6-player French session</h1>
+  <p class="sub">Goal: <strong>can the game teach itself?</strong> · v3.1 baseline, 5–6p Echo deck ·
+  One mark per help event. The counts <em>are</em> the finding.</p>
+
+  <div class="tiers">
+    <div class="tier"><b>Tier 0</b><br>Solved it from the sheet, unprompted</div>
+    <div class="tier"><b>Tier 1</b><br>Host <em>pointed</em> at the line — findability defect</div>
+    <div class="tier"><b>Tier 2</b><br>Host <em>read</em> the line aloud — wording defect</div>
+    <div class="tier t3"><b>Tier 3</b><br>Host explained in own words — <strong>materials failed</strong></div>
+  </div>
+  <p class="hint">The host calls the tier out loud as it happens. You just make the mark.</p>
+
+  <h2>Help-event tally</h2>
+  <table>
+    <tr><th>Rule topic</th><th style="width:15%">Tier 1 (point)</th><th style="width:15%">Tier 2 (read)</th><th style="width:15%">Tier 3 (explain)</th><th>Who / when</th></tr>
+    <tr><td class="topic">Goal of the game</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Table layout / zone names</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Conjuration — what forms one</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Transfiguration — what forms one</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Enchantment — what forms one</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Perfect Transmutation</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Collection phase — the choice</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Casting — 1 counter per spell</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic"><strong>RECALL — counters come back (F1)</strong></td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Learning actions — cost</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">RESHAPE — 1 counter per spell broken</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">UNLEARN — one spell, ends only</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic"><strong>Enchantment timing — gain next turn (F3)</strong></td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Enchantment capacity = current size</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Wild declaration</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">The Drought — transition</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">The Drought — no casting</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Scoring / who wins</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Other: ______________________</td><td class="tally"></td><td></td><td></td><td></td></tr>
+    <tr><td class="topic">Other: ______________________</td><td class="tally"></td><td></td><td></td><td></td></tr>
+  </table>
+
+  <div class="flag">Every <strong>tier 3</strong> row becomes a QUEUE item with a location. That is what you came for —
+  a tier-3-free session and a tier-3-heavy session are both good outcomes; an unrecorded one isn't.</div>
+
+  <h2>Probes — record every answer individually, before anyone confers</h2>
+  <table>
+    <tr><th style="width:34%">Probe</th><th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5 (host)</th><th>P6 (you)</th></tr>
+    <tr><td class="topic">A · "What do you do on your turn?" <span style="font-weight:400">(collect → cast → learn)</span></td><td class="tally"></td><td></td><td></td><td></td><td></td><td>—</td></tr>
+    <tr><td class="topic">B · <strong>2 counters, cast 2 spells → learning actions?</strong> <span style="font-weight:400">(answer: 2)</span></td><td class="tally"></td><td></td><td></td><td></td><td></td><td>—</td></tr>
+    <tr><td class="topic">C · "Use the new Enchantment's capacity now?" <span style="font-weight:400">(answer: no, next turn)</span></td><td class="tally"></td><td></td><td></td><td></td><td></td><td>—</td></tr>
+  </table>
+  <p class="hint">Probe B is the F1 datum — the question that failed in Sessions 1 &amp; 3 and passed in Session 4 from the online reference. Note for each player whether they read <strong>paper</strong> or <strong>phone</strong>.</p>
+</div>
+
+<div class="page">
+  <h1>Play observations</h1>
+  <p class="sub">Second sheet — fill during and straight after play.</p>
+
+  <h2>Firsts &amp; timings</h2>
+  <table>
+    <tr><td class="topic">Cards dealt at</td><td></td><td class="topic">Final score at</td><td></td></tr>
+    <tr><td class="topic">Rounds until Source empty</td><td></td><td class="topic">Total rounds</td><td></td></tr>
+    <tr><td class="topic">First Enchantment — round / who</td><td></td><td class="topic">First Transfiguration <em>built in play</em></td><td></td></tr>
+    <tr><td class="topic"><strong>Any 5-card Enchantment?</strong> (first ever)</td><td></td><td class="topic">Highest capacity reached</td><td></td></tr>
+    <tr><td class="topic">Counters ever run out?</td><td></td><td class="topic">One mid-game round took</td><td></td></tr>
+    <tr><td class="topic">Players with ≥1 Enchantment at end</td><td>___ / 6</td><td class="topic">Winning score / spread</td><td></td></tr>
+  </table>
+
+  <h2>The Drought</h2>
+  <div class="box">
+    Did anyone notice the Source emptying without being told? &nbsp; <strong>Y / N</strong> — who: ______________
+    <div class="lines"></div>
+    Did the table understand casting had stopped? <div class="lines"></div>
+  </div>
+
+  <h2>Six-player downtime</h2>
+  <div class="box">
+    Mid-game, count heads: looking at their <strong>hand</strong> ___ / looking at their <strong>phone or away</strong> ___
+    <div class="lines"></div><div class="lines"></div>
+  </div>
+
+  <h2>Rule errors that actually happened</h2>
+  <div class="box">
+    <p class="hint">Errors made, not errors asked about. These are worth more than the questions.</p>
+    <div class="lines"></div><div class="lines"></div><div class="lines"></div><div class="lines"></div>
+  </div>
+
+  <h2>English zone labels</h2>
+  <div class="box">
+    Any hesitation, wrong-pile errors, or "what does this word mean?"
+    <div class="lines"></div><div class="lines"></div>
+  </div>
+
+  <h2>Predictions vs outcome</h2>
+  <table>
+    <tr><th style="width:60%">Written before the session</th><th>Predicted</th><th>Actual</th></tr>
+    <tr><td class="topic">Tier-3 interventions, whole session</td><td class="tally"></td><td></td></tr>
+    <tr><td class="topic">Probe B correct, first time</td><td>___ / 6</td><td>___ / 6</td></tr>
+    <tr><td class="topic">Rounds until Source empties</td><td class="tally"></td><td></td></tr>
+    <tr><td class="topic">Players with an Enchantment at end</td><td>___ / 6</td><td>___ / 6</td></tr>
+    <tr><td class="topic">A 5-card Enchantment appears</td><td>Y / N</td><td>Y / N</td></tr>
+    <tr><td class="topic">A Transfiguration built during play</td><td>Y / N</td><td>Y / N</td></tr>
+    <tr><td class="topic">Total elapsed time</td><td class="tally"></td><td></td></tr>
+    <tr><td class="topic">Would play again, unprompted</td><td>___ / 5</td><td>___ / 5</td></tr>
+  </table>
+
+  <h2>The one sentence</h2>
+  <div class="box">
+    <p class="hint">Before you leave the table — what did this afternoon actually tell you?</p>
+    <div class="lines"></div><div class="lines"></div><div class="lines"></div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -238,3 +238,23 @@ When Sam says "ready to playtest", apply the whole bundle at once:
   `2026-07-09-v3-1-scoring-economy-bump.md` stays `experiment` (under-test). **Awaits the live
   playtest to CONFIRM (→ `canon`, Task 19, retire this folder) or KILL (→ §7 rollback, decision
   `reverted`).**
+- 2026-07-10 (wording refinement, prompted by Sam reviewing the online rules) — **Retired the
+  "dissolve" jargon and dropped the capacity ladder from prose; no rule change.** Sam flagged that
+  the v3.1 upgrade over-introduced "dissolve" (barely used in v3.0), that it implies components
+  vanish, and that the `+1/+3/+5` / `-1/-3/-5` / `5→4 = -2` ladder "doesn't make sense." Fix
+  (decision `meta/decisions/2026-07-10-retire-dissolve-terminology.md`, status `canon`): "dissolve"
+  → the actual actions (Unlearn/Reshape) or plain language ("comes apart / returns to hand / take
+  it apart"); the ladder → one principle, *an Enchantment's capacity always equals its current
+  size* (identical math). Timing restated (gains next turn; losses immediate + affordable). Also
+  corrected a same-session reference-draft error that implied Enchantments can't be Empowered —
+  canon allows EMPOWER to **grow** an Enchantment; it only can't convert a spell *into/out of* one.
+  Files: rulebook (capacity-loss, Enchantment Effect Timing, worked example, RESHAPE, UNLEARN),
+  `GLOSSARY.md` (Capacity/Reshape/Unlearn), both web references, `canon.yml` wild_rule wording. **No
+  version bump** — rules unchanged, rulebook stays v3.1 in lockstep. If v3.1 is killed and rolled
+  back to v3.0, these wording edits revert with it. "dissolve" deliberately NOT added to
+  `retired_terms` (common verb; would false-match `fullDissolve` and the "Array dissolves" log line
+  in the digital build). Board reference PNGs + digital-build UI wording routed to QUEUE.
+- 2026-11-12 — **Playtest prep added (no rule or status change):**
+  `dry-run-and-session-template.md` in this folder — solo dry-run drills for each v3.1 change, a
+  full 2-seat solo game, and the Session-05 log template with these confirm/kill criteria copied
+  verbatim. Retires with this folder.
