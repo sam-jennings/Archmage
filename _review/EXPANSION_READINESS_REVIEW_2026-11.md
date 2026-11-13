@@ -298,3 +298,30 @@ None of this has been done. It is Sam's call.
 - The "flat ending is table-observed" claim is supported only by the Session 1 and Session 4 notes above, both played under pre-v3.1 rules.
 - Whether solo sessions count toward the monthly playtest key result is Sam's call.
 - The 0–2 criterion scores are judgement calls. Two people could reasonably differ by one point on any of them.
+
+---
+
+## Addendum (2026-11-13, later): re-score after Sam's approvals
+
+Sam approved the v3.1 bundle by designer decision (A4 amended, A6 dropped), flexible wilds with the
+2–4p Enchantment cap, Source-emptying timing, and the Echo suit at 5–6p (rulebook becomes v3.2;
+decision `meta/decisions/2026-11-13-v3-2-designer-approval.md`). Still open: Array Attunement,
+the Echo tunables (4 vs 6 wilds; Conjuration under five suits), the 2p base package (Rival's
+Gambit). Only criterion **A (Independence)** moves; B–E are unchanged.
+
+| Concept | Was | Now | Change |
+|---|---|---|---|
+| Rituals & Mastery Seals | Ready after v3.1, 6 (A0) | **Ready now, 8** (A2) | Its core bet sat on the Reshape cost, now settled |
+| Foci & Conduits | Ready after v3.1, 5 (A0) | **Ready now, 6** (A1) | Economy settled; essence/forge costs still need re-pricing on the v3.2 table |
+| Ascension Trials | Ready after v3.1, 5 (A0) | **Unblocked, 6** (A1) | Score table final and Echo canon; still **parked by Sam** until he reopens it |
+| The Overtones | Not yet, 4 (A0) | Not yet, **5** (A1) | No longer blocked on the score table; still a sketch (B0) |
+| The Last Rites | Ready now, 9 | 9 | Final Pattern re-pricing can now be done against final values |
+| The Schools | Ready now, 9 | 9 | Lucent Order rewrite now has a decided wild rule to follow |
+| The Schism | Ready after v3.1, 7 | 7 | Gate was the 2p base package, not v3.1 — still open |
+| Living Array | Ready now, 8 | 8 | Array Attunement still open |
+| Attuned Rival, Spell Duels, Null Cabal, Co-op, Conclave | — | unchanged | No contact with the approved rules |
+
+**Revised order:** Last Rites (9), Schools (9), Rituals & Mastery Seals (8), Attuned Rival (8,
+base-box feature), Schism (7, after the 2p package), Foci & Conduits (6), Ascension Trials (6, when
+Sam unparks it), Spell Duels (6). Caveat: these assume the v3.2 rulebook text lands as approved;
+expansions that use EMPOWER conversion should be re-read once the A6 removal is in.
