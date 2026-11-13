@@ -7,8 +7,8 @@ created: 2026-07-16
 salvaged_from: "[[old-expansion-thread-review]] §2d"
 relates_to:
   - "[[EXPANSION_INDEX]]"
-  - "[[Expansion - The Schools (v0.1)]]"
-  - "[[Expansion - The Last Rites (v0.1)]]"
+  - "[[Expansion - The Schools (v0.2)]]"
+  - "[[Expansion - The Last Rites (v0.2)]]"
   - "[[Archmage Ascension - Complete Rulebook]]"
 ---
 

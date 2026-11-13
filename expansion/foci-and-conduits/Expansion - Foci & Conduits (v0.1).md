@@ -6,7 +6,7 @@ version: 0.1
 created: 2026-07-16
 relates_to:
   - "[[EXPANSION_INDEX]]"
-  - "[[Expansion - The Schools (v0.1)]]"
+  - "[[Expansion - The Schools (v0.2)]]"
   - "[[Expansion - Rituals & Mastery Seals (v0.1)]]"
   - "[[Archmage Ascension - Complete Rulebook]]"
 ---

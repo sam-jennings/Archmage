@@ -56,7 +56,7 @@ Reorganized 2026-07-10 into subfolders (content unchanged, paths only):
 - **`future-directions/Expansion Directions - Post-Echo Exploration.md`** — **Current.** Four candidate directions under the new product model, all passing the 2–4p-without-Echo / 5–6p-with-Echo compatibility test: The Overtones (16+ prestige rack), The Schools (asymmetric identities), The Last Rites (the Drought as a third act), The Convergence (co-op/solo). Parts 2–3 (2026-07-02): pairwise interoperability matrix and the development choice — **Schools + Last Rites first**.
 
 ### `schools-and-last-rites/` — v0.1 rulesets (most-developed pair; sequencing not settled)
-- **`schools-and-last-rites/Expansion - The Schools (v0.1).md`** — full rules: 8 suit-agnostic Schools (talent + lean), market draft, iteration log of 9 bugs fixed on paper.
+- **`schools-and-last-rites/Expansion - The Schools (v0.2).md`** — full rules: 8 suit-agnostic Schools (talent + lean), market draft, iteration log of 9 bugs fixed on paper.
 - **`schools-and-last-rites/Expansion - The Last Rites (v0.2).md`** — full rules: 8 once-each Drought Rites, banish costs, re-priced for rulebook v3.2 (2026-11-13) with a Drought-length desk check and a Schools interactions section; iteration logs B1–B9 and R1–R8.
 - **`schools-and-last-rites/Playtest Plans - Schools & Last Rites (templates).md`** — two single-variable session plans in the standard format, gated as templates until the Stage-3 counter fix is validated; copy into `playtests/` via aa-playtest-planner when the gate lifts.
 - *(Archived: `_archive/Expansion Directions - Echo and the High Frequencies (superseded 2026-07-02).md` — leaned on Echo as expansion design space, void now that Echo is the 5–6p extension suit.)*

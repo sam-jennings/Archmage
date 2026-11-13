@@ -4,8 +4,8 @@ type: playtest-session-templates
 status: template-gated
 created: 2026-07-02
 relates_to:
-  - "[[Expansion - The Schools (v0.1)]]"
-  - "[[Expansion - The Last Rites (v0.1)]]"
+  - "[[Expansion - The Schools (v0.2)]]"
+  - "[[Expansion - The Last Rites (v0.2)]]"
   - "[[STATE]]"
 ---
 

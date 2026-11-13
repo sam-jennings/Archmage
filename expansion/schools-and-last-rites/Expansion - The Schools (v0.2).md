@@ -10,7 +10,7 @@ relates_to:
   - "[[Expansion Directions - Post-Echo Exploration]]"
   - "[[Archmage Ascension - Complete Rulebook]]"
   - "[[Ascension Trials]]"
-  - "[[Expansion - The Last Rites (v0.1)]]"
+  - "[[Expansion - The Last Rites (v0.2)]]"
 ---
 
 # The Schools — v0.2 Rules
@@ -95,7 +95,7 @@ After determining start player, before dealing hands:
 
 ## Interactions with The Last Rites
 
-Checked against every Rite in [[Expansion - The Last Rites (v0.1)]] (that file is not changed here).
+Checked against every Rite in The Last Rites v0.1 (that file was not changed here); its v0.2 refresh, [[Expansion - The Last Rites (v0.2)]], re-checks the pairing in its "Interactions with The Schools" section.
 
 **Guard rules (print on the Schools reference strip when both modules are used):**
 
