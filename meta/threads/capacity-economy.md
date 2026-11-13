@@ -19,7 +19,7 @@ rulebook **v3.2** (decision `meta/decisions/2026-11-13-v3-2-designer-approval.md
 are now canon; the vnext experiment is concluded (folder kept for the kit and summary). v3.1 copies
 are in `_archive/*-v3.1-2026-11-13/`. Not decided: B9 Array Attunement, the four test questions,
 Echo tunables, Ascension Trials, counter redesign, and any explicit size-15 rule. Digital build
-lags v3.2 (QUEUE P2).
+brought to v3.2 on 2026-11-13 (`npm test` in `web-apps/archmage-ascension/`).
 
 ## Playtest prep kit — 2026-11-12
 

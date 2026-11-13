@@ -54,7 +54,6 @@
       players,
       collectionDone: false,
       castSpellsThisTurn: [],
-      unlearnedThisTurn: [],
       learningCountersUsed: 0,
       cauldron: [],
       pendingOpening: { discards: { you:null, archon:null } },
@@ -182,14 +181,7 @@
   }
   function advanceCollection(s){
     // If source just emptied, trigger Drought (after this collection)
-    if (!s.drought && s.source.length === 0){
-      // merge array into reserve, shuffle
-      s.array.filter(Boolean).forEach(c => s.reserve.push(c));
-      s.array = [];
-      s.reserve = E.shuffle(s.reserve);
-      s.drought = true;
-      s.log.push(logEntry('The Source runs dry. The Drought begins. The Array dissolves into the Released Reserve.', 'drought'));
-    }
+    if (!s.drought && s.source.length === 0) beginDrought(s);
     if (s.drought){
       // skip casting, go straight to learning
       s.phase = PHASE.DROUGHT_LEARN;
@@ -197,6 +189,26 @@
       s.phase = PHASE.CASTING;
     }
     return s;
+  }
+
+  // ── Drought trigger (rulebook v3.2, The Drought) ─────────
+  // The instant the Source runs dry — by a Collection draw, a Conjuration draw, or an
+  // Array refill — the current choice/effect finishes, then the Drought begins: the
+  // Array + Arcane Reserve shuffle into the Released Reserve. If this happens mid-Casting,
+  // no further spells are cast; the active player Recalls and continues with Learning
+  // under Drought rules.
+  function beginDrought(s){
+    s.array.filter(Boolean).forEach(c => s.reserve.push(c));
+    s.array = [];
+    s.reserve = E.shuffle(s.reserve);
+    s.drought = true;
+    s.log.push(logEntry('The Source runs dry. The Drought begins. The Array dissolves into the Released Reserve.', 'drought'));
+    if (s.phase === PHASE.CASTING){
+      s.phase = PHASE.DROUGHT_LEARN;
+      s.castSpellsThisTurn = [];
+      s.learningCountersUsed = 0;
+      s.log.push(logEntry(`${s.players[s.currentPlayer].name} casts nothing more, recalls counters and goes straight to Learning.`, 'recall'));
+    }
   }
 
   // ── Casting ──────────────────────────────────────────────
@@ -208,28 +220,34 @@
     if (s.castSpellsThisTurn.includes(spell.id)) return s;
     if (spell.spec.type === 'ench') return s; // enchantments don't cast
     if (s.castSpellsThisTurn.length >= player.counters) return s; // cast up to capacity (all players)
-    // Resolve effect
+    // Resolve effect. Pre-check everything first so a spell never half-resolves:
+    // Conjuration needs the full draw in the Source; Perfect Transmutation needs the
+    // full draw PLUS the Array refill, and a completable exchange (rulebook v3.2).
+    const isConj = spell.spec.type === 'conj' || spell.spec.type === 'perf';
+    const isTrans = spell.spec.type === 'trans' || spell.spec.type === 'perf';
+    const n = spell.cards.length >= 6 ? 2 : 1;
+    const discardCount = spell.cards.length === 3 ? 2 : 1;
+    const sourceNeed = (isConj ? n : 0) + (isTrans ? 1 : 0);
+    if (s.source.length < sourceNeed){
+      s.log.push(logEntry(`The Source holds too few components for that ${TYPE_LABEL[spell.spec.type]} — it cannot be cast.`, 'warn'));
+      return s;
+    }
+    if (isTrans && (player.hand.length + (isConj ? n : 0) < discardCount || s.array.filter(Boolean).length === 0)){
+      s.log.push(logEntry(`${player.name} cannot complete the exchange — casting aborted.`, 'warn'));
+      return s;
+    }
     const log = [];
-    if (spell.spec.type === 'conj' || spell.spec.type === 'perf'){
-      const n = spell.cards.length >= 6 ? 2 : 1;
+    if (isConj){
       for (let i=0; i<n; i++){
-        if (s.source.length){
-          const c = s.source.pop();
-          player.hand.push(c);
-          s.lastAcquired = (s.lastAcquired||[]).concat(c.id);
-        }
+        const c = s.source.pop();
+        player.hand.push(c);
+        s.lastAcquired = (s.lastAcquired||[]).concat(c.id);
       }
       log.push(`Conjures ${n} component${n>1?'s':''} from the Source.`);
     }
-    if (spell.spec.type === 'trans' || spell.spec.type === 'perf'){
-      // mark spell as needing transfiguration exchange — handled via UI prompt
-      // For simplicity here: AI auto-resolves; for human, we mark a pending exchange
-      const discardCount = spell.cards.length === 3 ? 2 : 1;
-      // Check feasibility: hand needs that many cards AND array has at least 1
-      if (player.hand.length < discardCount || s.array.filter(Boolean).length === 0){
-        s.log.push(logEntry(`${player.name} cannot complete the exchange — casting aborted.`, 'warn'));
-        return s;
-      }
+    if (isTrans){
+      // The exchange is resolved by resolveTransfig (UI prompt for the human, AI plan
+      // for the Archon). Perfect Transmutation's draw above left ≥1 card for the refill.
       s.pendingTransfig = {
         playerId: player.id,
         spellId: spell.id,
@@ -241,6 +259,8 @@
     }
     s.castSpellsThisTurn.push(spell.id);
     s.log.push(logEntry(`${player.name} casts ${TYPE_LABEL[spell.spec.type]} (${spell.cards.length}). ${log.join(' ')}`.trim(), 'cast'));
+    // A Conjuration draw may take the Source's last card: the Drought begins now.
+    if (s.source.length === 0) beginDrought(s);
     return s;
   }
 
@@ -265,15 +285,8 @@
     const sp = player.spellbook.find(x=>x.id===s.pendingTransfig.spellId);
     s.log.push(logEntry(`Exchange complete. ${player.name} adds ${labelOf(taken)} from the Array.`, 'cast'));
     s.pendingTransfig = null;
-    // If this was a perf, the conjuration draw also happened earlier? Actually we did it before this. OK.
-    // Check drought trigger
-    if (!s.drought && s.source.length === 0){
-      s.array.filter(Boolean).forEach(c => s.reserve.push(c));
-      s.array = [];
-      s.reserve = E.shuffle(s.reserve);
-      s.drought = true;
-      s.log.push(logEntry('The Source runs dry. The Drought begins.', 'drought'));
-    }
+    // The Array refill may take the Source's last card: the Drought begins now.
+    if (!s.drought && s.source.length === 0) beginDrought(s);
     return s;
   }
 
@@ -333,19 +346,23 @@
     const newCards = sp.cards.concat(adds);
     // Use action.spellType (not action.type — that is the dispatch key 'EMPOWER') as
     // the optional explicit classification, matching learnSpell's convention.
-    const spec = action.spellType ? E.classifyAs(newCards, action.spellType) : E.classify(newCards);
+    // Wilds already in the spell keep their declared number (rulebook v3.2).
+    const fixed = E.wildNumbers(sp.spec);
+    const spec = action.spellType ? E.classifyAs(newCards, action.spellType, fixed) : E.classify(newCards, fixed);
     if (!spec) { s.log.push(logEntry('Empower would invalidate spell.','warn')); return s; }
     const oldType = sp.spec.type;
     const oldLen  = sp.spec.length;
-    // v3.1 (Req 6.2): EMPOWER may extend a spell or convert among conj/trans/perf,
-    // but MUST NOT cross the Enchantment boundary in either direction. Becoming or
-    // ceasing to be an Enchantment goes through LEARN / UNLEARN only.
-    if (oldType === 'ench' && spec.type !== 'ench'){
-      s.log.push(logEntry('Empower cannot turn an Enchantment into another type — use Unlearn.','warn'));
-      return s;
-    }
-    if (oldType !== 'ench' && spec.type === 'ench'){
-      s.log.push(logEntry('Empower cannot turn a spell into an Enchantment — use Learn.','warn'));
+    // v3.2 (A6 dropped): EMPOWER may extend a spell, grow an Enchantment to the next
+    // size, or convert one spell type to another — including into or out of an
+    // Enchantment. Capacity follows the usual timing: a net gain (into / growing an
+    // Enchantment) is deferred to next turn; a net loss (converting an Enchantment
+    // into another type) applies immediately, behind the F3 affordability gate.
+    const oldGrant = oldType === 'ench' ? enchGrant(oldLen) : 0;
+    const newGrant = spec.type === 'ench' ? enchGrant(spec.length) : 0;
+    const net = newGrant - oldGrant;
+    const loss = net < 0 ? -net : 0;
+    if (loss > 0 && !canAffordLoss(s, player, loss)){
+      s.log.push(logEntry('Not enough available capacity to absorb the Enchantment loss — action blocked.','warn'));
       return s;
     }
     // Commit the empower.
@@ -354,20 +371,10 @@
     const ids = new Set(adds.map(c=>c.id));
     player.hand = player.hand.filter(c=>!ids.has(c.id));
     s.learningCountersUsed += 1;
-    // Growing an Enchantment (ench → larger ench) adds ladder capacity — a DEFERRED
-    // F3 gain (arrives next turn). Empower only adds cards, so an Enchantment can only
-    // grow, never shrink; the grant is always ≥ 0 and never triggers the loss gate.
-    if (spec.type === 'ench'){
-      const grant = enchGrant(spec.length) - enchGrant(oldLen);
-      if (grant > 0){
-        player.pendingCapacity += grant;
-        s.log.push(logEntry(`${player.name} empowers the Enchantment to ${spec.length}; +${grant} capacity arrives next turn.`, 'learn'));
-      } else {
-        s.log.push(logEntry(`${player.name} empowers the Enchantment — now ${spec.length}.`, 'learn'));
-      }
-    } else {
-      s.log.push(logEntry(`${player.name} empowers — now ${TYPE_LABEL[spec.type]} (${spec.length}).`, 'learn'));
-    }
+    if (loss > 0) player.counters = Math.max(1, player.counters - loss);
+    if (net > 0) player.pendingCapacity += net;
+    const note = loss > 0 ? `, −${loss} capacity` : (net > 0 ? `; +${net} capacity arrives next turn` : '');
+    s.log.push(logEntry(`${player.name} empowers — now ${TYPE_LABEL[spec.type]} (${spec.length})${note}.`, 'learn'));
     return s;
   }
 
@@ -409,7 +416,7 @@
           return s;
         }
       }
-      newSpec = E.classify(remainderCards);
+      newSpec = E.classify(remainderCards, E.wildNumbers(sp.spec));
       if (!newSpec){
         s.log.push(logEntry('The remaining components would not form a valid spell.','warn'));
         return s;
@@ -439,8 +446,7 @@
     }
     player.hand = player.hand.concat(returnedCards);
     if (loss > 0) player.counters = Math.max(1, player.counters - loss);
-    // Returned components can't seed new spells until the player's next turn (Req 4.5).
-    returnedCards.forEach(c => s.unlearnedThisTurn.push(c.id));
+    // v3.2 (A4 amended): returned components may be learned again this same turn.
     s.learningCountersUsed += 1; // one action regardless of how many components returned
 
     if (fullDissolve){
@@ -553,7 +559,6 @@
     s.collectionDone = false;
     s.castSpellsThisTurn = [];
     s.learningCountersUsed = 0;
-    s.unlearnedThisTurn = [];
     s.cauldron = [];
     s.turnCount += 1;
     s.phase = s.drought ? PHASE.DROUGHT_LEARN /* will get rerouted via collection */ : PHASE.COLLECTION;

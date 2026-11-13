@@ -98,10 +98,9 @@ instead of deciding a rollback.
   concluded; experiment RECORD note (2026-11-13)
 - [x] `.kiro/steering/active-experiments.md`, `.kiro/steering/product.md` → v3.2 (2026-11-13)
 - [x] `meta/QUEUE.md`, `meta/threads/capacity-economy.md`, summary doc status lines (2026-11-13)
-- **(not propagated — queued)** Digital build `web-apps/archmage-ascension/` (`game/state.js`
-  still blocks Enchantment conversion on EMPOWER and locks returned cards until next turn;
-  `RULES_SUMMARY.md` says v3.1 under test). It is a 2-player preview whose hub card already says
-  its rules may lag; queued P2 rather than edited here, because removing the A6 guard there also
-  needs capacity accounting for conversions.
+- [x] Digital build `web-apps/archmage-ascension/` - `game/engine.js` / `state.js` / `ai.js` /
+  `cauldron.jsx`: A6 guard removed (conversions carry capacity: deferred gain / immediate gated
+  loss), A4 lock removed, flexible wilds, Source-emptying timing; `RULES_SUMMARY.md` → v3.2;
+  `npm test` added (2026-11-13; was queued P2)
 - **(held — F14)** Board / reference-card / Screentop board-patch text (`card-design/export-screentop/
   pipeline/patch-board.mjs` still prints "Wilds: declare energy + value") — next regeneration.

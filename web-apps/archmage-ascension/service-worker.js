@@ -1,4 +1,4 @@
-const CACHE_NAME = 'archmage-ascension-v5';
+const CACHE_NAME = 'archmage-ascension-v6';
 const PRECACHE_URLS = [
   "./",
   "./index.html",
