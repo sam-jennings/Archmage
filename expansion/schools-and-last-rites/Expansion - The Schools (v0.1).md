@@ -16,7 +16,7 @@ relates_to:
 
 Asymmetric player identities: each wizard is a graduate of a School, granting one always-on **Talent** and one endgame **Lean**. Modular, opt-in, one card per player.
 
-> **Stage gate:** shelf-ready, untested, queued behind the counter-economy fix like all expansion work. But note: Schools is the one module that can piggyback on *any* future base-game playtest at near-zero teaching cost.
+> **Status (2026-07-16):** shelf-ready, untested. The expansion design gate is lifted; playtest slots compete with base-game P1s per session. Schools is the one module that can piggyback on *any* future base-game playtest at near-zero teaching cost.
 
 ## Design rules (binding on every School, present and future)
 

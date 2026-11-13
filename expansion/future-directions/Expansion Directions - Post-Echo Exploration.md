@@ -155,9 +155,11 @@ The pairwise matrix. "Clean" = no rules contact, coexist freely. "Synergy" = eac
 
 **Line-level takeaway:** Schools is upstream of everything (identity makes every later box richer and costs the others nothing); Last Rites is fully independent of the unresolved counter economy *and* of Duels; Overtones and Convergence are both downstream (need stable scoring / a working pipeline respectively).
 
-# Part 3 — Development choice: Schools + Last Rites first
+# Part 3 — Development recommendation: Schools + Last Rites first
 
-**Chosen: The Schools and The Last Rites.** Reasoning against the alternatives, not just for the winners:
+> **Downgraded 2026-07-16** (decision `2026-07-16-expansion-status-reset`): this was written as a choice; it is a **recommendation only**. No expansion sequencing is settled — Ascension Trials is the only locked-in expansion.
+
+**Recommended: The Schools and The Last Rites.** Reasoning against the alternatives, not just for the winners:
 
 1. **Independence from the two open wounds.** The counter economy is mid-repair and the score table will move when it lands. Overtones is *built out of* the score table (masterwork tiers, claim conditions tuned to spell sizes) — developing it now means rework. Schools (leans are flat RP riders) and Rites (banish-for-effect, no counter contact) touch neither system's contested core.
 2. **Cost per learning.** Schools = one card per player; Rites = ~8 cards + markers. Both are printable in an afternoon. Convergence needs difficulty curves across five player counts — a different discipline and 10× the tuning sessions.

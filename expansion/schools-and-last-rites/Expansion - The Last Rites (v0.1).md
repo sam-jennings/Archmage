@@ -17,7 +17,7 @@ relates_to:
 
 The Drought becomes a third act: a face-up row of Rites, visible from setup so players build toward them all game, performable only once the Source is gone. Every Rite consumes magic **utterly** — its cost is banished from the game — and the endgame becomes a disassembly race: strip your engine for Rites, or hold your patterns for standard evaluation.
 
-> **Stage gate:** shelf-ready, untested, queued behind the counter-economy fix like all expansion work.
+> **Status (2026-07-16):** shelf-ready, untested. The expansion design gate is lifted; playtest slots compete with base-game P1s per session.
 
 ## Design rules (binding)
 
