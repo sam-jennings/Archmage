@@ -81,6 +81,15 @@ Work done 2026-07-19 (solo mode):
   state change the player's decision this turn?* Severance parked as a possible Schism
   1–2p extension; deck brain is the production form if the chassis confirms.
 
+Work done 2026-11-13 (Attuned Rival Stage 1 sim):
+- `simulation/solo_rival_sim.py` + `simulation/SOLO_RIVAL_STAGE1.md` (v3.2 rules, seeded,
+  41 configs x 2,000 games). Results appended to the v0.1 doc as §16, proposed changes as
+  §17 (rules text untouched). Headline: the Adept Rival is too weak (~23 at normal pace,
+  greedy proxy wins 92%) and rushing the Drought is dominant, so the pace dial — the
+  mode's central decision — is absent; ±1 adjacency stays; the decoy-largest-spell exploit
+  is not dominant (the Tithe is worth ~9 points of denial in total). Next for this module
+  (QUEUE P2): Sam picks Stage 1b strength-lever sim vs a first live solo session.
+
 Work done 2026-07-16 (third session — portfolio audit):
 - **Full expansion audit** → `_review/EXPANSION_AUDIT_2026-07.md`: stage ladder S0–S5 for all
   11 concepts, audiences, axes owned, unowned axes (2p-dedicated, team, campaign, scenario,
