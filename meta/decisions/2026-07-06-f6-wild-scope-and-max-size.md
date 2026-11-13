@@ -65,8 +65,8 @@ Applied to `meta/canon.yml` this turn:
 - [x] `_review/DECISION_REGISTER_2026-07.md` F6 reframed (cap 15, no 16–17) (2026-07-06)
 - [x] `meta/QUEUE.md` — score-table P1 re-reframed from "extend to 16–17" to "confirm cap 15" (2026-07-06)
 - [ ] Rulebook Components / Wild Cards — move wild-declaration rule out of Enchantment-only, add one example per spell type (Conjuration / Transfiguration / Enchantment / Perfect Transmutation)
-- [ ] Rulebook — delete/mark-5–6p-only any 2–4p example reaching a 5-card Enchantment / UC
-- [ ] Scoring System Reference — confirm max size 15 (no 16–17 column)
+- [x] Rulebook — delete/mark-5–6p-only any 2–4p example reaching a 5-card Enchantment / UC (verified 2026-11-12: none remain; rulebook, GLOSSARY, both html references scope the 5-card tier to 5–6p)
+- [x] Scoring System Reference — confirm max size 15 (no 16–17 column) (verified 2026-11-12: table stops at 15; `archmage-reference.html` likewise)
 - [ ] `web-apps/archmage-reference.html` — wild scope wording (covers sizes 3–15)
 
 Per-spell-type example wording is recorded in the source addendum, §F6.

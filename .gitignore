@@ -32,6 +32,9 @@ card-design/export-printenbind/_*.pdf
 # Generated per-card PDFs from Component Studio export
 card-design/export-cs3/print-ready/*.pdf
 
+# Generated Screentop export (superseded by Tabletopia 2026-07-20; ~26 MB, keep locally)
+card-design/export-screentop/
+
 # Oversized print deliverables (exceed GitHub 100MB limit — keep locally / use LFS or external storage)
 card-design/export-printenbind/archmage-fronts.pdf
 card-design/export-printenbind/*.zip

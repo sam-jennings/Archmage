@@ -1,13 +1,35 @@
 ---
 thread: capacity-economy
 status: active
-updated: 2026-07-09
+updated: 2026-11-12
 goal: Make enchantment pursuit viable without collapsing Drought tension
-next: **v3.1 is APPLIED and under-test — the next step is the live confirm/kill playtest.** The vnext-scoring-economy bundle was applied to canon as rulebook **v3.1** via the Kiro spec `.kiro/specs/v3-1-scoring-economy/` (governing decision `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`, status `experiment`) and is held **under-test** pending one live session. Run the **v3.1 confirm/kill playtest** (see "## Next playtest goal"): CONFIRM if Transfiguration is still worth playing, the end-game concentration ("T15") play is controlled, low-end scores read sensibly as integers, and enchantment pursuit / UC-removal feels good → Task 19 flips the governing decision to `canon`. KILL if play is worse than v3.0 (a new dominant exploit, TF dead, enchantments still non-viable) or Sam prefers a different shape → run the §7 rollback (restore the `_archive/*-v3.0-2026-07-09/` copies, reset `canon.yml` to v3.0, set the decision `reverted`). A byte-exact v3.0 rollback is READY in `_archive` (authoritative file list in `_archive/README.md`; procedure in the governing decision). Counter round-trip / F1 is **fixed as current counters** for this bump (no gauge/round-trip change; not a blocker).
+next: **v3.1 is APPLIED and under-test — the next step is the live confirm/kill playtest.** The vnext-scoring-economy bundle was applied to canon as rulebook **v3.1** via the Kiro spec `.kiro/specs/v3-1-scoring-economy/` (governing decision `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`, status `experiment`) and is held **under-test** pending one live session. Run the **v3.1 confirm/kill playtest** (see "## Next playtest goal"): CONFIRM if Transfiguration is still worth playing, the end-game concentration ("T15") play is controlled, low-end scores read sensibly as integers, and enchantment pursuit / UC-removal feels good → Task 19 flips the governing decision to `canon`. KILL if play is worse than v3.0 (a new dominant exploit, TF dead, enchantments still non-viable) or Sam prefers a different shape → run the §7 rollback (restore the `_archive/*-v3.0-2026-07-09/` copies, reset `canon.yml` to v3.0, set the decision `reverted`). A byte-exact v3.0 rollback is READY in `_archive` (authoritative file list in `_archive/README.md`; procedure in the governing decision). Counter round-trip / F1 is **fixed as current counters** for this bump (no gauge/round-trip change; not a blocker). **NEW 2026-07-17 — Array Attunement variant decided (proposed, NOT applied):** free Collection-phase Array take requires ≥1 TF/PT in Spellbook (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`). Play the confirm/kill baseline CLEAN, then flip the variant for the second half or a follow-on session. **NEW 2026-07-19 — the confirm/kill can now run ONLINE:** full Screentop.gg asset pack + build guide ready in `card-design/export-screentop/` (62-card 2–4p arcana deck, v3.1-patched board, counter token; decision `meta/decisions/2026-07-19-screentop-online-playtest.md`). **UPDATE 2026-07-20 — table built:** `@samjennings/Arcane-Drought` on Screentop.gg (Surface 1) is fully assembled per the guide (deck indexed and on the Source, Array dealt, Reserve empty by design, 20-counter supply, 4 seats). **PLATFORM SWITCH, later 2026-07-20 (Sam's call, decision `meta/decisions/2026-07-20-tabletopia-switch.md`): the confirm/kill now runs on TABLETOPIA, not Screentop.** Tabletopia state: game `tabletopia.com/workshop/games/azcps` (private, 2–4p) with ALL objects uploaded (62-card deck 60×85 mm, board 41.9×29.6 cm, counter token 30 mm; derived pack in `card-design/export-tabletopia/`) and the "2-4 players" setup shell created. Remaining: **~10 min manual scene assembly + save** per `card-design/export-tabletopia/TABLETOPIA_BUILD_GUIDE.md` (the Unity editor defeated agent automation; the guide lists its quirks), then solo dry-run, then recruit. Screentop table stays live as fallback until one clean Tabletopia session.
 hypothesis: If the round-trip counter redesign (placing a counter casts a spell; picking one up pays for a learning action — Recall becomes the payment, not a step) is pre-validated in the solo rig alongside partial unlearn, then a single combined fix can be chosen on paper and the next live session spent confirming experience rather than exploring options.
 ---
 
 # Capacity economy
+
+## Playtest prep kit — 2026-11-12
+
+Solo dry-run script (8 drills, one per v3.1 rule change, plus a full 2-seat game) and the
+session-log template with the confirm/kill criteria copied from RECORD:
+`meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md`. Steps still to do:
+Tabletopia scene assembly + save (whether it was done is unknown), solo dry-run, recruit. Four
+open questions for Sam are listed at the end of that file (no measurable thresholds; 5p vs the
+2–4p Tabletopia table; F3 gate cost for a multi-spell RESHAPE; one session enough?).
+No rules or experiment status changed.
+
+## Online playtest route ready — 2026-07-19
+
+The v3.1 confirm/kill no longer depends on getting people around a physical table.
+`card-design/export-screentop/` holds a complete Screentop.gg pack: 62 card faces
+rendered fresh from the canonical arcana+beacon renderer (2–4p deck per canon),
+card back, counter token, spritesheets, and the A3 board raster with its stale
+Recognition Points / Set-up panels replaced by v3.1-correct ones (the board PDF
+itself is still pre-v3.1 — queued P2). `SCREENTOP_BUILD_GUIDE.md` covers table
+assembly, v3.1 setup, the confirm/kill criteria, and stranger-recruitment venues.
+Decision: `meta/decisions/2026-07-19-screentop-online-playtest.md` (F14 print hold
+untouched — this is a screen-only export target).
 
 ## v3.1 applied (under-test) — 2026-07-09
 

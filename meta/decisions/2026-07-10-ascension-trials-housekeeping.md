@@ -5,6 +5,13 @@ date: 2026-07-10
 status: canon
 ---
 
+> **Superseded by a further move (2026-07-13):** everything this decision placed in
+> `simulation/ascension_trials_model/docs/` has since moved again to
+> `ascension-trials/ascension_trials_model/docs/` — see
+> `meta/decisions/2026-07-13-ascension-trials-consolidation.md`. This file is left
+> as-written below as an accurate historical record of the 2026-07-10 state; do not
+> edit the paths in the body text to match the current layout.
+
 # 2026-07-10 — Ascension Trials root-folder housekeeping
 
 ## Context

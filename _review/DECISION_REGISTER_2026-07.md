@@ -27,6 +27,15 @@ propagated to `meta/decisions/2026-07-06-f*.md`. Note two **reversals** of earli
 recommendations: **F6** caps size at 15 (no Conjuration 16–17), and **F8** keeps Ascension
 Trials active (not parked).
 
+**Status refresh 2026-11-12 (agent; entries below were last edited in July and predate
+rulebook v3.1).** Read these sections through `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`
+(status `experiment`, under-test): **F1** — fixed as the *current counters* for the v3.1 bump
+(Sam, 2026-07-09; no gauge/round-trip change) — the redesign arms are not live; **F3** — implemented
+in v3.1 (decision `superseded`); **F4** — superseded, Enchantment scores now 4/10/16; **F6** — UC
+clause superseded (no Unlimited Capacity), cap-15 and wild rulings stand; **F12** — partial UNLEARN
+is in v3.1 (under-test); **DR-STATE** — `state.js` updated to v3.1 (spec Phase 3). Open decisions are
+tracked in `meta/QUEUE.md`; one-minute briefs in `meta/review-briefs-2026-11.md`.
+
 ---
 
 ## DR-HOOK — Protect the one-sentence hook
@@ -48,8 +57,12 @@ Trials active (not parked).
 - **Closure condition:** decision file written; PROJECT.md carries the sentence + standing rule. ✅ met.
 
 ## DR-NAME — Game title & end-narrative (retire "Archmage" / "Ascension")
-- **Status:** open — **SAM-NOW** for the narrative (Track A, do when convenient);
-  **finalize-late** for the title string (gated with DR-PITCH / F14).
+- **Status:** ✅ **(A) closed + name chosen 2026-07-16** — end-narrative reworked
+  (`rulebook/Story.md`: Arcane Drought / Renewal framing, winner = the Renewer) and final
+  title chosen: **"Arcane Drought"** (collision-checked). Decision:
+  `meta/decisions/2026-07-16-dr-name-arcane-drought.md`. **(B) remains open as
+  propagation-only** — one-pass title-string rename, gated with DR-PITCH / F14, before
+  any paid/external surface.
 - **Owner:** Sam (creative/branding call). Kiro can assist with name-collision research +
   a candidate shortlist; stranger sessions inform it (the logistics plan captures what
   players call the game, verbatim).

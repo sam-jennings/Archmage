@@ -1,0 +1,2695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Card Face Alternatives</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap">
+<style>
+/* Layout: one reading column (≈70ch) for argument, full-width bands for cards and the table.
+   Palette and type come from the project's own web token layer (web-apps/archmage-tokens.css):
+   the board's night-violet field, engraved gold, parchment ink. Deliberately dark-only. */
+:root{
+  color-scheme: dark;
+  --bg:#110d22; --bg-deep:#0c0918; --panel:#171230; --panel-2:#1d1740;
+  --line:#2c2154; --line-soft:#1e1740;
+  --ink:#e8e2d2; --ink-soft:#c3b8d4; --ink-dim:#9084b0;
+  --gold:#d4af5a; --gold-bright:#f6c94a; --violet:#b794f6; --warn:#ef7486; --ok:#3fbf9f;
+  --mat:#16131b; --mat-line:#26212e; --oak:#a8895f; --oak-line:#8e7049;
+  --font-display:'Cinzel', Georgia, 'Times New Roman', serif;
+  --font-body:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --measure:70ch;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:19px;line-height:1.5;margin:0;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:20px;padding-block:0 64px}
+a{color:var(--gold-bright)}
+h1,h2,h3{font-family:var(--font-display);text-wrap:balance;font-weight:700;letter-spacing:.04em;margin:0}
+h2{font-size:clamp(24px,3.2vw,34px);color:var(--gold);margin-bottom:10px}
+h3{font-size:19px;color:var(--ink);letter-spacing:.03em}
+p{margin:0}
+.eyebrow,.label{font-family:var(--font-display);font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-dim)}
+section{padding-block:56px 8px;border-top:1px solid var(--line-soft)}
+.prose{max-width:var(--measure)}
+.prose p+p{margin-top:.7em}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78em;color:var(--ink-soft);background:var(--panel);padding:1px 5px;border-radius:3px}
+
+.hero,.alts,.alt,.findings,.scene{grid-template-columns:minmax(0,1fr)}
+.hero>*,.alts>*,.alt>*,.findings>*,.scene>*,#scenes>*{min-width:0}
+/* Hero */
+.hero{padding-block:48px 40px;display:grid;gap:20px}
+.hero h1{font-size:clamp(34px,6vw,64px);font-weight:900;letter-spacing:.06em;line-height:1.05;color:var(--ink)}
+.hero h1 span{color:var(--gold)}
+.lede{font-size:clamp(20px,2.2vw,23px);font-style:italic;color:var(--ink-soft);max-width:62ch}
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:8px}
+.verdict div{background:var(--panel);padding:16px 18px;display:grid;gap:6px;align-content:start}
+.verdict b{font-family:var(--font-display);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-bright)}
+.verdict p{font-size:18px;color:var(--ink)}
+
+/* Cards gallery */
+.gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-top:18px}
+.gallery.with-back{grid-template-columns:repeat(7,minmax(0,1fr))}
+.gcard{appearance:none;border:0;padding:0;background:none;cursor:zoom-in;border-radius:4.8%/3.4%;display:block;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:transform .18s ease}
+.gcard:hover{transform:translateY(-3px)}
+.gcard:focus-visible{outline:2px solid var(--gold-bright);outline-offset:3px}
+.gcard.back{cursor:default}
+.gcard>svg,.lb-card>svg{width:100%;height:auto;display:block}
+.cap{font-size:15px;color:var(--ink-dim);margin-top:8px;font-style:italic}
+
+/* Findings */
+.findings{display:grid;gap:0;margin-top:26px;border-top:1px solid var(--line-soft)}
+.finding{display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 18px;padding-block:20px;border-bottom:1px solid var(--line-soft)}
+.code{font-family:var(--font-display);font-weight:700;font-size:22px;color:var(--gold);padding-top:2px}
+.finding .body{display:grid;gap:8px;max-width:var(--measure)}
+.head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline}
+.sev{font-family:var(--font-display);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;padding:3px 8px 2px;border-radius:3px;border:1px solid currentColor;white-space:nowrap}
+.sev.block{color:var(--warn)} .sev.read{color:var(--gold-bright)} .sev.print{color:var(--violet)} .sev.polish{color:var(--ink-dim)}
+.fix{color:var(--ink-soft)} .fix b{color:var(--ok);font-weight:600}
+.demo{grid-column:2;margin-top:8px;max-width:820px}
+.demo>svg{width:100%;height:auto;display:block}
+.works{margin-top:26px;padding:18px 20px;border-left:2px solid var(--ok);background:var(--panel);max-width:calc(var(--measure) + 40px)}
+.works h3{color:var(--ok);font-size:15px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+
+/* Alternatives */
+.alts{display:grid;gap:44px;margin-top:28px}
+.alt{display:grid;gap:12px}
+.alt-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+.alt-head h3{font-size:clamp(20px,2.4vw,26px)}
+.badge{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 6px;border-radius:50%;font-family:var(--font-display);font-weight:900;font-size:15px;color:var(--bg-deep);background:var(--ink-dim)}
+.b-A{background:var(--gold)} .b-B{background:var(--violet)} .b-C{background:#e6dcc4} .b-D{background:#35c6b6} .b-cur{background:var(--ink-dim);border-radius:15px;font-size:11px;letter-spacing:.08em}
+.tag{font-family:var(--font-display);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim);border:1px solid var(--line);padding:3px 8px 2px;border-radius:3px}
+.tag.dep{color:var(--warn);border-color:rgba(239,116,134,.45)}
+.alt .thesis{font-size:20px;max-width:var(--measure)}
+.fc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px 28px;max-width:1000px}
+.fc h4{font-family:var(--font-display);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;margin:0 0 4px;color:var(--ok)}
+.fc .costs h4{color:var(--warn)}
+.fc ul{margin:0;padding-left:1.1em;display:grid;gap:3px}
+.fc li{font-size:17.5px;color:var(--ink-soft)}
+.rtags{display:inline-flex;gap:4px;flex-wrap:wrap}
+.rt{font-family:var(--font-display);font-size:10px;letter-spacing:.06em;color:var(--gold);border:1px solid rgba(212,175,90,.4);border-radius:3px;padding:1px 5px 0}
+
+/* Table compare */
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(17,13,34,.96);backdrop-filter:blur(6px);border-block:1px solid var(--line);padding:10px 0;margin-top:18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctl>.label{font-size:10.5px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink-soft);font-family:var(--font-body);font-size:16px;font-weight:600;padding:5px 11px;cursor:pointer;border-right:1px solid var(--line)}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--gold-bright)}
+.seg button:focus-visible,.chk input:focus-visible{outline:2px solid var(--gold-bright);outline-offset:-2px}
+.chk{display:inline-flex;align-items:center;gap:6px;font-size:16.5px;color:var(--ink-soft);cursor:pointer;font-weight:600}
+.chk input{accent-color:var(--gold);width:16px;height:16px}
+.chk input:disabled+span{opacity:.45}
+#scenes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 18px;margin-top:18px}
+#scenes[data-scene="array"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.scene-note{align-self:start;padding:16px 18px;border:1px dashed var(--line);border-radius:6px;display:grid;gap:8px;font-size:17px;color:var(--ink-soft)}
+.scene-note h3{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.scene-note b{color:var(--ink);font-weight:600}
+@media (max-width:1000px){ #scenes{grid-template-columns:repeat(2,minmax(0,1fr))} #scenes[data-scene="array"]{grid-template-columns:1fr} }
+.scene{margin:0;display:grid;gap:8px;align-content:start}
+.scene figcaption{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-size:14px;letter-spacing:.08em;color:var(--ink)}
+.table{border-radius:6px;padding:12px;background:var(--mat);border:1px solid var(--mat-line)}
+#scene-wrap[data-surface="oak"] .table{background:var(--oak) repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 2px,transparent 2px 11px);border-color:var(--oak-line)}
+.table>svg{width:100%;height:auto;display:block}
+.sc-label{font-family:var(--font-display);letter-spacing:.06em;fill:var(--ink-dim)}
+#scene-wrap[data-surface="oak"] .sc-label{fill:#2b2014}
+#scene-wrap[data-vision="protan"] #scenes{filter:url(#cvd-protan)}
+#scene-wrap[data-vision="deutan"] #scenes{filter:url(#cvd-deutan)}
+#scene-wrap[data-vision="tritan"] #scenes{filter:url(#cvd-tritan)}
+#scene-wrap[data-vision="grey"] #scenes{filter:grayscale(1)}
+
+/* Scorecard */
+.score-wrap{overflow-x:auto;margin-top:18px;border:1px solid var(--line);border-radius:6px}
+table.score{border-collapse:collapse;width:100%;min-width:720px;font-size:17px}
+.score th,.score td{padding:10px 12px;border-bottom:1px solid var(--line-soft);text-align:center;vertical-align:middle}
+.score thead th{font-family:var(--font-display);font-size:12px;letter-spacing:.1em;color:var(--ink-dim);font-weight:600;background:var(--panel)}
+.score tbody th{text-align:left;font-weight:600;color:var(--ink);font-family:var(--font-body)}
+.score tbody th small{display:block;font-weight:400;color:var(--ink-dim);font-size:15px}
+.score td{line-height:1}
+.mk{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:middle;border:2px solid currentColor}
+.mk.f{color:var(--ok);background:var(--ok)}
+.mk.p{color:var(--gold);background:linear-gradient(90deg,var(--gold) 50%,transparent 50%)}
+.mk.n{color:var(--warn);background:transparent}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.score td small{display:block;font-size:13px;color:var(--ink-dim);margin-top:4px;line-height:1.2}
+.legend{margin-top:10px;font-size:16px;color:var(--ink-dim)}
+
+/* Next steps */
+ol.steps{margin:18px 0 0;padding:0;list-style:none;counter-reset:s;display:grid;gap:16px;max-width:var(--measure)}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:40px minmax(0,1fr);gap:12px}
+ol.steps li::before{content:counter(s);font-family:var(--font-display);font-weight:900;font-size:22px;color:var(--gold);line-height:1.2}
+ol.steps b{color:var(--ink)}
+ol.steps span{color:var(--ink-soft)}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line-soft);display:grid;gap:10px;max-width:var(--measure);font-size:16px;color:var(--ink-dim)}
+
+/* Lightbox */
+dialog#lightbox{border:1px solid var(--line);border-radius:8px;background:var(--bg-deep);color:var(--ink);padding:20px;max-width:min(860px,calc(100vw - 24px));width:100%}
+dialog#lightbox::backdrop{background:rgba(5,3,12,.8)}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.lb-top h3{font-size:17px}
+#lb-close{appearance:none;background:var(--panel-2);color:var(--ink);border:1px solid var(--line);border-radius:4px;font-family:var(--font-body);font-size:16px;font-weight:600;padding:5px 12px;cursor:pointer}
+#lb-cards{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+#lb-cards p{text-align:center;color:var(--ink-dim);font-style:italic;margin-top:6px;font-size:16px}
+.lb-card.rot>svg{transform:rotate(180deg)}
+
+@media (max-width:760px){
+  body{font-size:18px}
+  .gallery{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .gallery.with-back{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .scene-note{order:-1}
+  .finding{grid-template-columns:1fr}
+  .demo{grid-column:1}
+  .code{font-size:18px}
+  #scenes,#scenes[data-scene="array"]{grid-template-columns:1fr}
+  .controls{position:static}
+}
+@media (prefers-reduced-motion:reduce){ .gcard{transition:none} }
+</style>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="cvd-protan"><feColorMatrix type="matrix" values="0.152286 1.052583 -0.204868 0 0  0.114503 0.786281 0.099216 0 0  -0.003882 -0.048116 1.051998 0 0  0 0 0 1 0"/></filter>
+  <filter id="cvd-deutan"><feColorMatrix type="matrix" values="0.367322 0.860646 -0.227968 0 0  0.280085 0.672501 0.047413 0 0  -0.011820 0.042940 0.968881 0 0  0 0 0 1 0"/></filter>
+  <filter id="cvd-tritan"><feColorMatrix type="matrix" values="1.255528 -0.076749 -0.178779 0 0  -0.078411 0.930809 0.147602 0 0  0.004733 0.691367 0.303900 0 0  0 0 0 1 0"/></filter>
+</svg>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="eyebrow">Archmage Ascension · energy cards · review of 30 September 2026</p>
+    <h1>Card Face <span>Alternatives</span></h1>
+    <p class="lede">The arcana art is strong and should stay. The reading layer around it has eight problems, and two of them will cause misreads at the table today. Below: what's wrong, four ways to fix it, and every option laid out in a Spellbook, a hand and the Array.</p>
+    <div class="verdict">
+      <div><b>Adopt A now</b><p>Arcana+ fixes all eight problems without changing the look. Three of its fixes are toggles <code>playtable.html</code> already has.</p></div>
+      <div><b>Test B against D</b><p>Both read better across the table than A. They differ in how far they move from the current mood. Players should pick, not us.</p></div>
+      <div><b>Park C</b><p>Vellum is the best result in print and in low light, but it changes the game's whole identity. Revisit only if the pitch direction changes.</p></div>
+    </div>
+  </header>
+
+  <section id="review" aria-labelledby="h-review">
+    <h2 id="h-review">What the current face gets wrong</h2>
+    <div class="prose"><p>These are the live renderer's own cards (<code>lib/cards.js</code> + <code>art/arcana.js</code> + <code>connectors/beacon.js</code>), drawn on this page by the same code. Click any card to see it turned 180°.</p></div>
+    <div class="gallery with-back" data-design="cur" data-back="1"></div>
+
+    <div class="findings">
+      <article class="finding">
+        <div class="code">R1</div>
+        <div class="body">
+          <div class="head"><span class="sev block">Misread</span><h3>An upside-down card lies about its value</h3></div>
+          <p>The corner index survives a 180° turn. The beacon doesn't. Turn a 7 over and its index still says 7, but its orb sits where a 14 would, so a run stops looking like a staircase. The back is symmetric, so nothing tells a player which way up a drawn card is. This will happen.</p>
+          <p class="fix"><b>Fix:</b> put the right-hand orb at the mirrored height. The renderer already does this with the <em>Mirrored</em> connector option (right orb at 21 − v); it just isn't the default.</p>
+        </div>
+        <div class="demo" data-demo="flip"></div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R2</div>
+        <div class="body">
+          <div class="head"><span class="sev read">Hard to read</span><h3>Your Spellbook only reads from your side</h3></div>
+          <p>Spells lie in overlapping rows, so only each card's left strip shows. The inverted index sits bottom-right, under the next card. An opponent across the table sees nothing but upside-down numerals, and the hook depends on Spellbooks being read by everyone.</p>
+          <p class="fix"><b>Fix:</b> an index in all four corners, upright at the top and inverted at the bottom. Also an existing toggle (<em>Four corners</em>).</p>
+        </div>
+        <div class="demo" data-demo="across"></div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R3</div>
+        <div class="body">
+          <div class="head"><span class="sev read">Hard to read</span><h3>Once cards overlap, energy is colour only</h3></div>
+          <p>The diagram is the only shape cue, and it's covered in the hand and in the Spellbook. As solid swatches the four base colours hold up under simulated protanopia and deuteranopia (worst ΔE00 22–23). On the card they're thin glowing strokes and a 3.6 mm orb on near-black, where differences shrink a lot.</p>
+          <p class="fix"><b>Fix:</b> the energy icon under every index. Use the official icons in <code>art/energy-symbols-export/</code>; the renderer's <em>Corner glyph</em> toggle draws simpler stand-ins.</p>
+        </div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R4</div>
+        <div class="body">
+          <div class="head"><span class="sev block">Misread · 5–6p</span><h3>Echo is drawn in two greys, and one of them is the wild's</h3></div>
+          <p><code>lib/cards.js</code> colours Echo's index, orbs and label <code>#c8d4e8</code>. <code>arcana.js</code> draws its diagram in <code>#d7d4c8</code>. The first is ΔE00 4 from the wild's <code>#c8d8f8</code>, which is the same colour in practice. The second sits ΔE00 6 from Flux under protanopia.</p>
+          <p class="fix"><b>Fix:</b> one Echo colour, pearl white <code>#f2efe8</code>, and a wild with no hue of its own. This also settles the open question on <code>_review/VISUAL_SYSTEM_with_Echo.md</code>.</p>
+        </div>
+        <div class="demo" data-demo="echo"></div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R5</div>
+        <div class="body">
+          <div class="head"><span class="sev print">Print</span><h3>Void prints grey</h3></div>
+          <p><code>#c060f0</code> is outside the FOGRA39 coated gamut, the usual European print profile. It comes back as <code>#9d75b0</code>, ΔE00 13. Flux shifts by 5; Radiance, Aether and Echo by 1 or less. Screen proofs and Tabletopia will look richer than the printed deck.</p>
+          <p class="fix"><b>Fix:</b> a printable Void, <code>#9d6fd0</code> (ΔE00 7 in print), and Flux <code>#1fbcae</code> (2). The cost: Void and Flux drift closer under deuteranopia (22 → 19). The icons cover that.</p>
+        </div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R6</div>
+        <div class="body">
+          <div class="head"><span class="sev read">Hard to read</span><h3>6 and 9 are unmarked</h3></div>
+          <p>Both exist in every energy. The centre numeral has no inverted twin, so in the Array a 6 reads as 9 to anyone sitting opposite.</p>
+          <p class="fix"><b>Fix:</b> underline both, everywhere they appear.</p>
+        </div>
+        <div class="demo" data-demo="sixnine"></div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R7</div>
+        <div class="body">
+          <div class="head"><span class="sev polish">Polish</span><h3>The wild's value column doesn't line up</h3></div>
+          <p>Normal cards put value <i>v</i> at 42 + 13<i>v</i> units. The wild's column uses 16 + 16<i>v</i>, clamped. Its orbs never sit level with a neighbour's, and both scales still run to 20 although both decks stop at 15.</p>
+          <p class="fix"><b>Fix:</b> one 1–15 scale shared by every card, wild included.</p>
+        </div>
+      </article>
+
+      <article class="finding">
+        <div class="code">R8</div>
+        <div class="body">
+          <div class="head"><span class="sev polish">Polish</span><h3>Low values crowd the corner</h3></div>
+          <p>At 1 and 2 the orb's halo runs into the index numeral (Radiance 2 above).</p>
+          <p class="fix"><b>Fix:</b> start the scale below the index block.</p>
+        </div>
+      </article>
+    </div>
+
+    <aside class="works">
+      <h3>What already works</h3>
+      <p>The deck reads as one family. Each energy's diagram has its own silhouette. The back is 180° symmetric and gives nothing away. And the beacon is the right idea for a rummy spread: value as height, so a set reads as a level line and a run as a staircase. Every alternative below keeps it.</p>
+    </aside>
+  </section>
+
+  <section id="alternatives" aria-labelledby="h-alts">
+    <h2 id="h-alts">Four alternatives</h2>
+    <div class="prose"><p>All four keep the arcana art and the value-as-height idea. They change what carries the reading layer: the index, the value marker and the materials. A and B stay inside <code>VISUAL_SYSTEM.md</code>. C and D each break one of its rules on purpose.</p></div>
+
+    <div class="alts">
+      <article class="alt">
+        <div class="alt-head"><span class="badge b-A">A</span><h3>Arcana+</h3><span class="tag">Refine</span></div>
+        <p class="thesis">The chosen design with R1–R8 fixed and nothing else changed. The cheapest option by far.</p>
+        <div class="fc">
+          <div><h4>Changes</h4><ul>
+            <li>Mirrored right orb, so a turned card still reads true <span class="rtags"><span class="rt">R1</span></span></li>
+            <li>Index in four corners with the official energy icon <span class="rtags"><span class="rt">R2</span><span class="rt">R3</span></span></li>
+            <li>Pearl Echo, hueless wild, printable Void and Flux <span class="rtags"><span class="rt">R4</span><span class="rt">R5</span></span></li>
+            <li>Underlined 6 and 9; one 1–15 scale, starting below the index <span class="rtags"><span class="rt">R6</span><span class="rt">R7</span><span class="rt">R8</span></span></li>
+          </ul></div>
+          <div class="costs"><h4>Costs</h4><ul>
+            <li>Busier corners: four indices and four icons</li>
+            <li>Players still need to leave about 15 mm of each card showing</li>
+            <li>Glow on black still prints flatter than it looks on screen</li>
+          </ul></div>
+        </div>
+        <div class="gallery" data-design="A"></div>
+      </article>
+
+      <article class="alt">
+        <div class="alt-head"><span class="badge b-B">B</span><h3>Instrument Rail</h3><span class="tag">Refine</span></div>
+        <p class="thesis">Both long edges become a calibrated scale. The value is a seal on an engraved rail, with a pointer that runs to the trim, so a run still reads as a staircase when only 6 mm of each card shows. The value moves into a cartouche that reads across the Array.</p>
+        <div class="fc">
+          <div><h4>Gains over A</h4><ul>
+            <li>Works in a much tighter overlap: the pointer starts at the card edge</li>
+            <li>The rail's ticks give every orb a reference, so single cards read too</li>
+            <li>Heavier numeral in the cartouche for table-distance reading</li>
+            <li>Closest to the spec's "instrument panel designed by ritual scholars"</li>
+          </ul></div>
+          <div class="costs"><h4>Costs</h4><ul>
+            <li>The art shrinks by about 15% to fit the plate</li>
+            <li>More line-work; less glow, more engraving</li>
+            <li>A new connector and layout, not just toggles</li>
+          </ul></div>
+        </div>
+        <div class="gallery" data-design="B"></div>
+      </article>
+
+      <article class="alt">
+        <div class="alt-head"><span class="badge b-C">C</span><h3>Vellum Plate</h3><span class="tag dep">Departure · breaks the dark-base rule</span></div>
+        <p class="thesis">The same arcana diagrams printed as ink on light stock. The back stays dark, so face-up and face-down cards can never be confused. The visual system rules out parchment explicitly; this is the case for breaking that rule.</p>
+        <div class="fc">
+          <div><h4>Gains</h4><ul>
+            <li>Every ink sits inside FOGRA39 (worst ΔE00 2): what you proof is what prints</li>
+            <li>Dark numerals on light stock: the best contrast in a dim room</li>
+            <li>The wild is the only card with a dark inlay, so it's unmistakable</li>
+            <li>Echo as iron-gall black stays clear of every other ink</li>
+          </ul></div>
+          <div class="costs"><h4>Costs</h4><ul>
+            <li>Loses the luminous glow that defines the current mood</li>
+            <li>Board, reference cards and web surfaces would need to follow</li>
+            <li>Light stock shows grime; dark stock shows chipped edges instead</li>
+            <li>Blends into a light wooden table (try the Oak surface below)</li>
+          </ul></div>
+        </div>
+        <div class="gallery" data-design="C"></div>
+      </article>
+
+      <article class="alt">
+        <div class="alt-head"><span class="badge b-D">D</span><h3>Spine</h3><span class="tag dep">Departure · breaks "colour lives in the motif"</span></div>
+        <p class="thesis">A solid energy-coloured spine carries everything a player reads in a spread: a big dark numeral, the icon, a value window and notches. A Spellbook row becomes a coloured bar chart. A Conjuration is one colour, a set is a level line of windows, a run is a staircase.</p>
+        <div class="fc">
+          <div><h4>Gains</h4><ul>
+            <li>The strongest read at table distance and in low light</li>
+            <li>One-sided on purpose: a turned card shows its spine on the wrong edge, so players fix it</li>
+            <li>The wild's striped spine can't be mistaken for anything</li>
+            <li>The art is untouched; only the layout changes</li>
+          </ul></div>
+          <div class="costs"><h4>Costs</h4><ul>
+            <li>Less ceremonial; closer to a modern card game</li>
+            <li>15 mm of every card goes to the spine</li>
+            <li>A player who fans right to left sees only the bare edge</li>
+          </ul></div>
+        </div>
+        <div class="gallery" data-design="D"></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="table" aria-labelledby="h-table">
+    <h2 id="h-table">Compare at the table</h2>
+    <div class="prose"><p>The same cards in every treatment, at true proportions. Overlapped cards leave a 15.7 mm strip, about what a player leaves when laying out a Spellbook. The Vision filter simulates full-strength colour-vision deficiency on everything in the panels.</p></div>
+
+    <div class="controls" role="group" aria-label="Scene controls">
+      <div class="ctl"><span class="label">Scene</span>
+        <div class="seg" id="opt-scene">
+          <button type="button" data-v="spellbook" aria-pressed="true">Spellbook</button>
+          <button type="button" data-v="hand" aria-pressed="false">Hand</button>
+          <button type="button" data-v="array" aria-pressed="false">Array</button>
+        </div>
+      </div>
+      <div class="ctl">
+        <label class="chk"><input type="checkbox" id="opt-across"><span>From across the table</span></label>
+        <label class="chk"><input type="checkbox" id="opt-flip"><span>One card upside down</span></label>
+      </div>
+      <div class="ctl"><span class="label">Vision</span>
+        <div class="seg" id="opt-vision">
+          <button type="button" data-v="normal" aria-pressed="true">Normal</button>
+          <button type="button" data-v="protan" aria-pressed="false">Protan</button>
+          <button type="button" data-v="deutan" aria-pressed="false">Deutan</button>
+          <button type="button" data-v="tritan" aria-pressed="false">Tritan</button>
+          <button type="button" data-v="grey" aria-pressed="false">Grey</button>
+        </div>
+      </div>
+      <div class="ctl"><span class="label">Table</span>
+        <div class="seg" id="opt-surface">
+          <button type="button" data-v="mat" aria-pressed="true">Dark mat</button>
+          <button type="button" data-v="oak" aria-pressed="false">Oak</button>
+        </div>
+      </div>
+      <div class="ctl" id="opt-show"><span class="label">Show</span>
+        <label class="chk"><input type="checkbox" value="cur" checked><span>Now</span></label>
+        <label class="chk"><input type="checkbox" value="A" checked><span>A</span></label>
+        <label class="chk"><input type="checkbox" value="B" checked><span>B</span></label>
+        <label class="chk"><input type="checkbox" value="C" checked><span>C</span></label>
+        <label class="chk"><input type="checkbox" value="D" checked><span>D</span></label>
+      </div>
+    </div>
+
+    <div id="scene-wrap" data-vision="normal" data-surface="mat">
+      <div id="scenes" data-scene="spellbook"></div>
+    </div>
+  </section>
+
+  <section id="scorecard" aria-labelledby="h-score">
+    <h2 id="h-score">Scorecard</h2>
+    <div class="prose"><p>My assessment against the review's findings and two things the findings don't cover: mood and cost.</p></div>
+    <div class="score-wrap">
+      <table class="score">
+        <thead><tr><th scope="col" style="text-align:left">Criterion</th><th scope="col">Now</th><th scope="col">A · Arcana+</th><th scope="col">B · Rail</th><th scope="col">C · Vellum</th><th scope="col">D · Spine</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Turned card reads true<small>R1</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk p" role="img" aria-label="partly"></i><small>looks wrong, so gets fixed</small></td></tr>
+          <tr><th scope="row">Opponent can read your Spellbook<small>R2</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td></tr>
+          <tr><th scope="row">Energy readable without colour<small>R3</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td></tr>
+          <tr><th scope="row">Echo and wild distinct<small>R4</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td></tr>
+          <tr><th scope="row">Prints as proofed<small>R5</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td></tr>
+          <tr><th scope="row">6 and 9 distinct<small>R6</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td></tr>
+          <tr><th scope="row">Reads in a tight overlap<small>about 8 mm showing</small></th><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td></tr>
+          <tr><th scope="row">Array reads at table distance</th><td><i class="mk p" role="img" aria-label="partly"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td></tr>
+          <tr><th scope="row">Keeps the visual system's mood</th><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk f" role="img" aria-label="handles it well"></i></td><td><i class="mk n" role="img" aria-label="doesn't"></i></td><td><i class="mk p" role="img" aria-label="partly"></i></td></tr>
+          <tr><th scope="row">Cheap to adopt</th><td>–</td><td><i class="mk f" role="img" aria-label="handles it well"></i><small>toggles + a patch</small></td><td><i class="mk p" role="img" aria-label="partly"></i><small>new connector</small></td><td><i class="mk n" role="img" aria-label="doesn't"></i><small>new identity</small></td><td><i class="mk p" role="img" aria-label="partly"></i><small>new layout</small></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="legend"><i class="mk f"></i> handles it well &nbsp; <i class="mk p"></i> partly &nbsp; <i class="mk n"></i> doesn't</p>
+  </section>
+
+  <section id="next" aria-labelledby="h-next">
+    <h2 id="h-next">Recommendation</h2>
+    <ol class="steps">
+      <li><div><b>Adopt A in the renderer.</b> <span>Set <em>Mirrored</em>, <em>Four corners</em> and <em>Corner glyph</em> as defaults, then patch the rest: official icons, 6/9 underlines, one 1–15 scale for every card, pearl Echo, printable Void and Flux. The F14 hold still blocks print regeneration, so this only changes the renderer until decision-register F1 and F2 close.</span></div></li>
+      <li><div><b>Don't swap the Tabletopia deck before the v3.1 confirm/kill.</b> <span>The faces aren't what that session tests, and re-uploading 62 cards costs time you'd rather spend recruiting.</span></div></li>
+      <li><div><b>Let players choose between B and D.</b> <span>Print one run and one set in A, B and D on plain paper. Seat two people across the table and have them call out values. Ten minutes, and it fits at the end of any session.</span></div></li>
+      <li><div><b>Park C.</b> <span>It's the best option in print and in low light, but it changes the whole identity. It's worth reopening only if the pitch direction moves toward a lighter, classic tabletop look.</span></div></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p><b>Method.</b> Colour differences are CIEDE2000 on sRGB values. Colour-vision simulation uses Machado, Oliveira and Fernandes (2009) at full severity, the same matrices the Vision filter applies. Print checks round-trip each colour through FOGRA39 coated with littleCMS (relative colorimetric). printenbind's actual press profile may differ.</p>
+    <p><b>Sources.</b> Current cards are drawn by the live renderer as of 30 September 2026. A–D reuse <code>art/arcana.js</code> for their art and the icons in <code>art/energy-symbols-export/</code>. Card geometry is 252 × 358 units (62 × 88 mm). Indices and value markers use the live renderer's edge inset; B's pointer and D's spine run to the trim on purpose, so a drifting cut can't hide them.</p>
+    <p><b>Housekeeping.</b> <code>arcana.js</code> still names the wild palette <code>'CONVERGENCE'</code>. It isn't rendered, and the retired-term check is case-sensitive, so it slips through.</p>
+  </footer>
+</div>
+
+<dialog id="lightbox" aria-labelledby="lb-title">
+  <div class="lb-top"><h3 id="lb-title">Card</h3><button type="button" id="lb-close">Close</button></div>
+  <div id="lb-cards"></div>
+</dialog>
+
+<script>
+/* current/lib/cards.js */
+// ════════════════════════════════════════════════════════════════════
+// Archmage Ascension — shared card renderer (lib/cards.js)
+//
+// Loads palette, helpers, makeCard dispatcher, and the public API. Does NOT
+// contain the individual connector or art variants — those are separate
+// modules in connectors/*.js and art/*.js that self-register into the
+// global registries window.AA_CONNECTORS and window.AA_ART.
+//
+// Include order in playtable.html: this file first, then every variant.
+// ════════════════════════════════════════════════════════════════════
+
+(function(){
+
+  // ── Palette ─────────────────────────────────────────────────────────
+  const EL = {
+  radiance:{ b:'#f5c518', m:'#c8961a', dim:'#3a2800', bg1:'#100e04', bg2:'#0c0900', border:'#9a7010', name:'RADIANCE' },
+  void:    { b:'#c060f0', m:'#6a0dad', dim:'#200840', bg1:'#09060f', bg2:'#06040e', border:'#5a10a0', name:'VOID' },
+  flux:    { b:'#00c8b4', m:'#008878', dim:'#002820', bg1:'#04100d', bg2:'#02100d', border:'#009080', name:'FLUX' },
+  aether:  { b:'#e8304a', m:'#c8203a', dim:'#400010', bg1:'#0d0205', bg2:'#0a0102', border:'#a81828', name:'AETHER' },
+  echo:    { b:'#c8d4e8', m:'#7a8aaa', dim:'#181e2c', bg1:'#070810', bg2:'#080910', border:'#3a4460', name:'ECHO' }
+};
+const EORD = ['radiance','void','flux','aether','echo'];
+const WILD = { b:'#c8d8f8', m:'#7080b8', dim:'#101828' };
+
+  // ── Registries populated by connectors/*.js and art/*.js ──────────
+  window.AA_CONNECTORS = window.AA_CONNECTORS || {};
+  window.AA_ART        = window.AA_ART        || {};
+
+  // ── Unique-id helper (shared with variant modules via ArchmageCards.uid) ──
+  let _id = 0;
+  const uid = (p) => (p||'c') + (++_id).toString(36);
+
+  function polar(cx, cy, r, a){
+    return [cx + Math.cos(a)*r, cy + Math.sin(a)*r];
+  }
+
+  // ── Shared helpers ──────────────────────────────────────────────────
+
+  function makeTicks(p, OL, TM, ST, W, sc){
+  let t = '';
+  for (let i=0; i<=20; i++){
+    const ty = TM + i*ST;
+    const tw = i%5===0 ? 7*sc : 3.5*sc;
+    const op = i%5===0 ? .22 : .1;
+    t += `<line x1="0" y1="${ty}" x2="${tw}" y2="${ty}" stroke="${p.m}" stroke-opacity="${op}" stroke-width="${0.75*sc}"/>`;
+    t += `<line x1="${W}" y1="${ty}" x2="${W-tw}" y2="${ty}" stroke="${p.m}" stroke-opacity="${op}" stroke-width="${0.75*sc}"/>`;
+  }
+  return t;
+}
+
+  function makeResonanceMarks(cx, cy, r, val, e, sc){
+  let out = `<g opacity=".95">`;
+  for (let i=1; i<=20; i++){
+    const a = -Math.PI/2 + (i-1) * (Math.PI*2/20);
+    const isActive = i === val;
+    const opposite = (((val + 9) % 20) + 1);
+    const isOpposite = i === opposite;
+    const inner = r * (isActive ? 0.99 : 1.015);
+    const outer = r * (isActive ? 1.16 : isOpposite ? 1.11 : 1.07);
+    const p1 = polar(cx, cy, inner, a);
+    const p2 = polar(cx, cy, outer, a);
+    const sw = isActive ? 1.6*sc : isOpposite ? 1.05*sc : 0.7*sc;
+    const op = isActive ? 0.82 : isOpposite ? 0.40 : 0.16;
+    const col = isActive ? e.b : e.m;
+    out += `<line x1="${p1[0].toFixed(1)}" y1="${p1[1].toFixed(1)}" x2="${p2[0].toFixed(1)}" y2="${p2[1].toFixed(1)}" stroke="${col}" stroke-width="${sw}" stroke-linecap="round" opacity="${op}"/>`;
+    if (isActive || isOpposite){
+      const dot = polar(cx, cy, r * (isActive ? 1.21 : 1.14), a);
+      out += `<circle cx="${dot[0].toFixed(1)}" cy="${dot[1].toFixed(1)}" r="${(isActive ? 1.9 : 1.3)*sc}" fill="${col}" opacity="${isActive ? 0.85 : 0.32}"/>`;
+    }
+  }
+  out += `</g>`;
+  return out;
+}
+
+
+  function makeSharedArchitectureGlyph(cx, cy, W, H, e, val, sc){
+  let out = '';
+  const inset = 18 * sc;
+  const sideX = 46 * sc;
+
+  // quiet vertical pillars instead of concentric circles
+  out += `<line x1="${cx}" y1="${inset}" x2="${cx}" y2="${(H-inset).toFixed(1)}" stroke="${e.m}" stroke-opacity=".08" stroke-width="${0.75*sc}"/>`;
+  out += `<line x1="${sideX}" y1="${(28*sc).toFixed(1)}" x2="${sideX}" y2="${(H-28*sc).toFixed(1)}" stroke="${e.dim}" stroke-opacity=".11" stroke-width="${0.65*sc}"/>`;
+  out += `<line x1="${(W-sideX).toFixed(1)}" y1="${(28*sc).toFixed(1)}" x2="${(W-sideX).toFixed(1)}" y2="${(H-28*sc).toFixed(1)}" stroke="${e.dim}" stroke-opacity=".11" stroke-width="${0.65*sc}"/>`;
+
+  // corner seal-work in diamond language
+  const corners = [
+    [18*sc, 18*sc, 1, 1],
+    [W-18*sc, 18*sc, -1, 1],
+    [18*sc, H-18*sc, 1, -1],
+    [W-18*sc, H-18*sc, -1, -1]
+  ];
+  corners.forEach(([x,y,sx,sy])=>{
+    const d = 4.6*sc;
+    const pts = `${x},${(y-d).toFixed(1)} ${(x+d).toFixed(1)},${y} ${x},${(y+d).toFixed(1)} ${(x-d).toFixed(1)},${y}`;
+    out += `<polygon points="${pts}" fill="none" stroke="${e.m}" stroke-opacity=".16" stroke-width="${0.7*sc}"/>`;
+    out += `<line x1="${(x + sx*7*sc).toFixed(1)}" y1="${y}" x2="${(x + sx*17*sc).toFixed(1)}" y2="${(y + sy*10*sc).toFixed(1)}" stroke="${e.m}" stroke-opacity=".11" stroke-width="${0.7*sc}"/>`;
+    out += `<line x1="${x}" y1="${(y + sy*7*sc).toFixed(1)}" x2="${(x + sx*10*sc).toFixed(1)}" y2="${(y + sy*17*sc).toFixed(1)}" stroke="${e.m}" stroke-opacity=".11" stroke-width="${0.7*sc}"/>`;
+  });
+  return out;
+}
+
+
+function makeSharedArchitecture(cx, cy, W, H, e, val, sc){
+  const outerR = W * 0.40;
+  const midR   = W * 0.315;
+  const innerR = W * 0.215;
+  let out = '';
+
+  // ghost circles / engraved calibration
+  out += `<circle cx="${cx}" cy="${cy}" r="${outerR}" fill="none" stroke="${e.m}" stroke-opacity=".045" stroke-width="${sc}"/>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="${midR}" fill="none" stroke="${e.m}" stroke-opacity=".060" stroke-width="${sc}"/>`;
+  out += `<circle cx="${cx}" cy="${cy}" r="${innerR}" fill="none" stroke="${e.m}" stroke-opacity=".070" stroke-width="${sc}"/>`;
+
+  // restrained corner seal-work: circles + diagonal braces
+  const corners = [
+    [18*sc, 18*sc,  1,  1],
+    [W-18*sc, 18*sc, -1, 1],
+    [18*sc, H-18*sc, 1, -1],
+    [W-18*sc, H-18*sc, -1, -1]
+  ];
+  corners.forEach(([x,y,sx,sy])=>{
+    out += `<circle cx="${x}" cy="${y}" r="${4.5*sc}" fill="none" stroke="${e.m}" stroke-opacity=".18" stroke-width="${0.7*sc}"/>`;
+    out += `<line x1="${x}" y1="${(y + sy*7*sc).toFixed(1)}" x2="${(x + sx*11*sc).toFixed(1)}" y2="${(y + sy*18*sc).toFixed(1)}" stroke="${e.m}" stroke-opacity=".12" stroke-width="${0.7*sc}"/>`;
+    out += `<line x1="${(x + sx*7*sc).toFixed(1)}" y1="${y}" x2="${(x + sx*18*sc).toFixed(1)}" y2="${(y + sy*11*sc).toFixed(1)}" stroke="${e.m}" stroke-opacity=".12" stroke-width="${0.7*sc}"/>`;
+  });
+
+  return out;
+}
+
+  function makeWildArt(cx, cy, artR, sc){
+  const silver = { b:'#d8e2f6', m:'#8a96b8', dim:'#141b28' };
+  let art = '';
+
+  art += `<circle cx="${cx}" cy="${cy}" r="${artR*1.02}" fill="none" stroke="${silver.dim}" stroke-width="${artR*0.16}" opacity=".96"/>`;
+  art += `<circle cx="${cx}" cy="${cy}" r="${artR*1.02}" fill="none" stroke="${silver.m}" stroke-width="${0.9*sc}" opacity=".55"/>`;
+  art += `<circle cx="${cx}" cy="${cy}" r="${artR*0.76}" fill="none" stroke="${silver.m}" stroke-width="${0.8*sc}" opacity=".24"/>`;
+  art += `<circle cx="${cx}" cy="${cy}" r="${artR*0.41}" fill="none" stroke="${silver.m}" stroke-width="${0.8*sc}" opacity=".30"/>`;
+
+  // four current arcs — disciplined convergence, not a rainbow blast
+  art += `<path d="M ${cx} ${cy-artR*0.78} A ${artR*0.78} ${artR*0.78} 0 0 1 ${cx+artR*0.78} ${cy}" fill="none" stroke="${EL.radiance.b}" stroke-width="${1.9*sc}" opacity=".72"/>`;
+  art += `<path d="M ${cx+artR*0.78} ${cy} A ${artR*0.78} ${artR*0.78} 0 0 1 ${cx} ${cy+artR*0.78}" fill="none" stroke="${EL.aether.b}" stroke-width="${1.9*sc}" opacity=".72"/>`;
+  art += `<path d="M ${cx} ${cy+artR*0.78} A ${artR*0.78} ${artR*0.78} 0 0 1 ${cx-artR*0.78} ${cy}" fill="none" stroke="${EL.flux.b}" stroke-width="${1.9*sc}" opacity=".72"/>`;
+  art += `<path d="M ${cx-artR*0.78} ${cy} A ${artR*0.78} ${artR*0.78} 0 0 1 ${cx} ${cy-artR*0.78}" fill="none" stroke="${EL.void.b}" stroke-width="${1.9*sc}" opacity=".72"/>`;
+
+  // radiance: restrained cardinal rays
+  for (let a=0; a<8; a++){
+    const ang = a * Math.PI/4;
+    const p1 = polar(cx, cy, artR*0.42, ang);
+    const p2 = polar(cx, cy, artR*(a%2===0 ? 0.95 : 0.78), ang);
+    art += `<line x1="${p1[0].toFixed(1)}" y1="${p1[1].toFixed(1)}" x2="${p2[0].toFixed(1)}" y2="${p2[1].toFixed(1)}" stroke="${EL.radiance.b}" stroke-width="${(a%2===0?1.25:0.7)*sc}" stroke-linecap="round" opacity="${a%2===0?0.34:0.18}"/>`;
+  }
+
+  // flux: layered wave paths through the center
+  for (let i=-1; i<=1; i++){
+    const yy = cy + i*artR*0.17;
+    const sw = i===0 ? 1.7*sc : 0.9*sc;
+    const op = i===0 ? 0.52 : 0.24;
+    art += `<path d="M ${(cx-artR*0.80).toFixed(1)},${yy.toFixed(1)} Q ${(cx-artR*0.38).toFixed(1)},${(yy-artR*0.12).toFixed(1)} ${cx.toFixed(1)},${yy.toFixed(1)} Q ${(cx+artR*0.38).toFixed(1)},${(yy+artR*0.12).toFixed(1)} ${(cx+artR*0.80).toFixed(1)},${yy.toFixed(1)}" fill="none" stroke="${EL.flux.b}" stroke-width="${sw}" stroke-linecap="round" opacity="${op}"/>`;
+  }
+
+  // aether: an octagram lattice with nodes
+  const pts = [];
+  for (let a=0; a<8; a++){
+    const ang = a * Math.PI/4 - Math.PI/8;
+    const rr = a % 2 === 0 ? artR*0.60 : artR*0.34;
+    pts.push(`${(cx + Math.cos(ang)*rr).toFixed(1)},${(cy + Math.sin(ang)*rr).toFixed(1)}`);
+  }
+  art += `<polygon points="${pts.join(' ')}" fill="none" stroke="${EL.aether.b}" stroke-width="${1.15*sc}" opacity=".58"/>`;
+  for (let a=0; a<8; a+=2){
+    const ang = a * Math.PI/4 - Math.PI/8;
+    const nx = cx + Math.cos(ang)*artR*0.60;
+    const ny = cy + Math.sin(ang)*artR*0.60;
+    art += `<line x1="${cx}" y1="${cy}" x2="${nx.toFixed(1)}" y2="${ny.toFixed(1)}" stroke="${EL.aether.b}" stroke-width="${0.7*sc}" opacity=".24"/>`;
+    art += `<circle cx="${nx.toFixed(1)}" cy="${ny.toFixed(1)}" r="${2.2*sc}" fill="${silver.b}" stroke="${EL.aether.b}" stroke-width="${0.7*sc}" opacity=".78"/>`;
+  }
+
+  // void: spiral + sparse stars
+  const stars = [[-0.62,-0.28],[0.58,-0.35],[-0.52,0.49],[0.61,0.41],[-0.08,-0.66],[0.11,0.67]];
+  stars.forEach(([dx,dy], idx)=>{
+    art += `<circle cx="${(cx + dx*artR).toFixed(1)}" cy="${(cy + dy*artR).toFixed(1)}" r="${(idx%2===0?1.6:1.1)*sc}" fill="${EL.void.b}" opacity="${idx%2===0?0.40:0.24}"/>`;
+  });
+  const spiral = [
+    [0,   artR*0.66, artR*0.50],
+    [Math.PI*0.5, artR*0.52, artR*0.38],
+    [Math.PI, artR*0.40, artR*0.28],
+    [Math.PI*1.5, artR*0.30, artR*0.18]
+  ];
+  spiral.forEach(([startA, ra, rb])=>{
+    const x1 = cx + Math.cos(startA)*ra;
+    const y1 = cy + Math.sin(startA)*ra;
+    const x2 = cx + Math.cos(startA + Math.PI)*rb;
+    const y2 = cy + Math.sin(startA + Math.PI)*rb;
+    const rAvg = (ra+rb)/2;
+    art += `<path d="M${x1.toFixed(1)},${y1.toFixed(1)} A${rAvg.toFixed(1)},${rAvg.toFixed(1)} 0 0,1 ${x2.toFixed(1)},${y2.toFixed(1)}" fill="none" stroke="${EL.void.b}" stroke-width="${1.0*sc}" opacity=".44"/>`;
+  });
+
+  // central convergence kite
+  const sz = artR*0.24;
+  const inn = sz*0.34;
+  const cols=[EL.radiance.b,EL.aether.b,EL.flux.b,EL.void.b];
+  const kitePts=[
+    `${cx},${cy-sz} ${cx+inn},${cy-inn} ${cx},${cy} ${cx-inn},${cy-inn}`,
+    `${cx+sz},${cy} ${cx+inn},${cy+inn} ${cx},${cy} ${cx+inn},${cy-inn}`,
+    `${cx},${cy+sz} ${cx-inn},${cy+inn} ${cx},${cy} ${cx+inn},${cy+inn}`,
+    `${cx-sz},${cy} ${cx-inn},${cy-inn} ${cx},${cy} ${cx-inn},${cy+inn}`
+  ];
+  kitePts.forEach((pts, i)=>{ art += `<polygon points="${pts}" fill="${cols[i]}" opacity=".88"/>`; });
+  art += `<circle cx="${cx}" cy="${cy}" r="${artR*0.09}" fill="${silver.b}" opacity=".95"/>`;
+
+  return art;
+}
+
+
+  // ── Layout variants ────────────────────────────────────────────────
+  const LayoutVariants = {
+  classic: { pipTop: 19, pipSize: 20, labelBelow: true,  numSize: 28, numPos: 'medallion' },
+  compact: { pipTop: 22, pipSize: 16, labelBelow: false, numSize: 22, numPos: 'medallion' },
+  regal:   { pipTop: 34, pipSize: 24, labelBelow: true,  numSize: 32, numPos: 'medallion' },
+  flag:    { pipTop: 28, pipSize: 20, labelBelow: true,  numSize: 34, numPos: 'top' } // big numeral up top
+};
+
+  // ── Dispatchers that read from the registries ─────────────────────
+  function getConnector(name){
+    const reg = window.AA_CONNECTORS || {};
+    return reg[name] || reg['beacon'] || Object.values(reg)[0];
+  }
+  function getArt(name){
+    const reg = window.AA_ART || {};
+    return reg[name] || reg['arcana'] || Object.values(reg)[0];
+  }
+
+
+  function normalizeLayoutFx(fx){
+    fx = fx || {};
+    return {
+      cornerGlyph: !!fx.cornerGlyph,
+      cornerLift: !!fx.cornerLift,
+      connectorPlacement: fx.connectorPlacement || 'same',
+      separator: fx.separator || 'none',
+      mirroredLabel: !!fx.mirroredLabel,
+      allCorners: !!fx.allCorners,
+      innerFrame: !!fx.innerFrame,
+      cornerScale: fx.cornerScale == null ? 1 : fx.cornerScale,
+      centreScale: fx.centreScale == null ? 1 : fx.centreScale
+    };
+  }
+
+  function renderTinyCurrentGlyph(elem, x, y, size, sc){
+    const p = elem === 'wild' ? WILD : EL[elem];
+    const s = size;
+    if (elem === 'wild'){
+      const inn = s * 0.32;
+      const cols = [EL.radiance.b, EL.aether.b, EL.flux.b, EL.void.b];
+      const polys = [
+        `${x},${y-s} ${x+inn},${y-inn} ${x},${y} ${x-inn},${y-inn}`,
+        `${x+s},${y} ${x+inn},${y+inn} ${x},${y} ${x+inn},${y-inn}`,
+        `${x},${y+s} ${x-inn},${y+inn} ${x},${y} ${x+inn},${y+inn}`,
+        `${x-s},${y} ${x-inn},${y-inn} ${x},${y} ${x-inn},${y+inn}`
+      ];
+      let out = '';
+      polys.forEach((pts, i)=>{ out += `<polygon points="${pts}" fill="${cols[i]}" opacity=".86"/>`; });
+      out += `<circle cx="${x}" cy="${y}" r="${s*0.18}" fill="#edf2ff" opacity=".92"/>`;
+      return out;
+    }
+    if (elem === 'radiance'){
+      return `<circle cx="${x}" cy="${y}" r="${s*0.20}" fill="${p.b}" opacity=".94"/>`
+        + `<line x1="${x}" y1="${(y-s).toFixed(1)}" x2="${x}" y2="${(y-s*0.42).toFixed(1)}" stroke="${p.b}" stroke-width="${0.95*sc}" stroke-linecap="round" opacity=".92"/>`
+        + `<line x1="${x}" y1="${(y+s).toFixed(1)}" x2="${x}" y2="${(y+s*0.42).toFixed(1)}" stroke="${p.b}" stroke-width="${0.95*sc}" stroke-linecap="round" opacity=".92"/>`
+        + `<line x1="${(x-s).toFixed(1)}" y1="${y}" x2="${(x-s*0.42).toFixed(1)}" y2="${y}" stroke="${p.b}" stroke-width="${0.95*sc}" stroke-linecap="round" opacity=".92"/>`
+        + `<line x1="${(x+s).toFixed(1)}" y1="${y}" x2="${(x+s*0.42).toFixed(1)}" y2="${y}" stroke="${p.b}" stroke-width="${0.95*sc}" stroke-linecap="round" opacity=".92"/>`;
+    }
+    if (elem === 'void'){
+      const r1 = s*0.76, r2 = s*0.54;
+      return `<path d="M ${(x-r1).toFixed(1)} ${(y).toFixed(1)} A ${r1.toFixed(1)} ${r1.toFixed(1)} 0 1 1 ${(x+r1).toFixed(1)} ${(y).toFixed(1)} A ${r2.toFixed(1)} ${r2.toFixed(1)} 0 1 0 ${(x-r1).toFixed(1)} ${(y).toFixed(1)} Z" fill="${p.b}" opacity=".84"/>`
+        + `<circle cx="${(x+s*0.52).toFixed(1)}" cy="${(y-s*0.30).toFixed(1)}" r="${0.16*s}" fill="${p.b}" opacity=".72"/>`;
+    }
+    if (elem === 'flux'){
+      const sw = 0.9*sc;
+      return `<path d="M ${(x-s).toFixed(1)},${(y-s*0.22).toFixed(1)} Q ${x.toFixed(1)},${(y-s*0.72).toFixed(1)} ${(x+s).toFixed(1)},${(y-s*0.22).toFixed(1)}" fill="none" stroke="${p.b}" stroke-width="${sw}" stroke-linecap="round" opacity=".90"/>`
+        + `<path d="M ${(x-s).toFixed(1)},${(y+s*0.24).toFixed(1)} Q ${x.toFixed(1)},${(y+s*0.74).toFixed(1)} ${(x+s).toFixed(1)},${(y+s*0.24).toFixed(1)}" fill="none" stroke="${p.b}" stroke-width="${sw}" stroke-linecap="round" opacity=".76"/>`;
+    }
+    const diamond = `${x},${(y-s).toFixed(1)} ${(x+s).toFixed(1)},${y} ${x},${(y+s).toFixed(1)} ${(x-s).toFixed(1)},${y}`;
+    return `<polygon points="${diamond}" fill="none" stroke="${p.b}" stroke-width="${0.95*sc}" opacity=".88"/>`
+      + `<line x1="${x}" y1="${(y-s*0.66).toFixed(1)}" x2="${x}" y2="${(y+s*0.66).toFixed(1)}" stroke="${p.b}" stroke-width="${0.72*sc}" opacity=".56"/>`
+      + `<line x1="${(x-s*0.66).toFixed(1)}" y1="${y}" x2="${(x+s*0.66).toFixed(1)}" y2="${y}" stroke="${p.b}" stroke-width="${0.72*sc}" opacity=".56"/>`;
+  }
+
+  function makeConnectorSeparator(fx, W, H, OL, sc, p){
+    if (!fx.separator || fx.separator === 'none') return '';
+    const leftX = OL;
+    const rightX = W - OL;
+    const y = 12*sc;
+    const h = H - 24*sc;
+    const wantRight = fx.connectorPlacement !== 'left-only';
+    let out = '';
+    if (fx.separator === 'line'){
+      out += `<line x1="${leftX.toFixed(1)}" y1="${y.toFixed(1)}" x2="${leftX.toFixed(1)}" y2="${(y+h).toFixed(1)}" stroke="${p.m}" stroke-opacity=".24" stroke-width="${0.9*sc}"/>`;
+      if (wantRight) out += `<line x1="${rightX.toFixed(1)}" y1="${y.toFixed(1)}" x2="${rightX.toFixed(1)}" y2="${(y+h).toFixed(1)}" stroke="${p.m}" stroke-opacity=".24" stroke-width="${0.9*sc}"/>`;
+      return out;
+    }
+    const bw = 7*sc;
+    out += `<rect x="${(leftX-bw).toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${p.dim}" fill-opacity=".14"/>`;
+    out += `<line x1="${leftX.toFixed(1)}" y1="${y.toFixed(1)}" x2="${leftX.toFixed(1)}" y2="${(y+h).toFixed(1)}" stroke="${p.m}" stroke-opacity=".30" stroke-width="${0.95*sc}"/>`;
+    if (wantRight){
+      out += `<rect x="${rightX.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${p.dim}" fill-opacity=".14"/>`;
+      out += `<line x1="${rightX.toFixed(1)}" y1="${y.toFixed(1)}" x2="${rightX.toFixed(1)}" y2="${(y+h).toFixed(1)}" stroke="${p.m}" stroke-opacity=".30" stroke-width="${0.95*sc}"/>`;
+    }
+    return out;
+  }
+
+  // ── makeBeaconBorder ────────────────────────────────────────────────
+  // Border frame removed entirely. printenbind advises against any frame
+  // near the trim edge, so cards now have no edge ring at all — the value
+  // orbs (drawn by the beacon connector) and corner pips read on their own.
+  // Kept as a no-op so the makeCard call site stays unchanged.
+  function makeBeaconBorder(W, H, R, OL, sc, e, id) {
+    return { defs: '', gfx: '' };
+  }
+
+  // ── makeCard ────────────────────────────────────────────────────────
+  function makeCard(val, elem, opts){
+  opts = opts || {};
+  const connectorName = opts.connector || 'beacon';
+  const artKind = opts.art || 'arcana';
+  const layout    = LayoutVariants[opts.layout || 'classic'];
+  const fx = normalizeLayoutFx(opts.layoutFx);
+  const sc = opts.scale || 1;
+  const painterly = !!opts.painterly;
+  const artBase   = opts.artBase || 'art/painterly/';
+  // W:H = 252:358 matches physical 62:88 mm ratio
+  const W=252*sc, H=358*sc, R=12*sc, OL=28*sc, TM=42*sc, ST=13*sc;
+  // Push the strip column, beacons, and corner numerals inward so all
+  // gameplay-critical elements sit inside the 5mm print safe zone
+  // (printenbind: text/important graphics ≥5mm from trim edge).
+  // 5mm ≈ 20.3 units at W=252/62mm; 17 units of inset keeps glyph and orb
+  // EDGES (not just centres) past the safe line. Painterly's frame needs
+  // at least 14, so 17 covers both.
+  const edgeInset = 17*sc;
+  const OL_strip = OL + 2*edgeInset;
+  const e = EL[elem];
+  const id = uid('c'+elem[0]+val);
+  const cx=W/2, cy=H*0.45, artR=W*0.29;
+
+  const conn = getConnector(connectorName);
+  const L  = conn.render(val, e, {OL:OL_strip,TM,ST,W,sc,id,side:'left'});
+  const rightVal = fx.connectorPlacement === 'mirrored' ? (21 - val) : val;
+  const Ri = fx.connectorPlacement === 'left-only'
+    ? { defs:'', gfx:'' }
+    : conn.render(rightVal, e, {OL:OL_strip,TM,ST,W,sc,id,side:'right'});
+
+  const art = painterly ? '' : getArt(artKind).render(elem, cx, cy, artR, e, {W,H,sc,OL,TM,ST,val});
+  const ticks = painterly ? '' : makeTicks(e, OL, TM, ST, W, sc);
+  const architecture = painterly ? ''
+    : artKind === 'glyph'
+    ? makeSharedArchitectureGlyph(cx, cy, W, H, e, val, sc)
+    : makeSharedArchitecture(cx, cy, W, H, e, val, sc);
+  const separator = makeConnectorSeparator(fx, W, H, OL, sc, e);
+  const beaconBorder = connectorName === 'beacon'
+    ? makeBeaconBorder(W, H, R, OL, sc, e, id)
+    : null;
+  const innerFrame = fx.innerFrame
+    ? `<rect x="${(OL+12*sc).toFixed(1)}" y="${(18*sc).toFixed(1)}" width="${(W-2*(OL+12*sc)).toFixed(1)}" height="${(H-36*sc).toFixed(1)}" rx="${(10*sc).toFixed(1)}" ry="${(10*sc).toFixed(1)}" fill="none" stroke="${e.m}" stroke-opacity=".20" stroke-width="${0.9*sc}"/>`
+    : '';
+
+  const pipSz = Math.round(layout.pipSize * fx.cornerScale * sc), pipX=OL_strip/2, pipY=layout.pipTop*sc + edgeInset;
+  const flt = 'url(#'+id+'-s)';
+  const invCX=W-OL_strip/2, invCY=H-19*sc-edgeInset;
+  const numSz = Math.round(layout.numSize * fx.centreScale * sc);
+  const numX = cx, numY = cy + numSz*0.34;
+  const cornerStroke = fx.cornerLift ? ` stroke="${e.bg1}" stroke-width="${0.75*sc}" paint-order="stroke fill" ` : '';
+  const cornerFillOpacity = fx.cornerLift ? '.99' : '.92';
+  const cornerGlyphY = pipY + Math.max(9*sc, pipSz*0.52);
+  const cornerGlyphSize = Math.max(3.8*sc, pipSz*0.23);
+
+  const topNumeral = layout.numPos==='top'
+    ? `<text x="${cx}" y="${TM+ST*4.05}" font-family="Cinzel,serif" font-weight="900" font-size="${numSz*1.32}" fill="${e.b}" fill-opacity=".90" filter="${flt}" text-anchor="middle">${val}</text>`
+    : '';
+  const medNum = layout.numPos==='medallion'
+    ? `<text x="${numX}" y="${numY}" font-family="Cinzel,serif" font-weight="700" font-size="${numSz}" fill="${e.b}" fill-opacity=".88" filter="${flt}" text-anchor="middle">${val}</text>`
+    : '';
+  // Painterly medallion: small dark disc backing + smaller numeral so it sits
+  // snug inside the symbol art's central void.
+  const medR = artR * 0.24;
+  const medTextSz = Math.round(medR * 1.05);
+  // Painterly medallion: clean dark fill disc + numeral, positioned to align
+  // with the empty central circle of the symbol art (which sits higher than
+  // the geometric centre cy). 0.37*H matches the symbol image's visual centre.
+  const pCenterY = H * 0.37;
+  const medFinal = (painterly && layout.numPos==='medallion')
+    ? `<circle cx="${cx}" cy="${pCenterY.toFixed(1)}" r="${medR.toFixed(1)}" fill="#06050b" fill-opacity=".90"/>`
+      + `<text x="${cx}" y="${(pCenterY + medTextSz*0.34).toFixed(1)}" font-family="Cinzel,serif" font-weight="700" font-size="${medTextSz}" fill="${e.b}" fill-opacity=".96" filter="${flt}" text-anchor="middle">${val}</text>`
+    : medNum;
+  const labelY = (cy + artR + H) / 2;
+  const label = layout.labelBelow
+    ? `<text x="${cx}" y="${labelY.toFixed(1)}" font-family="Cinzel,serif" font-weight="700" font-size="${13*sc}" fill="${e.b}" fill-opacity=".90" text-anchor="middle" letter-spacing="${2.8*sc}">${e.name}</text>`
+    : '';
+  const topLabel = layout.labelBelow && fx.mirroredLabel
+    ? `<text x="${cx}" y="${(cy-artR-6*sc).toFixed(1)}" transform="rotate(180 ${cx} ${(cy-artR-6*sc).toFixed(1)})" font-family="Cinzel,serif" font-weight="700" font-size="${13*sc}" fill="${e.b}" fill-opacity=".62" text-anchor="middle" letter-spacing="${2.8*sc}">${e.name}</text>`
+    : '';
+
+  const topLeftCorner = `<text x="${pipX}" y="${pipY}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${cornerFillOpacity}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>`
+    + (fx.cornerGlyph ? renderTinyCurrentGlyph(elem, pipX, cornerGlyphY, cornerGlyphSize, sc) : '');
+  const bottomRightCorner = `<g transform="translate(${invCX},${invCY}) rotate(180)" opacity=".66">`
+    + `<text x="0" y="${-12*sc}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${fx.cornerLift ? '.96' : '.86'}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>`
+    + (fx.cornerGlyph ? renderTinyCurrentGlyph(elem, 0, -12*sc + Math.max(9*sc, pipSz*0.52), cornerGlyphSize, sc) : '')
+    + `</g>`;
+  const extraCorners = fx.allCorners
+    ? `<g opacity=".86"><text x="${invCX.toFixed(1)}" y="${pipY}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${cornerFillOpacity}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, invCX, cornerGlyphY, cornerGlyphSize, sc) : ''}</g>`
+      + `<g transform="translate(${pipX.toFixed(1)},${invCY.toFixed(1)}) rotate(180)" opacity=".56"><text x="0" y="${-12*sc}" font-family="Cinzel,serif" font-weight="700" font-size="${pipSz}" fill="${e.b}" fill-opacity="${fx.cornerLift ? '.95' : '.84'}" filter="${flt}" text-anchor="middle"${cornerStroke}>${val}</text>${fx.cornerGlyph ? renderTinyCurrentGlyph(elem, 0, -12*sc + Math.max(9*sc, pipSz*0.52), cornerGlyphSize, sc) : ''}</g>`
+    : '';
+
+  // ── Painterly raster layers (opt-in via opts.painterly) ──────────────
+  // Composites the staged art (card-design/art/painterly/) as the visual bed
+  // and replaces the vector "architecture", central art variant, and border.
+  // Value-dependent vector elements (numerals, connection strips, suit label)
+  // still render on top, so alignment stays automatic across every card.
+  let pBg = '', pSym = '', pFrame = '';
+  if (painterly) {
+    const symBoxW = W * 0.84, symBoxH = H * 0.66;
+    const symX = (W - symBoxW) / 2, symY = cy - symBoxH * 0.52;
+    pBg = `<image href="${artBase}bg.png" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none"/>`;
+    pSym = `<image href="${artBase}${elem}_symbol.png" x="${symX.toFixed(1)}" y="${symY.toFixed(1)}" width="${symBoxW.toFixed(1)}" height="${symBoxH.toFixed(1)}" preserveAspectRatio="xMidYMid meet"/>`;
+    // Frame removed by request — painterly background's natural edge is the
+    // card edge. Kept the variable in case we want to bring an alternative
+    // frame back later.
+    pFrame = '';
+  }
+
+  // Border frame removed entirely (printenbind margin guidance).
+  const vectorBorder = '';
+
+  const numbersAndLabels = topNumeral + medFinal + label + topLabel + topLeftCorner + bottomRightCorner + extraCorners;
+  const glowRect = `<rect width="${W}" height="${H}" fill="url(#${id}-g)"/>`;
+  const vignetteRect = `<rect width="${W}" height="${H}" fill="url(#${id}-v)"/>`;
+
+  let innerLayers;
+  if (painterly) {
+    innerLayers = pBg + glowRect + vignetteRect + pSym + separator
+      + L.gfx + Ri.gfx + numbersAndLabels + pFrame;
+  } else {
+    innerLayers = `<rect width="${W}" height="${H}" fill="url(#${id}-bg)"/>` + glowRect + vignetteRect
+      + architecture + ticks + L.gfx + Ri.gfx + separator + innerFrame + art
+      + numbersAndLabels + vectorBorder;
+  }
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-face">
+    <defs>
+      <clipPath id="${id}-c"><rect width="${W}" height="${H}" rx="${R}" ry="${R}"/></clipPath>
+      <filter id="${id}-s"><feDropShadow dx="0" dy="${sc}" stdDeviation="${2.4*sc}" flood-color="#000" flood-opacity=".84"/></filter>
+      <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${e.bg2}"/><stop offset="100%" stop-color="${e.bg1}"/>
+      </linearGradient>
+      <radialGradient id="${id}-g" cx="50%" cy="48%" r="42%">
+        <stop offset="0%" stop-color="${e.m}" stop-opacity=".085"/><stop offset="100%" stop-color="${e.m}" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="${id}-v" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#000" stop-opacity=".00"/>
+        <stop offset="100%" stop-color="#000" stop-opacity=".14"/>
+      </linearGradient>
+      ${L.defs}${Ri.defs}
+      ${beaconBorder ? beaconBorder.defs : ''}
+    </defs>
+    <g clip-path="url(#${id}-c)">${innerLayers}</g>
+  </svg>`;
+}
+
+  // ── makeWildCard ────────────────────────────────────────────────────
+  function makeWildCard(opts){
+  opts = opts || {};
+  const connectorName = opts.connector || 'beacon';
+  const conn = getConnector(connectorName);
+  const fx = normalizeLayoutFx(opts.layoutFx);
+  const sc = opts.scale || 1;
+  const W=252*sc, H=358*sc, R=12*sc, OL=28*sc, TM=16*sc, ST=16*sc;
+  // Same 5mm print-safe inset as makeCard (see edgeInset comment there).
+  const edgeInset = 17*sc;
+  const OL_strip = OL + 2*edgeInset;
+  const id = uid('w');
+  const p = { b:'#cdd8f0', m:'#7c88aa', dim:'#121826' };
+
+  let defs = '', gfx = '';
+  for (let v=1; v<=20; v++){
+    const L  = conn.render(v, p, {OL:OL_strip,TM,ST,W,sc,id:id+'v'+v,side:'left'});
+    defs += L.defs;
+    gfx  += L.gfx;
+    if (fx.connectorPlacement !== 'left-only'){
+      const Ri = conn.render(v, p, {OL:OL_strip,TM,ST,W,sc,id:id+'v'+v,side:'right'});
+      defs += Ri.defs;
+      gfx  += Ri.gfx;
+    }
+  }
+
+  const wildOpacity = {
+    parallelogram: 0.16,
+    beacon: 0.30
+  }[connectorName] || 0.24;
+
+  const cx=W/2, cy=H*0.45, artR=W*0.29;
+  const ticks = makeTicks({m:p.m}, OL, TM, ST, W, sc);
+  const pipSz = Math.round(22 * fx.cornerScale * sc), pipX=OL_strip/2, pipY=28*sc+edgeInset;
+  const invCX=W-OL_strip/2, invCY=H-28*sc-edgeInset;
+  const cornerGlyphSize = Math.max(3.8*sc, pipSz*0.23);
+  const separator = makeConnectorSeparator(fx, W, H, OL, sc, p);
+  const innerFrame = fx.innerFrame
+    ? `<rect x="${(OL+12*sc).toFixed(1)}" y="${(18*sc).toFixed(1)}" width="${(W-2*(OL+12*sc)).toFixed(1)}" height="${(H-36*sc).toFixed(1)}" rx="${(10*sc).toFixed(1)}" ry="${(10*sc).toFixed(1)}" fill="none" stroke="${p.m}" stroke-opacity=".18" stroke-width="${0.9*sc}"/>`
+    : '';
+
+  const architecture = (() => {
+    let out = '';
+    out += `<circle cx="${cx}" cy="${cy}" r="${W*0.40}" fill="none" stroke="${p.m}" stroke-opacity=".06" stroke-width="${sc}"/>`;
+    out += `<circle cx="${cx}" cy="${cy}" r="${W*0.315}" fill="none" stroke="${p.m}" stroke-opacity=".08" stroke-width="${sc}"/>`;
+    out += `<circle cx="${cx}" cy="${cy}" r="${W*0.215}" fill="none" stroke="${p.m}" stroke-opacity=".09" stroke-width="${sc}"/>`;
+    const corners = [
+      [18*sc, 18*sc,  1,  1],
+      [W-18*sc, 18*sc, -1, 1],
+      [18*sc, H-18*sc, 1, -1],
+      [W-18*sc, H-18*sc, -1, -1]
+    ];
+    corners.forEach(([x,y,sx,sy])=>{
+      out += `<circle cx="${x}" cy="${y}" r="${4.5*sc}" fill="none" stroke="${p.m}" stroke-opacity=".18" stroke-width="${0.7*sc}"/>`;
+      out += `<line x1="${x}" y1="${(y + sy*7*sc).toFixed(1)}" x2="${(x + sx*11*sc).toFixed(1)}" y2="${(y + sy*18*sc).toFixed(1)}" stroke="${p.m}" stroke-opacity=".12" stroke-width="${0.7*sc}"/>`;
+      out += `<line x1="${(x + sx*7*sc).toFixed(1)}" y1="${y}" x2="${(x + sx*18*sc).toFixed(1)}" y2="${(y + sy*11*sc).toFixed(1)}" stroke="${p.m}" stroke-opacity=".12" stroke-width="${0.7*sc}"/>`;
+    });
+    return out;
+  })();
+
+  // Art variants may supply their own wild/convergence art via a
+  // renderWild(cx, cy, artR, sc) key; otherwise use the shared default.
+  const wildVariant = (window.AA_ART || {})[opts.art || ''];
+  const art = (wildVariant && wildVariant.renderWild)
+    ? wildVariant.renderWild(cx, cy, artR, sc)
+    : makeWildArt(cx, cy, artR, sc);
+  // Corner pips removed by request — the wild reads from its art alone.
+  const topLeftCorner = '';
+  const bottomRightCorner = '';
+  const extraCorners = fx.allCorners
+    ? `<g opacity=".80">${renderTinyCurrentGlyph('wild', invCX, pipY - pipSz*0.5, pipSz*0.46, sc)}</g>`
+      + `<g transform="translate(${pipX.toFixed(1)},${invCY.toFixed(1)}) rotate(180)" opacity=".56">${renderTinyCurrentGlyph('wild', 0, -pipSz*0.5, pipSz*0.46, sc)}</g>`
+    : '';
+
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" class="card-face">
+    <defs>
+      <clipPath id="${id}-c"><rect width="${W}" height="${H}" rx="${R}" ry="${R}"/></clipPath>
+      <filter id="${id}-s"><feDropShadow dx="0" dy="${sc}" stdDeviation="${2.4*sc}" flood-color="#000" flood-opacity=".84"/></filter>
+      <linearGradient id="${id}-bg" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#090b12"/><stop offset="100%" stop-color="#111521"/>
+      </linearGradient>
+      <radialGradient id="${id}-g" cx="50%" cy="48%" r="42%">
+        <stop offset="0%" stop-color="${p.b}" stop-opacity=".07"/>
+        <stop offset="100%" stop-color="#090b12" stop-opacity="0"/>
+      </radialGradient>
+      <linearGradient id="${id}-fade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#000" stop-opacity="0"/>
+        <stop offset="12%" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="88%" stop-color="#fff" stop-opacity="1"/>
+        <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+      </linearGradient>
+      <mask id="${id}-stripmask">
+        <rect x="0" y="0" width="${OL_strip}" height="${H}" fill="url(#${id}-fade)"/>
+        ${fx.connectorPlacement !== 'left-only' ? `<rect x="${W-OL_strip}" y="0" width="${OL_strip}" height="${H}" fill="url(#${id}-fade)"/>` : ''}
+      </mask>
+      ${defs}
+    </defs>
+    <g clip-path="url(#${id}-c)">
+      <rect width="${W}" height="${H}" fill="url(#${id}-bg)"/>
+      <rect width="${W}" height="${H}" fill="url(#${id}-g)"/>
+      ${architecture}
+      ${ticks}
+      <g opacity="${wildOpacity}" mask="url(#${id}-stripmask)">${gfx}</g>
+      ${separator}
+      ${innerFrame}
+      ${art}
+      ${topLeftCorner}
+      ${bottomRightCorner}
+      ${extraCorners}
+    </g>
+  </svg>`;
+}
+
+  // ── Fan / deck builders ────────────────────────────────────────────
+  function buildFan(el, cards, opts){
+  opts = opts || {};
+  const sc = opts.scale || 1;
+  const OL = 28*sc;
+  cards.forEach((c,i)=>{
+    const last = i === cards.length-1;
+    const slot = document.createElement('div');
+    slot.style.cssText = `position:relative;height:${358*sc}px;flex-shrink:0;${last?`width:${252*sc}px`:`width:${OL}px;overflow:visible`};`;
+    const face = document.createElement('div');
+    face.style.cssText = `position:absolute;left:0;top:0;width:${252*sc}px;height:${358*sc}px;`;
+    face.innerHTML = c.e==='wild' ? makeWildCard({...opts}) : makeCard(c.v, c.e, opts);
+    slot.appendChild(face);
+    el.appendChild(slot);
+  });
+}
+
+  function buildCards(el, cards, opts){
+  opts = opts || {};
+  const sc = opts.scale || 1;
+  cards.forEach(c=>{
+    const wrap = document.createElement('div');
+    wrap.style.cssText = `display:inline-block;margin:0 10px 10px 0;`;
+    wrap.innerHTML = c.e==='wild' ? makeWildCard(opts) : makeCard(c.v, c.e, opts);
+    el.appendChild(wrap);
+  });
+}
+
+  // ── makeCardBack ────────────────────────────────────────────────────
+  // Card back in the arcana grammar: seeded grain, wobble rings, dust,
+  // bloom. Moonstone-silver field; the five currents appear only as ten
+  // paired orbs (each hue twice, opposed) so the back is 180°-symmetric
+  // and reveals nothing about the card. No wordmark (name may change).
+  // opts.bleed (mm) extends the background past the 62×88 trim for print.
+  function makeCardBack(opts){
+    opts = opts || {};
+    const sc = opts.scale || 1;
+    const W = 252*sc, H = 358*sc;
+    const UPM = 252/62;                      // svg units per mm
+    const B = (opts.bleed || 0) * UPM * sc;  // bleed in svg units
+    const TW = W + 2*B, TH = H + 2*B;        // total (bleed) size
+    const cx = TW/2, cy = TH/2;
+    const id = uid('bk');
+    const p = { b:'#cdd8f0', m:'#7c88aa', dim:'#121826', bg1:'#070910', bg2:'#0b0e18' };
+    const HUES = ['#f5c518', '#c060f0', '#00c8b4', '#e8304a', '#c8d4e8'];
+    const HOT = '#f4f7ff';
+    const R = W*0.30;                        // master mandala radius
+
+    // seeded rng (mulberry32-style, same idea as arcana's)
+    let s = 0xBACC;
+    const rand = () => { s |= 0; s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+    const N = v => v.toFixed(1), N2 = v => v.toFixed(2);
+
+    function wobbleRing(ox, oy, rad, amp, ph1, ph2, col, swd, op){
+      let d = '';
+      const n = 64;
+      for (let i = 0; i <= n; i++){
+        const a = i/n * Math.PI*2;
+        const rr = rad * (1 + amp*Math.sin(3*a + ph1) + amp*0.7*Math.sin(5*a + ph2));
+        d += (i ? 'L' : 'M') + N(ox + Math.cos(a)*rr) + ',' + N(oy + Math.sin(a)*rr);
+      }
+      return '<path d="' + d + 'Z" fill="none" stroke="' + col + '" stroke-width="' + N2(swd) + '" opacity="' + op + '"/>';
+    }
+    function mote(x, y, r2, col, op){
+      return '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(r2) + '" fill="' + col + '" opacity="' + N2(op) + '"/>';
+    }
+    function sparkle(x, y, len, wd, col, op, rot){
+      return '<g transform="translate(' + N(x) + ',' + N(y) + ') rotate(' + rot + ')" opacity="' + N2(op) + '">'
+        + '<path d="M0,' + N(-len) + ' L' + N(wd) + ',0 L0,' + N(len) + ' L' + N(-wd) + ',0 Z" fill="' + col + '"/>'
+        + '<path d="M' + N(-len) + ',0 L0,' + N(wd) + ' L' + N(len) + ',0 L0,' + N(-wd) + ' Z" fill="' + col + '"/></g>';
+    }
+    function orb(x, y, r2, col){
+      return '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(r2*2.4) + '" fill="url(#' + id + '-orb)"/>'
+        + '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(r2) + '" fill="' + col + '" opacity=".92"/>'
+        + '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(r2*0.4) + '" fill="' + HOT + '" opacity=".85"/>';
+    }
+
+    let bg = '', glow = '';
+
+    // — engraved field: quiet rings drifting out from the centre —
+    bg += wobbleRing(cx, cy, R*1.55, 0.005, 0.8, 2.2, p.m, 0.5*sc, 0.10);
+    bg += wobbleRing(cx, cy, R*1.95, 0.004, 2.6, 1.0, p.m, 0.45*sc, 0.08);
+    bg += wobbleRing(cx, cy, R*2.45, 0.004, 1.4, 3.1, p.m, 0.45*sc, 0.06);
+    // dust motes scattered over the whole face (incl. bleed — cheap insurance)
+    for (let i = 0; i < 70; i++){
+      const a = rand()*Math.PI*2;
+      const rad = R * (0.3 + Math.pow(rand(), 0.7)*2.6);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.85)*sc, rand() < 0.7 ? p.b : p.m, 0.08 + rand()*0.26);
+    }
+    for (let i = 0; i < 6; i++){
+      const a = rand()*Math.PI*2, rad = R*(0.8 + rand()*1.5);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.4 + rand()*1.5)*sc, (0.4 + rand()*0.3)*sc, HOT, 0.18 + rand()*0.18, rand()*90);
+    }
+
+    // — mandala: three breathing silver rings —
+    glow += wobbleRing(cx, cy, R*1.00, 0.006, 0.4, 1.9, p.b, 1.4*sc, 0.55);
+    glow += wobbleRing(cx, cy, R*0.78, 0.007, 2.1, 0.7, p.m, 0.8*sc, 0.40);
+    glow += wobbleRing(cx, cy, R*1.12, 0.005, 1.3, 2.8, p.m, 0.6*sc, 0.28);
+
+    // — ten radial spokes (180°-symmetric) —
+    for (let i = 0; i < 10; i++){
+      const a = -Math.PI/2 + i*Math.PI/5;
+      glow += '<line x1="' + N(cx + Math.cos(a)*R*0.46) + '" y1="' + N(cy + Math.sin(a)*R*0.46)
+        + '" x2="' + N(cx + Math.cos(a)*R*0.94) + '" y2="' + N(cy + Math.sin(a)*R*0.94)
+        + '" stroke="' + p.m + '" stroke-width="' + N2(0.55*sc) + '" opacity=".30"/>';
+    }
+
+    // — the five currents, each twice and opposed, threaded on the ring —
+    for (let i = 0; i < 10; i++){
+      const a = -Math.PI/2 + i*Math.PI/5;
+      const col = HUES[i % 5];
+      const x = cx + Math.cos(a)*R, y = cy + Math.sin(a)*R;
+      glow += orb(x, y, 3.4*sc, col);
+      // faint hue wash trailing inward from each orb
+      glow += '<line x1="' + N(x) + '" y1="' + N(y) + '" x2="' + N(cx + Math.cos(a)*R*0.72) + '" y2="' + N(cy + Math.sin(a)*R*0.72)
+        + '" stroke="' + col + '" stroke-width="' + N2(1.1*sc) + '" stroke-linecap="round" opacity=".22"/>';
+    }
+
+    // — centre: dark medallion seat + silver source star (no glyph, no name) —
+    glow += '<circle cx="' + N(cx) + '" cy="' + N(cy) + '" r="' + N(R*0.40) + '" fill="' + p.bg1 + '" fill-opacity=".94"/>';
+    glow += wobbleRing(cx, cy, R*0.40, 0.008, 0.9, 2.3, p.b, 1.2*sc, 0.70);
+    glow += wobbleRing(cx, cy, R*0.30, 0.010, 2.0, 0.5, p.m, 0.7*sc, 0.40);
+    glow += sparkle(cx, cy, R*0.24, R*0.035, p.b, 0.90, 0);
+    glow += sparkle(cx, cy, R*0.14, R*0.025, HOT, 0.65, 45);
+    glow += mote(cx, cy, 1.6*sc, HOT, 0.95);
+
+    // — corner filigree, 180°-symmetric pairs, kept inside the safe zone —
+    const fIn = 26*sc + B;  // ≥5mm + bleed from total edge
+    [[fIn, fIn, 1, 1], [TW-fIn, TH-fIn, -1, -1], [TW-fIn, fIn, -1, 1], [fIn, TH-fIn, 1, -1]].forEach(([x, y, sx, sy]) => {
+      glow += '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N(4.5*sc) + '" fill="none" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".40"/>';
+      glow += '<line x1="' + N(x) + '" y1="' + N(y + sy*7*sc) + '" x2="' + N(x + sx*11*sc) + '" y2="' + N(y + sy*18*sc) + '" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".26"/>';
+      glow += '<line x1="' + N(x + sx*7*sc) + '" y1="' + N(y) + '" x2="' + N(x + sx*18*sc) + '" y2="' + N(y + sy*11*sc) + '" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".26"/>';
+      glow += mote(x, y, 1.1*sc, p.b, 0.55);
+    });
+
+    // — border rings removed entirely (printenbind margin guidance) —
+    const border = '';
+
+    return '<svg xmlns="http://www.w3.org/2000/svg" width="' + N(TW) + '" height="' + N(TH) + '" viewBox="0 0 ' + N(TW) + ' ' + N(TH) + '" class="card-face">'
+      + '<defs>'
+      + '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1">'
+      + '<stop offset="0%" stop-color="' + p.bg2 + '"/><stop offset="100%" stop-color="' + p.bg1 + '"/></linearGradient>'
+      + '<radialGradient id="' + id + '-g" cx="50%" cy="50%" r="48%">'
+      + '<stop offset="0%" stop-color="' + p.b + '" stop-opacity=".08"/>'
+      + '<stop offset="100%" stop-color="' + p.bg1 + '" stop-opacity="0"/></radialGradient>'
+      + '<radialGradient id="' + id + '-orb" cx="50%" cy="50%" r="50%">'
+      + '<stop offset="0%" stop-color="' + HOT + '" stop-opacity=".55"/>'
+      + '<stop offset="100%" stop-color="' + HOT + '" stop-opacity="0"/></radialGradient>'
+      + '<filter id="' + id + '-bloom" x="-30%" y="-30%" width="160%" height="160%">'
+      + '<feGaussianBlur stdDeviation="' + N2(2.2*sc) + '" result="b"/>'
+      + '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+      + '</defs>'
+      + '<rect width="' + N(TW) + '" height="' + N(TH) + '" fill="url(#' + id + '-bg)"/>'
+      + '<rect width="' + N(TW) + '" height="' + N(TH) + '" fill="url(#' + id + '-g)"/>'
+      + bg
+      + '<g filter="url(#' + id + '-bloom)">' + glow + '</g>'
+      + border
+      + '</svg>';
+  }
+
+  // ── Public API ──────────────────────────────────────────────────────
+  window.ArchmageCards = {
+    EL, EORD, WILD,
+    makeCardBack,
+    uid, polar,
+    makeTicks, makeResonanceMarks,
+    makeSharedArchitectureGlyph, makeSharedArchitecture, makeWildArt,
+    LayoutVariants,
+    getConnector, getArt,
+    makeCard, makeWildCard,
+    buildFan, buildCards,
+    // Legacy shims — ConnectorVariants[name] works like before
+    get ConnectorVariants(){
+      const out = {};
+      for (const k in (window.AA_CONNECTORS||{})) out[k] = window.AA_CONNECTORS[k].render;
+      return out;
+    },
+    get EnergyArtVariants(){
+      const out = {};
+      for (const k in (window.AA_ART||{})) out[k] = window.AA_ART[k].render;
+      return out;
+    }
+  };
+})();
+// painterly mode added: opts.painterly + opts.artBase (art/painterly/)
+</script>
+<script>
+/* current/art/arcana.js */
+// art/arcana.js
+// Arcana — equation-driven port of the hand-painted relic style.
+//
+// Procedural SVG only (no bitmaps). The painted feel of art/assets/*.jpg is
+// reproduced with four techniques:
+//   1. Multi-pass bloom   — the luminous structure is drawn once into a <g>,
+//                           then re-used twice underneath through Gaussian
+//                           blur filters (wide halo + tight glow).
+//   2. Particle dust      — seeded-RNG motes scattered along every major
+//                           curve and across the background, like pigment.
+//   3. Tapered ribbons    — filled paths whose width varies along their
+//                           length; no uniform-width strokes on key shapes.
+//   4. Organic wobble     — rings and lines carry low-amplitude sine
+//                           harmonics so nothing reads as CAD-perfect.
+//
+// Each suit uses a FIXED seed, so every card of a suit renders identical
+// grain (consistent print sheets). Tune global density with DUST below.
+(function(){
+  const AA = window.AA_ART = window.AA_ART || {};
+  const uid = (window.ArchmageCards && window.ArchmageCards.uid) || (p => (p||'c')+Math.random().toString(36).slice(2,8));
+
+  // Global particle-density multiplier (0.5 = sparser, 2 = denser).
+  const DUST = 1;
+
+  // ── Deterministic RNG (mulberry32) ──
+  function rng(seed){
+    let s = seed >>> 0;
+    return function(){
+      s = (s + 0x6D2B79F5) >>> 0;
+      let t = s;
+      t = Math.imul(t ^ (t >>> 15), t | 1);
+      t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+  // Rough gaussian in [-1,1]
+  function gauss(rand){ return (rand() + rand() + rand()) / 1.5 - 1; }
+
+  const N  = x => x.toFixed(1);
+  const N2 = x => x.toFixed(2);
+
+  // Weighted colour pick: list = [[colour, weight], ...]
+  function pick(rand, list){
+    let tot = 0; for (const it of list) tot += it[1];
+    let v = rand() * tot;
+    for (const it of list){ if ((v -= it[1]) <= 0) return it[0]; }
+    return list[0][0];
+  }
+
+  // Tapered ribbon: filled path through pts, width w0 (start) -> w1 (end).
+  function ribbon(pts, w0, w1){
+    const n = pts.length; if (n < 2) return '';
+    const L = [], R = [];
+    for (let i = 0; i < n; i++){
+      const t = i / (n - 1);
+      const hw = (w0 + (w1 - w0) * t) / 2;
+      const a = pts[Math.max(0, i-1)], b = pts[Math.min(n-1, i+1)];
+      let dx = b[0]-a[0], dy = b[1]-a[1]; const m = Math.hypot(dx,dy) || 1; dx/=m; dy/=m;
+      L.push([pts[i][0] - dy*hw, pts[i][1] + dx*hw]);
+      R.push([pts[i][0] + dy*hw, pts[i][1] - dx*hw]);
+    }
+    let d = 'M' + N(L[0][0]) + ',' + N(L[0][1]);
+    for (let i = 1; i < n; i++) d += 'L' + N(L[i][0]) + ',' + N(L[i][1]);
+    for (let i = n-1; i >= 0; i--) d += 'L' + N(R[i][0]) + ',' + N(R[i][1]);
+    return d + 'Z';
+  }
+
+  // Sample a parametric function f(t) -> [x,y] into n+1 points.
+  function sample(f, n){
+    const pts = []; for (let i = 0; i <= n; i++) pts.push(f(i/n)); return pts;
+  }
+  function polyPts(pts){ return pts.map(p => N(p[0]) + ',' + N(p[1])).join(' '); }
+
+  // Spiral arc points around (ox,oy): radius rad0 -> rad1, angle a0 -> a0+sweep.
+  function spiralPts(ox, oy, rad0, rad1, a0, sweep, n){
+    const pts = [];
+    for (let k = 0; k <= n; k++){
+      const t = k/n, rad = rad0 + (rad1-rad0)*t, ang = a0 + sweep*t;
+      pts.push([ox + Math.cos(ang)*rad, oy + Math.sin(ang)*rad]);
+    }
+    return pts;
+  }
+
+  // Hand-wobbled ring: r(th) = r0*(1 + a*sin(2th+p1) + a*0.6*sin(5th+p2))
+  function wobbleRing(cx, cy, r0, amp, p1, p2, col, sw, op){
+    let d = '';
+    const n = 64;
+    for (let i = 0; i <= n; i++){
+      const th = i/n * Math.PI*2;
+      const rr = r0 * (1 + amp*Math.sin(2*th + p1) + amp*0.6*Math.sin(5*th + p2));
+      const x = cx + Math.cos(th)*rr, y = cy + Math.sin(th)*rr;
+      d += (i ? 'L' : 'M') + N(x) + ',' + N(y);
+    }
+    return '<path d="' + d + 'Z" fill="none" stroke="' + col + '" stroke-width="' + N2(sw) + '" opacity="' + op + '"/>';
+  }
+
+  // Dotted ring via the dash trick: dot size = stroke width, spacing = gap.
+  function dottedRing(cx, cy, rad, col, sw, gap, op, off){
+    return '<circle cx="' + N(cx) + '" cy="' + N(cy) + '" r="' + N(rad) + '" fill="none"'
+      + ' stroke="' + col + '" stroke-width="' + N2(sw) + '"'
+      + ' stroke-dasharray="0.01 ' + N2(gap) + '" stroke-dashoffset="' + N2(off||0) + '"'
+      + ' stroke-linecap="round" opacity="' + op + '"/>';
+  }
+
+  // Dotted open path (same trick on a polyline path).
+  function dottedPath(pts, col, sw, gap, op){
+    let d = '';
+    for (let i = 0; i < pts.length; i++) d += (i ? 'L' : 'M') + N(pts[i][0]) + ',' + N(pts[i][1]);
+    return '<path d="' + d + '" fill="none" stroke="' + col + '" stroke-width="' + N2(sw) + '"'
+      + ' stroke-dasharray="0.01 ' + N2(gap) + '" stroke-linecap="round" opacity="' + op + '"/>';
+  }
+
+  // Four-point star sparkle (two crossed tapered diamonds).
+  function sparkle(x, y, len, w, col, op, rot){
+    const g1 = N(x) + ',' + N(y-len) + ' ' + N(x+w) + ',' + N(y) + ' ' + N(x) + ',' + N(y+len) + ' ' + N(x-w) + ',' + N(y);
+    const l2 = len * 0.62;
+    const g2 = N(x-l2) + ',' + N(y) + ' ' + N(x) + ',' + N(y+w) + ' ' + N(x+l2) + ',' + N(y) + ' ' + N(x) + ',' + N(y-w);
+    return '<g transform="rotate(' + (rot||0) + ' ' + N(x) + ' ' + N(y) + ')">'
+      + '<polygon points="' + g1 + '" fill="' + col + '" opacity="' + op + '"/>'
+      + '<polygon points="' + g2 + '" fill="' + col + '" opacity="' + (op*0.85).toFixed(2) + '"/>'
+      + '</g>';
+  }
+
+  // Glowing orb: stacked circles fake a radial gradient.
+  function orb(x, y, R, e, hot){
+    let s = '';
+    s += '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(R*1.55) + '" fill="' + e.m + '" opacity=".20"/>';
+    s += '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(R) + '" fill="' + e.dim + '" stroke="' + e.b + '" stroke-width="' + N2(R*0.22) + '" opacity=".95"/>';
+    s += '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(R*0.58) + '" fill="' + e.b + '" opacity=".92"/>';
+    if (hot) s += '<circle cx="' + N(x - R*0.25) + '" cy="' + N(y - R*0.25) + '" r="' + N2(R*0.26) + '" fill="' + hot + '" opacity=".75"/>';
+    return s;
+  }
+
+  function mote(x, y, s, col, op){
+    return '<circle cx="' + N(x) + '" cy="' + N(y) + '" r="' + N2(s) + '" fill="' + col + '" opacity="' + op.toFixed(2) + '"/>';
+  }
+
+  // Two-pass bloom: wide halo + tight glow under the crisp art.
+  function bloom(gid, content, r, oWide, oTight){
+    return '<defs>'
+      + '<filter id="' + gid + '-b1" x="-90%" y="-90%" width="280%" height="280%"><feGaussianBlur stdDeviation="' + N2(r*0.085) + '"/></filter>'
+      + '<filter id="' + gid + '-b2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="' + N2(r*0.022) + '"/></filter>'
+      + '</defs>'
+      + '<use href="#' + gid + '" filter="url(#' + gid + '-b1)" opacity="' + oWide + '"/>'
+      + '<use href="#' + gid + '" filter="url(#' + gid + '-b2)" opacity="' + oTight + '"/>'
+      + '<g id="' + gid + '">' + content + '</g>';
+  }
+
+  // Standard numeral medallion (matches the relic/emblem treatment).
+  function medallion(cx, cy, artR, e, sc, hollow){
+    const medR = artR * 0.285;
+    let s = '';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.22) + '" fill="' + (hollow ? e.bg1 : e.bg2) + '" fill-opacity=".985"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.22) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(1.15*sc) + '" opacity="' + (hollow ? '.58' : '.75') + '"/>';
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.38) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".42"/>';
+    return s;
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // RADIANCE — gilded cross-flare: engraved ray field, dotted filigree
+  // rings, four grand cardinal rays with sparkle finials, vine curls.
+  // ════════════════════════════════════════════════════════════════════
+  function renderRadiance(elem, cx, cy, r, e, meta){
+    const sc = (meta && meta.sc) || 1;
+    const rand = rng(0xA11CE);
+    const HOT = '#fff3c8';
+    let bg = '', glow = '';
+
+    // — background: engraved radial streak field —
+    const streaks = Math.round(150 * DUST);
+    for (let i = 0; i < streaks; i++){
+      const a = rand() * Math.PI * 2;
+      const r0 = r * (0.40 + rand() * 0.55);
+      const r1 = Math.min(r * 1.52, r0 + r * (0.10 + rand() * 0.50));
+      const col = rand() < 0.30 ? e.b : e.m;
+      bg += '<line x1="' + N(cx + Math.cos(a)*r0) + '" y1="' + N(cy + Math.sin(a)*r0)
+        + '" x2="' + N(cx + Math.cos(a)*r1) + '" y2="' + N(cy + Math.sin(a)*r1)
+        + '" stroke="' + col + '" stroke-width="' + N2((0.28 + rand()*0.26)*sc) + '" opacity="' + (0.12 + rand()*0.28).toFixed(2) + '"/>';
+    }
+    // — gold dust —
+    const motes = Math.round(95 * DUST);
+    for (let i = 0; i < motes; i++){
+      const a = rand() * Math.PI * 2;
+      const rad = r * (0.25 + Math.pow(rand(), 0.7) * 1.28);
+      const col = pick(rand, [[e.b, 6], [HOT, 1.5], [e.m, 2.5]]);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.28 + rand()*rand()*1.05)*sc, col, 0.18 + rand()*0.52);
+    }
+    // — dotted + wobbled filigree rings —
+    bg += dottedRing(cx, cy, r*0.60, e.b, 1.1*sc, 5.0*sc, 0.55, 1.7);
+    bg += dottedRing(cx, cy, r*0.78, e.b, 1.0*sc, 4.4*sc, 0.42, 0.6);
+    bg += dottedRing(cx, cy, r*1.00, e.m, 0.95*sc, 4.8*sc, 0.38, 2.9);
+    bg += dottedRing(cx, cy, r*1.22, e.m, 0.85*sc, 5.4*sc, 0.26, 1.2);
+    bg += wobbleRing(cx, cy, r*0.52, 0.006, 0.7, 2.1, e.b, 0.5*sc, 0.34);
+    bg += wobbleRing(cx, cy, r*0.70, 0.007, 1.9, 0.4, e.m, 0.55*sc, 0.40);
+    bg += wobbleRing(cx, cy, r*0.92, 0.006, 4.0, 1.1, e.b, 0.55*sc, 0.34);
+    bg += wobbleRing(cx, cy, r*1.10, 0.005, 2.6, 3.3, e.m, 0.55*sc, 0.28);
+    bg += wobbleRing(cx, cy, r*1.135, 0.005, 0.2, 1.8, e.m, 0.45*sc, 0.20);
+
+    // — gilded centre ring (the bright collar round the dark medallion) —
+    glow += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(r*0.365) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(1.7*sc) + '" opacity=".92"/>';
+    glow += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(r*0.335) + '" fill="none" stroke="' + HOT + '" stroke-width="' + N2(0.6*sc) + '" opacity=".50"/>';
+    glow += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(r*0.41) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(0.5*sc) + '" opacity=".45"/>';
+
+    // — vine filigree curls between the collar and first ring —
+    for (let k = 0; k < 10; k++){
+      const a0 = k * Math.PI*2/10 + 0.31;
+      const dir = (k % 2 === 0) ? 1 : -1;
+      const S = [cx + Math.cos(a0)*r*0.43, cy + Math.sin(a0)*r*0.43];
+      const aC = a0 + dir*0.20, aE = a0 + dir*0.36;
+      const C = [cx + Math.cos(aC)*r*0.52, cy + Math.sin(aC)*r*0.52];
+      const E = [cx + Math.cos(aE)*r*0.555, cy + Math.sin(aE)*r*0.555];
+      glow += '<path d="M' + N(S[0]) + ',' + N(S[1]) + ' Q' + N(C[0]) + ',' + N(C[1]) + ' ' + N(E[0]) + ',' + N(E[1])
+        + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.65*sc) + '" opacity=".62"/>';
+      // leaf finial
+      const la = aE + dir*0.55;
+      const tip = [E[0] + Math.cos(la)*r*0.052, E[1] + Math.sin(la)*r*0.052];
+      glow += '<path d="' + ribbon([E, tip], r*0.026, 0.2) + '" fill="' + e.b + '" opacity=".55"/>';
+      glow += mote(S[0], S[1], 0.8*sc, e.b, 0.6);
+    }
+
+    // — grand cardinal rays —
+    const cards = [[0,-1],[1,0],[0,1],[-1,0]];
+    cards.forEach(([ux, uy]) => {
+      const px = -uy, py = ux;
+      const P = t => [cx + ux*r*t, cy + uy*r*t];
+      // tapered spine
+      glow += '<path d="' + ribbon([P(0.40), P(0.85), P(1.42)], r*0.075, 0.25) + '" fill="' + e.b + '" opacity=".95"/>';
+      // hot core line
+      glow += '<line x1="' + N(P(0.42)[0]) + '" y1="' + N(P(0.42)[1]) + '" x2="' + N(P(1.30)[0]) + '" y2="' + N(P(1.30)[1])
+        + '" stroke="' + HOT + '" stroke-width="' + N2(0.9*sc) + '" stroke-linecap="round" opacity=".85"/>';
+      // converging flank strands
+      [r*0.024, r*0.042].forEach((off, oi) => {
+        [1, -1].forEach(s => {
+          const A = [cx + ux*r*0.46 + px*off*s, cy + uy*r*0.46 + py*off*s];
+          const B = [cx + ux*r*(1.04 - oi*0.10) + px*off*0.35*s, cy + uy*r*(1.04 - oi*0.10) + py*off*0.35*s];
+          glow += '<line x1="' + N(A[0]) + '" y1="' + N(A[1]) + '" x2="' + N(B[0]) + '" y2="' + N(B[1])
+            + '" stroke="' + e.b + '" stroke-width="' + N2(0.45*sc) + '" opacity=".40"/>';
+        });
+      });
+      // finial sparkle at the tip
+      const T = P(1.30);
+      glow += sparkle(T[0], T[1], r*0.145, r*0.030, e.b, 0.95, ux === 0 ? 0 : 90);
+      glow += mote(T[0], T[1], 1.3*sc, HOT, 0.9);
+    });
+
+    // — diagonal rays —
+    for (let k = 0; k < 4; k++){
+      const a = Math.PI/4 + k*Math.PI/2;
+      const ux = Math.cos(a), uy = Math.sin(a);
+      const P = t => [cx + ux*r*t, cy + uy*r*t];
+      glow += '<path d="' + ribbon([P(0.40), P(0.75), P(1.08)], r*0.045, 0.2) + '" fill="' + e.b + '" opacity=".80"/>';
+      glow += '<line x1="' + N(P(0.42)[0]) + '" y1="' + N(P(0.42)[1]) + '" x2="' + N(P(1.00)[0]) + '" y2="' + N(P(1.00)[1])
+        + '" stroke="' + HOT + '" stroke-width="' + N2(0.55*sc) + '" stroke-linecap="round" opacity=".55"/>';
+      const T = P(1.02);
+      glow += sparkle(T[0], T[1], r*0.085, r*0.020, e.b, 0.72, 45);
+    }
+
+    // — minor rays (skip cardinal/diagonal slots) —
+    for (let i = 0; i < 24; i++){
+      if (i % 6 === 0 || i % 6 === 3) continue;
+      const a = i * Math.PI*2/24;
+      const ux = Math.cos(a), uy = Math.sin(a);
+      const rOut = r * (0.78 + rand()*0.18);
+      glow += '<path d="' + ribbon([[cx+ux*r*0.42, cy+uy*r*0.42], [cx+ux*rOut, cy+uy*rOut]], r*0.016, 0.15)
+        + '" fill="' + e.b + '" opacity="' + (0.34 + rand()*0.22).toFixed(2) + '"/>';
+    }
+    // — hair rays between the minors —
+    for (let i = 0; i < 48; i++){
+      const a = i * Math.PI*2/48 + Math.PI/48;
+      const ux = Math.cos(a), uy = Math.sin(a);
+      const rOut = r * (0.62 + rand()*0.42);
+      glow += '<line x1="' + N(cx+ux*r*0.42) + '" y1="' + N(cy+uy*r*0.42)
+        + '" x2="' + N(cx+ux*rOut) + '" y2="' + N(cy+uy*rOut)
+        + '" stroke="' + e.b + '" stroke-width="' + N2(0.32*sc) + '" opacity="' + (0.14 + rand()*0.18).toFixed(2) + '"/>';
+    }
+
+    // — orbit gems + stray sparkles —
+    for (let k = 0; k < 8; k++){
+      const a = Math.PI/8 + k*Math.PI/4;
+      glow += mote(cx + Math.cos(a)*r*0.70, cy + Math.sin(a)*r*0.70, 1.1*sc, e.b, 0.72);
+    }
+    for (let k = 0; k < 6; k++){
+      const a = rand()*Math.PI*2, rad = r*(0.55 + rand()*0.6);
+      glow += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (2.2 + rand()*2.6)*sc, (0.7 + rand()*0.5)*sc, HOT, 0.30 + rand()*0.30, rand()*90);
+    }
+
+    const gid = 'arc-rd-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.55, 0.75) + medallion(cx, cy, r, e, sc, false);
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // VOID — galaxy vortex: three dust-laden spiral arms winding 1¼ turns
+  // into a dark hollow, over a star field and faint orbit rings.
+  // ════════════════════════════════════════════════════════════════════
+  function renderVoid(elem, cx, cy, r, e, meta){
+    const sc = (meta && meta.sc) || 1;
+    const rand = rng(0x501D);
+    const HOT = '#e6d6ff';
+    let bg = '', glow = '';
+
+    // — faint orbit rings out to the card edge —
+    bg += wobbleRing(cx, cy, r*0.72, 0.007, 0.8, 2.6, e.m, 0.55*sc, 0.22);
+    bg += wobbleRing(cx, cy, r*0.95, 0.006, 2.2, 0.9, e.m, 0.55*sc, 0.18);
+    bg += wobbleRing(cx, cy, r*1.20, 0.006, 4.1, 1.7, e.m, 0.55*sc, 0.14);
+    bg += wobbleRing(cx, cy, r*1.48, 0.005, 1.3, 3.0, e.m, 0.5*sc, 0.10);
+    bg += dottedRing(cx, cy, r*1.07, e.m, 0.85*sc, 4.6*sc, 0.20, 0.8);
+    bg += dottedRing(cx, cy, r*1.34, e.m, 0.8*sc, 5.2*sc, 0.15, 2.2);
+
+    // — star field —
+    const stars = Math.round(95 * DUST);
+    for (let i = 0; i < stars; i++){
+      const a = rand() * Math.PI*2;
+      const rad = r * (0.42 + Math.pow(rand(), 0.8) * 1.18);
+      const col = pick(rand, [[e.b, 6], [HOT, 2.5], [e.m, 1.5]]);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*rand()*1.15)*sc, col, 0.22 + rand()*0.55);
+    }
+    for (let i = 0; i < 7; i++){
+      const a = rand()*Math.PI*2, rad = r*(0.6 + rand()*0.85);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.6 + rand()*1.8)*sc, (0.5 + rand()*0.4)*sc, HOT, 0.35 + rand()*0.30, rand()*90);
+    }
+    // — little moons riding the orbit rings —
+    [[0.95, 0.6], [1.20, 2.5], [1.20, 4.4], [1.48, 1.4], [0.95, 3.6]].forEach(([rr, a]) => {
+      const mx = cx + Math.cos(a)*r*rr, my = cy + Math.sin(a)*r*rr;
+      const R = (1.5 + rand()*1.5)*sc;
+      bg += '<circle cx="' + N(mx) + '" cy="' + N(my) + '" r="' + N2(R) + '" fill="' + e.m + '" opacity=".55"/>';
+      bg += '<circle cx="' + N(mx + R*0.40) + '" cy="' + N(my - R*0.32) + '" r="' + N2(R*0.95) + '" fill="' + e.bg1 + '" opacity=".92"/>';
+    });
+
+    // — the vortex: three spiral arms, each winding 1¼ turns —
+    const ARMS = 3, SW = Math.PI * 2.50;
+    for (let arm = 0; arm < ARMS; arm++){
+      const a0 = arm * Math.PI*2/ARMS + 0.45;
+      const spine = t => {
+        const ang = a0 + SW*t, rad = r * (1.06 - 0.695*t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      // soft body (kept slim so the windings stay readable)
+      glow += '<path d="' + ribbon(sample(spine, 46), r*0.105, r*0.030) + '" fill="' + e.m + '" opacity=".26"/>';
+      // dark core inside the arm (gives the painted depth)
+      const dark = t => {
+        const ang = a0 + SW*t - 0.04, rad = r * (1.05 - 0.695*t) - r*0.030*(1-t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      glow += '<path d="' + ribbon(sample(dark, 42), r*0.055, r*0.015) + '" fill="' + e.dim + '" opacity=".60"/>';
+      // bright leading edge
+      const edge = t => {
+        const ang = a0 + SW*t + 0.04, rad = r * (1.06 - 0.695*t) + r*0.045*(1-t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      glow += '<path d="' + ribbon(sample(edge, 46), 2.3*sc, 0.5*sc) + '" fill="' + e.b + '" opacity=".88"/>';
+      // fine filament riding just inside the bright edge
+      const fil = t => {
+        const ang = a0 + SW*t + 0.10, rad = r * (1.025 - 0.672*t) + r*0.022*(1-t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      glow += '<polyline points="' + polyPts(sample(fil, 42)) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(0.7*sc) + '" opacity=".45"/>';
+      // second filament drifting off the arm's outer flank
+      const fil2 = t => {
+        const ang = a0 + SW*t + 0.18, rad = r * (1.09 - 0.70*t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      glow += '<polyline points="' + polyPts(sample(fil2, 42)) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.55*sc) + '" opacity=".38"/>';
+      // ghost trail
+      const trail = t => {
+        const ang = a0 + SW*t - 0.13, rad = r * (1.02 - 0.66*t);
+        return [cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad];
+      };
+      glow += '<polyline points="' + polyPts(sample(trail, 42)) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.6*sc) + '" opacity=".35"/>';
+      // star dust inside the arm
+      const armDust = Math.round(56 * DUST);
+      for (let i = 0; i < armDust; i++){
+        const t = Math.pow(rand(), 0.85);
+        const ang = a0 + SW*t + gauss(rand)*0.04;
+        const rad = r * (1.06 - 0.695*t) + gauss(rand)*r*0.048*(1 - 0.4*t);
+        const col = pick(rand, [[e.b, 5.5], [HOT, 2], [e.m, 2.5]]);
+        glow += mote(cx + Math.cos(ang)*rad, cy + Math.sin(ang)*rad, (0.25 + rand()*1.0)*sc, col, 0.22 + rand()*0.55);
+      }
+    }
+
+    // — convergence rim round the hollow —
+    glow += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(r*0.375) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(1.3*sc) + '" opacity=".75"/>';
+    glow += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(r*0.42) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.5*sc) + '" opacity=".40"/>';
+
+    const gid = 'arc-vd-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.55, 0.75) + medallion(cx, cy, r, e, sc, true);
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // FLUX — living current: nested wave-wings sweep out from the centre in
+  // four mirrored tiers (after the painterly flux symbol) while sine
+  // wave-rings lap the numeral. Every mark is a wave, ring or mote.
+  // ════════════════════════════════════════════════════════════════════
+  function renderFlux(elem, cx, cy, r, e, meta){
+    const sc = (meta && meta.sc) || 1;
+    const rand = rng(0xF1AB);
+    const HOT = '#d6fff6';
+    let bg = '', glow = '';
+
+    // — background: engraved dotted orbit rings + star glints, with two slow
+    // dotted swells top and bottom (kept clear of the beacon strips) —
+    bg += dottedRing(cx, cy, r*0.80, e.m, 0.85*sc, 4.2*sc, 0.20, 0.9);
+    bg += dottedRing(cx, cy, r*1.02, e.m, 0.85*sc, 4.6*sc, 0.17, 2.1);
+    bg += dottedRing(cx, cy, r*1.26, e.m, 0.8*sc, 5.0*sc, 0.13, 0.4);
+    bg += wobbleRing(cx, cy, r*0.92, 0.006, 1.2, 2.9, e.m, 0.5*sc, 0.14);
+    bg += wobbleRing(cx, cy, r*1.14, 0.005, 3.4, 0.8, e.m, 0.5*sc, 0.11);
+    [-1, 1].forEach(sgn => {
+      const row = t => {
+        const x = (t*2 - 1) * r * 1.18;
+        return [cx + x, cy + sgn*r*(1.20 + 0.06*Math.sin(2.2*x/r + sgn*0.8))];
+      };
+      bg += dottedPath(sample(row, 30), e.m, 0.85*sc, 3.4*sc, 0.18);
+    });
+    for (let i = 0; i < 10; i++){
+      const a = rand()*Math.PI*2, rad = r*(0.55 + rand()*0.85);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.3 + rand()*1.7)*sc, (0.4 + rand()*0.35)*sc, rand() < 0.5 ? HOT : e.b, 0.22 + rand()*0.25, rand()*90);
+    }
+    const fieldDust = Math.round(70 * DUST);
+    for (let i = 0; i < fieldDust; i++){
+      const a = rand()*Math.PI*2;
+      const rad = r * (0.45 + Math.pow(rand(), 0.8)*1.0);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.8)*sc, rand() < 0.6 ? e.b : e.m, 0.12 + rand()*0.32);
+    }
+
+    // — wave spans: three nested waves above and three below, each ONE
+    // continuous current from left tip to right tip. A gaussian centre
+    // lift carries the wave smoothly over/under the numeral circle:
+    //   y(u) = yb + 0.05|u| + A·sin(2πf|u| + π/2) + lift·e^-(u/0.30)²
+    const tiers = [
+      // [x1,  yBase, A,     f,    lift, bodyW, edgeOp]
+      [1.30, 0.15, 0.070, 0.85, 0.25, 0.050, 0.82],
+      [1.24, 0.34, 0.090, 0.90, 0.19, 0.062, 0.90],
+      [1.10, 0.54, 0.110, 0.80, 0.16, 0.072, 0.95]
+    ];
+    [-1, 1].forEach(sy => {
+      tiers.forEach(([x1, yb, A, f, lift, bw, eop]) => {
+        const span = u => [
+          cx + u*r*x1,
+          cy + sy*r*(yb + 0.05*Math.abs(u) + A*Math.sin(Math.PI*2*f*Math.abs(u) + Math.PI/2) + lift*Math.exp(-Math.pow(u/0.30, 2)))
+        ];
+        // two half-ribbons sharing the centre, so both tips taper to points
+        [-1, 1].forEach(dir => {
+          const pts = sample(t => span(dir*t), 30);
+          glow += '<path d="' + ribbon(pts, r*bw, 0) + '" fill="' + e.m + '" opacity=".30"/>';
+          glow += '<path d="' + ribbon(pts, 2.0*sc, 0) + '" fill="' + e.b + '" opacity="' + eop + '"/>';
+        });
+        // inner echo line following the whole span
+        const echoW = u => { const p = span(u); return [p[0], p[1] + sy*r*0.030]; };
+        glow += '<polyline points="' + polyPts(sample(t => echoW(t*2 - 1), 48)) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.6*sc) + '" stroke-linecap="round" opacity=".38"/>';
+        // spray along the span
+        const wingDust = Math.round(20 * DUST);
+        for (let i = 0; i < wingDust; i++){
+          const p = span(rand()*2 - 1);
+          const col = pick(rand, [[e.b, 6], [HOT, 2], [e.m, 2]]);
+          glow += mote(p[0] + gauss(rand)*r*0.022, p[1] + gauss(rand)*r*0.028, (0.25 + rand()*0.8)*sc, col, 0.22 + rand()*0.5);
+        }
+      });
+    });
+
+    // — slim layered leaf at each side's midline, pointed both ends —
+    [1, -1].forEach(sx => {
+      [[0.92, 1.34, 0.040, 1.4, '.72'], [0.98, 1.28, 0.022, 0.8, '.50']].forEach(([xa, xb, hh, swp, op], li) => {
+        [-1, 1].forEach(vy => {
+          const pts = sample(t => [cx + sx*r*(xa + (xb - xa)*t), cy + vy*r*hh*Math.sin(Math.PI*t)], 18);
+          glow += '<path d="' + ribbon(pts, swp*sc, 0) + '" fill="' + (li ? e.m : e.b) + '" opacity="' + op + '"/>';
+        });
+      });
+      // midrib instead of a pupil-like mote
+      const rib = sample(t => [cx + sx*r*(0.96 + 0.34*t), cy], 8);
+      glow += '<path d="' + ribbon(rib, 0.9*sc, 0) + '" fill="' + e.m + '" opacity=".45"/>';
+    });
+
+    // — faint wave-halo and dust round the numeral (kept light so the left
+    // and right wings read as one connected current) —
+    const wavyRing = (R0, A, m, ph, col, sw, op) => {
+      let d = '';
+      const n = 96;
+      for (let i = 0; i <= n; i++){
+        const th = i/n * Math.PI*2;
+        const rr = R0 + A * Math.sin(m*th + ph);
+        d += (i ? 'L' : 'M') + N(cx + Math.cos(th)*rr) + ',' + N(cy + Math.sin(th)*rr);
+      }
+      return '<path d="' + d + 'Z" fill="none" stroke="' + col + '" stroke-width="' + N2(sw) + '" stroke-linejoin="round" opacity="' + op + '"/>';
+    };
+    glow += wavyRing(r*0.66,  r*0.020, 5,  2.6, e.m, 0.6*sc, 0.34);
+    const ringDust = Math.round(70 * DUST);
+    for (let i = 0; i < ringDust; i++){
+      const a = rand() * Math.PI*2;
+      const rad = r*0.55 + gauss(rand) * r * 0.035;
+      const col = pick(rand, [[e.b, 6], [HOT, 2], [e.m, 2]]);
+      glow += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.95)*sc, col, 0.25 + rand()*0.55);
+    }
+
+    const gid = 'arc-fx-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.55, 0.75) + medallion(cx, cy, r, e, sc, false);
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // AETHER — bound geometry: engraved dotted orbit field, double hexagon
+  // lattice with hexagram diagonals, blade finials, glowing node orbs.
+  // ════════════════════════════════════════════════════════════════════
+  function renderAether(elem, cx, cy, r, e, meta){
+    const sc = (meta && meta.sc) || 1;
+    const rand = rng(0xAE7E);
+    const HOT = '#ffd8c8';
+    let bg = '', glow = '';
+
+    // — engraved dotted orbit field —
+    for (let i = 0; i < 9; i++){
+      const rad = r * (0.48 + i * 0.135);
+      bg += dottedRing(cx, cy, rad, e.m, 1.0*sc, (3.0 + (i%3)*0.7)*sc, 0.20 + 0.10*((i+1)%3)/2, i*1.3);
+    }
+    bg += wobbleRing(cx, cy, r*0.70, 0.006, 1.1, 2.8, e.m, 0.5*sc, 0.20);
+    bg += wobbleRing(cx, cy, r*1.05, 0.005, 3.2, 0.5, e.m, 0.5*sc, 0.20);
+    bg += wobbleRing(cx, cy, r*1.38, 0.005, 0.9, 4.1, e.m, 0.5*sc, 0.16);
+    const grains = Math.round(85 * DUST);
+    for (let i = 0; i < grains; i++){
+      const a = rand() * Math.PI*2;
+      const rad = r * (0.30 + Math.pow(rand(), 0.75) * 1.25);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.65)*sc, rand() < 0.35 ? e.b : e.m, 0.10 + rand()*0.22);
+    }
+    for (let i = 0; i < 6; i++){
+      const a = rand()*Math.PI*2, rad = r*(0.65 + rand()*0.8);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.4 + rand()*1.6)*sc, (0.45 + rand()*0.35)*sc, HOT, 0.30 + rand()*0.25, rand()*90);
+    }
+
+    // — outer hexagon (pointy-top) with engraved under-stroke —
+    const hexR = r * 0.92;
+    const verts = [];
+    for (let i = 0; i < 6; i++){
+      const a = -Math.PI/2 + i*Math.PI/3;
+      // tiny per-vertex wobble so the frame feels drawn
+      const wob = 1 + (rand() - 0.5) * 0.012;
+      verts.push([cx + Math.cos(a)*hexR*wob, cy + Math.sin(a)*hexR*wob]);
+    }
+    const hexPts = polyPts(verts);
+    glow += '<polygon points="' + hexPts + '" fill="none" stroke="' + e.dim + '" stroke-width="' + N2(3.2*sc) + '" opacity=".80"/>';
+    glow += '<polygon points="' + hexPts + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(1.5*sc) + '" opacity=".92"/>';
+    const inset = verts.map(p => [cx + (p[0]-cx)*0.955, cy + (p[1]-cy)*0.955]);
+    glow += '<polygon points="' + polyPts(inset) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(0.5*sc) + '" opacity=".45"/>';
+
+    // — hexagram diagonals —
+    for (let i = 0; i < 6; i++){
+      for (let j = i+2; j < 6 && (j-i) < 5; j++){
+        const isDiam = (j - i) === 3;
+        glow += '<line x1="' + N(verts[i][0]) + '" y1="' + N(verts[i][1]) + '" x2="' + N(verts[j][0]) + '" y2="' + N(verts[j][1])
+          + '" stroke="' + e.m + '" stroke-width="' + N2((isDiam ? 1.1 : 0.8)*sc) + '" opacity="' + (isDiam ? '.68' : '.48') + '"/>';
+      }
+    }
+
+    // — inner hexagon, rotated 30° (flat-top), with its own hexagram —
+    const inR = r * 0.55;
+    const inV = [];
+    for (let i = 0; i < 6; i++){
+      const a = -Math.PI/2 + Math.PI/6 + i*Math.PI/3;
+      inV.push([cx + Math.cos(a)*inR, cy + Math.sin(a)*inR]);
+    }
+    glow += '<polygon points="' + polyPts(inV) + '" fill="none" stroke="' + e.dim + '" stroke-width="' + N2(2.2*sc) + '" opacity=".70"/>';
+    glow += '<polygon points="' + polyPts(inV) + '" fill="none" stroke="' + e.b + '" stroke-width="' + N2(1.05*sc) + '" opacity=".80"/>';
+    [[0,2,4],[1,3,5]].forEach(tri => {
+      glow += '<polygon points="' + polyPts(tri.map(i => inV[i])) + '" fill="none" stroke="' + e.m + '" stroke-width="' + N2(0.6*sc) + '" opacity=".42"/>';
+    });
+    // struts inner -> outer
+    for (let i = 0; i < 6; i++){
+      let best = 0, bd = 1e9;
+      verts.forEach((v, vi) => {
+        const d = Math.hypot(v[0]-inV[i][0], v[1]-inV[i][1]);
+        if (d < bd){ bd = d; best = vi; }
+      });
+      glow += '<line x1="' + N(inV[i][0]) + '" y1="' + N(inV[i][1]) + '" x2="' + N(verts[best][0]) + '" y2="' + N(verts[best][1])
+        + '" stroke="' + e.m + '" stroke-width="' + N2(0.55*sc) + '" opacity=".38"/>';
+    }
+
+    // — blade finials at each outer vertex —
+    verts.forEach((V, i) => {
+      const a = -Math.PI/2 + i*Math.PI/3;
+      const ux = Math.cos(a), uy = Math.sin(a);
+      const px = -uy, py = ux;
+      const at = t => [V[0] + ux*r*t, V[1] + uy*r*t];
+      glow += '<path d="' + ribbon([at(-0.02), at(0.20)], r*0.048, 0.2) + '" fill="' + e.b + '" opacity=".85"/>';
+      [1, -1].forEach(s => {
+        const barb = [
+          [V[0] + ux*r*0.030 + px*r*0.024*s, V[1] + uy*r*0.030 + py*r*0.024*s],
+          [V[0] + ux*r*0.100 + px*r*0.085*s, V[1] + uy*r*0.100 + py*r*0.085*s],
+          [V[0] + ux*r*0.170 + px*r*0.052*s, V[1] + uy*r*0.170 + py*r*0.052*s]
+        ];
+        glow += '<path d="' + ribbon(barb, r*0.022, 0.2) + '" fill="' + e.b + '" opacity=".70"/>';
+      });
+    });
+
+    // — node orbs —
+    verts.forEach(V => { glow += orb(V[0], V[1], 4.0*sc, e, HOT); });
+    for (let i = 0; i < 6; i++){
+      const mx = (verts[i][0] + verts[(i+1)%6][0]) / 2;
+      const my = (verts[i][1] + verts[(i+1)%6][1]) / 2;
+      glow += orb(mx, my, 2.0*sc, e, null);
+    }
+    inV.forEach(V => { glow += orb(V[0], V[1], 2.6*sc, e, HOT); });
+    for (let i = 0; i < 6; i++){
+      const a = -Math.PI/2 + i*Math.PI/3;
+      glow += orb(cx + Math.cos(a)*r*0.43, cy + Math.sin(a)*r*0.43, 1.5*sc, e, null);
+    }
+    // intersection sparks
+    for (let i = 0; i < 6; i++){
+      const a = -Math.PI/2 + Math.PI/6 + i*Math.PI/3;
+      glow += mote(cx + Math.cos(a)*r*0.76, cy + Math.sin(a)*r*0.76, 0.9*sc, e.b, 0.70);
+    }
+
+    const gid = 'arc-ae-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.50, 0.72) + medallion(cx, cy, r, e, sc, false);
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // ECHO — the reverberant current: one strike at the centre (a star
+  // flare behind the numeral) whose ring repeats up and down a beaded
+  // vertical axis, each copy smaller, fainter and trailed by its own
+  // ghost duplicate. The only vertical-stack composition in the deck —
+  // bone-grey and deliberately quiet against the four saturated currents.
+  // ════════════════════════════════════════════════════════════════════
+  const ECHO = {
+    b: '#d7d4c8', m: '#888a84', dim: '#242724',
+    bg1: '#050605', bg2: '#090a09', border: '#686b65', name: 'ECHO'
+  };
+
+  // Open arc sampled as a path (so it can wobble-free curve any span).
+  function arcPath(ox, oy, rad, a0, a1, n){
+    let d = '';
+    for (let i = 0; i <= n; i++){
+      const a = a0 + (a1 - a0) * i/n;
+      d += (i ? 'L' : 'M') + N(ox + Math.cos(a)*rad) + ',' + N(oy + Math.sin(a)*rad);
+    }
+    return d;
+  }
+
+  function renderEcho(elem, cx, cy, r, eIgnored, meta){
+    const sc = (meta && meta.sc) || 1;
+    const rand = rng(0xEC40);
+    const p = ECHO;
+    const HOT = '#f2efe2';
+    let bg = '', glow = '';
+
+    // — background: quiet engraved field —
+    bg += wobbleRing(cx, cy, r*0.95, 0.005, 0.8, 2.2, p.m, 0.5*sc, 0.10);
+    bg += wobbleRing(cx, cy, r*1.25, 0.004, 2.6, 1.0, p.m, 0.45*sc, 0.08);
+    bg += dottedRing(cx, cy, r*1.05, p.m, 0.8*sc, 4.6*sc, 0.14, 1.1);
+    const dustN = Math.round(45 * DUST);
+    for (let i = 0; i < dustN; i++){
+      const a = rand()*Math.PI*2;
+      const rad = r * (0.35 + Math.pow(rand(), 0.8)*1.12);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.8)*sc, rand() < 0.65 ? p.b : p.m, 0.10 + rand()*0.30);
+    }
+    for (let i = 0; i < 4; i++){
+      const a = rand()*Math.PI*2, rad = r*(0.7 + rand()*0.7);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.4 + rand()*1.4)*sc, (0.4 + rand()*0.3)*sc, HOT, 0.22 + rand()*0.20, rand()*90);
+    }
+
+    // — vertical axis: the line the reverberation travels, with its ghost —
+    glow += '<line x1="' + cx + '" y1="' + N(cy - r*1.26) + '" x2="' + cx + '" y2="' + N(cy + r*1.26) + '" stroke="' + p.m + '" stroke-width="' + N2(0.55*sc) + '" opacity=".30"/>';
+    glow += '<line x1="' + N(cx + r*0.015) + '" y1="' + N(cy - r*1.22) + '" x2="' + N(cx + r*0.015) + '" y2="' + N(cy + r*1.22) + '" stroke="' + p.m + '" stroke-width="' + N2(0.4*sc) + '" opacity=".14"/>';
+    [-1, 1].forEach(sgn => { glow += sparkle(cx, cy + sgn*r*1.26, 3.2*sc, 0.9*sc, p.b, 0.55, 0); });
+
+    // — the source ring (around the numeral) —
+    glow += wobbleRing(cx, cy, r*0.52, 0.004, 0.3, 1.7, p.b, 1.5*sc, 0.85);
+    glow += wobbleRing(cx, cy, r*0.58, 0.004, 1.4, 0.6, p.m, 0.8*sc, 0.50);
+    glow += wobbleRing(cx, cy, r*0.46, 0.005, 2.2, 1.1, p.m, 0.6*sc, 0.35);
+
+    // — echo copies stacked up and down the axis, decaying as they travel —
+    const stack = [
+      // [offset, radius, opacity]
+      [0.46, 0.48, 0.60],
+      [0.82, 0.40, 0.38],
+      [1.08, 0.30, 0.20]
+    ];
+    [-1, 1].forEach(sgn => {
+      stack.forEach(([off, rr, op], k) => {
+        const oy = cy + sgn*r*off;
+        // the repeated ring
+        glow += wobbleRing(cx, oy, r*rr, 0.005, k*1.2 + sgn, k*0.8, p.b, (1.2 - k*0.25)*sc, op);
+        // its ghost duplicate, trailing further along the travel direction
+        glow += wobbleRing(cx, oy + sgn*r*0.045, r*rr*1.02, 0.005, k*0.9, k*1.5 + sgn, p.m, 0.6*sc, (op*0.45).toFixed(2));
+        // bright emphasis arc on the leading edge, with terminal beads
+        const aMid = sgn < 0 ? -Math.PI/2 : Math.PI/2;
+        const span = 1.0 - k*0.18;
+        const a0 = aMid - span, a1 = aMid + span;
+        glow += '<path d="' + arcPath(cx, oy, r*rr, a0, a1, 26) + '" fill="none" stroke="' + p.b + '" stroke-width="' + N2((1.6 - k*0.3)*sc) + '" stroke-linecap="round" opacity="' + Math.min(0.9, op + 0.22).toFixed(2) + '"/>';
+        [a0, a1].forEach(a => { glow += mote(cx + Math.cos(a)*r*rr, oy + Math.sin(a)*r*rr, (1.4 - k*0.25)*sc, p.b, op + 0.15); });
+        // strike-point bead at the copy's centre, threaded on the axis
+        glow += orb(cx, oy, (2.4 - k*0.5)*sc, p, k === 0 ? HOT : null);
+      });
+    });
+
+    // — the original strike: star flare peeking from behind the numeral —
+    glow += sparkle(cx, cy, r*0.62, r*0.045, p.b, 0.85, 0);
+    glow += sparkle(cx, cy, r*0.40, r*0.030, HOT, 0.55, 45);
+
+    // — short horizontal counter-axis with orbs (the answering direction) —
+    [-1, 1].forEach(sgn => {
+      glow += '<line x1="' + N(cx + sgn*r*0.45) + '" y1="' + cy + '" x2="' + N(cx + sgn*r*0.95) + '" y2="' + cy + '" stroke="' + p.m + '" stroke-width="' + N2(0.5*sc) + '" opacity=".25"/>';
+      glow += orb(cx + sgn*r*0.72, cy, 2.2*sc, p, null);
+      glow += sparkle(cx + sgn*r*0.97, cy, 2.6*sc, 0.8*sc, p.b, 0.45, 0);
+    });
+
+    const gid = 'arc-ec-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.45, 0.65) + medallion(cx, cy, r, p, sc, true);
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // WILD — magic itself, above the currents: a prismatic corona. One
+  // motif, not a collage — harmonic energy strands haloing the numeral
+  // while their colour cycles continuously through every current's hue,
+  // an all-round shimmer of fine rays, and prismatic dust. The spectrum
+  // says "stands in for any current"; the bloom/wobble/dust grammar
+  // keeps it inside the Arcana family.
+  // ════════════════════════════════════════════════════════════════════
+  const WILD = {
+    b: '#dde6f5', m: '#8b9ab8', dim: '#161e2e',
+    bg1: '#070a12', bg2: '#0a0e16', border: '#5a6880', name: 'CONVERGENCE'
+  };
+  // Continuous colour wheel through the four current hues, bridged by silver.
+  const WHEEL = ['#f5c518', '#e8304a', '#c060f0', '#00c8b4', '#dde6f5'];
+  function hexRgb(h){ return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)]; }
+  function lerpHex(h1, h2, t){
+    const a = hexRgb(h1), b = hexRgb(h2);
+    return 'rgb(' + a.map((v, i) => Math.round(v + (b[i]-v)*t)).join(',') + ')';
+  }
+  function hueAt(a){
+    let t = ((a + Math.PI/2) / (Math.PI*2)) % 1; if (t < 0) t += 1;
+    const seg = t*5, i = Math.floor(seg) % 5;
+    return lerpHex(WHEEL[i], WHEEL[(i+1)%5], seg - i);
+  }
+
+  function renderWild(cx, cy, r, sc){
+    sc = sc || 1;
+    const rand = rng(0x117D);
+    const p = WILD;
+    const HOT = '#f4f7ff';
+    let bg = '', glow = '';
+
+    // — background: silver field seeded with prismatic dust —
+    bg += wobbleRing(cx, cy, r*0.98, 0.005, 0.6, 2.4, p.m, 0.5*sc, 0.12);
+    bg += wobbleRing(cx, cy, r*1.24, 0.004, 2.9, 1.2, p.m, 0.45*sc, 0.09);
+    bg += dottedRing(cx, cy, r*1.10, p.m, 0.8*sc, 4.6*sc, 0.13, 0.7);
+    const dustN = Math.round(65 * DUST);
+    for (let i = 0; i < dustN; i++){
+      const a = rand()*Math.PI*2;
+      const rad = r * (0.35 + Math.pow(rand(), 0.8)*1.12);
+      const col = rand() < 0.55 ? hueAt(a) : (rand() < 0.5 ? p.b : p.m);
+      bg += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.85)*sc, col, 0.10 + rand()*0.32);
+    }
+    for (let i = 0; i < 5; i++){
+      const a = rand()*Math.PI*2, rad = r*(0.65 + rand()*0.75);
+      bg += sparkle(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (1.4 + rand()*1.5)*sc, (0.4 + rand()*0.3)*sc, HOT, 0.22 + rand()*0.22, rand()*90);
+    }
+
+    // — the corona: harmonic strands whose colour cycles round the wheel —
+    const strands = [
+      // [R0,   A,     k, phase, sw,  op]
+      [0.56, 0.045, 5, 0.0, 1.9, 0.90],
+      [0.61, 0.030, 7, 1.2, 1.1, 0.62],
+      [0.51, 0.022, 3, 2.5, 0.8, 0.45]
+    ];
+    strands.forEach(([R0, A, k2, ph, sw, op]) => {
+      const n = 72;
+      let prev = null, thPrev = 0;
+      for (let i = 0; i <= n; i++){
+        const th = i/n * Math.PI*2;
+        const rr = r * (R0 + A * Math.sin(k2*th + ph));
+        const pt = [cx + Math.cos(th)*rr, cy + Math.sin(th)*rr];
+        if (prev){
+          glow += '<line x1="' + N(prev[0]) + '" y1="' + N(prev[1]) + '" x2="' + N(pt[0]) + '" y2="' + N(pt[1])
+            + '" stroke="' + hueAt((thPrev + th)/2) + '" stroke-width="' + N2(sw*sc) + '" stroke-linecap="round" opacity="' + op + '"/>';
+        }
+        prev = pt; thPrev = th;
+      }
+    });
+    // grain riding the corona band
+    const bandDust = Math.round(85 * DUST);
+    for (let i = 0; i < bandDust; i++){
+      const a = rand() * Math.PI*2;
+      const rad = r*0.565 + gauss(rand) * r * 0.045;
+      const col = rand() < 0.6 ? hueAt(a) : (rand() < 0.55 ? HOT : p.b);
+      glow += mote(cx + Math.cos(a)*rad, cy + Math.sin(a)*rad, (0.25 + rand()*0.9)*sc, col, 0.25 + rand()*0.5);
+    }
+
+    // — all-round shimmer: fine prismatic rays breathing off the corona —
+    for (let i = 0; i < 36; i++){
+      const a = i/36 * Math.PI*2 + 0.05*Math.sin(i*2.3);
+      const ux = Math.cos(a), uy = Math.sin(a);
+      const long = i % 9 === 0;
+      const r1 = 0.84 + rand()*0.26 + (long ? 0.14 : 0);
+      glow += '<path d="' + ribbon([[cx+ux*r*0.70, cy+uy*r*0.70], [cx+ux*r*r1, cy+uy*r*r1]], r*0.014, 0.2)
+        + '" fill="' + hueAt(a) + '" opacity="' + (0.30 + rand()*0.30).toFixed(2) + '"/>';
+      if (long) glow += mote(cx+ux*r*(r1+0.03), cy+uy*r*(r1+0.03), 1.0*sc, HOT, 0.65);
+    }
+
+    // — quiet silver seat: ghosted orbit + measured beads (family grammar) —
+    glow += wobbleRing(cx, cy, r*1.04, 0.004, 1.0, 2.0, p.m, 0.6*sc, 0.22);
+    glow += wobbleRing(cx + r*0.014, cy + r*0.014, r*1.052, 0.004, 2.1, 0.8, p.m, 0.45*sc, 0.10);
+    for (let i = 0; i < 8; i++){
+      const a = Math.PI/8 + i*Math.PI/4;
+      glow += mote(cx + Math.cos(a)*r*1.04, cy + Math.sin(a)*r*1.04, 0.85*sc, p.b, 0.38);
+    }
+
+    // — iridescent fine ring hugging the medallion —
+    {
+      const n = 48, rr = r*0.445;
+      let prev = null, thPrev = 0;
+      for (let i = 0; i <= n; i++){
+        const th = i/n * Math.PI*2;
+        const pt = [cx + Math.cos(th)*rr, cy + Math.sin(th)*rr];
+        if (prev){
+          glow += '<line x1="' + N(prev[0]) + '" y1="' + N(prev[1]) + '" x2="' + N(pt[0]) + '" y2="' + N(pt[1])
+            + '" stroke="' + hueAt((thPrev + th)/2) + '" stroke-width="' + N2(0.9*sc) + '" stroke-linecap="round" opacity=".55"/>';
+        }
+        prev = pt; thPrev = th;
+      }
+    }
+
+    // — centre: dark medallion, the source star in pure white-silver —
+    const medR = r * 0.285;
+    let centre = '';
+    centre += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.22) + '" fill="' + p.bg2 + '" fill-opacity=".985"/>';
+    centre += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.22) + '" fill="none" stroke="' + p.b + '" stroke-width="' + N2(1.15*sc) + '" opacity=".75"/>';
+    centre += '<circle cx="' + cx + '" cy="' + cy + '" r="' + N(medR*1.38) + '" fill="none" stroke="' + p.m + '" stroke-width="' + N2(0.7*sc) + '" opacity=".42"/>';
+    centre += sparkle(cx, cy, r*0.30, r*0.045, p.b, 0.95, 0);
+    centre += sparkle(cx, cy, r*0.17, r*0.030, HOT, 0.70, 45);
+    centre += mote(cx, cy, 1.5*sc, HOT, 0.95);
+
+    const gid = 'arc-wd-' + uid('g');
+    return bg + bloom(gid, glow, r, 0.50, 0.70) + centre;
+  }
+
+  // ── Registration ──
+  AA['arcana'] = {
+    name: 'Arcana',
+    notes: 'Equation-driven relic style: seeded grain, bloom, dust, wobble. Procedural port of the relic JPEG compositions.',
+    render: function(elem, cx, cy, artR, e, meta){
+      if (elem === 'radiance') return renderRadiance(elem, cx, cy, artR, e, meta);
+      if (elem === 'void')     return renderVoid(elem, cx, cy, artR, e, meta);
+      if (elem === 'flux')     return renderFlux(elem, cx, cy, artR, e, meta);
+      if (elem === 'aether')   return renderAether(elem, cx, cy, artR, e, meta);
+      if (elem === 'echo')     return renderEcho(elem, cx, cy, artR, e, meta);
+      return renderVoid(elem, cx, cy, artR, e, meta);
+    },
+    // Wild-card art (picked up by makeWildCard).
+    renderWild: renderWild
+  };
+})();
+
+</script>
+<script>
+/* current/connectors/beacon.js */
+// connectors/beacon.js
+// Beacon
+// Round glowing orb at value Y, rings around it.
+(function(){
+  const AA = window.AA_CONNECTORS = window.AA_CONNECTORS || {};
+  AA['beacon'] = {
+    name: 'Beacon',
+    notes: 'Round glowing orb at value Y, concentric halo rings. Orb clamped away from card corners.',
+    render: function(val, p, o){
+      const {OL, TM, ST, W, sc, id, side} = o;
+      const H    = 358 * sc;
+      const cx   = side === 'left' ? OL * 0.5 : W - OL * 0.5;
+      const rawCy = TM + val * ST;
+      const margin = 44 * sc;
+      const cy   = Math.max(margin, Math.min(H - margin, rawCy));
+      const gid  = id + '-bcn-' + side;
+
+      const orbR  = 7.5 * sc;
+      const halo1 = orbR * 2.2;
+      const halo2 = orbR * 3.6;
+
+      const grad = `<radialGradient id="${gid}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="${p.b}"   stop-opacity=".98"/>
+        <stop offset="40%"  stop-color="${p.m}"   stop-opacity=".60"/>
+        <stop offset="100%" stop-color="${p.dim}"  stop-opacity="0"/>
+      </radialGradient>`;
+
+      let gfx = '';
+      // Soft glow fill (large radial wash)
+      gfx += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${halo2.toFixed(1)}" fill="url(#${gid})"/>`;
+      // Halo rings
+      gfx += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${halo2.toFixed(1)}" fill="none" stroke="${p.m}" stroke-width="${0.6*sc}" opacity=".30"/>`;
+      gfx += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${halo1.toFixed(1)}" fill="none" stroke="${p.b}" stroke-width="${0.75*sc}" opacity=".45"/>`;
+      // Solid orb core
+      gfx += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${orbR.toFixed(1)}" fill="${p.b}" opacity=".92"/>`;
+
+      return { defs: grad, gfx };
+    }
+  };
+})();
+
+</script>
+<script>
+/* src/icons.js */
+window.AA_ICON_RAW={"radiance": "<circle cx=\"240\" cy=\"240\" r=\"57.0\" fill=\"none\" stroke=\"#f5c518\" stroke-width=\"24\" opacity=\"1\"/><path d=\"M252.0,162.0L241.5,82.5L238.5,82.5L228.0,162.0Z\" fill=\"#f5c518\"/><path d=\"M318.0,252.0L397.5,241.5L397.5,238.5L318.0,228.0Z\" fill=\"#f5c518\"/><path d=\"M228.0,318.0L238.5,397.5L241.5,397.5L252.0,318.0Z\" fill=\"#f5c518\"/><path d=\"M162.0,228.0L82.5,238.5L82.5,241.5L162.0,252.0Z\" fill=\"#f5c518\"/><path d=\"M291.4,303.1L330.4,332.0L332.0,330.4L303.1,291.4Z\" fill=\"#f5c518\" opacity=\".9\"/><path d=\"M176.9,291.4L148.0,330.4L149.6,332.0L188.6,303.1Z\" fill=\"#f5c518\" opacity=\".9\"/><path d=\"M188.6,176.9L149.6,148.0L148.0,149.6L176.9,188.6Z\" fill=\"#f5c518\" opacity=\".9\"/><path d=\"M303.1,188.6L332.0,149.6L330.4,148.0L291.4,176.9Z\" fill=\"#f5c518\" opacity=\".9\"/>", "void": "<path d=\"M238.0,101.8L266.9,106.5L292.7,116.4L315.6,131.1L334.8,149.9L349.6,172.0L359.4,196.2L364.0,221.6L363.3,247.0L357.6,271.4L347.2,293.8L332.6,313.2L314.7,329.1L294.2,340.8L272.2,348.0L249.5,350.4L227.1,348.3L206.0,341.7L187.0,331.1L170.9,317.1L158.1,300.5L149.2,281.9L144.4,262.2L143.7,242.3L147.0,223.1L154.0,205.2L164.4,189.6L177.4,176.6L192.6,166.7L209.0,160.3L226.1,157.5L243.0,158.2L259.1,162.3L273.7,169.4L286.2,179.1L296.2,190.9L303.4,204.2L307.6,218.3L308.8,232.7L307.1,246.6L302.6,259.5L295.8,270.8L287.0,280.3L276.8,287.6L265.6,292.4L254.0,294.7L242.6,294.6L231.8,292.2L222.0,287.8L213.7,281.7L207.1,274.2L202.3,265.8L199.6,257.0L198.8,248.1L199.8,239.7L202.4,232.0L206.5,225.3L211.6,219.9L217.4,215.9L223.7,213.4L230.3,212.3L229.3,204.9L221.7,205.9L213.8,208.7L206.3,213.5L199.7,220.0L194.4,228.1L190.9,237.5L189.3,247.9L190.0,258.8L193.2,269.7L198.7,280.1L206.5,289.4L216.5,297.1L228.2,302.7L241.2,305.9L255.0,306.3L269.1,303.8L282.7,298.2L295.1,289.8L305.9,278.6L314.3,265.0L320.0,249.7L322.3,233.1L321.2,215.9L316.5,198.9L308.1,182.9L296.4,168.6L281.7,156.8L264.5,148.0L245.4,142.9L225.3,141.8L204.9,144.8L185.2,152.2L167.1,163.6L151.4,178.8L138.9,197.3L130.3,218.3L126.0,241.0L126.6,264.5L132.0,287.9L142.3,310.0L157.1,329.9L176.0,346.7L198.3,359.4L223.1,367.5L249.5,370.3L276.3,367.7L302.4,359.5L326.7,346.0L348.0,327.5L365.4,304.7L377.9,278.5L384.9,249.9L386.0,220.0L380.9,190.1L369.6,161.5L352.5,135.4L330.2,113.0L303.4,95.5L273.2,83.6L242.0,78.2Z\" fill=\"#c060f0\"/><circle cx=\"240\" cy=\"240\" r=\"21.0\" fill=\"#c060f0\"/>", "flux": "<path d=\"M90.0,162.0L97.5,155.7L105.0,149.7L112.5,144.5L120.0,140.2L127.5,137.1L135.0,135.3L142.5,135.1L150.0,136.3L157.5,139.0L165.0,142.9L172.5,147.9L180.0,153.7L187.5,159.9L195.0,166.2L202.5,172.3L210.0,177.9L217.5,182.5L225.0,186.1L232.5,188.3L240.0,189.0L247.5,188.3L255.0,186.1L262.5,182.5L270.0,177.9L277.5,172.3L285.0,166.2L292.5,159.9L300.0,153.7L307.5,147.9L315.0,142.9L322.5,139.0L330.0,136.3L337.5,135.1L345.0,135.3L352.5,137.1L360.0,140.2L367.5,144.5L375.0,149.7L382.5,155.7L390.0,162.0\" fill=\"none\" stroke=\"#00c8b4\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><path d=\"M90.0,240.0L97.5,233.7L105.0,227.7L112.5,222.5L120.0,218.2L127.5,215.1L135.0,213.3L142.5,213.1L150.0,214.3L157.5,217.0L165.0,220.9L172.5,225.9L180.0,231.7L187.5,237.9L195.0,244.2L202.5,250.3L210.0,255.9L217.5,260.5L225.0,264.1L232.5,266.3L240.0,267.0L247.5,266.3L255.0,264.1L262.5,260.5L270.0,255.9L277.5,250.3L285.0,244.2L292.5,237.9L300.0,231.7L307.5,225.9L315.0,220.9L322.5,217.0L330.0,214.3L337.5,213.1L345.0,213.3L352.5,215.1L360.0,218.2L367.5,222.5L375.0,227.7L382.5,233.7L390.0,240.0\" fill=\"none\" stroke=\"#00c8b4\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><path d=\"M90.0,318.0L97.5,311.7L105.0,305.7L112.5,300.5L120.0,296.2L127.5,293.1L135.0,291.3L142.5,291.1L150.0,292.3L157.5,295.0L165.0,298.9L172.5,303.9L180.0,309.7L187.5,315.9L195.0,322.2L202.5,328.3L210.0,333.9L217.5,338.5L225.0,342.1L232.5,344.3L240.0,345.0L247.5,344.3L255.0,342.1L262.5,338.5L270.0,333.9L277.5,328.3L285.0,322.2L292.5,315.9L300.0,309.7L307.5,303.9L315.0,298.9L322.5,295.0L330.0,292.3L337.5,291.1L345.0,291.3L352.5,293.1L360.0,296.2L367.5,300.5L375.0,305.7L382.5,311.7L390.0,318.0\" fill=\"none\" stroke=\"#00c8b4\" stroke-width=\"21.0\" stroke-linecap=\"round\"/>", "aether": "<polygon points=\"240.0,97.5 363.4,168.8 363.4,311.3 240.0,382.5 116.6,311.3 116.6,168.8\" fill=\"none\" stroke=\"#e8304a\" stroke-width=\"16.5\" stroke-linejoin=\"round\"/><line x1=\"240.0\" y1=\"97.5\" x2=\"240.0\" y2=\"382.5\" stroke=\"#e8304a\" stroke-width=\"8.2\" opacity=\".75\"/><line x1=\"363.4\" y1=\"168.8\" x2=\"116.6\" y2=\"311.3\" stroke=\"#e8304a\" stroke-width=\"8.2\" opacity=\".75\"/><line x1=\"363.4\" y1=\"311.3\" x2=\"116.6\" y2=\"168.8\" stroke=\"#e8304a\" stroke-width=\"8.2\" opacity=\".75\"/><circle cx=\"240.0\" cy=\"97.5\" r=\"16.5\" fill=\"#e8304a\"/><circle cx=\"363.4\" cy=\"168.8\" r=\"16.5\" fill=\"#e8304a\"/><circle cx=\"363.4\" cy=\"311.3\" r=\"16.5\" fill=\"#e8304a\"/><circle cx=\"240.0\" cy=\"382.5\" r=\"16.5\" fill=\"#e8304a\"/><circle cx=\"116.6\" cy=\"311.3\" r=\"16.5\" fill=\"#e8304a\"/><circle cx=\"116.6\" cy=\"168.8\" r=\"16.5\" fill=\"#e8304a\"/>", "echo": "<circle cx=\"240\" cy=\"240\" r=\"51.0\" fill=\"none\" stroke=\"#d7d4c8\" stroke-width=\"19.5\" opacity=\"1\"/><path d=\"M167.2,131.2L171.7,125.9L176.6,121.0L181.9,116.4L187.5,112.2L193.4,108.5L199.5,105.3L205.9,102.5L212.5,100.2L219.3,98.3L226.1,97.0L233.0,96.3L240.0,96.0L247.0,96.3L253.9,97.0L260.7,98.3L267.5,100.2L274.1,102.5L280.5,105.3L286.6,108.5L292.5,112.2L298.1,116.4L303.4,121.0L308.3,125.9L312.8,131.2\" fill=\"none\" stroke=\"#d7d4c8\" stroke-width=\"16.5\" stroke-linecap=\"round\" opacity=\"1\"/><path d=\"M180.1,68.4L184.3,65.0L188.8,61.9L193.4,59.0L198.2,56.4L203.1,54.1L208.1,52.1L213.3,50.4L218.5,49.0L223.8,47.9L229.2,47.1L234.6,46.7L240.0,46.5L245.4,46.7L250.8,47.1L256.2,47.9L261.5,49.0L266.7,50.4L271.9,52.1L276.9,54.1L281.8,56.4L286.6,59.0L291.2,61.9L295.7,65.0L299.9,68.4\" fill=\"none\" stroke=\"#d7d4c8\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.6\"/><path d=\"M312.8,348.8L308.3,354.1L303.4,359.0L298.1,363.6L292.5,367.8L286.6,371.5L280.5,374.7L274.1,377.5L267.5,379.8L260.7,381.7L253.9,383.0L247.0,383.7L240.0,384.0L233.0,383.7L226.1,383.0L219.3,381.7L212.5,379.8L205.9,377.5L199.5,374.7L193.4,371.5L187.5,367.8L181.9,363.6L176.6,359.0L171.7,354.1L167.2,348.8\" fill=\"none\" stroke=\"#d7d4c8\" stroke-width=\"16.5\" stroke-linecap=\"round\" opacity=\"1\"/><path d=\"M299.9,411.6L295.7,415.0L291.2,418.1L286.6,421.0L281.8,423.6L276.9,425.9L271.9,427.9L266.7,429.6L261.5,431.0L256.2,432.1L250.8,432.9L245.4,433.3L240.0,433.5L234.6,433.3L229.2,432.9L223.8,432.1L218.5,431.0L213.3,429.6L208.1,427.9L203.1,425.9L198.2,423.6L193.4,421.0L188.8,418.1L184.3,415.0L180.1,411.6\" fill=\"none\" stroke=\"#d7d4c8\" stroke-width=\"12\" stroke-linecap=\"round\" opacity=\"0.6\"/>", "wild": "<line x1=\"348.0\" y1=\"240.0\" x2=\"347.1\" y2=\"254.1\" stroke=\"rgb(220,62,124)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"347.1\" y1=\"254.1\" x2=\"344.3\" y2=\"268.0\" stroke=\"rgb(216,68,141)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"344.3\" y1=\"268.0\" x2=\"339.8\" y2=\"281.3\" stroke=\"rgb(212,73,159)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"339.8\" y1=\"281.3\" x2=\"333.5\" y2=\"294.0\" stroke=\"rgb(207,77,176)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"333.5\" y1=\"294.0\" x2=\"325.7\" y2=\"305.7\" stroke=\"rgb(203,82,193)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"325.7\" y1=\"305.7\" x2=\"316.4\" y2=\"316.4\" stroke=\"rgb(199,88,211)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"316.4\" y1=\"316.4\" x2=\"305.7\" y2=\"325.7\" stroke=\"rgb(195,92,228)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"305.7\" y1=\"325.7\" x2=\"294.0\" y2=\"333.5\" stroke=\"rgb(186,99,238)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"294.0\" y1=\"333.5\" x2=\"281.3\" y2=\"339.8\" stroke=\"rgb(166,110,232)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"281.3\" y1=\"339.8\" x2=\"268.0\" y2=\"344.3\" stroke=\"rgb(146,121,226)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"268.0\" y1=\"344.3\" x2=\"254.1\" y2=\"347.1\" stroke=\"rgb(126,132,219)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"254.1\" y1=\"347.1\" x2=\"240.0\" y2=\"348.0\" stroke=\"rgb(106,143,213)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"240.0\" y1=\"348.0\" x2=\"225.9\" y2=\"347.1\" stroke=\"rgb(86,153,207)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"225.9\" y1=\"347.1\" x2=\"212.0\" y2=\"344.3\" stroke=\"rgb(66,164,201)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"212.0\" y1=\"344.3\" x2=\"198.7\" y2=\"339.8\" stroke=\"rgb(46,175,194)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"198.7\" y1=\"339.8\" x2=\"186.0\" y2=\"333.5\" stroke=\"rgb(26,186,188)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"186.0\" y1=\"333.5\" x2=\"174.3\" y2=\"325.7\" stroke=\"rgb(6,197,182)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"174.3\" y1=\"325.7\" x2=\"163.6\" y2=\"316.4\" stroke=\"rgb(16,202,185)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"163.6\" y1=\"316.4\" x2=\"154.3\" y2=\"305.7\" stroke=\"rgb(39,205,192)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"154.3\" y1=\"305.7\" x2=\"146.5\" y2=\"294.0\" stroke=\"rgb(62,208,198)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"146.5\" y1=\"294.0\" x2=\"140.2\" y2=\"281.3\" stroke=\"rgb(85,212,205)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"140.2\" y1=\"281.3\" x2=\"135.7\" y2=\"268.0\" stroke=\"rgb(108,215,212)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"135.7\" y1=\"268.0\" x2=\"132.9\" y2=\"254.1\" stroke=\"rgb(131,218,219)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"132.9\" y1=\"254.1\" x2=\"132.0\" y2=\"240.0\" stroke=\"rgb(154,221,225)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"132.0\" y1=\"240.0\" x2=\"132.9\" y2=\"225.9\" stroke=\"rgb(177,224,232)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"132.9\" y1=\"225.9\" x2=\"135.7\" y2=\"212.0\" stroke=\"rgb(200,227,239)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"135.7\" y1=\"212.0\" x2=\"140.2\" y2=\"198.7\" stroke=\"rgb(221,230,243)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"140.2\" y1=\"198.7\" x2=\"146.5\" y2=\"186.0\" stroke=\"rgb(224,226,220)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"146.5\" y1=\"186.0\" x2=\"154.3\" y2=\"174.3\" stroke=\"rgb(226,223,197)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"154.3\" y1=\"174.3\" x2=\"163.6\" y2=\"163.6\" stroke=\"rgb(229,219,174)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"163.6\" y1=\"163.6\" x2=\"174.3\" y2=\"154.3\" stroke=\"rgb(231,216,151)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"174.3\" y1=\"154.3\" x2=\"186.0\" y2=\"146.5\" stroke=\"rgb(234,212,128)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"186.0\" y1=\"146.5\" x2=\"198.7\" y2=\"140.2\" stroke=\"rgb(236,209,105)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"198.7\" y1=\"140.2\" x2=\"212.0\" y2=\"135.7\" stroke=\"rgb(239,206,82)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"212.0\" y1=\"135.7\" x2=\"225.9\" y2=\"132.9\" stroke=\"rgb(241,202,59)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"225.9\" y1=\"132.9\" x2=\"240.0\" y2=\"132.0\" stroke=\"rgb(244,199,36)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"240.0\" y1=\"132.0\" x2=\"254.1\" y2=\"132.9\" stroke=\"rgb(244,189,27)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"254.1\" y1=\"132.9\" x2=\"268.0\" y2=\"135.7\" stroke=\"rgb(243,174,32)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"268.0\" y1=\"135.7\" x2=\"281.3\" y2=\"140.2\" stroke=\"rgb(242,158,37)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"281.3\" y1=\"140.2\" x2=\"294.0\" y2=\"146.5\" stroke=\"rgb(240,143,42)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"294.0\" y1=\"146.5\" x2=\"305.7\" y2=\"154.3\" stroke=\"rgb(239,127,47)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"305.7\" y1=\"154.3\" x2=\"316.4\" y2=\"163.6\" stroke=\"rgb(238,112,53)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"316.4\" y1=\"163.6\" x2=\"325.7\" y2=\"174.3\" stroke=\"rgb(236,96,58)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"325.7\" y1=\"174.3\" x2=\"333.5\" y2=\"186.0\" stroke=\"rgb(235,81,63)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"333.5\" y1=\"186.0\" x2=\"339.8\" y2=\"198.7\" stroke=\"rgb(233,65,68)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"339.8\" y1=\"198.7\" x2=\"344.3\" y2=\"212.0\" stroke=\"rgb(232,50,73)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"344.3\" y1=\"212.0\" x2=\"347.1\" y2=\"225.9\" stroke=\"rgb(228,53,90)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><line x1=\"347.1\" y1=\"225.9\" x2=\"348.0\" y2=\"240.0\" stroke=\"rgb(224,57,107)\" stroke-width=\"21.0\" stroke-linecap=\"round\"/><polygon points=\"240.0,174.0 256.5,240.0 240.0,306.0 223.5,240.0\" fill=\"#dde6f5\"/><polygon points=\"199.1,240.0 240.0,256.5 280.9,240.0 240.0,223.5\" fill=\"#dde6f5\" opacity=\".9\"/>"};
+
+</script>
+<script>
+/* src/designs.js */
+// ════════════════════════════════════════════════════════════════════
+// Card face alternatives — 2026-09-30 review
+// Four renderers (A–D) that sit beside the live arcana + beacon renderer.
+// Every card is a 252 × 358 SVG (62 × 88 mm, ≈4.06 units per mm).
+// Print safe zone: 5 mm ≈ 20 units from trim.
+// Glyphs are the project's own icons (art/energy-symbols-export/
+// symbol_*_icon.svg), recoloured and weighted, never redrawn.
+// ════════════════════════════════════════════════════════════════════
+(function(){
+  const W = 252, H = 358, RAD = 12, CX = W/2, CY = H/2;
+  let _n = 0;
+  const uid = p => (p || 'd') + '_' + (++_n).toString(36);
+  const N = x => (+x).toFixed(1);
+  const BASE = ['radiance','void','flux','aether'];
+
+  // ── Icons: official geometry, recoloured + stroke-weighted ─────────
+  const RAW = window.AA_ICON_RAW || {};
+  function iconInner(elem, color, k){
+    let s = RAW[elem] || '';
+    k = k || 1;
+    if (elem !== 'wild' || color){
+      s = s.replace(/#[0-9a-fA-F]{6}|rgb\([^)]*\)/g, color || '#fff');
+    }
+    s = s.replace(/stroke-width="([\d.]+)"/g, (m, w) => 'stroke-width="' + (parseFloat(w) * k).toFixed(1) + '"');
+    if (k > 1 && elem === 'void'){
+      s = s.replace('<path ', '<path stroke="' + color + '" stroke-width="' + (14 * (k - 1)).toFixed(1) + '" stroke-linejoin="round" ');
+    }
+    if (k > 1 && elem === 'aether'){
+      s = s.replace(/r="16\.5"/g, 'r="' + (16.5 * Math.min(k, 1.6)).toFixed(1) + '"');
+    }
+    return s;
+  }
+  // Centred at (x, y); size = box edge in card units.
+  function icon(elem, x, y, size, color, k, extra){
+    const s = size / 480;
+    return '<g transform="translate(' + N(x - size/2) + ',' + N(y - size/2) + ') scale(' + s.toFixed(4) + ')"' + (extra || '') + '>' + iconInner(elem, color, k) + '</g>';
+  }
+  // Wild glyph: the official wild icon, optionally at a heavier weight.
+  function wildIcon(x, y, size, k){
+    const s = size / 480;
+    return '<g transform="translate(' + N(x - size/2) + ',' + N(y - size/2) + ') scale(' + s.toFixed(4) + ')">' + iconInner('wild', null, k || 1) + '</g>';
+  }
+
+  // Numerals: 6 and 9 get an underline so they survive rotation.
+  function numeral(v, x, y, size, fill, opts){
+    opts = opts || {};
+    const weight = opts.weight || 700;
+    const fam = opts.family || "Cinzel, 'Cinzel Fallback', Georgia, serif";
+    let s = '<text x="' + N(x) + '" y="' + N(y) + '" font-family="' + fam + '" font-weight="' + weight + '" font-size="' + N(size) + '" fill="' + fill + '" text-anchor="middle"' + (opts.attrs || '') + '>' + v + '</text>';
+    if (v === 6 || v === 9){
+      const w = size * 0.42, t = Math.max(1.4, size * 0.07);
+      s += '<rect x="' + N(x - w/2) + '" y="' + N(y + size * 0.13) + '" width="' + N(w) + '" height="' + N(t) + '" rx="' + N(t/2) + '" fill="' + fill + '"' + (opts.attrs || '') + '/>';
+    }
+    return s;
+  }
+
+  const rot180 = inner => '<g transform="rotate(180 ' + CX + ' ' + CY + ')">' + inner + '</g>';
+
+  function frame(id, defs, inner, bgFill){
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" class="card-face">'
+      + '<defs><clipPath id="' + id + '-c"><rect width="' + W + '" height="' + H + '" rx="' + RAD + '"/></clipPath>' + defs + '</defs>'
+      + '<g clip-path="url(#' + id + '-c)">' + (bgFill || '') + inner + '</g></svg>';
+  }
+
+  // ── Palettes ───────────────────────────────────────────────────────
+  // Dark, print-honest: Void and Flux pulled inside FOGRA39 coated;
+  // Echo moved to warm pearl so it can no longer be taken for the wild.
+  const DARK = {
+    radiance:{ b:'#f5c518', m:'#c8961a', dim:'#3a2800', bg1:'#100e04', bg2:'#0c0900', name:'RADIANCE' },
+    void:    { b:'#9d6fd0', m:'#6b3fa6', dim:'#1e0c38', bg1:'#09060f', bg2:'#06040e', name:'VOID' },
+    flux:    { b:'#1fbcae', m:'#0f8a7e', dim:'#002820', bg1:'#04100d', bg2:'#02100d', name:'FLUX' },
+    aether:  { b:'#e8304a', m:'#c8203a', dim:'#400010', bg1:'#0d0205', bg2:'#0a0102', name:'AETHER' },
+    echo:    { b:'#f2efe8', m:'#a8a397', dim:'#1f1d19', bg1:'#0b0a09', bg2:'#0e0d0b', name:'ECHO' }
+  };
+  const WILDN = { b:'#d9d3c6', m:'#8d877b', dim:'#1a1816', bg1:'#0b0a0e', bg2:'#110f15' };
+
+  // Value → height. Shared 1–15 scale; runs read as a staircase, sets as a level line.
+  function slotY(v, top, bottom){ return top + (v - 1) * (bottom - top) / 14; }
+
+  // Arcana art (the chosen procedural art), optionally recoloured.
+  function arcanaArt(elem, cx, cy, r, pal, remap){
+    const art = window.AA_ART && window.AA_ART.arcana;
+    if (!art) return '';
+    let s = elem === 'wild' ? art.renderWild(cx, cy, r, 1) : art.render(elem, cx, cy, r, pal, { W, H, sc: 1 });
+    if (remap) for (const k in remap) s = s.split(k).join(remap[k]);
+    return s;
+  }
+  const ECHO_ART = (p) => ({ '#d7d4c8': p.b, '#888a84': p.m, '#242724': p.dim, '#050605': p.bg1, '#090a09': p.bg2 });
+
+  // ══════════════════════════════════════════════════════════════════
+  // A · ARCANA+  — the chosen design with its defects fixed
+  // ══════════════════════════════════════════════════════════════════
+  const A_TOP = 92, A_BOT = 268, A_X = 31;
+  function aIndex(v, elem, p){
+    return numeral(v, A_X, 47, 22, p.b, { attrs: ' fill-opacity=".95"' })
+      + icon(elem, A_X, 68, 20, p.b, 2.0);
+  }
+  function aStrip(v, elem, p, id){
+    let s = '';
+    for (let i = 1; i <= 15; i++){
+      const y = slotY(i, A_TOP, A_BOT);
+      const big = i % 5 === 0;
+      s += '<circle cx="' + A_X + '" cy="' + N(y) + '" r="' + (big ? 1.5 : 0.9) + '" fill="' + p.m + '" opacity="' + (big ? .55 : .35) + '"/>';
+    }
+    if (v){
+      const y = slotY(v, A_TOP, A_BOT);
+      s += '<circle cx="' + A_X + '" cy="' + N(y) + '" r="19" fill="url(#' + id + '-orb)"/>'
+        + '<circle cx="' + A_X + '" cy="' + N(y) + '" r="13" fill="none" stroke="' + p.b + '" stroke-width=".8" opacity=".5"/>'
+        + '<circle cx="' + A_X + '" cy="' + N(y) + '" r="6.8" fill="' + p.b + '"/>';
+    }
+    return s;
+  }
+  function arcanaPlus(v, elem){
+    const p = DARK[elem];
+    const id = uid('a' + elem[0]);
+    const AC = window.ArchmageCards;
+    const cx = CX, cy = H * 0.45, artR = W * 0.28;
+    const artSvg = arcanaArt(elem, cx, cy, artR, p, elem === 'echo' ? ECHO_ART(p) : null);
+    const arch = AC ? AC.makeSharedArchitecture(cx, cy, W, H, p, v, 1) : '';
+    const defs = '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + p.bg2 + '"/><stop offset="1" stop-color="' + p.bg1 + '"/></linearGradient>'
+      + '<radialGradient id="' + id + '-g" cx="50%" cy="46%" r="46%"><stop offset="0" stop-color="' + p.m + '" stop-opacity=".09"/><stop offset="1" stop-color="' + p.m + '" stop-opacity="0"/></radialGradient>'
+      + '<radialGradient id="' + id + '-orb"><stop offset="0" stop-color="' + p.b + '" stop-opacity=".75"/><stop offset=".45" stop-color="' + p.m + '" stop-opacity=".35"/><stop offset="1" stop-color="' + p.dim + '" stop-opacity="0"/></radialGradient>';
+    const strip = aStrip(v, elem, p, id) + aIndex(v, elem, p);
+    const med = numeral(v, cx, cy + 9.5, 28, p.b, { attrs: ' fill-opacity=".92"' });
+    const label = '<text x="' + cx + '" y="' + N((cy + artR + H) / 2 + 2) + '" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="12.5" fill="' + p.b + '" fill-opacity=".9" text-anchor="middle" letter-spacing="2.8">' + p.name + '</text>';
+    const inner = '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-bg)"/><rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-g)"/>'
+      + arch + artSvg + med + label
+      + strip + rot180(strip)
+      // upright index top-right, and its inverted twin bottom-left
+      + '<g transform="translate(' + (W - 2*A_X) + ',0)">' + aIndex(v, elem, p) + '</g>'
+      + rot180('<g transform="translate(' + (W - 2*A_X) + ',0)">' + aIndex(v, elem, p) + '</g>');
+    return frame(id, defs, inner);
+  }
+  function arcanaPlusWild(){
+    const p = WILDN;
+    const id = uid('aw');
+    const cx = CX, cy = H * 0.45, artR = W * 0.28;
+    const artSvg = arcanaArt('wild', cx, cy, artR);
+    let strip = '';
+    for (let i = 1; i <= 15; i++){
+      const y = slotY(i, A_TOP, A_BOT);
+      strip += '<circle cx="' + A_X + '" cy="' + N(y) + '" r="4.2" fill="none" stroke="' + p.b + '" stroke-width="1" opacity=".55"/>';
+    }
+    const idx = wildIcon(A_X, 54, 32, 2.2);
+    strip += idx;
+    const defs = '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + p.bg1 + '"/><stop offset="1" stop-color="' + p.bg2 + '"/></linearGradient>';
+    const label = '<text x="' + cx + '" y="' + N((cy + artR + H) / 2 + 2) + '" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="12.5" fill="' + p.b + '" fill-opacity=".85" text-anchor="middle" letter-spacing="2.8">WILD</text>';
+    const inner = '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-bg)"/>' + artSvg + label + strip + rot180(strip)
+      + '<g transform="translate(' + (W - 2*A_X) + ',0)">' + idx + '</g>' + rot180('<g transform="translate(' + (W - 2*A_X) + ',0)">' + idx + '</g>');
+    return frame(id, defs, inner);
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // B · INSTRUMENT RAIL — engraved value scale on both long edges, a
+  // pointer that reaches the trim, the value restated in a cartouche.
+  // Same arcana art, set inside a plate.
+  // ══════════════════════════════════════════════════════════════════
+  const B_TOP = 92, B_BOT = 268, B_X = 32;
+  function bIndex(v, elem, p){
+    return numeral(v, B_X, 48, 25, p.b, { weight: 900 }) + icon(elem, B_X, 69, 20, p.b, 2.0);
+  }
+  function bRail(v, p, wild){
+    let s = '';
+    [-6, 6].forEach(dx => {
+      s += '<line x1="' + (B_X + dx) + '" y1="' + (B_TOP - 10) + '" x2="' + (B_X + dx) + '" y2="' + (B_BOT + 10) + '" stroke="' + p.m + '" stroke-width=".7" opacity=".6"/>';
+    });
+    for (let i = 1; i <= 15; i++){
+      const y = slotY(i, B_TOP, B_BOT);
+      const big = i % 5 === 0;
+      s += '<line x1="' + (B_X - (big ? 10 : 6)) + '" y1="' + N(y) + '" x2="' + (B_X + (big ? 10 : 6)) + '" y2="' + N(y) + '" stroke="' + p.m + '" stroke-width="' + (big ? 1.1 : .6) + '" opacity="' + (big ? .85 : .6) + '"/>';
+      if (wild) s += '<rect x="' + N(B_X - 3.6) + '" y="' + N(y - 3.6) + '" width="7.2" height="7.2" transform="rotate(45 ' + B_X + ' ' + N(y) + ')" fill="none" stroke="' + p.b + '" stroke-width=".9" opacity=".75"/>';
+    }
+    if (v){
+      const y = slotY(v, B_TOP, B_BOT);
+      // pointer runs from the trim to the seal: readable in a very tight overlap
+      s += '<path d="M0,' + N(y - 3.4) + ' L' + (B_X - 10) + ',' + N(y - 1.4) + ' L' + (B_X - 10) + ',' + N(y + 1.4) + ' L0,' + N(y + 3.4) + 'Z" fill="' + p.b + '"/>';
+      s += '<circle cx="' + B_X + '" cy="' + N(y) + '" r="16" fill="' + p.b + '" opacity=".14"/>';
+      s += '<rect x="' + N(B_X - 7.8) + '" y="' + N(y - 7.8) + '" width="15.6" height="15.6" transform="rotate(45 ' + B_X + ' ' + N(y) + ')" fill="' + p.b + '"/>';
+      s += '<rect x="' + N(B_X - 3) + '" y="' + N(y - 3) + '" width="6" height="6" transform="rotate(45 ' + B_X + ' ' + N(y) + ')" fill="' + p.bg1 + '"/>';
+    }
+    return s;
+  }
+  function bFace(v, elem, p, wild){
+    const id = uid('b' + (elem ? elem[0] : 'w'));
+    const defs = '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + p.bg2 + '"/><stop offset="1" stop-color="' + p.bg1 + '"/></linearGradient>'
+      + '<radialGradient id="' + id + '-g" cx="50%" cy="40%" r="45%"><stop offset="0" stop-color="' + p.m + '" stop-opacity=".10"/><stop offset="1" stop-color="' + p.m + '" stop-opacity="0"/></radialGradient>'
+      + '<clipPath id="' + id + '-pl"><rect x="58" y="22" width="' + (W - 116) + '" height="' + (H - 44) + '" rx="4"/></clipPath>';
+    const ax = CX, ay = 142, ar = W * 0.235;
+    const art = wild ? arcanaArt('wild', ax, ay, ar) : arcanaArt(elem, ax, ay, ar, p, elem === 'echo' ? ECHO_ART(p) : null);
+    // the medallion now carries the energy glyph; the value moves to the cartouche
+    const medGlyph = wild ? '' : icon(elem, ax, ay, 22, p.b, 1.6);
+    const cart = '<rect x="' + (CX - 36) + '" y="246" width="72" height="50" rx="5" fill="' + p.bg1 + '" stroke="' + p.m + '" stroke-width=".8"/>'
+      + '<rect x="' + (CX - 33) + '" y="249" width="66" height="44" rx="3.5" fill="none" stroke="' + p.m + '" stroke-width=".4" opacity=".6"/>'
+      + (wild ? wildIcon(CX, 271, 30, 1.3) : numeral(v, CX, 282, 34, p.b, { weight: 900 }))
+      + '<text x="' + CX + '" y="316" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="10" letter-spacing="2.6" fill="' + p.b + '" fill-opacity=".85" text-anchor="middle">' + (wild ? 'WILD' : p.name) + '</text>';
+    const plate = '<rect x="58" y="22" width="' + (W - 116) + '" height="' + (H - 44) + '" rx="4" fill="none" stroke="' + p.m + '" stroke-width=".6" opacity=".45"/>'
+      + '<rect x="61" y="25" width="' + (W - 122) + '" height="' + (H - 50) + '" rx="3" fill="none" stroke="' + p.m + '" stroke-width=".3" opacity=".35"/>';
+    const idx = wild ? wildIcon(B_X, 54, 32, 2.2) : bIndex(v, elem, p);
+    const strip = bRail(wild ? 0 : v, p, wild) + idx;
+    const inner = '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-bg)"/><rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-g)"/>'
+      + '<g clip-path="url(#' + id + '-pl)">' + art + medGlyph + '</g>' + plate + cart + strip + rot180(strip);
+    return frame(id, defs, inner);
+  }
+  const instrument = (v, elem) => bFace(v, elem, DARK[elem], false);
+  const instrumentWild = () => bFace(0, null, WILDN, true);
+
+  // ══════════════════════════════════════════════════════════════════
+  // C · VELLUM PLATE — the arcana diagrams printed as ink on light
+  // stock; the dark back is kept, so face-up and face-down never blur.
+  // ══════════════════════════════════════════════════════════════════
+  const PAPER = { hi:'#f3ecdb', lo:'#e2d4b6', rule:'#8c7a5a' };
+  const INK = {
+    radiance:{ b:'#a87800', m:'#c9a24a', ink:'#7a5700', name:'RADIANCE' },
+    void:    { b:'#6a44a0', m:'#9a82bf', ink:'#4f2f80', name:'VOID' },
+    flux:    { b:'#007d70', m:'#5fa89c', ink:'#005c52', name:'FLUX' },
+    aether:  { b:'#b01f38', m:'#c0485c', ink:'#8e1430', name:'AETHER' },
+    echo:    { b:'#2a2733', m:'#7d7a84', ink:'#1d1b24', name:'ECHO' }
+  };
+  const inkPal = q => ({ b:q.b, m:q.m, dim:PAPER.lo, bg1:PAPER.hi, bg2:PAPER.hi });
+  const C_TOP = 92, C_BOT = 268, C_X = 31;
+  function cIndex(v, elem, q){
+    return numeral(v, C_X, 48, 24, q.ink, { weight: 900 }) + icon(elem, C_X, 69, 20, q.b, 2.0);
+  }
+  function cStrip(v, q, wild){
+    let s = '';
+    for (let i = 1; i <= 15; i++){
+      const y = slotY(i, C_TOP, C_BOT);
+      const big = i % 5 === 0;
+      s += '<line x1="' + (C_X - (big ? 7 : 4)) + '" y1="' + N(y) + '" x2="' + (C_X + (big ? 7 : 4)) + '" y2="' + N(y) + '" stroke="' + PAPER.rule + '" stroke-width="' + (big ? .9 : .6) + '" opacity=".8"/>';
+      if (wild) s += '<circle cx="' + C_X + '" cy="' + N(y) + '" r="4" fill="none" stroke="' + PAPER.rule + '" stroke-width=".9"/>';
+    }
+    if (v){
+      const y = slotY(v, C_TOP, C_BOT);
+      // wax seal
+      s += '<circle cx="' + C_X + '" cy="' + N(y) + '" r="10" fill="' + q.b + '"/>'
+        + '<circle cx="' + C_X + '" cy="' + N(y) + '" r="7" fill="none" stroke="' + PAPER.hi + '" stroke-width=".8" opacity=".65"/>'
+        + '<circle cx="' + N(C_X - 2.6) + '" cy="' + N(y - 2.8) + '" r="2.1" fill="#fff" opacity=".35"/>';
+    }
+    return s;
+  }
+  function vellumFace(v, elem, wild){
+    const q = wild ? { b:'#5d5240', m:'#a39679', ink:'#3b3326', name:'WILD' } : INK[elem];
+    const id = uid('c' + (elem ? elem[0] : 'w'));
+    const defs = '<radialGradient id="' + id + '-bg" cx="50%" cy="44%" r="75%"><stop offset="0" stop-color="' + PAPER.hi + '"/><stop offset="1" stop-color="' + PAPER.lo + '"/></radialGradient>';
+    let fib = '', sd = 7 + (elem ? elem.length * 13 : 3);
+    const rnd = () => { sd = (sd * 9301 + 49297) % 233280; return sd / 233280; };
+    for (let i = 0; i < 26; i++){
+      const x = rnd() * W, y = rnd() * H, l = 6 + rnd() * 16, a = rnd() * 3.14;
+      fib += '<line x1="' + N(x) + '" y1="' + N(y) + '" x2="' + N(x + Math.cos(a) * l) + '" y2="' + N(y + Math.sin(a) * l) + '" stroke="' + PAPER.rule + '" stroke-width=".35" opacity=".18"/>';
+    }
+    const dx = CX, dy = 156, dr = W * 0.25;
+    let art;
+    if (wild){
+      // the one card with a lacquered inlay: unmistakable at any distance
+      art = '<circle cx="' + dx + '" cy="' + dy + '" r="' + (dr * 1.42) + '" fill="#0d0c12"/>'
+        + '<circle cx="' + dx + '" cy="' + dy + '" r="' + (dr * 1.42) + '" fill="none" stroke="' + q.ink + '" stroke-width="1.4"/>'
+        + '<circle cx="' + dx + '" cy="' + dy + '" r="' + (dr * 1.48) + '" fill="none" stroke="' + PAPER.rule + '" stroke-width=".5"/>'
+        + arcanaArt('wild', dx, dy, dr * 0.95);
+    } else {
+      const pal = inkPal(q);
+      const rm = elem === 'echo' ? { '#d7d4c8': q.b, '#888a84': q.m, '#242724': PAPER.lo, '#050605': PAPER.hi, '#090a09': PAPER.hi } : null;
+      art = arcanaArt(elem, dx, dy, dr, pal, rm)
+        + numeral(v, dx, dy + 8.2, v > 9 ? 21 : 24, q.ink, { weight: 900 });
+    }
+    const label = '<text x="' + CX + '" y="' + (wild ? 292 : 290) + '" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="12" letter-spacing="3" fill="' + q.ink + '" text-anchor="middle">' + q.name + '</text>'
+      + '<line x1="' + (CX - 44) + '" y1="300" x2="' + (CX + 44) + '" y2="300" stroke="' + q.b + '" stroke-width=".7" opacity=".6"/>';
+    const plate = '<rect x="56" y="22" width="' + (W - 112) + '" height="' + (H - 44) + '" rx="3" fill="none" stroke="' + PAPER.rule + '" stroke-width=".6" opacity=".6"/>'
+      + '<rect x="59" y="25" width="' + (W - 118) + '" height="' + (H - 50) + '" rx="2" fill="none" stroke="' + PAPER.rule + '" stroke-width=".3" opacity=".5"/>';
+    const idx = wild ? wildIcon(C_X, 54, 32, 2.2) : cIndex(v, elem, q);
+    const strip = cStrip(wild ? 0 : v, q, wild) + idx;
+    const inner = '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-bg)"/>' + fib + plate
+      + '<clipPath id="' + id + '-pl"><rect x="56" y="22" width="' + (W - 112) + '" height="' + (H - 44) + '"/></clipPath>'
+      + '<g clip-path="url(#' + id + '-pl)">' + art + '</g>' + label + strip + rot180(strip);
+    return frame(id, defs, inner);
+  }
+  const vellum = (v, elem) => vellumFace(v, elem, false);
+  const vellumWild = () => vellumFace(0, null, true);
+
+  // ══════════════════════════════════════════════════════════════════
+  // D · SPINE — a solid energy-coloured spine carries everything a
+  // player reads in a spread. One-sided on purpose: a card that is
+  // upside down shows its spine on the wrong edge.
+  // ══════════════════════════════════════════════════════════════════
+  const SPINE = {
+    radiance:{ s:'#e8b420', b:'#f5c518', m:'#c8961a', dim:'#3a2800', bg1:'#100e04', bg2:'#0c0900', name:'RADIANCE' },
+    void:    { s:'#9a74d4', b:'#a97cdc', m:'#6b3fa6', dim:'#1e0c38', bg1:'#09060f', bg2:'#06040e', name:'VOID' },
+    flux:    { s:'#1fb3a4', b:'#1fbcae', m:'#0f8a7e', dim:'#002820', bg1:'#04100d', bg2:'#02100d', name:'FLUX' },
+    aether:  { s:'#e0485a', b:'#e8304a', m:'#c8203a', dim:'#400010', bg1:'#0d0205', bg2:'#0a0102', name:'AETHER' },
+    echo:    { s:'#e6e0d3', b:'#f2efe8', m:'#a8a397', dim:'#1f1d19', bg1:'#0b0a09', bg2:'#0e0d0b', name:'ECHO' }
+  };
+  const INKD = '#15121a';
+  const SW = 60, D_TOP = 100, D_BOT = 258, D_X = 29;
+  function dHead(v, elem){
+    return numeral(v, D_X, 55, 31, INKD, { weight: 900 }) + icon(elem, D_X, 80, 22, INKD, 2.1);
+  }
+  function dSpine(v, elem, q, wild, id){
+    let s = '';
+    if (wild){
+      ['#e8b420', '#9a74d4', '#1fb3a4', '#e0485a'].forEach((c, i) => {
+        s += '<rect x="' + (i * SW / 4) + '" y="0" width="' + (SW / 4 + .5) + '" height="' + H + '" fill="' + c + '"/>';
+      });
+    } else {
+      s += '<rect x="0" y="0" width="' + SW + '" height="' + H + '" fill="' + q.s + '"/>';
+    }
+    s += '<rect x="0" y="0" width="' + SW + '" height="' + H + '" fill="url(#' + id + '-sp)"/>';
+    s += '<line x1="' + SW + '" y1="0" x2="' + SW + '" y2="' + H + '" stroke="' + INKD + '" stroke-width="1.2" opacity=".6"/>';
+    for (let i = 1; i <= 15; i++){
+      const y = slotY(i, D_TOP, D_BOT);
+      const big = i % 5 === 0;
+      s += '<line x1="' + (SW - (big ? 12 : 7)) + '" y1="' + N(y) + '" x2="' + SW + '" y2="' + N(y) + '" stroke="' + INKD + '" stroke-width="' + (big ? 1.2 : .8) + '" opacity=".6"/>';
+      if (wild) s += '<circle cx="' + D_X + '" cy="' + N(y) + '" r="4.4" fill="' + INKD + '" fill-opacity=".2" stroke="' + INKD + '" stroke-width="1.3"/>';
+    }
+    if (!wild){
+      const y = slotY(v, D_TOP, D_BOT);
+      s += '<line x1="' + D_X + '" y1="' + N(y) + '" x2="' + SW + '" y2="' + N(y) + '" stroke="' + INKD + '" stroke-width="2.4"/>'
+        + '<circle cx="' + D_X + '" cy="' + N(y) + '" r="9.8" fill="' + INKD + '"/>'
+        + '<circle cx="' + D_X + '" cy="' + N(y) + '" r="4.2" fill="' + q.b + '"/>';
+      s += dHead(v, elem) + '<g transform="rotate(180 ' + D_X + ' ' + (H / 2) + ')">' + dHead(v, elem) + '</g>';
+    } else {
+      [44, H - 44].forEach(y => {
+        s += '<circle cx="' + D_X + '" cy="' + y + '" r="18" fill="' + INKD + '"/>' + wildIcon(D_X, y, 32, 1.3);
+      });
+    }
+    return s;
+  }
+  function spineFace(v, elem, wild){
+    const q = wild ? WILDN : SPINE[elem];
+    const id = uid('s' + (elem ? elem[0] : 'w'));
+    const defs = '<linearGradient id="' + id + '-sp" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".10"/><stop offset=".7" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".14"/></linearGradient>'
+      + '<linearGradient id="' + id + '-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="' + q.bg2 + '"/><stop offset="1" stop-color="' + q.bg1 + '"/></linearGradient>'
+      + '<radialGradient id="' + id + '-g" cx="62%" cy="42%" r="55%"><stop offset="0" stop-color="' + q.m + '" stop-opacity=".12"/><stop offset="1" stop-color="' + q.m + '" stop-opacity="0"/></radialGradient>'
+      + '<clipPath id="' + id + '-f"><rect x="' + SW + '" y="0" width="' + (W - SW) + '" height="' + H + '"/></clipPath>';
+    const fx = SW + (W - SW) / 2, fy = 150, fr = W * 0.235;
+    const art = wild ? arcanaArt('wild', fx, fy, fr) : arcanaArt(elem, fx, fy, fr, q, elem === 'echo' ? ECHO_ART(q) : null);
+    let field = '<rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-bg)"/><rect width="' + W + '" height="' + H + '" fill="url(#' + id + '-g)"/>';
+    field += '<g clip-path="url(#' + id + '-f)">' + art + (wild ? '' : numeral(v, fx, fy + 9, 27, q.b, { attrs: ' fill-opacity=".92"' })) + '</g>';
+    field += '<text x="' + N(fx) + '" y="' + (wild ? 290 : 296) + '" font-family="Cinzel, Georgia, serif" font-weight="700" font-size="' + (wild ? 13 : 11) + '" letter-spacing="2.8" fill="' + q.b + '" fill-opacity=".88" text-anchor="middle">' + (wild ? 'WILD' : q.name) + '</text>';
+    return frame(id, defs, field + dSpine(v, elem, q, wild, id));
+  }
+  const spine = (v, elem) => spineFace(v, elem, false);
+  const spineWild = () => spineFace(0, null, true);
+
+  // ── Current (live renderer, untouched) ─────────────────────────────
+  function current(v, elem){ return window.ArchmageCards.makeCard(v, elem, { connector:'beacon', art:'arcana', layout:'classic' }); }
+  function currentWild(){ return window.ArchmageCards.makeWildCard({ connector:'beacon', art:'arcana', layout:'classic' }); }
+
+  window.AA_ALT = {
+    W, H, uid,
+    designs: [
+      { key:'cur', name:'Current',          tag:'arcana + beacon',  card: current,     wild: currentWild },
+      { key:'A',   name:'A · Arcana+',       tag:'Refine',           card: arcanaPlus,  wild: arcanaPlusWild },
+      { key:'B',   name:'B · Instrument Rail', tag:'Refine',        card: instrument,  wild: instrumentWild },
+      { key:'C',   name:'C · Vellum Plate',  tag:'Departure',        card: vellum,      wild: vellumWild },
+      { key:'D',   name:'D · Spine',         tag:'Departure',        card: spine,       wild: spineWild }
+    ],
+    back: () => window.ArchmageCards.makeCardBack({})
+  };
+})();
+
+</script>
+<script>
+/* src/page.js */
+(function(){
+  const { W, H, designs } = window.AA_ALT;
+  const DES = {}; designs.forEach(d => DES[d.key] = d);
+  const $ = (s, r) => (r || document).querySelector(s);
+  const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+
+  const cardSvg = (d, c) => c.e === 'wild' ? d.wild() : d.card(c.v, c.e);
+  // Place one card inside a scene SVG. (x, y) = top-left, s = scale, r = rotate 180.
+  function place(d, c, x, y, s, r, extra){
+    const rot = r ? ' rotate(180 ' + (W / 2) + ' ' + (H / 2) + ')' : '';
+    return '<g transform="translate(' + x.toFixed(1) + ',' + y.toFixed(1) + ') scale(' + s + ')' + rot + '"' + (extra || '') + '>'
+      + '<rect x="2" y="5" width="' + W + '" height="' + H + '" rx="12" fill="#000" opacity=".35"/>'
+      + cardSvg(d, c) + '</g>';
+  }
+
+  // ── Scenes ─────────────────────────────────────────────────────────
+  const STRIP = 64;   // visible strip per overlapped card ≈ 15.7 mm
+  const ROWS = [
+    { label: 'Transfiguration · run', cards: [{e:'void',v:5},{e:'flux',v:6},{e:'radiance',v:7},{e:'aether',v:8},{e:'wild',v:9}], flip: 2 },
+    { label: 'Enchantment · set of 7s', cards: [{e:'radiance',v:7},{e:'void',v:7},{e:'aether',v:7},{e:'flux',v:7}] },
+    { label: 'Conjuration · Aether', cards: [{e:'aether',v:2},{e:'aether',v:6},{e:'aether',v:9},{e:'aether',v:13}] }
+  ];
+  function spellbook(d, st){
+    const gap = 34, pad = 24;
+    const rowW = STRIP * 4 + W;
+    const SW = rowW + 8, SH = pad * 2 + ROWS.length * H + (ROWS.length - 1) * gap;
+    let cards = '', labels = '';
+    ROWS.forEach((row, i) => {
+      const y = pad + i * (H + gap);
+      row.cards.forEach((c, j) => {
+        const upside = st.flip && row.flip === j;
+        cards += place(d, c, 4 + j * STRIP, y, 1, upside);
+      });
+      const ly = st.across ? (SH - y - H) - 9 : y - 9;
+      const lx = st.across ? SW - 4 - (STRIP * (row.cards.length - 1) + W) : 4;
+      labels += '<text x="' + lx + '" y="' + ly + '" class="sc-label" font-size="17">' + row.label + (st.flip && row.flip != null ? ' · one card upside down' : '') + '</text>';
+    });
+    const grp = st.across ? '<g transform="rotate(180 ' + SW / 2 + ' ' + SH / 2 + ')">' + cards + '</g>' : cards;
+    return { vb: [SW, SH], body: grp + labels };
+  }
+  const HAND = [{e:'radiance',v:3},{e:'void',v:6},{e:'flux',v:9},{e:'aether',v:12},{e:'void',v:13},{e:'wild',v:0},{e:'flux',v:1}];
+  function hand(d, st){
+    const n = HAND.length, R = 560, step = 5.5;
+    // lay out around a pivot below the hand, then fit the view to the fan's bounds
+    const px = 0, py = 0;
+    let minX = 1e9, maxX = -1e9, minY = 1e9, maxY = -1e9, s = '';
+    HAND.forEach((c, i) => {
+      const a = (i - (n - 1) / 2) * step, t = a * Math.PI / 180;
+      [[-W/2, -R - H], [W/2, -R - H], [-W/2, -R], [W/2, -R]].forEach(([x, y]) => {
+        const X = x * Math.cos(t) - y * Math.sin(t), Y = x * Math.sin(t) + y * Math.cos(t);
+        minX = Math.min(minX, X); maxX = Math.max(maxX, X); minY = Math.min(minY, Y); maxY = Math.max(maxY, Y);
+      });
+      const upside = st.flip && i === 1;
+      s += '<g transform="rotate(' + a + ' ' + px + ' ' + py + ')">' + place(d, c, px - W / 2, py - R - H, 1, upside) + '</g>';
+    });
+    const m = 14, lab = 34;
+    const x0 = minX - m, y0 = minY - m, SW = (maxX - minX) + 2 * m, SH = (maxY - minY) + 2 * m + lab;
+    const body = '<g transform="translate(' + (-x0).toFixed(1) + ',' + (-y0).toFixed(1) + ')">' + s + '</g>'
+      + '<text x="' + m + '" y="' + (SH - 10).toFixed(1) + '" class="sc-label" font-size="21">Hand, fanned left to right' + (st.flip ? ' · the Void 6 held upside down' : '') + '</text>';
+    return { vb: [Math.round(SW), Math.round(SH)], body };
+  }
+  const ARRAY = [{e:'flux',v:6},{e:'aether',v:9},{e:'radiance',v:12},{e:'void',v:2},{e:'wild',v:0}];
+  function arrayScene(d, st){
+    const gap = 26, SW = ARRAY.length * W + (ARRAY.length - 1) * gap + 8, SH = H + 64;
+    let s = '';
+    ARRAY.forEach((c, i) => {
+      const upside = st.flip && i === 0;
+      s += place(d, c, 4 + i * (W + gap), 12, 1, upside);
+    });
+    const grp = st.across ? '<g transform="rotate(180 ' + SW / 2 + ' ' + (12 + H / 2) + ')">' + s + '</g>' : s;
+    return { vb: [SW, SH], body: grp + '<text x="6" y="' + (SH - 10) + '" class="sc-label" font-size="30">The Array, face up' + (st.across ? ', seen from the far side' : '') + (st.flip ? ' · the Flux 6 dealt upside down' : '') + '</text>' };
+  }
+  const SCENES = { spellbook, hand, array: arrayScene };
+  const NOTES = {
+    spellbook: '<h3>What to look for</h3><p>A run should read as a staircase and a set as a level line, from both seats.</p><p>Tick <b>One card upside down</b>: in Now, the Radiance 7 drops out of the staircase.</p><p>Tick <b>From across the table</b>: in Now, only upside-down numerals are left.</p><p>Switch <b>Vision</b> to Deutan or Protan: energy should still be clear from the icons.</p>',
+    hand: '<h3>What to look for</h3><p>A fanned hand shows only each card\'s top-left corner, so that corner has to carry value and energy.</p><p>Tick <b>One card upside down</b>: which designs still show the right numeral, icon and marker for the Void 6?</p><p>Switch <b>Vision</b> to Grey: can you still sort the hand by energy?</p>',
+    array: '<h3>What to look for</h3><p>Array cards are read from every seat, at arm\'s length or further.</p><p>Tick <b>From across the table</b>: does the Flux 6 still read as a 6?</p><p>Switch <b>Table</b> to Oak: light cards lose their edge on a light table.</p>'
+  };
+
+  const state = { scene: 'spellbook', across: false, flip: false, vision: 'normal', surface: 'mat', show: { cur:1, A:1, B:1, C:1, D:1 } };
+
+  function renderScenes(){
+    const host = $('#scenes');
+    host.innerHTML = '';
+    designs.forEach(d => {
+      if (!state.show[d.key]) return;
+      const sc = SCENES[state.scene](d, state);
+      const fig = document.createElement('figure');
+      fig.className = 'scene';
+      fig.innerHTML = '<figcaption><span class="badge b-' + d.key + '">' + (d.key === 'cur' ? 'Now' : d.key) + '</span>' + d.name.replace(/^[A-D] · /, '') + '</figcaption>'
+        + '<div class="table"><svg viewBox="0 0 ' + sc.vb[0] + ' ' + sc.vb[1] + '" role="img" aria-label="' + d.name + ', ' + state.scene + ' scene">' + sc.body + '</svg></div>';
+      host.appendChild(fig);
+    });
+    const note = document.createElement('aside');
+    note.className = 'scene-note';
+    note.innerHTML = NOTES[state.scene];
+    host.appendChild(note);
+    host.dataset.scene = state.scene;
+    const f = $('#scene-wrap');
+    f.dataset.vision = state.vision;
+    f.dataset.surface = state.surface;
+    $('#opt-across').disabled = state.scene === 'hand';
+  }
+
+  function seg(id, key){
+    $$('#' + id + ' button').forEach(b => {
+      b.addEventListener('click', () => {
+        state[key] = b.dataset.v;
+        $$('#' + id + ' button').forEach(x => x.setAttribute('aria-pressed', x === b ? 'true' : 'false'));
+        renderScenes();
+      });
+    });
+  }
+
+  // ── Galleries ─────────────────────────────────────────────────────
+  const GALLERY = [{e:'radiance',v:2},{e:'void',v:6},{e:'flux',v:9},{e:'aether',v:12},{e:'echo',v:15},{e:'wild',v:0}];
+  function renderGalleries(){
+    $$('.gallery').forEach(g => {
+      const d = DES[g.dataset.design];
+      g.innerHTML = '';
+      GALLERY.forEach(c => {
+        const b = document.createElement('button');
+        b.className = 'gcard';
+        b.type = 'button';
+        b.setAttribute('aria-label', 'Enlarge ' + (c.e === 'wild' ? 'wild' : c.e + ' ' + c.v));
+        b.innerHTML = cardSvg(d, c);
+        b.addEventListener('click', () => openLightbox(d, c));
+        g.appendChild(b);
+      });
+      if (g.dataset.back){
+        const b = document.createElement('div');
+        b.className = 'gcard back';
+        b.innerHTML = window.AA_ALT.back();
+        g.appendChild(b);
+      }
+    });
+  }
+
+  // ── Finding demos ─────────────────────────────────────────────────
+  function demo(el){
+    const kind = el.dataset.demo;
+    const cur = DES.cur, A = DES.A;
+    let svg = '', vb = [0, 0];
+    if (kind === 'flip'){
+      const row = [{e:'void',v:5},{e:'flux',v:6},{e:'radiance',v:7},{e:'aether',v:8}];
+      const rowW = STRIP * 3 + W;
+      [cur, A].forEach((d, k) => {
+        row.forEach((c, j) => { svg += place(d, c, k * (rowW + 40) + j * STRIP, 22, 1, j === 2); });
+        svg += '<text x="' + (k * (rowW + 40)) + '" y="14" class="sc-label" font-size="18">' + (k ? 'A · Arcana+: the orb stays in step' : 'Now: the 7 sits where a 14 would') + '</text>';
+      });
+      vb = [rowW * 2 + 40, H + 30];
+    } else if (kind === 'echo'){
+      svg += place(cur, {e:'echo',v:4}, 0, 22, 1, false) + place(cur, {e:'wild',v:0}, W + 24, 22, 1, false);
+      svg += '<text x="0" y="14" class="sc-label" font-size="18">Now: Echo 4 and the wild</text>';
+      svg += place(A, {e:'echo',v:4}, 2 * W + 72, 22, 1, false) + place(A, {e:'wild',v:0}, 3 * W + 96, 22, 1, false);
+      svg += '<text x="' + (2 * W + 72) + '" y="14" class="sc-label" font-size="18">A · pearl Echo, hueless wild</text>';
+      vb = [4 * W + 100, H + 30];
+    } else if (kind === 'sixnine'){
+      svg += place(cur, {e:'void',v:6}, 0, 22, 1, true) + place(cur, {e:'void',v:9}, W + 24, 22, 1, false);
+      svg += '<text x="0" y="14" class="sc-label" font-size="18">Now: a 6 seen from across the table, beside a 9</text>';
+      svg += place(A, {e:'void',v:6}, 2 * W + 72, 22, 1, true) + place(A, {e:'void',v:9}, 3 * W + 96, 22, 1, false);
+      svg += '<text x="' + (2 * W + 72) + '" y="14" class="sc-label" font-size="18">A · underlined</text>';
+      vb = [4 * W + 100, H + 30];
+    } else if (kind === 'across'){
+      const row = [{e:'radiance',v:7},{e:'void',v:7},{e:'aether',v:7},{e:'flux',v:7}];
+      const rowW = STRIP * 3 + W;
+      [cur, A].forEach((d, k) => {
+        let g = '';
+        row.forEach((c, j) => { g += place(d, c, j * STRIP, 0, 1, false); });
+        svg += '<g transform="translate(' + (k * (rowW + 40)) + ',22) rotate(180 ' + rowW / 2 + ' ' + H / 2 + ')">' + g + '</g>';
+        svg += '<text x="' + (k * (rowW + 40)) + '" y="14" class="sc-label" font-size="18">' + (k ? 'A · four-corner index' : 'Now: a set of 7s, from the opponent’s seat') + '</text>';
+      });
+      vb = [rowW * 2 + 40, H + 30];
+    }
+    el.innerHTML = '<svg viewBox="0 0 ' + vb[0] + ' ' + vb[1] + '" role="img" aria-label="Demonstration">' + svg + '</svg>';
+  }
+
+  // ── Lightbox ──────────────────────────────────────────────────────
+  function openLightbox(d, c){
+    const dlg = $('#lightbox');
+    $('#lb-title').textContent = d.name + ' · ' + (c.e === 'wild' ? 'Wild' : c.e[0].toUpperCase() + c.e.slice(1) + ' ' + c.v);
+    $('#lb-cards').innerHTML = '<div><div class="lb-card">' + cardSvg(d, c) + '</div><p>As dealt</p></div>'
+      + '<div><div class="lb-card rot">' + cardSvg(d, c) + '</div><p>Turned 180°</p></div>';
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+
+  function init(){
+    renderGalleries();
+    $$('.demo').forEach(demo);
+    seg('opt-scene', 'scene');
+    seg('opt-vision', 'vision');
+    seg('opt-surface', 'surface');
+    $('#opt-across').addEventListener('change', e => { state.across = e.target.checked; renderScenes(); });
+    $('#opt-flip').addEventListener('change', e => { state.flip = e.target.checked; renderScenes(); });
+    $$('#opt-show input').forEach(i => i.addEventListener('change', () => { state.show[i.value] = i.checked ? 1 : 0; renderScenes(); }));
+    $('#lb-close').addEventListener('click', () => { const d = $('#lightbox'); if (d.close) d.close(); else d.removeAttribute('open'); });
+    $('#lightbox').addEventListener('click', e => { if (e.target.id === 'lightbox' && e.target.close) e.target.close(); });
+    renderScenes();
+  }
+  let started = false;
+  const go = () => { if (!started){ started = true; init(); } };
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(go);
+  setTimeout(go, 1200);
+})();
+
+</script>
+</body>
+</html>

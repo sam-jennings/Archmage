@@ -1,9 +1,9 @@
 ---
 thread: card-visuals
 status: parked
-updated: 2026-07-06
+updated: 2026-09-30
 goal: Print-ready card set in the chosen visual system
-next: HOLD on export/print regeneration (F14, decided 2026-07-06) — do NOT regenerate printenbind/cs3 or print; the existing 5×20 + 4 P&B deck stays a flexible prototype (pull cards per test). Export regen "go" needs F1 + F2 closed. See meta/decisions/2026-07-06-f14-export-hold.md
+next: Sam reads the card-face review (`card-design/incoming/2026-09-30-card-face-alternatives.html`) and decides whether to adopt the Arcana+ (A) reading-layer fixes in the renderer (queued P2; renderer only — F14 export hold on print/exports still stands). B vs D is a separate P3 table-read test.
 hypothesis: n/a — design direction is decided; remaining work is production (now gated by F14 hold)
 ---
 
@@ -17,6 +17,26 @@ Primary design decided 2026-07-02: **arcana** procedural art + **beacon** connec
 
 Parked because: final art polish is deferred (Anti-Drift Rule 2) and card text
 depends on the unresolved enchantment ladder tunables.
+
+## 2026-09-30 — card-face review (reading layer)
+
+Reviewed the live arcana + beacon faces and built four alternatives, all keeping the arcana
+art and the value-as-height beacon idea: **A Arcana+** (fixes only), **B Instrument Rail**
+(engraved rails + edge pointer + cartouche), **C Vellum Plate** (ink on light stock — breaks
+the dark-base rule), **D Spine** (solid energy-coloured spine — breaks "colour lives in the
+motif"). Comparison page with Spellbook/hand/Array scenes, across-the-table and upside-down
+toggles, and colour-vision simulation: `card-design/incoming/2026-09-30-card-face-alternatives.html`
+(also published as a private claude.ai artifact, "Card Face Alternatives").
+
+Findings R1–R8: upside-down card shows wrong orb height (index is rotation-safe, beacon isn't);
+second index hidden under the next card, so opponents can't read an overlapped Spellbook;
+energy is colour-only once overlapped; Echo drawn in two greys, one ΔE00 4 from the wild;
+Void `#c060f0` outside FOGRA39 (prints ΔE00 13 duller); 6/9 unmarked; wild value column on a
+different pitch from normal cards; orb crowds the index at values 1–2.
+
+Recommendation: adopt A now (renderer only), let players pick B vs D, park C.
+- ACTION(queued): adopt Arcana+ fixes in the renderer — QUEUE P2.
+- ACTION(queued): B vs D table-read test — QUEUE P3.
 
 ## Context needed to resume
 
