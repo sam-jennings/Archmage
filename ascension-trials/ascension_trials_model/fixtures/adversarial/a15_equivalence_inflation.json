@@ -1,0 +1,81 @@
+{
+  "id": "A15",
+  "name": "equivalence_inflation",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A15 + §15 MATH-12",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A15 'Equivalence inflation' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A15, MATH-12 collapse invariance): adding a Trial nobody can enter must not change strategic-equivalence class counts or strategic metrics. The base state is the A4 counter cycle (configs/cycle_5_4_3.json). The inflated configuration adds a locked domain (of which the player holds zero power) and an unenterable 'vault' Trial requiring a locked source, so any fungible placement on the vault is an illegal entry and is never part of a legal allocation. The oracle is the invariance itself: legal count, collapsed class count, reasonable set R, equilibrium-relevant set E^0.01 and final-tie rate are identical to A4. Values transcribed from the source's invariance claim, not reverse-engineered (REQ-9.4).",
+  "base_config_ref": "configs/toy/cycle_5_4_3.json",
+  "base_state": {"player_id": "A", "normal_power": {"fungible": 6}, "wild_power": 0},
+  "inflated_state": {"player_id": "A", "normal_power": {"fungible": 6, "locked": 0}, "wild_power": 0},
+  "inflated_config": {
+    "id": "a15_inflated_cycle",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "notes": [
+      "A15 equivalence-inflation config: configs/toy/cycle_5_4_3.json plus a 'locked' domain (player holds 0) and an unenterable 'vault' Trial requiring a locked source.",
+      "The vault is active but no legal entry exists for it, so it inflates the candidate space without adding any behaviourally distinct strategy (MATH-12)."
+    ],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "fungible", "class": "fungible"},
+      {"id": "locked", "class": "locked"}
+    ],
+    "trials": [
+      {
+        "id": "trial_a",
+        "active_player_counts": [2],
+        "eligibility": {"allowed_domain_classes": ["fungible"], "source_count": {"universe": "class:fungible", "minimum": 1}},
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+      },
+      {
+        "id": "trial_b",
+        "active_player_counts": [2],
+        "eligibility": {"allowed_domain_classes": ["fungible"], "source_count": {"universe": "class:fungible", "minimum": 1}},
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 4, "second": 0}}}
+      },
+      {
+        "id": "trial_c",
+        "active_player_counts": [2],
+        "eligibility": {"allowed_domain_classes": ["fungible"], "source_count": {"universe": "class:fungible", "minimum": 1}},
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 3, "second": 0}}}
+      },
+      {
+        "id": "vault",
+        "active_player_counts": [2],
+        "eligibility": {"allowed_domain_classes": ["locked"], "source_count": {"universe": "class:locked", "minimum": 1}},
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 7, "second": 0}}}
+      }
+    ],
+    "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+  },
+  "expected": {
+    "invariant_metrics": [
+      "legal_allocations",
+      "collapsed_classes",
+      "reasonable_set_R",
+      "equilibrium_relevant_E_0_01",
+      "final_tie_rate"
+    ],
+    "legal_allocations": 84,
+    "collapsed_classes": 84
+  }
+}

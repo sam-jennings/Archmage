@@ -1,0 +1,30 @@
+{
+  "id": "BR-SHARED-1",
+  "name": "shared_award_coupling",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 9; REQ-7.3 shared-award coupling; REQ-4/REQ-6). Best-response values hand-derived from the divided tie-award rules of configs/toy/shared_award_coupling.json (model v2.1 §5; spec v1.1 §7.8).",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 best-response planted fixture BR-SHARED-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from oracle output). Config configs/toy/shared_award_coupling.json: one fungible domain; Trials t1, t2 each reward first=4 with tie_award DIVIDED (second=0); local total_power tiebreak; optional allocation; no final tiebreak. A DIVIDED first-place tie splits the 4-point award (4//2 = 2 each); an outright winner banks the full 4 and the loser 0. A side's per-Trial award therefore depends on whether the OTHER side contests -- the shared award couples the two sides' payoffs. Acting side A holds fungible=3; fixed opponent B holds fungible=2 and plays 1 unit on t1 and 1 unit on t2. Per-Trial margin contribution to A on a Trial where B has 1 unit: A places 0 -> contribution -4 (B banks 4, A 0); A places 1 -> contribution 0 (divided tie, 2 each); A places 2+ -> contribution +4 (A banks 4, B 0). Hand-derivation: with 3 units over 2 Trials, A maximises by winning one Trial outright (2 units, +4) and tying the other (1 unit, 0) for a row margin of +4; the tied Trial banks only the divided half (2, not 4). One optimal row margin allocation is (t1=1, t2=2): t1 divided tie (A 2, B 2), t2 outright (A 4, B 0) -> r_A = 6, r_B = 2 -> margin +4, win +1. The row win best response is likewise +1 (r_A = 6 > r_B = 2). The divided/shared award is exactly what makes a tied Trial worth 2 rather than 4.",
+  "config_ref": "configs/toy/shared_award_coupling.json",
+  "trial_order": ["t1", "t2"],
+  "state_a": {"player_id": "A", "normal_power": {"fungible": 3}, "wild_power": 0},
+  "state_b": {"player_id": "B", "normal_power": {"fungible": 2}, "wild_power": 0},
+  "expected": {
+    "opponent_totals": [1, 1],
+    "opponent_description": "B plays 1 unit on t1 and 1 unit on t2",
+    "row_margin_best_value": 4,
+    "row_win_best_value": 1,
+    "coupling": {
+      "tie_award": "divided",
+      "first_reward": 4,
+      "tied_trial_award_each": 2,
+      "outright_win_award": 4,
+      "loser_award": 0
+    },
+    "margin_best_recognition": {"A": 6, "B": 2},
+    "per_trial_margin_contribution_vs_one_unit": {"place_0": -4, "place_1": 0, "place_2": 4}
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "hybrid_2n_minus_3_experimental",
+  "version": "0.1-experimental",
+  "notes": [
+    "EXPERIMENTAL Trials power profile F_C(S) (design 5.1.3): f(n)=2n-3 for",
+    "Conjuration/Transfiguration/Perfect Transmutation, Enchantment table",
+    "{3:4,4:8,5:12}, Wild +1 for each size-4 and size-5 Enchantment plus +1 per",
+    "Perfect Transmutation. experimental: true -> this is NOT canon and NOT the",
+    "standard scoring table q(S); it must never be mistaken for either."
+  ],
+  "power_formula": {
+    "profile": "hybrid_2n_minus_3",
+    "version": "0.1-experimental",
+    "experimental": true,
+    "standard_spell_power": {"type": "linear", "expression": "2*n-3"},
+    "enchantment_power": {"type": "table", "table": {"3": 4, "4": 8, "5": 12}},
+    "contributions": {
+      "conjuration": {"energy": "standard_spell_power"},
+      "transfiguration": {"transformation": "standard_spell_power"},
+      "perfect_transmutation": {
+        "energy": "standard_spell_power",
+        "transformation": "standard_spell_power",
+        "wild": 1
+      },
+      "enchantment": {"enchantment": "enchantment_power"}
+    },
+    "enchantment_wild_sizes": [4, 5]
+  },
+  "domains": [
+    {"id": "void", "class": "energy"},
+    {"id": "flux", "class": "energy"},
+    {"id": "radiance", "class": "energy"},
+    {"id": "aether", "class": "energy"},
+    {"id": "transformation", "class": "transformation"},
+    {"id": "enchantment", "class": "enchantment"}
+  ],
+  "trials": []
+}

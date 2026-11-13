@@ -1,0 +1,190 @@
+{
+  "id": "baseline_v28_stale",
+  "version": "2.8",
+  "historical_candidate": true,
+  "stale_by_design": true,
+  "supported_player_counts": [2, 3, 4, 5, 6],
+  "notes": [
+    "Historical candidate: preserves the live rulebook v2.8 Ascension Trials (rulebook/Ascension Trials.md) as-is - six base Trials plus Complete Mastery, no Echo domain (omitted as it historically was).",
+    "Stale by design: retains the legacy v2.8 reward economy and the 6-7 player structure; carries no implication of current canon and must never be described as canon.",
+    "No executable 7-player support: 7-player source data is excluded (supported_player_counts stops at 6).",
+    "The v2.8 source records only 6p/7p Recognition-Point pool totals, not the per-Trial 1st/2nd splits, so NO 6-player reward schedule is authored here; inventing one is forbidden (REQ-9.4). Executable rewards are the source-specified 2-5 player winner-take-all values only.",
+    "Reconciliation note (design 5.0): the v2.8 power math itself is NOT stale - it is the current-candidate power profile trials_power_v28 (experimental: false). Only the reward economy and 7-player structure are stale-by-design. Do not clean up the historical ratio tiebreaks or reward values.",
+    "Provenance: Trials, eligibility, reward table and tiebreak order transcribed from rulebook/Ascension Trials.md v2.8 (REQ-9.4)."
+  ],
+  "rounding": {"mode": "half_up"},
+  "power_formula": {
+    "profile": "trials_power_v28",
+    "version": "2.8",
+    "experimental": false,
+    "standard_spell_power": {
+      "type": "piecewise",
+      "piecewise": [
+        {"expression": "n", "max_size": 4},
+        {"expression": "1.5*n", "min_size": 5, "max_size": 6, "rounding": "half_up"},
+        {"expression": "2*n", "min_size": 7}
+      ]
+    },
+    "enchantment_power": {"type": "spell_size"},
+    "contributions": {
+      "conjuration": {"energy": "standard_spell_power"},
+      "transfiguration": {"transformation": "standard_spell_power"},
+      "perfect_transmutation": {
+        "energy": "standard_spell_power",
+        "transformation": "standard_spell_power",
+        "wild": 1
+      },
+      "enchantment": {"enchantment": "enchantment_power"}
+    },
+    "enchantment_wild_sizes": [4]
+  },
+  "domains": [
+    {"id": "void", "class": "energy"},
+    {"id": "flux", "class": "energy"},
+    {"id": "radiance", "class": "energy"},
+    {"id": "aether", "class": "energy"},
+    {"id": "transformation", "class": "transformation"},
+    {"id": "enchantment", "class": "enchantment"}
+  ],
+  "wild": {
+    "enabled": true,
+    "can_enter_alone": false,
+    "requires_legal_normal_entry": true,
+    "counts_as_source": false,
+    "can_satisfy_source_minimum": false,
+    "can_break_source_maximum": false,
+    "included_in_primary_total": true,
+    "included_in_tiebreaks": false
+  },
+  "trials": [
+    {
+      "id": "energy_purity",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 6, "second": 0},
+        "3": {"first": 8, "second": 0},
+        "4": {"first": 8, "second": 0},
+        "5": {"first": 8, "second": 0}
+      }}
+    },
+    {
+      "id": "energy_harmony",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 2}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "breadth", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 4, "second": 0},
+        "3": {"first": 5, "second": 0},
+        "4": {"first": 6, "second": 0},
+        "5": {"first": 6, "second": 0}
+      }}
+    },
+    {
+      "id": "transformation",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "allowed_domain_ids": ["transformation"],
+        "required_domain_counts": {"transformation": {"minimum": 1}}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 7, "second": 0},
+        "3": {"first": 9, "second": 0},
+        "4": {"first": 9, "second": 0},
+        "5": {"first": 9, "second": 0}
+      }}
+    },
+    {
+      "id": "enchantment",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "allowed_domain_ids": ["enchantment"],
+        "required_domain_counts": {"enchantment": {"minimum": 1}}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 4, "second": 0},
+        "3": {"first": 5, "second": 0},
+        "4": {"first": 6, "second": 0},
+        "5": {"first": 6, "second": 0}
+      }}
+    },
+    {
+      "id": "focused_power",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "source_count": {"universe": "all_normal", "minimum": 1, "maximum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 6, "second": 0},
+        "3": {"first": 7, "second": 0},
+        "4": {"first": 7, "second": 0},
+        "5": {"first": 7, "second": 0}
+      }}
+    },
+    {
+      "id": "universal_power",
+      "active_player_counts": [2, 3, 4, 5, 6],
+      "eligibility": {
+        "source_count": {"universe": "all_normal", "minimum": 2}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "breadth", "shared"],
+      "rewards": {"by_player_count": {
+        "2": {"first": 3, "second": 0},
+        "3": {"first": 4, "second": 0},
+        "4": {"first": 5, "second": 0},
+        "5": {"first": 5, "second": 0}
+      }}
+    },
+    {
+      "id": "complete_mastery",
+      "active_player_counts": [5, 6],
+      "eligibility": {
+        "source_count": {"universe": "all_normal", "minimum": 3},
+        "required_class_counts": {
+          "energy": {"minimum": 1},
+          "transformation": {"minimum": 1},
+          "enchantment": {"minimum": 1}
+        }
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "legacy_utilization", "legacy_focus", "shared"],
+      "rewards": {"by_player_count": {
+        "5": {"first": 6, "second": 0}
+      }}
+    }
+  ],
+  "allocation": {
+    "completion": "maximal",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject",
+    "invalidation": {
+      "illegal_trial_entry": "ignore_entry",
+      "overallocated_domain": "invalidate_entries_using_domain",
+      "overallocated_wild": "invalidate_entries_using_wild",
+      "malformed_allocation": "reject_profile"
+    }
+  }
+}

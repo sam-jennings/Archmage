@@ -1,0 +1,25 @@
+{
+  "id": "A3",
+  "name": "turtle",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A3 + §15 MATH-9",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A3 'Turtle' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A3): one fungible normal domain, budget 4, two Trials rewarding 5 and 3, every positive amount a legal entry, optional allocation, winner-take-all with shared-full ties, no tiebreak before shared. The source states the exact oracles: 15 legal allocations including residue, (4,0) has zero strict dominators, and C1 fails because (4,0) never loses — an uncounterable pure strategy exists. Config lives in configs/toy/turtle_5_3.json; the player budget and oracles are committed here, transcribed from the source rather than reverse-engineered from engine output (REQ-9.4).",
+  "config_ref": "configs/toy/turtle_5_3.json",
+  "state": {"player_id": "A", "normal_power": {"fungible": 4}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 15,
+    "trial_order": ["trial_a", "trial_b"],
+    "named_strategy": {
+      "normal_totals": [4, 0],
+      "zero_strict_dominators": true,
+      "unbeaten": true
+    },
+    "c1_fails": true,
+    "unbeaten_normal_totals": [[4, 0]],
+    "notes": "(4,0) has zero strict dominators (no single strategy improves on it in every column) and, more to the point, it never loses: no strategy beats it head-to-head through Recognition Points. C1 fails because an uncounterable pure strategy exists — (4,0) never loses, so no deck of winner-take-all counters can dislodge it. 'Strict dominator' (better in every column) and 'head-to-head counter' (win[a,b]=1) are distinct relations; A3 has zero of the former for (4,0) and, crucially, zero of the latter against (4,0)."
+  }
+}

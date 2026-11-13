@@ -1,0 +1,60 @@
+{
+  "id": "cycle_5_4_3",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for adversarial fixture A4 'Counter cycle' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A4).",
+    "One fungible normal domain; three Trials worth 5, 4 and 3; optional allocation; winner-take-all with shared-full ties; no tiebreak before shared.",
+    "Player budget (6), the 84-legal-allocation count, the zero-unbeaten result, the (0,1,1)->(3,0,0)->(0,2,0)->(0,1,1) cycle and the LP value 0 are oracles in the A4 fixture (Tasks 11/16/20), not here (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "trial_a",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+    },
+    {
+      "id": "trial_b",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 4, "second": 0}}}
+    },
+    {
+      "id": "trial_c",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 3, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

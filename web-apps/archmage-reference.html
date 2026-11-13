@@ -296,7 +296,7 @@
                 <div class="card">
                     <div class="card-icon">🔮</div>
                     <h3>Starting Counters</h3>
-                    <p>Each player takes <span class="highlight">1 counter</span></p>
+                    <p>Each player takes <span class="highlight">1 counter</span> (2–4 players) or <span class="highlight">2 counters</span> (5–6 players)</p>
                     <p style="margin-top: 1rem;">Counters represent your magical capacity for:</p>
                     <ul style="margin-top: 0.5rem;">
                         <li>Casting spells</li>
@@ -306,7 +306,7 @@
 
                 <div class="card wide-card">
                     <div class="card-icon">🌟</div>
-                    <h3>The Four Energies</h3>
+                    <h3>The Energies</h3>
                     <div class="energy-legend">
                         <div class="energy-row" data-energy="Radiance">
                             <img class="ax-symbol" src="../art/energy-symbols-export/symbol_radiance_icon.svg" alt="Radiance">
@@ -327,6 +327,11 @@
                             <img class="ax-symbol" src="../art/energy-symbols-export/symbol_aether_icon.svg" alt="Aether">
                             <span class="energy-name" style="color: var(--ax-aether);">Aether</span>
                             <span class="energy-desc">The stabilizing current — crimson, exact, binding.</span>
+                        </div>
+                        <div class="energy-row" data-energy="Echo">
+                            <img class="ax-symbol" src="../art/energy-symbols-export/symbol_echo_icon.svg" alt="Echo">
+                            <span class="energy-name" style="color: var(--ax-echo);">Echo</span>
+                            <span class="energy-desc">The resonant current — a pale, returning echo. <strong>Fifth energy — 5–6 player games only.</strong></span>
                         </div>
                         <div class="energy-row" data-energy="Wild" data-wild="true">
                             <img class="ax-symbol" src="../art/energy-symbols-export/symbol_wild_icon.svg" alt="Wild">
@@ -503,170 +508,108 @@
             <div class="grid">
                 <div class="card wide-card">
                     <div class="card-icon">🎯</div>
-                    <h3>Turn Sequence</h3>
+                    <h3>The turn at a glance</h3>
                     <div class="grid" style="margin-top: 1rem;">
                         <div class="phase-box">
-                            <h4>1. Collection</h4>
-                            <p>Draw 1 from the Source, or take 1 from the Array (replace from Source)</p>
+                            <h4>1 · Collection</h4>
+                            <p>Draw 1 from the Source, or take 1 from the Array (replace from the Source).</p>
                         </div>
                         <div class="phase-box">
-                            <h4>2. Casting</h4>
-                            <p>Cast spells one at a time, placing a counter on each. Resolve effects immediately</p>
+                            <h4>2 · Casting</h4>
+                            <p>Cast spells one at a time, a counter on each; resolve each effect immediately.</p>
                         </div>
                         <div class="phase-box">
                             <h4>↩ Recall</h4>
-                            <p>Retrieve all counters from cast spells back into your pool</p>
+                            <p>Pick every counter back up into your pool — the same counters you cast with now fund your learning.</p>
                         </div>
                         <div class="phase-box">
-                            <h4>3. Learning</h4>
-                            <p>Use your capacity for Learn / Empower / Reshape / Unlearn (1 counter each)</p>
+                            <h4>3 · Learning</h4>
+                            <p>Spend those counters on Learn / Empower / Reshape / Unlearn.</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="card wide-card">
-                    <div class="card-icon">⚡</div>
-                    <h3>Understanding Counters</h3>
-                    <div class="grid" style="margin-top: 1rem;">
-                        <div class="phase-box">
-                            <h4>Casting Phase</h4>
-                            <p>Counters represent <strong>spells you can cast</strong></p>
-                            <p style="margin-top: 0.5rem;">Place them on spells to activate their benefits</p>
-                        </div>
-                        <div class="phase-box">
-                            <h4>↩ Recall</h4>
-                            <p>Pick up all counters from cast spells — return them to your pool</p>
-                            <p style="margin-top: 0.5rem;">This is a named step, not just a rule to remember</p>
-                        </div>
-                        <div class="phase-box">
-                            <h4>Learning Phase</h4>
-                            <p>Same counters now represent <strong>learning actions available</strong></p>
-                            <p style="margin-top: 0.5rem;">Use them to Learn/Empower/Reshape/Unlearn</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
                     <div class="card-icon">📥</div>
-                    <h3>1. Collection Phase</h3>
-                    
+                    <h3>1 · Collection</h3>
                     <h4>Choose one</h4>
                     <ul>
                         <li>Draw 1 from the Source, OR</li>
-                        <li>Take 1 from the Array (immediately replace from the Source)</li>
+                        <li>Take 1 from the Array (immediately replace it from the Source).</li>
                     </ul>
-
                     <div class="note" style="margin-top: 1rem;">
-                        That's it — no extra draws here. Conjuration bonus draws happen during the Casting Phase when you cast the spell.
+                        That's it — no extra draws here. Conjuration bonus draws come next, in Casting.
                     </div>
                 </div>
 
-                <div class="card">
+                <div class="card wide-card">
                     <div class="card-icon">⚡</div>
-                    <h3>2. Casting Phase</h3>
-
-                    <p>Activate spells by placing <span class="highlight">1 counter per spell</span>. Effects resolve <strong>immediately</strong> — one spell at a time.</p>
-
-                    <h4>Casting Conjuration</h4>
+                    <h3>2 · Casting</h3>
+                    <p>Cast up to one spell per counter. Place <span class="highlight">1 counter</span> on a spell to cast it, and resolve its effect <strong>immediately</strong> before the next.</p>
+                    <h4>Conjuration</h4>
                     <ul>
                         <li>3–5 cards: draw <span class="highlight">+1</span> from the Source</li>
                         <li>6+ cards: draw <span class="highlight">+2</span> from the Source</li>
                     </ul>
-
-                    <h4>Casting Transfiguration</h4>
+                    <h4>Transfiguration</h4>
                     <ul>
                         <li>3-card: discard 2 from hand → take 1 from the Array</li>
                         <li>4+-card: discard 1 from hand → take 1 from the Array</li>
                     </ul>
                     <p style="margin-top:0.5rem; font-size:0.9rem; color:var(--text-dim);">Discarded components go to the Arcane Reserve (not back to the Array). Replace the Array card from the Source immediately.</p>
-
-                    <h4>Casting Perfect Transmutation</h4>
+                    <h4>Perfect Transmutation</h4>
                     <ul>
-                        <li>Resolve <span class="highlight">both</span> effects in order: Conjuration draws, then the Transfiguration exchange — both mandatory</li>
+                        <li>Resolve <span class="highlight">both</span> effects in order — Conjuration draws, then the Transfiguration exchange (both mandatory). Still just 1 counter.</li>
                     </ul>
-
                     <div class="note" style="margin-top: 1rem;">
-                        <strong>Can't resolve = can't cast.</strong> If you lack the cards to complete a Transfiguration exchange, you cannot cast that spell this turn.
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎲</div>
-                    <h3>Counter Management</h3>
-                    
-                    <h4>Gaining Counters</h4>
-                    <ul>
-                        <li>Start: <span class="highlight">1 counter</span> (2-4 players) / <span class="highlight">2 counters</span> (5-6 players)</li>
-                        <li>Learn 3-component Enchantment: <span class="highlight">+1 counter</span></li>
-                        <li>Learn 4-component Enchantment: <span class="highlight">+3 counters</span></li>
-                        <li>Learn 5-component Enchantment: <span class="highlight">+5 counters</span></li>
-                    </ul>
-
-                    <h4>Losing Counters</h4>
-                    <ul>
-                        <li>Break/Unlearn 3-card Enchantment: <span class="highlight">−1 counter</span></li>
-                        <li>Break/Unlearn 4-card Enchantment: <span class="highlight">−3 counters</span></li>
-                        <li>Break/Unlearn 5-card Enchantment: <span class="highlight">−5 counters</span></li>
-                        <li>Step an Enchantment down one size — lose only the ladder difference: <span class="highlight">5→4 = −2</span>, <span class="highlight">4→3 = −2</span>, <span class="highlight">3→dissolved = −1</span></li>
-                    </ul>
-
-                    <div class="note" style="margin-top: 1rem;">
-                        <strong>Timing (F3):</strong> capacity you <em>gain</em> from an Enchantment applies from the start of your next turn; capacity you <em>lose</em> (reduce or dissolve) applies immediately. You cannot reduce or dissolve an Enchantment unless you can pay the action (1 counter) <strong>and</strong> absorb the capacity loss from your currently available counters.
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎯</div>
-                    <h3>Strategic Casting</h3>
-                    
-                    <p>Example with 2 counters:</p>
-                    <div class="phase-box" style="margin-top: 1rem;">
-                        <p><strong>Option 1:</strong> Cast 2 Conjurations → Maximum gathering</p>
-                        <p style="margin-top: 0.5rem;"><strong>Option 2:</strong> Cast 1 Conjuration + 1 Transfiguration → Gathering + transforming</p>
-                    </div>
-                    
-                    <div class="note" style="margin-top: 1rem;">
-                        <strong>Perfect Transmutation</strong> uses only 1 counter but grants both benefits!
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">💫</div>
-                    <h3>Enchantments Special Rules</h3>
-                    
-                    <ul>
-                        <li><span class="highlight">Always active</span> - no casting needed</li>
-                        <li><span class="highlight">Don't use counters</span> for activation</li>
-                        <li><span class="highlight">Automatically boost</span> your capacity</li>
-                        <li><span class="highlight">Stack with each other</span></li>
-                    </ul>
-                    
-                    <div class="note" style="margin-top: 1rem;">
-                        3 three-component Enchantments = 4 total counters (1 base + 3 bonus)
+                        <strong>Enchantments are always active</strong> — never cast, and they never take a counter. <strong>Can't resolve = can't cast:</strong> if you lack the cards to finish a Transfiguration exchange, you can't cast that spell this turn.
                     </div>
                 </div>
 
                 <div class="card wide-card">
+                    <div class="card-icon">↩</div>
+                    <h3>Recall</h3>
+                    <p>Before you learn, pick up <strong>all</strong> counters from your cast spells and return them to your pool. It's a named step, not just a reminder: the same counters you cast with are what you now spend on learning. Counters are capacity, not a spent resource — you get them all back every turn.</p>
+                </div>
+
+                <div class="card wide-card">
                     <div class="card-icon">📚</div>
-                    <h3>3. Learning Phase</h3>
-
-                    <p><span class="highlight">Recall first:</span> pick up all counters from your cast spells and return them to your pool. Those counters now fund your learning actions.</p>
-
-                    <h4>Actions available</h4>
+                    <h3>3 · Learning</h3>
+                    <p><span class="highlight">Recall first,</span> then spend those counters. One action per counter; each costs <span class="highlight">1 counter</span> — except Reshape.</p>
                     <ul>
-                        <li>Base: 1 action (2 at 5-6 players) &nbsp;|&nbsp; 3-card Enchantment: +1 &nbsp;|&nbsp; 4-card Enchantment: +3 &nbsp;|&nbsp; 5-card Enchantment: +5</li>
+                        <li><span class="highlight">LEARN</span> — place a valid spell from your hand into your Spellbook. <span style="color:var(--text-dim);">(An Enchantment also raises your capacity — see Counters &amp; capacity below.)</span></li>
+                        <li><span class="highlight">EMPOWER</span> — add components from your hand to a spell you already have, to make it bigger or change its type.</li>
+                        <li><span class="highlight">RESHAPE</span> — break down one or more spells and rebuild from the same components; every component must end up in a valid spell. Costs <span class="highlight">1 counter per spell broken down</span> (break 3, pay 3).</li>
+                        <li><span class="highlight">UNLEARN</span> — take one or more components from a single spell back to your hand. What's left stays a valid spell, or the whole spell comes apart (those components return to your hand too). From a run (Transfiguration / Perfect Transmutation) you may only remove an <em>end</em> component. Returned components can't be learned again until your next turn.</li>
                     </ul>
+                </div>
 
-                    <h4>Actions (1 counter each)</h4>
+                <div class="card wide-card">
+                    <div class="card-icon">🎲</div>
+                    <h3>Counters &amp; capacity</h3>
+                    <p>Your counters <em>are</em> your capacity — how many spells you cast, and how many learning actions you take, each turn. You start with <span class="highlight">1</span> (2–4 players) or <span class="highlight">2</span> (5–6 players). You don't spend them away: cast with them, Recall them, then learn with the same ones.</p>
+                    <p>Enchantments raise your capacity by their size — <span class="highlight">+1 / +3 / +5</span> for a 3- / 4- / 5-card (see the Enchantment spell).</p>
+                    <h4>When capacity changes</h4>
                     <ul>
-                        <li><span class="highlight">LEARN:</span> Place a valid spell from hand into your Spellbook
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">3-card Enchantment → +1 counter; 4-card → +3 counters; 5-card → +5 counters. Enchantment capacity becomes available from your next turn.</span></li>
-                        <li><span class="highlight">EMPOWER:</span> Add components from hand to an existing spell; may convert among Conjuration / Transfiguration / Perfect Transmutation, but NOT into or out of an Enchantment (use LEARN/UNLEARN for that)</li>
-                        <li><span class="highlight">RESHAPE:</span> Break down one or more spells and rebuild with the same components — all must remain valid; costs one counter per spell broken down (N spells = N counters)
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ Breaking a 3-card Enchantment: −1 counter; a 4-card: −3 counters; a 5-card: −5 counters. Reducing an Enchantment's size loses capacity by the ladder difference immediately (5→4 −2, 4→3 −2, 3→dissolve −1).</span></li>
-                        <li><span class="highlight">UNLEARN:</span> Return one or more components from a single spell to hand; the remainder stays a valid spell or the spell dissolves. For runs (Transfiguration / Perfect Transmutation) a single-component step removes only an END component. Returned components cannot be learned again until next turn
-                            <br><span style="font-size:0.9rem;color:var(--text-dim);">⚠ 1 counter regardless of how many components you return from that one spell. Same Enchantment capacity penalties as Reshape.</span></li>
+                        <li><strong>Gaining</strong> it (Learn or Empower an Enchantment) takes effect from the <span class="highlight">start of your next turn</span>.</li>
+                        <li><strong>Losing</strong> it (Unlearn or Reshape an Enchantment smaller, or take it apart) takes effect <span class="highlight">immediately</span> — and you must have enough free capacity right now to absorb the loss.</li>
                     </ul>
+                    <div class="note" style="margin-top: 1rem;">
+                        An Enchantment's capacity always matches its current size, so there's no table to memorize: take a 4-card (gives 3) down to a 3-card (gives 1), and it simply gives 1 now.
+                    </div>
+                </div>
+
+                <div class="card wide-card">
+                    <div class="card-icon">✨</div>
+                    <h3>Strategy</h3>
+                    <p>Example with 2 counters:</p>
+                    <div class="phase-box" style="margin-top: 1rem;">
+                        <p><strong>Option 1:</strong> Cast 2 Conjurations → maximum gathering</p>
+                        <p style="margin-top: 0.5rem;"><strong>Option 2:</strong> 1 Conjuration + 1 Transfiguration → gather and transform</p>
+                    </div>
+                    <div class="note" style="margin-top: 1rem;">
+                        <strong>Perfect Transmutation</strong> uses only 1 counter but grants both benefits.
+                    </div>
                 </div>
             </div>
         </div>

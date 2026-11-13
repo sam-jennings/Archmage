@@ -1,0 +1,73 @@
+{
+  "id": "A9",
+  "name": "penny_squat",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A9; design \u00a77.6; impl spec \u00a78",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A9 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A9 'Penny squat': 'One player places 1 legal normal power on a Trial the opponent skips, no floor. Expected: full configured reward and uncontested-award diagnostic'). The squatter commits a single 'penny' of normal power out of a larger budget under MAXIMAL completion; per the Task-6 severity split (design §7.6, impl spec §8) a non-maximal allocation resolves with a warning rather than being rejected, so the squat still wins the uncontested Trial. Config, states, allocations and expected outcome transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "config": {
+    "id": "a9_penny_squat",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "void", "class": "energy"},
+      {"id": "flux", "class": "energy"}
+    ],
+    "trials": [
+      {
+        "id": "purity",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+      }
+    ],
+    "allocation": {
+      "completion": "maximal",
+      "residue_allowed": true,
+      "infeasible_full_fallback": "reject"
+    }
+  },
+  "states": {
+    "squatter": {"player_id": "squatter", "normal_power": {"void": 5}, "wild_power": 0},
+    "skipper": {"player_id": "skipper", "normal_power": {"void": 5}, "wild_power": 0}
+  },
+  "allocations": {
+    "squatter": {
+      "player_id": "squatter",
+      "normal": {"purity": {"void": 1}},
+      "wild": {},
+      "residue": {"normal": {"void": 4}, "wild": 0}
+    },
+    "skipper": {
+      "player_id": "skipper",
+      "normal": {},
+      "wild": {},
+      "residue": {"normal": {"void": 5}, "wild": 0}
+    }
+  },
+  "expected": {
+    "resolves": true,
+    "non_maximal_warning": true,
+    "purity": {
+      "uncontested": true,
+      "legal_entries": ["squatter"],
+      "winner": "squatter",
+      "reward": 6
+    },
+    "recognition": {"squatter": 6, "skipper": 0},
+    "win_utility": {"squatter": 1, "skipper": -1},
+    "margin_utility": {"squatter": 6, "skipper": -6}
+  }
+}

@@ -283,7 +283,7 @@ watch list, in priority order:
 
 - `_review/2P_STRATEGIC_DEPTH_ARRAY_CONTENTION_2026-07.md` — the original brief
   (Array-contention half; scope note updated 2026-07-09).
-- `_review/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md` + 03 critique
+- `ascension-trials/design-history/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md` + 03 critique
   — the AT baseline this package builds on.
 - `expansion/Expansion Concepts - Player Interaction.md` — module A (Living Array)
   ruleset text.

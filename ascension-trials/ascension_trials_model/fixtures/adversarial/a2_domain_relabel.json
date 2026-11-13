@@ -1,0 +1,74 @@
+{
+  "id": "A2",
+  "name": "domain_relabel",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A2 'Domain relabel'; MATH-1; REQ-7.4",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A2 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A2 'Domain relabel': 'Relabel equivalent energy domains in configuration, states and allocations. Expected: isomorphic resolution'; MATH-1). Void and Flux share symmetry_group normal_energy, so swapping them everywhere (config domains, states, allocations) must leave every player-facing outcome unchanged and the audit hash equal up to the relabel (REQ-7.4). P0 wins a mono-source Purity Trial (Void 6, reward 6); P1 wins a two-source Energy Harmony Trial (Void 3 + Flux 3, reward 5); P0 wins overall on Recognition Points 6 vs 5. Config, states, allocations and expected outcomes transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "config": {
+    "id": "a2_domain_relabel",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "void", "class": "energy", "symmetry_group": "normal_energy"},
+      {"id": "flux", "class": "energy", "symmetry_group": "normal_energy"}
+    ],
+    "trials": [
+      {
+        "id": "purity",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+      },
+      {
+        "id": "harmony",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 2}
+        },
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+      }
+    ],
+    "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+  },
+  "states": {
+    "P0": {"player_id": "P0", "normal_power": {"void": 6}, "wild_power": 0},
+    "P1": {"player_id": "P1", "normal_power": {"void": 3, "flux": 3}, "wild_power": 0}
+  },
+  "allocations": {
+    "P0": {"player_id": "P0", "normal": {"purity": {"void": 6}}, "wild": {}, "residue": {"normal": {}, "wild": 0}},
+    "P1": {"player_id": "P1", "normal": {"harmony": {"void": 3, "flux": 3}}, "wild": {}, "residue": {"normal": {}, "wild": 0}}
+  },
+  "expected": {
+    "recognition": {"P0": 6, "P1": 5},
+    "win_utility": {"P0": 1, "P1": -1},
+    "margin_utility": {"P0": 1, "P1": -1},
+    "trials": {
+      "purity": {"winner": "P0", "total_power": {"P0": 6}},
+      "harmony": {"winner": "P1", "total_power": {"P1": 6}}
+    },
+    "relabel_invariance": {
+      "relabel": {"void": "flux", "flux": "void"},
+      "player_facing_outcomes_identical": true,
+      "audit_hash_up_to_relabel": true,
+      "note": "Relabelling the symmetry-group-equivalent energy domains void<->flux in config, states and allocations yields an isomorphic resolution: identical recognition, win/margin utilities and Trial placements (REQ-7.4)."
+    }
+  }
+}

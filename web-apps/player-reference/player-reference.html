@@ -261,7 +261,7 @@
       </div>
 
       <div class="sect">
-        <span class="ax-label">The four energies</span>
+        <span class="ax-label">The energies</span>
         <div class="legend" id="energyLegend"></div>
       </div>
 
@@ -288,7 +288,7 @@
           </summary>
           <div class="tile-body">
             <ul class="plain">
-              <li>Read <b>The goal</b> above, then meet the four energies.</li>
+              <li>Read <b>The goal</b> above, then meet the energies.</li>
               <li>Open <b>Spells</b> and skim the four spell types — requirements first, effects later.</li>
               <li>Keep <b>Your Turn</b> open during your first few turns; the board shows the same three steps.</li>
               <li>Mid-game questions: use <b>Check your hand</b> in the <a href="../archmage-reference.html#spells">full rules</a>.</li>
@@ -343,7 +343,7 @@
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <div><p class="step-title">Learning</p><p class="step-body">Retrieve all counters. Use your capacity for Learn / Empower / Reshape / Unlearn — 1 counter each.</p></div>
+          <div><p class="step-title">Learning</p><p class="step-body">Retrieve all counters, then spend them on Learn / Empower / Reshape / Unlearn.</p></div>
         </div>
       </div>
 
@@ -367,26 +367,26 @@
       </div>
 
       <div class="sect">
-        <span class="ax-label">Learning actions — 1 counter each</span>
+        <span class="ax-label">Learning actions · 1 counter each (Reshape: 1 per spell)</span>
         <div class="actions-grid">
           <div class="action-tile">
             <p class="action-name">Learn</p>
             <p class="action-body">Place a new spell from your hand into your Spellbook.</p>
-            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: +1 counter (from your next turn). 4-card: +3 counters. 5-card: +5 counters.</p>
+            <p class="action-warn" style="color: var(--ax-ok);">3-card Enchantment: +1 counter (from your next turn). 4-card: +3 counters. 5-card: +5 counters (5–6 players only).</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Empower</p>
-            <p class="action-body">Add components from your hand to an existing spell; may convert among Conjuration, Transfiguration, or Perfect Transmutation — but not into or out of an Enchantment.</p>
+            <p class="action-body">Add components from your hand to an existing spell. It may change type among Conjuration, Transfiguration, and Perfect Transmutation (never into or out of an Enchantment).</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Reshape</p>
             <p class="action-body">Break down and rebuild one or more spells using the same components. One counter per spell broken down.</p>
-            <p class="action-warn">Breaking a 3-card Enchantment: −1 counter. A 4-card: −3 counters. A 5-card: −5 counters. Stepping down one size loses the ladder difference (5→4 −2, 4→3 −2, 3→dissolve −1).</p>
+            <p class="action-warn">Make an Enchantment smaller and its capacity drops to match the new size, immediately.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Unlearn</p>
-            <p class="action-body">Return one or more components from a single spell; the remainder stays valid or the spell dissolves. Components can't be learned again until next turn. For runs, remove only an end component.</p>
-            <p class="action-warn">1 counter regardless of how many components you return. Same Enchantment warnings apply.</p>
+            <p class="action-body">Return one or more components from a single spell to your hand; the remainder stays a valid spell, or the whole spell comes apart (its components return to your hand too). For runs, remove only an end component. Components can't be learned again until next turn.</p>
+            <p class="action-warn">1 counter regardless of how many you return.</p>
           </div>
         </div>
       </div>
@@ -407,8 +407,8 @@
               <li>Start with <b>1 counter</b> (2–4 players) or <b>2</b> (5–6 players).</li>
               <li>Each 3-card Enchantment learned: <b class="gold">+1 counter</b>; a 4-card: <b class="gold">+3 counters</b>, permanently.</li>
               <li>A 5-card Enchantment: <b class="gold">+5 counters</b> (5–6 player games).</li>
-              <li>Capacity you gain applies from your next turn; capacity you lose applies immediately — you can't reduce or dissolve an Enchantment unless you can pay the action and absorb the loss now.</li>
-              <li>Break one down and the bonus is lost immediately, proportional to the ladder step.</li>
+              <li>Capacity you gain (Learn or Empower an Enchantment) applies from your next turn.</li>
+              <li>Capacity you lose (Unlearn or Reshape an Enchantment smaller, or take it apart) applies immediately — and you must have enough free capacity to absorb it. Its capacity always matches the Enchantment's current size.</li>
             </ul>
           </div>
         </details>
@@ -466,6 +466,7 @@ const ENERGIES = {
   void:     { name: 'Void',     tone: 'var(--ax-void)',     bg1: 'var(--ax-void-bg1)',     bg2: 'var(--ax-void-bg2)',     symbol: ART + 'symbol_void_simple.svg', icon: ART + 'symbol_void_icon.svg',     blurb: 'The absorptive current — quiet, deep violet.' },
   flux:     { name: 'Flux',     tone: 'var(--ax-flux)',     bg1: 'var(--ax-flux-bg1)',     bg2: 'var(--ax-flux-bg2)',     symbol: ART + 'symbol_flux_simple.svg', icon: ART + 'symbol_flux_icon.svg',     blurb: 'The transitive current — cold teal, always moving.' },
   aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
+  echo:     { name: 'Echo',     tone: 'var(--ax-echo)',     bg1: 'var(--ax-echo-bg1)',     bg2: 'var(--ax-echo-bg2)',     symbol: ART + 'symbol_echo_simple.svg', icon: ART + 'symbol_echo_icon.svg',     blurb: 'The resonant current — a pale, returning echo. Fifth energy, 5–6 player games only.' },
 };
 const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
 

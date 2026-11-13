@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" data-root="../" data-page="trials">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ascension Trials · Arcane Drought</title>
+<meta name="description" content="Companion for the Ascension Trials: enter Spellbooks, allocate power in secret, reveal together.">
+<meta name="theme-color" content="#110d22">
+<link rel="manifest" href="../manifest.webmanifest">
+<link rel="icon" href="../../../art/energy-symbols-export/symbol_wild_icon.svg" type="image/svg+xml">
+<link rel="preload" href="../assets/fonts/cinzel-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../assets/fonts/cormorant-garamond-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/tokens.css">
+<link rel="stylesheet" href="../assets/site.css">
+<link rel="stylesheet" href="trials.css">
+<link rel="modulepreload" href="../assets/js/app.js">
+<link rel="modulepreload" href="../assets/js/ui.js">
+<link rel="modulepreload" href="../assets/js/hand-checker.js">
+<link rel="modulepreload" href="../data/current.js">
+<link rel="modulepreload" href="../data/rules.v3.1.js">
+<link rel="modulepreload" href="../data/site.js">
+<link rel="modulepreload" href="../data/strings.en.js">
+<link rel="modulepreload" href="views.js">
+<link rel="modulepreload" href="state.js">
+<link rel="modulepreload" href="rulesets/index.js">
+<script>try{if(JSON.parse(localStorage.getItem('ad2:theme'))==='day')document.documentElement.dataset.theme='day'}catch(e){}</script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="ax-top" id="top"></header>
+<main id="main"></main>
+<footer class="ax-foot" id="foot"></footer>
+<p class="ax-boot-note" id="boot-note" hidden>This page is built from the rules data by JavaScript modules, which browsers only load from a web address. Open it from the published site, or run <code>node web-apps/v2/tools/serve.mjs</code> in the project folder and use the address it prints.</p>
+<noscript><p class="ax-boot-note">This page needs JavaScript to run the Trials.</p></noscript>
+<script>setTimeout(function(){if(!document.documentElement.dataset.ready){document.getElementById('boot-note').hidden=false}},1500)</script>
+</body>
+</html>

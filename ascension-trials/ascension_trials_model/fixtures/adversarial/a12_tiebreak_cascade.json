@@ -1,0 +1,177 @@
+{
+  "id": "A12",
+  "name": "tiebreak_cascade",
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A12; MATH-7",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A12 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A12 'Tiebreak cascade', subcases a/b/c, and MATH-7). A12a: multi-source Trial worth 5, A normal 2+2 + Wild 1 vs B normal 4 + Wild 1 -> both total 5 / normal 4, 'A wins at qualifying_source_count' (2 vs 1). A12b: mono-only Trial, equal total and normal for both -> 'source-count stage is inapplicable and result proceeds to shared'. A12c: 6p Trial with first/second rewards, two players tied for first after all stages -> 'both receive the configured shared-first award and no separate second-place award if suppression is enabled' (schema flag suppress_lower_on_shared_first). Configs, states, allocations and expected outcomes transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "cases": {
+    "a12a_source_count_tiebreak": {
+      "player_count": 2,
+      "config": {
+        "id": "a12a_source_count",
+        "version": "1.0",
+        "supported_player_counts": [2],
+        "power_formula": {"profile": "declarative", "standard_spell_power": {"type": "linear", "expression": "n"}},
+        "domains": [
+          {"id": "void", "class": "energy"},
+          {"id": "flux", "class": "energy"}
+        ],
+        "trials": [
+          {
+            "id": "harmony",
+            "active_player_counts": [2],
+            "eligibility": {
+              "allowed_domain_classes": ["energy"],
+              "source_count": {"universe": "class:energy", "minimum": 1}
+            },
+            "tie_award": {"type": "shared_full"},
+            "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+            "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+          }
+        ],
+        "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+      },
+      "states": {
+        "A": {"player_id": "A", "normal_power": {"void": 2, "flux": 2}, "wild_power": 1},
+        "B": {"player_id": "B", "normal_power": {"void": 4}, "wild_power": 1}
+      },
+      "allocations": {
+        "A": {"player_id": "A", "normal": {"harmony": {"void": 2, "flux": 2}}, "wild": {"harmony": 1}, "residue": {"normal": {}, "wild": 0}},
+        "B": {"player_id": "B", "normal": {"harmony": {"void": 4}}, "wild": {"harmony": 1}, "residue": {"normal": {}, "wild": 0}}
+      },
+      "expected": {
+        "trial": "harmony",
+        "total_power": {"A": 5, "B": 5},
+        "normal_power": {"A": 4, "B": 4},
+        "qualifying_source_count": {"A": 2, "B": 1},
+        "deciding_token": "qualifying_source_count",
+        "sole_first": "A",
+        "shared_first": false,
+        "recognition": {"A": 5, "B": 0},
+        "win_utility": {"A": 1, "B": -1},
+        "margin_utility": {"A": 5, "B": -5}
+      }
+    },
+    "a12b_source_count_skipped": {
+      "player_count": 2,
+      "config": {
+        "id": "a12b_mono_skip",
+        "version": "1.0",
+        "supported_player_counts": [2],
+        "power_formula": {"profile": "declarative", "standard_spell_power": {"type": "linear", "expression": "n"}},
+        "domains": [
+          {"id": "void", "class": "energy"},
+          {"id": "flux", "class": "energy"}
+        ],
+        "trials": [
+          {
+            "id": "purity",
+            "active_player_counts": [2],
+            "eligibility": {
+              "allowed_domain_classes": ["energy"],
+              "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+            },
+            "tie_award": {"type": "shared_full"},
+            "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+            "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+          }
+        ],
+        "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+      },
+      "states": {
+        "A": {"player_id": "A", "normal_power": {"void": 4}, "wild_power": 1},
+        "B": {"player_id": "B", "normal_power": {"flux": 4}, "wild_power": 1}
+      },
+      "allocations": {
+        "A": {"player_id": "A", "normal": {"purity": {"void": 4}}, "wild": {"purity": 1}, "residue": {"normal": {}, "wild": 0}},
+        "B": {"player_id": "B", "normal": {"purity": {"flux": 4}}, "wild": {"purity": 1}, "residue": {"normal": {}, "wild": 0}}
+      },
+      "expected": {
+        "trial": "purity",
+        "total_power": {"A": 5, "B": 5},
+        "normal_power": {"A": 4, "B": 4},
+        "qualifying_source_count": {"A": 1, "B": 1},
+        "deciding_token": "shared",
+        "sole_first": null,
+        "shared_first": true,
+        "recognition": {"A": 5, "B": 5},
+        "win_utility": {"A": 0, "B": 0},
+        "margin_utility": {"A": 0, "B": 0}
+      }
+    },
+    "a12c_shared_first_suppression": {
+      "player_count": 6,
+      "config_suppress": {
+        "id": "a12c_suppress",
+        "version": "1.0",
+        "supported_player_counts": [6],
+        "power_formula": {"profile": "declarative", "standard_spell_power": {"type": "linear", "expression": "n"}},
+        "domains": [{"id": "void", "class": "energy"}],
+        "trials": [
+          {
+            "id": "grand",
+            "active_player_counts": [6],
+            "eligibility": {
+              "allowed_domain_classes": ["energy"],
+              "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+            },
+            "tie_award": {"type": "shared_full"},
+            "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+            "rewards": {"by_player_count": {"6": {"first": 5, "second": 3}}},
+            "suppress_lower_on_shared_first": true
+          }
+        ],
+        "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+      },
+      "config_no_suppress": {
+        "id": "a12c_no_suppress",
+        "version": "1.0",
+        "supported_player_counts": [6],
+        "power_formula": {"profile": "declarative", "standard_spell_power": {"type": "linear", "expression": "n"}},
+        "domains": [{"id": "void", "class": "energy"}],
+        "trials": [
+          {
+            "id": "grand",
+            "active_player_counts": [6],
+            "eligibility": {
+              "allowed_domain_classes": ["energy"],
+              "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+            },
+            "tie_award": {"type": "shared_full"},
+            "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+            "rewards": {"by_player_count": {"6": {"first": 5, "second": 3}}},
+            "suppress_lower_on_shared_first": false
+          }
+        ],
+        "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+      },
+      "states": {
+        "A": {"player_id": "A", "normal_power": {"void": 5}, "wild_power": 0},
+        "B": {"player_id": "B", "normal_power": {"void": 5}, "wild_power": 0},
+        "C": {"player_id": "C", "normal_power": {"void": 3}, "wild_power": 0}
+      },
+      "allocations": {
+        "A": {"player_id": "A", "normal": {"grand": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}},
+        "B": {"player_id": "B", "normal": {"grand": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}},
+        "C": {"player_id": "C", "normal": {"grand": {"void": 3}}, "wild": {}, "residue": {"normal": {}, "wild": 0}}
+      },
+      "expected_suppress": {
+        "trial": "grand",
+        "shared_first_group": ["A", "B"],
+        "second_group": ["C"],
+        "rewards_awarded": {"A": 5, "B": 5},
+        "recognition": {"A": 5, "B": 5, "C": 0}
+      },
+      "expected_no_suppress": {
+        "trial": "grand",
+        "shared_first_group": ["A", "B"],
+        "second_group": ["C"],
+        "rewards_awarded": {"A": 5, "B": 5, "C": 3},
+        "recognition": {"A": 5, "B": 5, "C": 3}
+      }
+    }
+  }
+}

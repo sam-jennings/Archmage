@@ -1,0 +1,37 @@
+{
+  "id": "BR-WILD-1",
+  "name": "wild_legality_best_response",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 9; REQ-7.3 Wild legality; REQ-4/REQ-5/REQ-6). Best-response values hand-derived from the Wild rules of configs/toy/wild_legality_br.json (model v2.1 §4.3; spec v1.1 §7.3 fixture A10).",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 best-response planted fixture BR-WILD-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from oracle output). Config configs/toy/wild_legality_br.json: two energy domains (void, flux); Trial 'purity' is mono (one energy source, reward first=6); Trial 'harmony' requires TWO energy sources (reward first=6); Wild enabled, requires a legal normal entry, included in the primary total; optional allocation, shared-full ties, local total_power tiebreak, no final tiebreak. Active-Trial id order is (harmony, purity). Acting side A holds void=1 and Wild=1; fixed opponent B holds void=1 and plays it on 'purity'. WILD DOES RAISE A TOTAL: on the mono 'purity' A's entry {void:1}+Wild:1 is legal and Wild lifts A's total from 1 to 2, beating B's total 1 on total_power, so A wins purity outright for 6 instead of a shared-full 6-6 tie -- the Wild is decisive (without it the Trial ties, margin 0). WILD DOES NOT RAISE A TOTAL: on 'harmony' A has only one energy source, so any A entry is illegal (Wild is never a source and cannot satisfy the 2-source minimum); the resolver drops the Wild and awards 0. Hand-derivation: A's row margin best response is {void:1, Wild:1} on 'purity' -> A 6, B 0 -> margin +6; the row win best response is +1 (6 > 1). The Wild raises purity's total from 1 to 2 (opponent 1), which is what converts the tie into a win.",
+  "config_ref": "configs/toy/wild_legality_br.json",
+  "trial_order": ["harmony", "purity"],
+  "state_a": {"player_id": "A", "normal_power": {"void": 1}, "wild_power": 1},
+  "state_b": {"player_id": "B", "normal_power": {"void": 1}, "wild_power": 0},
+  "expected": {
+    "opponent_totals": [0, 1],
+    "opponent_description": "B plays void:1 on 'purity' (harmony 0, purity 1)",
+    "row_margin_best_value": 6,
+    "row_win_best_value": 1,
+    "best_response": {"purity_normal_void": 1, "purity_wild": 1, "totals": [0, 1]},
+    "wild_raises_total": {
+      "trial": "purity",
+      "normal_total": 1,
+      "total_with_wild": 2,
+      "opponent_total": 1,
+      "decisive": true,
+      "without_wild_margin": 0
+    },
+    "wild_does_not_raise_total": {
+      "trial": "harmony",
+      "reason": "A holds one energy source; a harmony entry needs two, so it is illegal and the attached Wild is dropped.",
+      "entry_legal": false,
+      "reason_contains": "sources in class:energy",
+      "wild_dropped": true
+    }
+  }
+}

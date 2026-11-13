@@ -1,0 +1,48 @@
+{
+  "id": "tie_fest_5_5",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for adversarial fixture A5 'Tie-fest' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A5).",
+    "One fungible normal domain; two Trials worth 5 and 5; full allocation (residue must be zero); winner-take-all with shared-full ties; no tiebreak before shared.",
+    "Player budget (4) and the 'every non-mirror pair produces 5-5' / tie-gate-fails oracle live in the A5 fixture (Tasks 11/24), not here (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "trial_a",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+    },
+    {
+      "id": "trial_b",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "full",
+    "residue_allowed": false,
+    "infeasible_full_fallback": "reject"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Arcane Drought",
+  "short_name": "Drought",
+  "description": "Table companion and rules for the card game.",
+  "start_url": "play/index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#110d22",
+  "theme_color": "#110d22",
+  "icons": [
+    { "src": "../../art/energy-symbols-export/symbol_wild_icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

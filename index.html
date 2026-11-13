@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Archmage Ascension</title>
+<meta name="description" content="Archmage Ascension (new title: Arcane Drought) - rules, table tools, online play, variants and the designer workshop."/>
 <link rel="stylesheet" href="web-apps/archmage-theme.css"/>
 <style>
   main {
@@ -44,6 +45,22 @@
   }
   .energy-strip img { width: 40px; height: 40px; object-fit: contain; opacity: 0.92; }
 
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem 1.2rem;
+    margin-top: 1.8rem;
+    padding: 0;
+    list-style: none;
+    font-family: var(--ax-font-display);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .jump a { color: var(--ax-violet); text-decoration: none; }
+  .jump a:hover, .jump a:focus-visible { color: var(--ax-gold); }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
@@ -59,7 +76,7 @@
     text-decoration: none;
     transition: transform var(--ax-dur-micro) var(--ax-ease), border-color var(--ax-dur-micro) var(--ax-ease), box-shadow var(--ax-dur-micro) var(--ax-ease);
   }
-  .card:hover {
+  .card:hover, .card:focus-visible {
     transform: translateY(-2px);
     border-color: var(--ax-gold-line);
     box-shadow: 0 6px 24px -8px var(--ax-violet-glow);
@@ -68,14 +85,14 @@
     border-color: var(--ax-gold-line);
     box-shadow: 0 0 0 1px var(--ax-gold-glow) inset;
   }
-  .card h2 {
+  .card h3 {
     font-family: var(--ax-font-display);
     font-size: 1.05rem;
     letter-spacing: 0.08em;
     color: var(--ax-violet);
     margin-bottom: 0.35rem;
   }
-  .card.primary h2 { color: var(--ax-gold); }
+  .card.primary h3 { color: var(--ax-gold); }
   .card .when {
     display: block;
     font-family: var(--ax-font-display);
@@ -99,11 +116,65 @@
     color: var(--ax-violet);
   }
   .card.primary .arrow { color: var(--ax-gold); }
-  section + section { margin-top: 2.5rem; }
-  h3.section-title {
+
+  /* Status tag: the word carries the meaning; colour only reinforces it. */
+  .tag {
+    display: inline-block;
+    margin-bottom: 0.55rem;
+    padding: 0.12rem 0.55rem;
+    border: 1px solid var(--ax-violet-line);
+    border-radius: 999px;
+    font-family: var(--ax-font-display);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ax-text-soft);
+  }
+  .tag.current { border-color: var(--ax-gold-line); color: var(--ax-gold); }
+  .tag.test { border-color: var(--ax-gold-line); color: var(--ax-text); }
+  .tag.archive, .tag.wip { color: var(--ax-text-dim); border-style: dashed; }
+
+  /* Compact link list for long groups (expansions, workshop files). */
+  .links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 0.2rem 1.5rem;
+  }
+  .links li {
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--ax-hairline-soft);
+  }
+  .links a {
+    font-family: var(--ax-font-display);
+    font-size: 0.92rem;
+    letter-spacing: 0.05em;
+    color: var(--ax-violet);
+    text-decoration: none;
+  }
+  .links a:hover, .links a:focus-visible { color: var(--ax-gold); text-decoration: underline; }
+  .links span {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--ax-text-soft);
+    line-height: 1.4;
+  }
+  h3.group {
+    font-family: var(--ax-font-display);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ax-text-dim);
+    margin: 1.6rem 0 0.4rem;
+  }
+
+  section + section { margin-top: 3rem; }
+  h2.section-title {
     font-family: var(--ax-font-display);
     letter-spacing: var(--ax-track-vast);
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--ax-text-dim);
     text-transform: uppercase;
     margin-bottom: 0.4rem;
@@ -123,83 +194,236 @@
     font-size: 0.85rem;
   }
   footer a { color: var(--ax-violet); text-decoration: none; }
-  footer a:hover { color: var(--ax-gold); }
+  footer a:hover, footer a:focus-visible { color: var(--ax-gold); }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <div class="eyebrow">A Wizards' Contest · 2–7 Players</div>
-    <h1>Archmage <span style="color:var(--ax-violet)">·</span> Ascension</h1>
+    <p class="eyebrow">A Wizards' Contest · 2–7 Players</p>
+    <h1>Archmage <span style="color:var(--ax-violet)" aria-hidden="true">·</span> Ascension</h1>
     <p class="tagline">Draw magical components from the depleting Source and arrange them into spells in your Spellbook. When the Drought ends, the wizard with the most refined Spellbook ascends.</p>
-    <div class="energy-strip" aria-label="The four energies and the wild">
-      <img src="art/energy-symbols-export/symbol_radiance.svg" alt="Radiance" title="Radiance"/>
-      <img src="art/energy-symbols-export/symbol_void.svg" alt="Void" title="Void"/>
-      <img src="art/energy-symbols-export/symbol_flux.svg" alt="Flux" title="Flux"/>
-      <img src="art/energy-symbols-export/symbol_aether.svg" alt="Aether" title="Aether"/>
-      <img src="art/energy-symbols-export/symbol_wild.svg" alt="Wild" title="Wild"/>
+    <div class="energy-strip" role="img" aria-label="The four energies and the wild: Radiance, Void, Flux, Aether, Wild">
+      <img src="art/energy-symbols-export/symbol_radiance.svg" alt="" title="Radiance"/>
+      <img src="art/energy-symbols-export/symbol_void.svg" alt="" title="Void"/>
+      <img src="art/energy-symbols-export/symbol_flux.svg" alt="" title="Flux"/>
+      <img src="art/energy-symbols-export/symbol_aether.svg" alt="" title="Aether"/>
+      <img src="art/energy-symbols-export/symbol_wild.svg" alt="" title="Wild"/>
     </div>
+    <nav aria-label="Sections on this page">
+      <ul class="jump">
+        <li><a href="#start">Start here</a></li>
+        <li><a href="#rules">Rules &amp; reference</a></li>
+        <li><a href="#play">Play</a></li>
+        <li><a href="#variants">Variants &amp; expansions</a></li>
+        <li><a href="#archive">Older versions</a></li>
+        <li><a href="#workshop">Designer workshop</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <section>
-    <h3 class="section-title">At the Table</h3>
-    <p class="section-note">Three layers, one game: the board holds the shared state, your phone answers mid-turn questions, and the full rules settle everything else.</p>
+  <section id="start" aria-labelledby="start-title">
+    <h2 class="section-title" id="start-title">Start here</h2>
+    <p class="section-note">New to the game? A competitive card game for 2–7 players, 30–60 minutes: build spells from four energies while the shared Source runs dry. The player site below uses the game's new title, <em>Arcane Drought</em>. Current rules: v3.1, under test.</p>
     <div class="grid">
-      <a class="card" href="board/archmage_a3_landscape_board.pdf">
-        <h2>The Board</h2>
-        <span class="when">On the table · everyone at once</span>
-        <p>The shared anchor — Set-up, Normal Turn, Drought Turn, the Array, Recognition Points, and Key Reminders, always in view.</p>
-        <span class="arrow">A3 PRINT FILE →</span>
+      <a class="card primary" href="web-apps/v2/learn/index.html">
+        <span class="tag current">Current · v3.1</span>
+        <h3>Learn to Play</h3>
+        <span class="when">Before your first game</span>
+        <p>Your first game in five minutes, one screen at a time, with small interactive explainers for the tricky bits.</p>
+        <span class="arrow">START LEARNING →</span>
       </a>
-      <a class="card primary" href="web-apps/player-reference/player-reference.html">
-        <h2>Quick Reference Card</h2>
+      <a class="card primary" href="web-apps/v2/play/index.html">
+        <span class="tag current">Current · v3.1</span>
+        <h3>Table Companion</h3>
         <span class="when">On your phone · mid-turn</span>
-        <p>One question at a time: can I cast this? What does it do? What can I do in Learning? Includes a hand checker that spots every spell you can form.</p>
-        <span class="arrow">OPEN ON YOUR PHONE →</span>
+        <p>The quick reference: check a hand, see what each spell does, follow the turn, add up the score.</p>
+        <span class="arrow">OPEN AT THE TABLE →</span>
       </a>
+      <a class="card" href="web-apps/v2/rules/index.html">
+        <span class="tag current">Current · v3.1</span>
+        <h3>Full Rules</h3>
+        <span class="when">Settling disputes</span>
+        <p>Every rule, in the order the board shows them. Searchable and printable.</p>
+        <span class="arrow">READ THE RULES →</span>
+      </a>
+      <a class="card" href="web-apps/v2/index.html">
+        <span class="tag current">Current · v3.1</span>
+        <h3>Arcane Drought Player Site</h3>
+        <span class="when">Home of the player site</span>
+        <p>The landing page that ties Learn, Play, Rules and the Trials companion together.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="rules" aria-labelledby="rules-title">
+    <h2 class="section-title" id="rules-title">Rules &amp; reference</h2>
+    <p class="section-note">The classic web references (also v3.1) and the rulebook source files, which open formatted on GitHub.</p>
+    <div class="grid">
       <a class="card" href="web-apps/archmage-reference.html">
-        <h2>Online Rules</h2>
-        <span class="when">First game · settling disputes</span>
-        <p>The full reference — every rule in depth, in the board's own order, plus the score calculator and the Ascension Trials variant.</p>
+        <span class="tag test">Under test · v3.1</span>
+        <h3>Online Rules (classic)</h3>
+        <span class="when">One long page</span>
+        <p>The full reference in the board's order, plus the score calculator and the Ascension Trials variant.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+      <a class="card" href="web-apps/player-reference/player-reference.html">
+        <span class="tag test">Under test · v3.1</span>
+        <h3>Quick Reference Card (classic)</h3>
+        <span class="when">On your phone · mid-turn</span>
+        <p>Can I cast this? What does it do? What can I do in Learning? Includes a hand checker that spots every spell you can form.</p>
         <span class="arrow">OPEN →</span>
       </a>
     </div>
+    <h3 class="group">Rulebook source (Markdown)</h3>
+    <ul class="links">
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/rulebook/Archmage%20Ascension%20-%20Complete%20Rulebook.md">Complete Rulebook (v3.1, under test)</a><span>The canonical rulebook every other page follows.</span></li>
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/rulebook/Scoring%20System%20Reference.md">Scoring System Reference (v3.1, under test)</a><span>Every score table and scoring rule in one place.</span></li>
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/rulebook/GLOSSARY.md">Glossary</a><span>Every game term, defined once.</span></li>
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/rulebook/Story.md">Story</a><span>The world and the end-of-game narrative.</span></li>
+    </ul>
   </section>
 
-  <section>
-    <h3 class="section-title">Tools</h3>
+  <section id="play" aria-labelledby="play-title">
+    <h2 class="section-title" id="play-title">Play</h2>
     <div class="grid">
-      <a class="card" href="web-apps/trials-multiplayer.html">
-        <h2>Trials · Multiplayer</h2>
-        <span class="when">End of game · advanced variant</span>
-        <p>The Ascension Trials companion — power domains, secret allocation, and winner determination, calculated at the table.</p>
-        <span class="arrow">OPEN →</span>
+      <a class="card primary" href="https://screentop.gg/@samjennings/Arcane-Drought">
+        <span class="tag test">Under test · v3.1</span>
+        <h3>Play Online on Screentop</h3>
+        <span class="when">In your browser · 2–4 players</span>
+        <p>The full table on Screentop.gg: 62-card deck, v3.1 board and counters. Free, no install.</p>
+        <span class="arrow">OPEN TABLE (SCREENTOP.GG) →</span>
       </a>
-      <a class="card" href="web-apps/spellbook-optimizer.html">
-        <h2>Spellbook Optimizer</h2>
-        <span class="when">Analysis · after the game</span>
-        <p>Enter a final hand and find the partition that maximises Recognition Points — plus runner-up configurations.</p>
-        <span class="arrow">OPEN →</span>
+      <a class="card" href="board/archmage_a3_landscape_board.pdf">
+        <span class="tag archive">Predates v3.1</span>
+        <h3>The Board (A3 print file)</h3>
+        <span class="when">On the table · everyone at once</span>
+        <p>Set-up, Normal Turn, Drought Turn, the Array and Recognition Points. Score panel still shows the pre-v3.1 values; a v3.1 reprint is queued.</p>
+        <span class="arrow">PDF →</span>
       </a>
-    </div>
-  </section>
-
-  <section>
-    <h3 class="section-title">More</h3>
-    <div class="grid">
       <a class="card" href="web-apps/archmage-ascension/Archmage%20Ascension.html">
-        <h2>Interactive Game</h2>
-        <span class="when">Preview · in development</span>
-        <p>Solo vs. AI vertical slice — an early digital preview, separate from the tabletop materials above.</p>
+        <span class="tag wip">Work in progress</span>
+        <h3>Interactive Game</h3>
+        <span class="when">Preview · solo vs. AI</span>
+        <p>An early digital vertical slice, separate from the tabletop materials. Its rules may lag the current version.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+    </div>
+  </section>
+
+  <section id="variants" aria-labelledby="variants-title">
+    <h2 class="section-title" id="variants-title">Variants &amp; expansions</h2>
+    <p class="section-note">In development: these are design drafts and companions for optional modes, not part of the base game.</p>
+    <div class="grid">
+      <a class="card" href="web-apps/v2/trials/index.html">
+        <span class="tag wip">In development</span>
+        <h3>Ascension Trials Companion</h3>
+        <span class="when">End of game · advanced variant</span>
+        <p>Enter Spellbooks, allocate power in secret, reveal together. Each player can join from their own phone.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+      <a class="card" href="web-apps/trials-multiplayer.html">
+        <span class="tag wip">In development</span>
+        <h3>Trials · Multiplayer (classic)</h3>
+        <span class="when">End of game · advanced variant</span>
+        <p>The original Trials companion: power domains, secret allocation and winner determination at the table.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+      <a class="card" href="web-apps/v2/studio/expansions/index.html">
+        <span class="tag wip">In development</span>
+        <h3>Expansion Designs</h3>
+        <span class="when">All concepts in one catalogue</span>
+        <p>Every expansion and mode under design, with its stage and status.</p>
+        <span class="arrow">BROWSE →</span>
+      </a>
+    </div>
+    <h3 class="group">Variant rules</h3>
+    <ul class="links">
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/rulebook/Ascension%20Trials.md">Ascension Trials rules (Markdown)</a><span>The advanced end-game variant's rules text.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/ascension-trials.html">Ascension Trials design page</a><span>Status and design notes for the variant.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/solo-attuned-rival-solo-mode-the-attuned-rival-v0-1.html">Solo Mode: The Attuned Rival (v0.1)</a><span>Play alone against an automated rival.</span></li>
+    </ul>
+    <h3 class="group">Expansion drafts</h3>
+    <ul class="links">
+      <li><a href="web-apps/v2/studio/expansions/schools-and-last-rites-expansion-the-schools-v0-1.html">The Schools (v0.1)</a><span>Draft rules for the Schools expansion.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/schools-and-last-rites-expansion-the-last-rites-v0-1.html">The Last Rites (v0.1)</a><span>Draft rules for the Last Rites expansion.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/foci-and-conduits-expansion-foci-conduits-v0-1.html">Foci &amp; Conduits (v0.1)</a><span>Draft rules for the Foci &amp; Conduits expansion.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/rituals-and-seals-expansion-rituals-mastery-seals-v0-1.html">Rituals &amp; Mastery Seals (v0.1)</a><span>Draft rules for the Rituals expansion.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/null-cabal-expansion-the-null-cabal-v0-1.html">The Null Cabal (v0.1)</a><span>Draft rules for the Null Cabal expansion.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/the-schism-expansion-the-schism-v0-1.html">The Schism (v0.1)</a><span>Draft rules for the two-player depth box.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/spell-duels-expansion-b-spell-duels-reconciled-tiered.html">Spell Duels</a><span>Reconciled ruleset with complexity tiers.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/the-conclave.html">The Conclave</a><span>Concept page.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/the-convergence.html">Co-op &amp; solo concept (Direction 4)</a><span>Concept page: the players work together against the dying Source.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/the-living-array.html">The Living Array</a><span>Concept page.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/the-overtones.html">The Overtones</a><span>Concept page.</span></li>
+    </ul>
+  </section>
+
+  <section id="archive" aria-labelledby="archive-title">
+    <h2 class="section-title" id="archive-title">Older rule versions (archive)</h2>
+    <p class="section-note">Not current. Kept for reference only; scores and rules here differ from v3.1.</p>
+    <ul class="links">
+      <li><a href="meta/experiments/echo-option-2/baseline/web-apps/archmage-reference.html">Online Rules, v2.8 snapshot</a><span><strong>Archive · not current.</strong> Unstyled copy; some links inside it no longer work.</span></li>
+      <li><a href="meta/experiments/echo-option-2/baseline/web-apps/player-reference.html">Quick Reference Card, v2.8 snapshot</a><span><strong>Archive · not current.</strong> Unstyled copy; some links inside it no longer work.</span></li>
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/meta/experiments/echo-option-2/baseline/rulebook/Archmage%20Ascension%20-%20Complete%20Rulebook.md">Complete Rulebook v2.8 (Markdown)</a><span><strong>Archive · not current.</strong></span></li>
+      <li><a href="https://github.com/sam-jennings/Archmage/blob/main/meta/experiments/echo-option-2/baseline/rulebook/Scoring%20System%20Reference.md">Scoring System Reference v2.8 (Markdown)</a><span><strong>Archive · not current.</strong></span></li>
+      <li><a href="web-apps/spellbook-optimizer.html">Spellbook Optimizer</a><span><strong>Uses v2.8 scores.</strong> Finds the Spellbook split that scores highest, plus runners-up.</span></li>
+    </ul>
+  </section>
+
+  <section id="workshop" aria-labelledby="workshop-title">
+    <h2 class="section-title" id="workshop-title">Designer workshop (work in progress)</h2>
+    <p class="section-note">Design in progress, not rules. These are the designer's working files: drafts, reviews and card renderers. If anything here disagrees with the player pages above, the player pages win.</p>
+    <div class="grid">
+      <a class="card" href="web-apps/v2/studio/index.html">
+        <span class="tag wip">Work in progress</span>
+        <h3>Studio</h3>
+        <span class="when">Designer hub</span>
+        <p>Designer tools and work in progress for the player site.</p>
+        <span class="arrow">OPEN →</span>
+      </a>
+      <a class="card" href="card-design/playtable.html">
+        <span class="tag wip">Work in progress</span>
+        <h3>Card Playtable</h3>
+        <span class="when">Card renderer</span>
+        <p>Live card renderer: single card, grid, fanned hand, or print proof at true size with bleed.</p>
         <span class="arrow">OPEN →</span>
       </a>
       <a class="card" href="pitch/archmage_pitch_sheet.html">
-        <h2>Pitch Sheet</h2>
+        <span class="tag wip">Work in progress</span>
+        <h3>Pitch Sheet</h3>
         <span class="when">For publishers</span>
-        <p>One-page overview of the game's premise, mechanics, and theme.</p>
+        <p>One-page overview of the game's premise, mechanics and theme.</p>
         <span class="arrow">OPEN →</span>
       </a>
     </div>
+    <h3 class="group">Design notes</h3>
+    <ul class="links">
+      <li><a href="web-apps/v2/studio/expansions/expansion-concepts-player-interaction.html">Expansion concepts: player interaction &amp; conflict</a><span>Idea bank for interactive expansions.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/future-directions-expansion-directions-post-echo-exploration.html">Expansion directions after Echo</a><span>Exploration of where expansions could go next.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/old-expansion-thread-review.html">Old expansion thread: review &amp; salvage</a><span>What was kept from earlier expansion work.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/schools-and-last-rites-playtest-plans-schools-last-rites-templates.html">Schools &amp; Last Rites playtest plans</a><span>Playtest plan templates for the two expansions.</span></li>
+      <li><a href="web-apps/v2/studio/expansions/lint.html">Vocabulary &amp; metadata notes</a><span>Automated checks on the expansion pages.</span></li>
+      <li><a href="tools/aa-idea-refinery-eval-review.html">Idea refinery: eval review</a><span>Review of the design-assistant evaluation runs.</span></li>
+    </ul>
+    <h3 class="group">Card design</h3>
+    <ul class="links">
+      <li><a href="card-design/playtable-mobile.html">Mobile playtable</a><span>The card renderer laid out for a phone.</span></li>
+      <li><a href="card-design/incoming/playtable_sandbox%20(layout).html">Playtable layout sandbox</a><span>Layout experiments for the renderer.</span></li>
+      <li><a href="card-design/incoming/2026-09-30-card-face-alternatives.html">Card face alternatives (2026-09-30)</a><span>Side-by-side review of candidate card faces.</span></li>
+      <li><a href="card-design/generated/Style%20Board.html">Master style board</a><span>The visual system on one board.</span></li>
+      <li><a href="card-design/generated/Review%20Board.html">Card review board</a><span>Cards laid out for review.</span></li>
+      <li><a href="card-design/generated/Production%20Board.html">Production board</a><span>Production-ready card layout.</span></li>
+      <li><a href="card-design/export-printenbind/archmage-back.pdf">Card back (print file)</a><span>PDF of the card back for the printer.</span></li>
+      <li><a href="card-design/export-cs3/card-back.pdf">Card back (Component Studio export)</a><span>PDF of the card back from the alternate export.</span></li>
+    </ul>
+    <h3 class="group">Playtest kit: 6-player French session</h3>
+    <ul class="links">
+      <li><a href="_review/FR_6P_SESSION_2026-08/AA-Reference-FR.html">Référence du joueur (French reference)</a><span>Player reference in French. <a href="_review/FR_6P_SESSION_2026-08/AA-Reference-FR.pdf">PDF version</a>.</span></li>
+      <li><a href="_review/FR_6P_SESSION_2026-08/AA-Retour-Joueurs-FR.html">Feuille de retour (French feedback sheet)</a><span>Post-game player feedback form. <a href="_review/FR_6P_SESSION_2026-08/AA-Retour-Joueurs-FR.pdf">PDF version</a>.</span></li>
+      <li><a href="_review/FR_6P_SESSION_2026-08/AA-Observation-Grid.html">Observation grid</a><span>Host's tally sheet for the session. <a href="_review/FR_6P_SESSION_2026-08/AA-Observation-Grid.pdf">PDF version</a>.</span></li>
+    </ul>
   </section>
 
   <footer>

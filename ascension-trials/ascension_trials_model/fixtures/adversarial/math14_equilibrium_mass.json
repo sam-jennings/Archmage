@@ -1,0 +1,21 @@
+{
+  "id": "MATH-14",
+  "name": "equilibrium_relevant_mass",
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §15 MATH-14; §11.4",
+    "evidence_class": "theorem",
+    "independent_of_implementation": true
+  },
+  "provenance": "Hand-built multiple-equilibrium matrix for MATH-14 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §15 MATH-14, §11.4). Row payoff M = [[1,-1],[-1,1],[0,0],[-2,-2]] is a symmetric-value game with value 0. The optimal row-strategy polytope is {x >= 0, sum x = 1, x^T M >= 0}: the two ineqs give x0 - x1 - 2*x3 >= 0 and x1 - x0 - 2*x3 >= 0, whose sum forces x3 = 0 and then x0 = x1. Hence the maximum mass each strategy can carry in an optimum is x0 <= 1/2, x1 <= 1/2, x2 <= 1 (the pure point (0,0,1,0) is optimal), and x3 = 0. With the 1% threshold, E^0.01 = {s0, s1, s2} and s3 is excluded. These are exact rational values derived analytically from the matrix, not reverse-engineered from engine output (REQ-9.4).",
+  "win_matrix": [[1, -1], [-1, 1], [0, 0], [-2, -2]],
+  "row_ids": ["s0", "s1", "s2", "s3"],
+  "expected": {
+    "game_value": 0,
+    "value_tolerance": 1e-9,
+    "max_mass": ["1/2", "1/2", "1", "0"],
+    "mass_tolerance": 1e-6,
+    "threshold": 0.01,
+    "included_indices": [0, 1, 2],
+    "excluded_indices": [3]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "id": "BR-FINALTIE-1",
+  "name": "final_tiebreak_decision",
+  "player_count": 2,
+  "oracle": {
+    "source": ".kiro/specs/ascension-trials-scalable-two-player-analysis (VS3 Task 9; REQ-7.3 final Spellbook tiebreak; REQ-4/REQ-5/REQ-6). Best-response values hand-derived from the final-result rules of configs/toy/final_tiebreak_decision.json (model v2.1 §8.2 spell_count; spec v1.1 §7.9).",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "VS3 best-response planted fixture BR-FINALTIE-1 (REQ-9.4 provenance discipline: every expected value below is derived by hand from the rules, not reverse-engineered from oracle output). Config configs/toy/final_tiebreak_decision.json: one fungible domain; Trials t1, t2 each reward first=2 (second=0); shared-full ties; local total_power tiebreak; optional allocation; the FINAL chain is [spell_count, shared]. When Recognition-Point totals are equal, sole first place is decided by the derived-state spell_count statistic. Acting side A holds fungible=1 with spell_count=5; fixed opponent B holds fungible=1 with spell_count=1 and plays its unit on t1. With one unit A can only reach a 2-2 Recognition-Point tie (contest t1 for a shared 2-2, or take the uncontested t2 while B takes t1, again 2-2). On that 2-2 tie the final chain compares spell_count: A(5) > B(1), so A takes SOLE first and wins the game -- an outcome produced entirely by the final Spellbook tiebreak, never by Recognition Points. Hand-derivation: the row win best response is +1 (decided at the final spell_count tiebreak on a 2-2 RP tie); the row margin best response is 0 (A cannot out-score B on Recognition Points with equal budget and shared-full ties, so the best margin is a 2-2 tie -> 0). Because an active final Spellbook tiebreak couples the decision across Trials, the margin oracle takes the exact exhaustive path (REQ-4.3, evidence class exact_exhaustive_best_response) while the win oracle models the RP-tie -> A-wins sign directly (numerical_milp_best_response_certified).",
+  "config_ref": "configs/toy/final_tiebreak_decision.json",
+  "trial_order": ["t1", "t2"],
+  "state_a": {"player_id": "A", "normal_power": {"fungible": 1}, "wild_power": 0, "tiebreak_stats": {"spell_count": 5}},
+  "state_b": {"player_id": "B", "normal_power": {"fungible": 1}, "wild_power": 0, "tiebreak_stats": {"spell_count": 1}},
+  "expected": {
+    "final_tiebreaks": ["spell_count", "shared"],
+    "opponent_totals": [1, 0],
+    "opponent_description": "B plays its single unit on t1",
+    "row_win_best_value": 1,
+    "row_margin_best_value": 0,
+    "win_evidence_class": "numerical_milp_best_response_certified",
+    "margin_evidence_class": "exact_exhaustive_best_response",
+    "decided_by_final_tiebreak": {
+      "recognition": {"A": 2, "B": 2},
+      "recognition_tie": true,
+      "final_place": {"A": 1, "B": 2},
+      "deciding_statistic": "spell_count",
+      "win_utility": {"A": 1, "B": -1}
+    }
+  }
+}

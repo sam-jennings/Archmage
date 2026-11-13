@@ -194,14 +194,9 @@ You increase capacity by learning Enchantments. Added capacity becomes available
 - 4-component Enchantment: +3 counters.
 - 5-component Enchantment: +5 counters (5-6 player / Echo decks only).
 
-You can also lose capacity. Because each size is a cumulative total, resizing an Enchantment loses only the difference between tiers, while fully dissolving it loses the whole grant. Any such loss applies immediately:
+You can also lose capacity. An Enchantment's capacity always equals its current size — a 3-card gives 1, a 4-card gives 3, a 5-card gives 5 — so using Unlearn or Reshape to make one smaller drops its capacity to the smaller size's value, and taking it apart entirely removes all of it. The components themselves aren't destroyed: Unlearn returns them to your hand, and Reshape rebuilds them into other spells. Any such loss applies immediately.
 
-- Fully dissolve a 3-component Enchantment: -1 counter.
-- Fully dissolve a 4-component Enchantment: -3 counters.
-- Fully dissolve a 5-component Enchantment: -5 counters.
-- Step a 5-card down to a 4-card: -2 counters.
-- Step a 4-card down to a 3-card: -2 counters.
-- Step a 3-card down (it dissolves): -1 counter.
+Example: a 4-card Enchantment gives 3. Take it down to a 3-card and it gives 1 (a loss of 2); take it apart entirely and you lose all 3.
 
 #### Example progression (2-4 player game):
 
@@ -214,10 +209,10 @@ You can also lose capacity. Because each size is a cumulative total, resizing an
 Enchantments change your Magical Capacity. The timing depends on whether capacity is gained or lost:
 
 - **Gains** (learning or empowering an Enchantment): the added capacity becomes available only from the **start of your next turn**.
-- **Losses** (reducing or dissolving an Enchantment): the capacity loss applies **immediately**.
-- **Affordability gate:** you may not reduce or dissolve an Enchantment unless you can both pay the action's counter cost (1) AND absorb the immediate capacity loss from the counters you currently have available. If you cannot afford the action plus the loss, the action is blocked.
+- **Losses** (using Unlearn or Reshape to make an Enchantment smaller or take it apart): the capacity loss applies **immediately**.
+- **Affordability gate:** you may not make an Enchantment smaller or take it apart unless you can both pay the action's counter cost (1) AND absorb the immediate capacity loss from the counters you currently have available. If you cannot afford the action plus the loss, the action is blocked.
 
-**Worked example:** Your only Enchantment is a 4-card [8,8,8,8], giving capacity 4 (1 starting + 3 from the Enchantment). Fully dissolving it costs 1 action + 3 capacity loss = 4 — possible only if you have spent no capacity this turn. Stepping it down to a 3-card costs 1 action + 2 capacity loss = 3, leaving a scoring 3-card Enchantment and +1 capacity.
+**Worked example:** Your only Enchantment is a 4-card [8,8,8,8], giving capacity 4 (1 starting + 3 from the Enchantment). Taking it apart entirely costs 1 action + 3 capacity loss = 4 — possible only if you have spent no capacity this turn. Stepping it down to a 3-card costs 1 action + 2 capacity loss = 3, leaving a scoring 3-card Enchantment and +1 capacity.
 
 ---
 
@@ -329,18 +324,18 @@ Reorganize components across spells in your Spellbook.
 - Break down one or more spells and rebuild them using the same components.
 - Costs one counter per spell broken down — breaking N spells costs N counters (this replaces the old "any or all spells for one action").
 - All freed components must be redistributed into valid spell arrangements; every component must end in a valid spell.
-- If a RESHAPE reduces an Enchantment's size, capacity is lost proportionally by the ladder difference (5→4 = -2, 4→3 = -2, 3→dissolved = -1), not a flat full loss. This loss applies immediately (see Enchantment Effect Timing).
+- If a RESHAPE makes an Enchantment smaller, its capacity drops to match the new size; that loss applies immediately (see Enchantment Effect Timing).
 
 #### UNLEARN
 
-Return one or more components from a single spell to your hand. The remainder must still form a valid spell, or the spell fully dissolves.
+Return one or more components from a single spell to your hand. The remainder must still form a valid spell, or the whole spell comes apart and its components return to your hand.
 
 - Costs 1 counter regardless of how many components you return from that one spell.
 - Targets a single spell. Unlearning from two different spells in the same turn requires 2 separate UNLEARN actions at 1 counter each.
 - For runs (Transfiguration, Perfect Transmutation), a single-component partial UNLEARN may only remove an end component — you cannot pull a component out of the middle of a run.
 - Returned components can't be learned into new spells until your next turn.
 - Useful for reclaiming components for a different strategy, or for stepping a spell down a size.
-- If the UNLEARN reduces or dissolves an Enchantment, capacity is lost by the ladder difference: 5→4 = -2, 4→3 = -2, 3→dissolved = -1; a full dissolve loses the whole grant. This loss applies immediately (see Enchantment Effect Timing).
+- If the UNLEARN makes an Enchantment smaller or takes it apart, its capacity drops to match the new size (or to none); that loss applies immediately (see Enchantment Effect Timing).
 
 #### 💡 The Recall Step
 

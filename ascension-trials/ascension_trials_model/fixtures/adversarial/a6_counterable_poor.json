@@ -1,0 +1,18 @@
+{
+  "id": "A6",
+  "name": "counterable_but_poor",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A6 + §15 MATH-10",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A6 'Counterable but poor' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A6): one fungible normal domain, budget 6, three Trials worth 4 each, optional allocation. The source states the oracles: zero unbeaten allocations and an ordered-pair tie rate of exactly 1/3 (fraction of ordered pairs of the 84 legal allocations that end in a final Recognition-Point tie). Config lives in configs/toy/equal_4_4_4.json; oracles transcribed from the source, not reverse-engineered (REQ-9.4).",
+  "config_ref": "configs/toy/equal_4_4_4.json",
+  "state": {"player_id": "A", "normal_power": {"fungible": 6}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 84,
+    "unbeaten_allocations": 0,
+    "ordered_pair_tie_rate": "1/3"
+  }
+}

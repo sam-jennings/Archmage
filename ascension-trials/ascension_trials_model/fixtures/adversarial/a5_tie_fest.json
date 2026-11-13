@@ -1,0 +1,19 @@
+{
+  "id": "A5",
+  "name": "tie_fest",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A5 + §15 MATH-10",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A5 'Tie-fest' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A5): one fungible normal domain, budget 4, full allocation (residue must be zero), two Trials worth 5 and 5. The source states the oracle: every non-mirror pair produces 5-5 before the final tiebreak, so a final tie gate would fail. Full allocation gives exactly 5 legal allocations ((0,4),(1,3),(2,2),(3,1),(4,0)); any two distinct ones split the two equal Trials 1-1 for a 5-5 Recognition-Point tie, and mirror pairs share both Trials (10-10), so every ordered pair is a final tie. Config lives in configs/toy/tie_fest_5_5.json; oracles transcribed from the source (REQ-9.4).",
+  "config_ref": "configs/toy/tie_fest_5_5.json",
+  "state": {"player_id": "A", "normal_power": {"fungible": 4}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 5,
+    "all_nonmirror_pairs_final_tie": true,
+    "nonmirror_recognition_points": [5, 5],
+    "final_tie_rate": "1/1"
+  }
+}

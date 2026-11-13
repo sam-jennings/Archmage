@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#110d22"><title>Solo Mode — The Attuned Rival (v0.1) · Arcane Drought Studio</title><link rel="icon" href="../../../../art/energy-symbols-export/symbol_wild_icon.svg" type="image/svg+xml"><link rel="stylesheet" href="../../assets/tokens.css"><link rel="stylesheet" href="../../assets/site.css"><link rel="stylesheet" href="../studio.css"><script>try{if(JSON.parse(localStorage.getItem('ad2:theme'))==='day')document.documentElement.dataset.theme='day'}catch(e){}</script><script type="module" src="../studio.js"></script></head><body><header class="studio-head"><a class="ax-skip" href="#main">Skip to content</a><a class="ax-brand" href="../../index.html">Arcane Drought</a><nav aria-label="Designer navigation"><a href="../index.html">Studio</a><a href="index.html">Expansions</a><a href="../../rules/index.html">Base rules</a></nav><button type="button" class="ax-btn studio-theme">Daylight theme</button></header><main id="main" class="studio-shell"><aside class="studio-banner" aria-label="Draft status"><strong>Designer notes · draft · not rules</strong></aside><header class="studio-hero"><a href="index.html">All expansion designs</a><p><span class="studio-status" data-status="v0.1 ruleset">v0.1 ruleset</span> <span class="ax-note">Source status: draft</span></p><h1>Solo Mode — The Attuned Rival (v0.1)</h1><dl class="studio-meta"><dt>Players</dt><dd>1</dd><dt>Last updated</dt><dd title="front matter; later dated notes included">2026-07-19</dd><dt>Written against</dt><dd>Not declared</dd></dl><p class="ax-note">Current base rules: v3.1. This document has not been rewritten or certified against them. Dates are the latest recorded dates in the document/index.</p><p><a href="../../../../expansion/solo-attuned-rival/Solo%20Mode%20-%20The%20Attuned%20Rival%20(v0.1).md">Open original Markdown</a></p></header><section class="studio-rule-strip" aria-label="Rules this module touches"><strong>Rules this module touches</strong><p class="ax-note">Suggested from vocabulary in this document; check the design for the exact change.</p><ul><li><a href="../../rules/index.html#set-up">Set-up</a></li><li><a href="../../rules/index.html#collection">Collection</a></li><li><a href="../../rules/index.html#casting">Casting</a></li><li><a href="../../rules/index.html#wilds">Wilds</a></li><li><a href="../../rules/index.html#learning">Learning</a></li><li><a href="../../rules/index.html#counters">Counters &amp; capacity</a></li><li><a href="../../rules/index.html#drought-turn">Drought</a></li><li><a href="../../rules/index.html#recognition-points">Scoring</a></li></ul></section><div class="studio-layout"><details class="studio-toc" open><summary>On this page</summary><nav aria-label="Table of contents"><ol><li data-depth="1"><a href="#solo-mode-the-attuned-rival-v0-1">Solo Mode — The Attuned Rival (v0.1)</a></li><li data-depth="2"><a href="#1-design-intent">1. Design intent</a></li><li data-depth="2"><a href="#2-product-position">2. Product position</a></li><li data-depth="2"><a href="#3-components-and-setup">3. Components and setup</a></li><li data-depth="2"><a href="#4-the-rival-s-turn-flip-tithe-burn">4. The Rival&#39;s turn — Flip, Tithe, Burn</a></li><li data-depth="3"><a href="#step-1-flip">Step 1 — FLIP</a></li><li data-depth="3"><a href="#step-2-tithe">Step 2 — TITHE</a></li><li data-depth="3"><a href="#step-3-burn">Step 3 — BURN</a></li><li data-depth="2"><a href="#5-what-changes-for-you-the-decision-audit">5. What changes for you (the decision audit)</a></li><li data-depth="2"><a href="#6-the-ravening-stack-exhaustion">6. The Ravening (Stack exhaustion)</a></li><li data-depth="2"><a href="#7-the-drought">7. The Drought</a></li><li data-depth="2"><a href="#8-final-evaluation">8. Final evaluation</a></li><li data-depth="3"><a href="#difficulty">Difficulty</a></li><li data-depth="2"><a href="#9-worked-example">9. Worked example</a></li><li data-depth="2"><a href="#10-production-form-the-deck-brain-later">10. Production form — the deck brain (later)</a></li><li data-depth="2"><a href="#11-fit-analysis">11. Fit analysis</a></li><li data-depth="2"><a href="#12-design-rationale-why-these-rules">12. Design rationale (why these rules)</a></li><li data-depth="2"><a href="#13-open-questions">13. Open questions</a></li><li data-depth="2"><a href="#14-test-plan">14. Test plan</a></li><li data-depth="2"><a href="#15-iteration-log">15. Iteration log</a></li></ol></nav></details><article class="studio-prose" aria-label="Expansion design document"><h2 id="solo-mode-the-attuned-rival-v0-1">Solo Mode — The Attuned Rival (v0.1)</h2>
+<blockquote><p><strong>What this is.</strong> The base-box solo mode: a rules-driven automa (no new cards) that
+occupies a rival&#39;s seat in the standard 2–4p game, targeting the &quot;1–4 players&quot; line on
+the box. Direction decided 2026-07-19
+(<code>meta/decisions/2026-07-19-solo-attuned-rival-direction.md</code>). This ruleset is v0.1 —
+untested, numbers provisional, tuning gated on the v3.1 confirm/kill outcome.</p>
+<p><strong>What this is not.</strong> The deep solo/co-op experience stays with the co-op expansion
+direction (audit #9, The Convergence — demand deck, system-as-opponent, co-op face).
+This module is deliberately a <em>competitive race</em>, preserving the base game&#39;s structure.</p></blockquote>
+<hr>
+<h3 id="1-design-intent">1. Design intent</h3>
+<p>In multiplayer, rivals put four pressures on the player: they <strong>burn the Source</strong>
+(clock), they <strong>contest the Array</strong> (denial), they <strong>set a visible standard</strong> (the
+race), and they <strong>threaten the endgame timing</strong>. A solo mode succeeds if all four
+survive at near-zero upkeep, and fails the moment a turn plays out identically whether
+the automa exists or not.</p>
+<p><strong>Standing test for every rule in this document:</strong> *does the Rival&#39;s state ever change
+what the player does this turn?* Anything that never does is a metronome and gets cut.</p>
+<p>What solo does better than multiplayer — and what this design leans into — is
+<strong>outwitting a known rule</strong>. The Rival never makes decisions; every one of its moves is
+forced by a visible priority. The player&#39;s pleasure is reading the machine: counting its
+stack, predicting its rejects, baiting its denial, and timing the Drought against its
+progress.</p>
+<p>The Rival requires no judgment calls, takes ~15 seconds per turn, and its entire brain
+fits on one reference card: <strong>Flip. Tithe. Burn.</strong></p>
+<hr>
+<h3 id="2-product-position">2. Product position</h3>
+<ul><li><p><strong>Home:</strong> base box. Publishers read &quot;solo mode included&quot; as a base-game feature
+(the Wingspan model — the Automa ships in the box, expansions extend it), not as
+expansion content. Box line becomes <strong>1–4 players</strong>.</p></li><li><p><strong>Count-gating:</strong> solo is 1p — the standing <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_echo_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Echo</span> compatibility rule (&quot;identical at
+2–4p and 5–6p&quot;) is satisfied vacuously, same precedent as The Schism at 2p. Second
+count-gated module in the line; the rule&#39;s phrasing revisit flagged in the Schism doc
+now applies to two modules.</p></li><li><p><strong>Extension story (future):</strong> an &quot;<span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_echo_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Echo</span>-attuned Rival&quot; variant could ship with the
+5–6p extension — the Rival runs the <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_echo_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Echo</span> suit while the player keeps all four base
+energies and both wilds. Strictly richer player market; gives the extension a solo
+selling point. Not in v0.1 scope.</p></li><li><p><strong>DR-HOOK compliance:</strong> casting still burns the shared Source (now the Rival burns it
+too); the Spellbook remains the proof at evaluation. Hook visibility unchanged at 1p.</p></li></ul>
+<hr>
+<h3 id="3-components-and-setup">3. Components and setup</h3>
+<p>Components: the standard 2–4p deck (62 cards), standard counters, one Rival reference
+card (to be produced; rules below fit one card). Nothing else.</p>
+<p>Setup:</p>
+<ol><li><p><strong>Attune the Rival.</strong> Choose one energy for the Rival — default <strong><span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span></strong>. Remove all
+ 15 cards of that energy from the deck and shuffle them face down: this is the
+ <strong>Rival&#39;s Stack</strong>. (Suits are symmetric, so the choice is flavour, not mechanics.)</p></li><li><p><strong>Build your game.</strong> Shuffle the remaining 47 cards (three energies × 1–15, plus
+ both wilds). Deal yourself 7 cards. Place 5 face up as the Array. The rest, face
+ down, is the Source (35 cards).</p></li><li><p><strong>Binding.</strong> You discard 1 card from hand to the Arcane Reserve, as normal. The
+ Rival reveals the top card of its Stack and places it face up in front of itself —
+ the first card of the <strong>Rival&#39;s Spellbook</strong>, a single row kept sorted ascending by
+ rank.</p></li><li><p>You take 1 counter (standard 2–4p base capacity). You go first.</p></li></ol>
+<p>Turn cycle: <strong>your full normal turn</strong> (Collection, Casting, Learning — every base rule
+unchanged) → <strong>the Rival&#39;s turn</strong> (three fixed steps) → repeat.</p>
+<hr>
+<h3 id="4-the-rival-s-turn-flip-tithe-burn">4. The Rival&#39;s turn — Flip, Tithe, Burn</h3>
+<h4 id="step-1-flip">Step 1 — FLIP</h4>
+<p>Reveal the top card of the Rival&#39;s Stack.</p>
+<ul><li><p><strong>Keep it</strong> — insert it into the Rival&#39;s row, sorted — if the row has <strong>fewer than 3
+cards</strong>, or the card&#39;s rank is <strong>within 1</strong> of any card already in the row.</p></li><li><p><strong>Otherwise reject it:</strong> place it face up in the Array (the Array temporarily holds 6).</p></li></ul>
+<p>The Stack holds every rank of the Rival&#39;s energy exactly once, so its future is fully
+countable: any rank not in its row and not yet seen is still coming, and whether it will
+be kept or rejected is predictable from the row&#39;s current shape.</p>
+<h4 id="step-2-tithe">Step 2 — TITHE</h4>
+<p>The Rival moves one Array card to the Arcane Reserve, chosen by strict priority:</p>
+<ol><li><p><strong>A wild</strong>, if any is in the Array.</p></li><li><p>Else, a card that <strong>would extend your largest spell</strong> — same energy as that
+ Conjuration, rank adjacent to either end of that Transfiguration or Perfect
+ Transmutation, or matching the rank of that Enchantment. If several qualify, the
+ highest rank.</p></li><li><p>Else, the <strong>highest rank</strong> in the Array.</p></li></ol>
+<p>Tiebreaks: equal ranks → energy order <strong><span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_radiance_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Radiance</span> → <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> → <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_flux_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Flux</span> → <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_aether_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Aether</span></strong>. &quot;Your
+largest spell&quot; = most components; tie → Perfect Transmutation &gt; Enchantment &gt;
+Transfiguration &gt; Conjuration.</p>
+<p><strong>After the Tithe, if the Array holds fewer than 5 cards, refill from the Source.</strong>
+(So a turn where the Rival kept its flip costs the Source an extra card — its growth
+strains the world.)</p>
+<h4 id="step-3-burn">Step 3 — BURN</h4>
+<p>Move the top card of the Source, face up, to the Arcane Reserve.</p>
+<p>That is the whole automa. No dice, no decisions, no bookkeeping.</p>
+<hr>
+<h3 id="5-what-changes-for-you-the-decision-audit">5. What changes for you (the decision audit)</h3>
+<p>Applying the standing test — the concrete decisions the Rival&#39;s state creates:</p>
+<ol><li><p><strong>Denial enters your Collection phase.</strong> Its rejects sit in the Array where its own
+ Tithe can bury them next turn (occasionally it buries its own castoff — it would
+ rather reconsume its energy than let you have it). Grab what you need before the
+ machine does. Wilds are always Tithe priority 1: take them fast or lose them.</p></li><li><p><strong>The pace dial is yours.</strong> Every Conjuration cast and Array take burns the Source —
+ and every Source card burned is a card the Rival never flips. Rushing the Drought
+ <strong>strands its Stack</strong> (see §7) and caps its row; slowing down grows both books. The
+ central strategic axis of the mode: <em>when do you want the Drought?</em> — restored from
+ multiplayer, but now under your control and against a countable opponent.</p></li><li><p><strong>Scavenge planning.</strong> 4-card Enchantments need one card of the Rival&#39;s energy at
+ the matching rank — obtainable only as its rejects or via a wild. Which ranks can
+ still be rejected is computable from its row shape. The base capacity ladder&#39;s top
+ tier becomes a contested prize instead of breaking (the failure mode that rules out
+ a plain 3-energy solo deck).</p></li><li><p><strong>Largest-spell shielding.</strong> Your largest spell defines what the Rival denies. The
+ order you LEARN and EMPOWER changes what it hunts — including deliberately growing a
+ spell to redirect its Tithe. (Degeneracy risk flagged in §13.)</p></li><li><p><strong>Foreseeable endgame.</strong> Its Stack size is public; the Ravening (§6) and the Drought
+ can both be counted ahead. Timing your final Reshape/Learn window is plannable in a
+ way multiplayer never allows — the solo-specific pleasure.</p></li></ol>
+<hr>
+<h3 id="6-the-ravening-stack-exhaustion">6. The Ravening (Stack exhaustion)</h3>
+<p>If the Rival&#39;s Stack is empty at the start of its turn and the Source is not, the FLIP
+step is replaced by a second BURN. The Rival&#39;s Work is complete, and it turns on the
+world — burning the Source at 2 per turn until the Drought.</p>
+<p>Slow play therefore closes its own window: the full Work (a big row) comes packaged
+with an accelerating clock.</p>
+<hr>
+<h3 id="7-the-drought">7. The Drought</h3>
+<p>Trigger and base procedure unchanged (Array + Reserve shuffle into the Released
+Reserve; the pending Source-emptying timing patch, decision
+<code>2026-07-06-source-emptying-timing.md</code>, applies as in the base game).</p>
+<p>Two solo-specific rules:</p>
+<ul><li><p><strong>The moment the Drought begins, the Rival&#39;s remaining Stack is removed from the
+game</strong> — the unclaimed energy scatters. This is what makes the pace dial real: the
+player can race the Drought to strand the Rival&#39;s future.</p></li><li><p><strong>The Rival&#39;s Drought turn:</strong> draw 1 card from the Released Reserve.</p>
+<ul><li><p>Its energy → insert into its row.</p></li><li><p>A wild → keep it: declare it (per the standard wild rule) to fill the lowest-rank
+gap whose filling joins two of its runs; if no such gap, declare it as extending
+its longest run at the high end. The declaration is fixed.</p></li><li><p>Anything else → remove from the game.</p></li></ul></li></ul>
+<p>Everything the Rival tithed comes flooding back in the Released Reserve — including
+wilds it buried, which may now serve it. The player&#39;s Drought turns are unchanged
+(draw 1, Learning phase). The contest ends when the Released Reserve is empty.</p>
+<hr>
+<h3 id="8-final-evaluation">8. Final evaluation</h3>
+<p>Score your Spellbook with the standard evaluation, unchanged.</p>
+<p>Score the Rival&#39;s row as the <strong>better of two readings</strong> (its row is all one energy, so
+both are legal Spellbook readings on the real table — no new scoring machinery):</p>
+<ul><li><p><strong>(a)</strong> the entire row as <strong>one Conjuration</strong> of its size;</p></li><li><p><strong>(b)</strong> each maximal run of 3+ consecutive ranks as a <strong>Perfect Transmutation</strong>, plus
+the remaining cards as one Conjuration if 3+ remain.</p></li></ul>
+<p>The Conjuration column&#39;s curve does the balance work automatically: a starved row of 7
+scores ~7–10, a fat row of 12 scores 50. The Rival&#39;s threat scales with exactly the
+thing the player controls — game length.</p>
+<p><strong>You win if your total exceeds the Rival&#39;s. On a tie, the Rival ascends</strong> — the
+Drought goes unbroken by your hand.</p>
+<h4 id="difficulty">Difficulty</h4>
+<div class="studio-table" role="region" aria-label="Design table" tabindex="0"><table><thead><tr><th scope="col">Level</th><th scope="col">Rule</th></tr></thead><tbody><tr><td>Apprentice</td><td>Rival&#39;s final score ×0.75, round down</td></tr><tr><td>Adept (standard)</td><td>As written</td></tr><tr><td>Archmage</td><td>Both wilds shuffle into the Rival&#39;s Stack at setup (a flipped wild is always kept; declared per the §7 wild rule) — the player&#39;s deck has none — and the Ravening burns 3</td></tr></tbody></table></div>
+<p>Optional levers (any level): <strong>Hoard</strong> — tithed cards go face down under the Rival
+instead of the Reserve, never return, and add +1 each to its total. <strong>Hasten</strong> — BURN
+is 2 from the start of the game.</p>
+<hr>
+<h3 id="9-worked-example">9. Worked example</h3>
+<p>Rival = <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span>. Binding seed: <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 8.</p>
+<p>Turns 1–2: flips <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 3, <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 12 — row under 3 cards, both kept. Row {3, 8, 12}.
+Turn 3: flips <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 5 — not within 1 of anything. <strong>Rejected to the Array</strong> (a rank-5
+Enchantment in your book is now one Collection away from its 4-card tier — but the
+Rival&#39;s next Tithe knows that too). Turn 4: flips <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 7 — adjacent to 8, kept.
+Turn 5: flips <span class="studio-energy"><span class="studio-energy-icon"><img src="../../../../art/energy-symbols-export/symbol_void_icon.svg" alt="" width="22" height="22" loading="lazy"></span>Void</span> 13 — adjacent to 12, kept. Row {3, 7, 8, 12, 13}.</p>
+<p>A fast game ends around here plus a couple of keeps: row {3, 7, 8, 9, 12, 13, 14} —
+reading (a) Conjuration-7 = 7; reading (b) PT(7-9) + PT(12-14) = 5 + 5 = 10.
+<strong>Rival: 10.</strong></p>
+<p>A slow game gives it the fuller Work: row {3, 4, 5, 7, 8, 9, 12, 13, 14, 15} —
+reading (a) Conjuration-10 = <strong>29</strong>; reading (b) 5 + 5 + 11 = 21. <strong>Rival: 29</strong>, and it
+spent the late game Ravening 2 Source per turn.</p>
+<p>Same rules, ~3× the score, driven entirely by the player&#39;s pacing.</p>
+<hr>
+<h3 id="10-production-form-the-deck-brain-later">10. Production form — the deck brain (later)</h3>
+<p>The rules brain above is v0.1&#39;s test vehicle: zero components, fully deterministic,
+maximally bait-able. If the chassis confirms, production form is a <strong>12–15 card Rival
+deck</strong> (the format publishers recognise; the Wingspan difficulty model of swapping
+cards in/out):</p>
+<ul><li><p>each card resolves one Rival turn: a keep-test override for FLIP, a Tithe priority
+variant, a Burn count, and occasionally a special (lock an Array slot for a round,
+a one-off double Flip, a peek);</p></li><li><p>2–3 optional private <strong>Renewal goal</strong> cards for the player (pattern objectives) for
+directional texture — kept deliberately clear of the co-op direction&#39;s demand-deck
+space.</p></li></ul>
+<p>Nothing in v0.1 depends on this; it is listed so the rules brain isn&#39;t over-fitted in
+ways a deck can&#39;t later encode.</p>
+<hr>
+<h3 id="11-fit-analysis">11. Fit analysis</h3>
+<ul><li><p><strong>Vs. the co-op direction (audit #9).</strong> No overlap by design: this is a race with no
+demands, no co-op face, no difficulty-curve-per-count problem. If that box ships, the
+two solo experiences coexist as different products (race vs. survival).</p></li><li><p><strong>Vs. The Schism.</strong> The rejected Severance chassis (player severs shares, automa
+claims by rule) is parked as the Schism&#39;s natural 1–2p extension — noted in QUEUE.
+<strong>Tithe</strong> is deliberately reused here with the Schism&#39;s meaning (a forced card to the
+Reserve) per combination-governance rule 4 (shared effect templates).</p></li><li><p><strong>Combination governance (EXPANSION_INDEX rules 1–5).</strong> Compliant: no rules contact
+with other modules; no hidden information; no persistent modifiers, so the
+one-modifier cap is untouched. Solo is a mode, not a stackable module — combining it
+with content modules (Schools, Foci) is future work and out of v0.1 scope.</p></li><li><p><strong>v3.1 dependency.</strong> All score-facing behaviour rides the live table. If v3.1 is
+killed and v3.0 restored, the chassis survives unchanged; only §8&#39;s example numbers
+and difficulty multipliers need re-deriving.</p></li></ul>
+<hr>
+<h3 id="12-design-rationale-why-these-rules">12. Design rationale (why these rules)</h3>
+<ul><li><p><strong>Why remove a whole energy?</strong> It gives the Rival a legible identity, makes its row a
+legal one-energy Spellbook (free scoring), turns the player&#39;s market into a 3-energy
+game <em>without</em> breaking the Enchantment ladder (rejects + wilds keep the 4-card tier
+reachable as a prize), and makes its future fully countable (15 known ranks).</p></li><li><p><strong>Why flip only one card per turn?</strong> So the Stack (15) outlasts the typical game
+(~9–11 rounds), keeping the strand-the-Stack race live in every game. Flip-2-keep-1
+variants exhaust the Stack by round 8 and kill the pace dial.</p></li><li><p><strong>Why does its growth cost the Source?</strong> A keep leaves the Array short after the
+Tithe, forcing a refill — so the Rival&#39;s good turns accelerate the clock, mirroring
+how a thriving opponent burns the Source faster in multiplayer.</p></li><li><p><strong>Why score max(one Conjuration, runs-as-PTs)?</strong> It reuses the player&#39;s own scoring
+literacy, needs no new table, and the Conjuration curve&#39;s superlinearity makes game
+length itself the difficulty dial.</p></li></ul>
+<hr>
+<h3 id="13-open-questions">13. Open questions</h3>
+<ol><li><p><strong>Adjacency width.</strong> Keep-test at ±1 (current) vs ±2. ±2 keeps more and builds
+ gappy clusters that reliably consolidate (every rank exists exactly once in the
+ Stack), but may starve the reject/scavenge supply. Sim question.</p></li><li><p><strong>Score band.</strong> Is the Adept Rival competitive with real player books (~35–55 under
+ v3.1 in early solo play)? Calibrate multipliers from sim + the first live sessions;
+ cross-check against final books in <code>playtests/</code> session logs.</p></li><li><p><strong>Largest-spell shielding degeneracy.</strong> Can the player trivialise the Tithe by
+ maintaining a decoy largest spell (e.g. a cheap Conjuration in the Rival&#39;s own
+ energy, making it bury its own rejects)? If dominant, add a Tithe priority clause.</p></li><li><p><strong>Reject supply.</strong> Are ~3–6 rejects per game enough for the 4-card Enchantment prize
+ dynamic to be felt? If starved, widen adjacency (fewer keeps ≠ more rejects — the
+ opposite) or reject on a second condition.</p></li><li><p><strong>Tie between (a) and (b) readings</strong> at evaluation is possible and harmless (equal
+ scores); no rule needed — confirm.</p></li><li><p><strong>Does solo teach well?</strong> Secondary use as a teach/practice mode for the 2–4p game —
+ worth watching, not designing for.</p></li></ol>
+<hr>
+<h3 id="14-test-plan">14. Test plan</h3>
+<p><strong>Stage 1 — sim (Track A, before any live session).</strong> A scratch script in
+<code>simulation/</code> conventions: model Flip/keep/Tithe/Burn against a simple player proxy
+across pace profiles. Outputs: Rival score distribution by game length, reject count
+per game, keep-rate curve, sensitivity to ±1/±2 adjacency. An afternoon&#39;s work; settles
+open questions 1, 2, 4 before a card is ever dealt.</p>
+<p><strong>Stage 2 — live solo confirm/kill.</strong> Solo sessions need no scheduling — they are free
+capacity — but sequence <em>after</em> the v3.1 confirm/kill playtest (the score table is a
+confounder; one-variable discipline).</p>
+<ul><li><p><strong>CONFIRM if:</strong> Rival turn ≤ 20 seconds by session 2; the player deviates from their
+solitaire-optimal line ≥ 3 times per game <em>because of Rival state</em> (denial grabs,
+pace shifts, scavenge timing); session fits 30–45 minutes; the Rival finishes within
+~15 points of the player by game 3 at Adept.</p></li><li><p><strong>KILL if:</strong> the Rival is ignorable (0–1 deviations per game); upkeep exceeds ~45
+seconds; or the shielding line (open question 3) proves dominant and unfixable with
+one priority clause.</p></li></ul>
+<p>On CONFIRM: promote to v0.2, spec the reference card, revisit the deck brain. On KILL:
+fall back to the Severance chassis (parked with the Schism) before abandoning base-box
+solo.</p>
+<hr>
+<details class="studio-iteration" id="15-iteration-log"><summary>15. Iteration log</summary><div>
+<ul><li><p><strong>v0.1 (2026-07-19).</strong> Initial ruleset, from the solo-mode exploration
+(2026-07-19 conversation): flip-driven &quot;Shadow Mage&quot; chassis judged too passive by
+Sam (automa state never changed player decisions); reframed as three chassis × two
+brains; Attuned Rival on the rules brain selected. Key same-day design moves:
+flip-2-keep-1 dropped for flip-1 (preserves the strand race); denial recast as the
+Tithe with Reserve return (Drought texture); the row scored as
+max(Conjuration, PT-runs) on the real table after checking v3.1 values — no bespoke
+scoring machinery; growth-costs-the-Source refill rule added.</p></li></ul>
+</div></details></article></div></main><footer class="studio-foot">Current base: v3.1 · Expansion text is preserved from the design documents. <a href="lint.html">Vocabulary & metadata notes</a> · <a href="#main">Back to top</a></footer></body></html>

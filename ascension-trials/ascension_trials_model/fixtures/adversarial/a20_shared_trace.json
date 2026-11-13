@@ -1,0 +1,20 @@
+{
+  "id": "A20",
+  "name": "second_place_collision",
+  "player_count": 2,
+  "oracle": {
+    "source": "ascension-trials/design-history/ASCENSION_TRIALS_05_VS2_LAB_AUDIT_2026-07-10.md §D7 (trial-shared rate from resolver traces, hand-derived)",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A20 'Second-place collision' (VS2-C audit D7). One fungible normal domain, budget 2, a single Trial awarding first=2 AND second=2 (equal values), optional allocation, winner-take-all with shared-full ties. Three legal allocations place 0, 1 or 2 units on the Trial. Ordered-pair Trial outcomes: the (1,1) and (2,2) mirror pairs are genuine first-place ties (both contend equally -> shared_first true); the (2,1) and (1,2) pairs have a sole Trial winner (the larger allocation takes first, the smaller takes second) -> shared_first false. Because first==second, both players in a (2,1) pair bank an award value of 2 for the Trial, so a shared flag reconstructed from award-value signatures would falsely count the Trial as shared (and the equal RP totals also make the FINAL result a 2-2 tie, which is a distinct fact from the per-Trial share). The per-Trial shared-award rate derived from the resolver's TrialResult.shared_first is therefore 2/9 (only the two genuine Trial ties over the 9 ordered pairs x 1 Trial), whereas the discredited award-signature reconstruction would report 4/9. The oracle is hand-derived (REQ-9.4). Config lives in configs/toy/second_place_collision.json.",
+  "config_ref": "configs/toy/second_place_collision.json",
+  "state": {"player_id": "A", "normal_power": {"fungible": 2}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 3,
+    "trial_order": ["trial_a"],
+    "trial_shared_award_rate": "2/9",
+    "award_collision_false_positives_ignored": 2,
+    "notes": "trial_shared_award_rate is derived from resolver shared_first traces (2/9: the (1,1) and (2,2) mirror Trial ties over 9 ordered pairs x 1 Trial). The (2,1)/(1,2) pairs have a sole Trial winner but bank equal first/second award values (2 each); the buggy award-signature method would misread that collision as a shared Trial and report 4/9."
+  }
+}

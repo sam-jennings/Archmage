@@ -1,0 +1,23 @@
+{
+  "id": "A4",
+  "name": "counter_cycle",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A4 + §15 MATH-9/MATH-11",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A4 'Counter cycle' (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A4): one fungible normal domain, budget 6, three Trials rewarding 5, 4 and 3, optional allocation, winner-take-all with shared-full ties. The source states the exact oracles: 84 legal allocations, zero unbeaten allocations, the counter cycle (0,1,1) -> (3,0,0) -> (0,2,0) -> (0,1,1), a numerical LP win-game value within 1e-9 of zero, and a mixed equilibrium. The per-Trial triples are normal totals in Trial-id order (trial_a, trial_b, trial_c); an arrow X -> Y means X beats Y (row X vs column Y wins). Config lives in configs/toy/cycle_5_4_3.json; oracles are transcribed from the source, not reverse-engineered (REQ-9.4).",
+  "config_ref": "configs/toy/cycle_5_4_3.json",
+  "state": {"player_id": "A", "normal_power": {"fungible": 6}, "wild_power": 0},
+  "expected": {
+    "legal_allocations": 84,
+    "unbeaten_allocations": 0,
+    "trial_order": ["trial_a", "trial_b", "trial_c"],
+    "cycle": [[0, 1, 1], [3, 0, 0], [0, 2, 0], [0, 1, 1]],
+    "cycle_semantics": "X -> Y means X beats Y: win[X][Y] == +1 and win[Y][X] == -1",
+    "win_lp_value": 0,
+    "lp_value_tolerance": 1e-9,
+    "mixed_equilibrium": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "id": "MATH-13",
+  "name": "weak_not_strict_dominance",
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §15 MATH-13; §10 dominance",
+    "evidence_class": "exact exhaustive",
+    "independent_of_implementation": true
+  },
+  "provenance": "Hand-built matrix for MATH-13 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §15 MATH-13): a matrix containing a weakly-but-not-strictly dominated strategy so that true strict elimination (strict '>' in EVERY column) retains it, while the weak-dominance diagnostic ('>=' everywhere with at least one strict) flags it. Row payoff matrix M = [[1,1],[1,0]] (row player's win utility). Row r1 is weakly dominated by r0 (1>=1, 1>=0, strict only in the second column) but not strictly; symmetrically column c0 is weakly dominated by c1 for the minimizing column player. The oracle (survivors + the weak relations) is derived by hand from the matrix definition, not reverse-engineered from engine output (REQ-9.4).",
+  "win_matrix": [[1, 1], [1, 0]],
+  "row_ids": ["r0", "r1"],
+  "col_ids": ["c0", "c1"],
+  "expected": {
+    "strict_survivors_rows": ["r0", "r1"],
+    "strict_survivors_cols": ["c0", "c1"],
+    "strict_rounds": 0,
+    "weak_dominated": [
+      {"player": "row", "dominated": "r1", "dominator": "r0", "strict": false},
+      {"player": "column", "dominated": "c0", "dominator": "c1", "strict": false}
+    ]
+  }
+}

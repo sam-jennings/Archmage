@@ -1,0 +1,91 @@
+{
+  "id": "A11",
+  "name": "overallocation",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A11; \u00a77.2; MATH-2",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A11 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A11 'Over-allocation': 'Available domain power 11; total allocated from that domain 12 across multiple Trials. Expected: the domain is flagged; every entry using that domain is invalidated; exact excess reported; unrelated domain entries remain eligible'; and §7.2 'Over-allocated normal domain: every Trial entry drawing positive power from that domain is invalidated; other entries remain eligible'). Void 11 available, 6+6=12 allocated across two Trials -> excess 1; an unrelated flux entry remains eligible. Config, state, allocation and expected outcome transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "config": {
+    "id": "a11_overallocation",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "void", "class": "energy"},
+      {"id": "flux", "class": "energy"}
+    ],
+    "trials": [
+      {
+        "id": "void_trial_a",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+      },
+      {
+        "id": "void_trial_b",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+      },
+      {
+        "id": "flux_trial",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "trial_tiebreaks": ["total_power", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 5, "second": 0}}}
+      }
+    ],
+    "allocation": {
+      "completion": "optional",
+      "residue_allowed": true,
+      "infeasible_full_fallback": "reject",
+      "invalidation": {
+        "illegal_trial_entry": "ignore_entry",
+        "overallocated_domain": "invalidate_entries_using_domain",
+        "overallocated_wild": "invalidate_entries_using_wild",
+        "malformed_allocation": "reject_profile"
+      }
+    }
+  },
+  "state": {"player_id": "over", "normal_power": {"void": 11, "flux": 4}, "wild_power": 0},
+  "allocation": {
+    "player_id": "over",
+    "normal": {
+      "void_trial_a": {"void": 6},
+      "void_trial_b": {"void": 6},
+      "flux_trial": {"flux": 4}
+    },
+    "wild": {},
+    "residue": {"normal": {}, "wild": 0}
+  },
+  "expected": {
+    "overallocated_domain": "void",
+    "excess": 1,
+    "invalidated_entries": ["void_trial_a", "void_trial_b"],
+    "eligible_entries": ["flux_trial"],
+    "invalidation_event": {
+      "scope": "overallocated_domain",
+      "domain": "void",
+      "excess": 1,
+      "action": "invalidate_entries_using_domain",
+      "affected_entries": ["void_trial_a", "void_trial_b"]
+    }
+  }
+}

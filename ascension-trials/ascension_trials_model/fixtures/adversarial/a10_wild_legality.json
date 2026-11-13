@@ -1,0 +1,116 @@
+{
+  "id": "A10",
+  "name": "wild_legality_trio",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A10; \u00a77.3; MATH-5",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A10 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md §14 A10 'Wild legality trio' and §7.3 Wild semantics): A10a Wild-only (0 normal + 1 Wild) -> illegal entry, Wild dropped; A10b Wild cannot satisfy breadth (1 energy + Wild on a 2-energy Harmony) -> illegal entry; A10c Wild safe on mono (1 energy + Wild on Purity) -> legal entry, Wild adds to total, source count remains one. Config, states, allocations and expected outcomes transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "config": {
+    "id": "a10_wild_legality",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "void", "class": "energy"},
+      {"id": "flux", "class": "energy"}
+    ],
+    "wild": {
+      "enabled": true,
+      "can_enter_alone": false,
+      "requires_legal_normal_entry": true,
+      "counts_as_source": false,
+      "can_satisfy_source_minimum": false,
+      "can_break_source_maximum": false,
+      "included_in_primary_total": true,
+      "included_in_tiebreaks": false
+    },
+    "trials": [
+      {
+        "id": "purity",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+      },
+      {
+        "id": "harmony",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 2}
+        },
+        "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+      }
+    ],
+    "allocation": {
+      "completion": "optional",
+      "residue_allowed": true,
+      "infeasible_full_fallback": "reject"
+    }
+  },
+  "cases": {
+    "a10a_wild_only": {
+      "description": "0 normal + 1 Wild on Purity: Wild cannot enter without a legal normal entry.",
+      "trial": "purity",
+      "state": {"player_id": "p", "normal_power": {"void": 0}, "wild_power": 1},
+      "allocation": {
+        "player_id": "p",
+        "normal": {},
+        "wild": {"purity": 1},
+        "residue": {"normal": {}, "wild": 0}
+      },
+      "expected": {
+        "legal": false,
+        "reason_contains": "sources in class:energy",
+        "dropped_wild": 1,
+        "total_power": 0
+      }
+    },
+    "a10b_wild_cannot_satisfy_breadth": {
+      "description": "1 energy source + Wild on Energy Harmony (needs 2 energy sources): Wild does not satisfy the source minimum.",
+      "trial": "harmony",
+      "state": {"player_id": "p", "normal_power": {"void": 1}, "wild_power": 1},
+      "allocation": {
+        "player_id": "p",
+        "normal": {"harmony": {"void": 1}},
+        "wild": {"harmony": 1},
+        "residue": {"normal": {"void": 0}, "wild": 0}
+      },
+      "expected": {
+        "legal": false,
+        "reason_contains": "sources in class:energy",
+        "dropped_wild": 1,
+        "total_power": 0
+      }
+    },
+    "a10c_wild_safe_on_mono": {
+      "description": "1 energy source + Wild on Energy Purity (mono): legal; Wild adds to total; source count remains one.",
+      "trial": "purity",
+      "state": {"player_id": "p", "normal_power": {"void": 1}, "wild_power": 1},
+      "allocation": {
+        "player_id": "p",
+        "normal": {"purity": {"void": 1}},
+        "wild": {"purity": 1},
+        "residue": {"normal": {"void": 0}, "wild": 0}
+      },
+      "expected": {
+        "legal": true,
+        "normal_total": 1,
+        "wild_added": 1,
+        "total_power": 2,
+        "qualifying_source_count": 1,
+        "dropped_wild": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "id": "trials_power_v28",
+  "version": "2.8",
+  "notes": [
+    "Current-candidate Trials power profile F_C(S) (design 5.1.2), encoding the",
+    "rulebook/Ascension Trials.md v2.8 formula: size multiplier 1.0 for 3-4, 1.5",
+    "half-up for 5-6, 2.0 for 7+. This is a minimal power-derivation config (no",
+    "trials); full committed configurations are authored in Task 10.",
+    "experimental: false -> this is a current candidate, not experimental."
+  ],
+  "power_formula": {
+    "profile": "trials_power_v28",
+    "version": "2.8",
+    "experimental": false,
+    "standard_spell_power": {
+      "type": "piecewise",
+      "piecewise": [
+        {"expression": "n", "max_size": 4},
+        {"expression": "1.5*n", "min_size": 5, "max_size": 6, "rounding": "half_up"},
+        {"expression": "2*n", "min_size": 7}
+      ]
+    },
+    "enchantment_power": {"type": "spell_size"},
+    "contributions": {
+      "conjuration": {"energy": "standard_spell_power"},
+      "transfiguration": {"transformation": "standard_spell_power"},
+      "perfect_transmutation": {
+        "energy": "standard_spell_power",
+        "transformation": "standard_spell_power",
+        "wild": 1
+      },
+      "enchantment": {"enchantment": "enchantment_power"}
+    },
+    "enchantment_wild_sizes": [4]
+  },
+  "domains": [
+    {"id": "void", "class": "energy"},
+    {"id": "flux", "class": "energy"},
+    {"id": "radiance", "class": "energy"},
+    {"id": "aether", "class": "energy"},
+    {"id": "transformation", "class": "transformation"},
+    {"id": "enchantment", "class": "enchantment"}
+  ],
+  "trials": []
+}

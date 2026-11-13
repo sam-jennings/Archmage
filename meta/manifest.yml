@@ -19,6 +19,7 @@ folders:
   - art/
   - web-apps/
   - simulation/
+  - ascension-trials/
   - tests/
   - tools/
   - skills/
@@ -32,6 +33,7 @@ folders:
   - .github/
   - .obsidian/
   - .vscode/
+  - .venv/
   - .codex-viewport-check/
 
 # Filename patterns enforced inside specific folders (JS regex, applied to filenames)
@@ -63,11 +65,22 @@ purposes:
   art/: raw offline art library; not referenced by the live renderer
   web-apps/: player-facing tools + React/Vite 2-player digital build
   simulation/: Python deck/economy rig with ASSUMPTIONS/RESULTS
+  ascension-trials/: everything Ascension Trials — the advanced endgame variant. Consolidated 2026-07-13 (was split across simulation/ and _review/); rulebook/Ascension Trials.md (rules) and .kiro/specs/ascension-trials-* (Kiro specs) stay in their own conventional homes, referenced not copied.
+  ascension-trials/ascension_trials_model/: Ascension Trials analysis package — approved layout is pyproject.toml, requirements.lock, src/ascension_trials, tests, configs, fixtures, docs, README (outputs generated and gitignored); canonical spec in .kiro/specs/ascension-trials-configuration-model; docs/ holds the current normative model + Kiro-implementation-spec snapshots + VS1-3 completion reports
+  ascension-trials/design-history/: proposals, critiques, audits, selection plans and shortlists (the numbered ASCENSION_TRIALS_01..08 docs, formerly in _review/) — moved here since they're a dedicated, ongoing design trail, not generic pending-decision material
   tests/: property-based tests (hand-checker)
   tools/: designer-only analysis tools — never player-facing
   skills/: .skill packages (Cowork adapter + domain skills)
   course-knowledge/: read-only course material
-  expansion/: parked Stage 4+ concepts — do not develop yet
+  expansion/: expansion concepts at various stages (gate lifted 2026-07-16; only Ascension Trials confirmed, no settled sequencing); index EXPANSION_INDEX.md is the map
+  expansion/spell-duels/: canonical Reconciled & Tiered ruleset; source/ holds the three notes files it reconciles
+  expansion/schools-and-last-rites/: v0.1 rulesets (most-developed pair) + playtest-plan templates
+  expansion/future-directions/: Post-Echo Exploration candidate directions (not yet chosen)
+  expansion/rituals-and-seals/: Rituals & Mastery Seals v0.1 (earned-identity module, salvaged from old thread 2026-07-16)
+  expansion/null-cabal/: The Null Cabal v0.1 (hidden traitor 3-6p, salvaged from old thread 2026-07-16)
+  expansion/foci-and-conduits/: Foci & Conduits v0.1 (engine-builder module — unique spell attachments + chaining, 2026-07-16)
+  expansion/the-schism/: The Schism v0.1 (dedicated 2-player box — cut-and-choose Rift market with Tithe, first count-gated module, 2026-07-17)
+  expansion/solo-attuned-rival/: Solo Mode — The Attuned Rival v0.1 (base-box automa, rules brain, second count-gated module — 1p, 2026-07-19)
   _review/: items awaiting a decision; each must be referenced in meta/QUEUE.md
   _archive/: superseded material, gitignored, only grows
   outputs/: generated artifacts, gitignored

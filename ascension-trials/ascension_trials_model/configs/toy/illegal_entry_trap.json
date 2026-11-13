@@ -1,0 +1,49 @@
+{
+  "id": "illegal_entry_trap",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "notes": [
+    "Toy configuration for VS3 Task 9 planted fixture BR-TRAP-1 (.kiro spec ascension-trials-scalable-two-player-analysis): an illegal-entry trap where the tempting, high-reward Trial cannot be entered legally by the acting side and the best-response oracle must avoid it (REQ-7.3 'a tempting-but-illegal allocation the oracle must avoid').",
+    "Two energy domains (void, flux). Trial 'grand' (reward first=10) requires TWO energy sources (source_count class:energy minimum 2); Trial 'minor' (reward first=4) is mono (source_count class:energy minimum 1 maximum 1). Optional allocation with residue, winner-take-all with shared-full ties, local total_power tiebreak, no final tiebreak.",
+    "Acting side holds power in ONE energy domain only (void), so any entry on 'grand' has a single source (< 2) and is illegal: the resolver drops it and awards it 0 (ignore_entry). The 10-point 'grand' reward is therefore unreachable no matter how much void is piled on it. The only legal Recognition Points come from the 4-point mono Trial 'minor'. A greedy oracle chasing the 10 would place void on 'grand' and score 0; the correct best response places void on 'minor' and banks 4. Oracle transcribed from the rules (eligibility source-count predicate, model v2.1 §4.1; illegal-entry drop, spec v1.1 §7.3), not reverse-engineered from engine output (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "void", "class": "energy"},
+    {"id": "flux", "class": "energy"}
+  ],
+  "trials": [
+    {
+      "id": "grand",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 2}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 10, "second": 0}}}
+    },
+    {
+      "id": "minor",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["energy"],
+        "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 4, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  }
+}

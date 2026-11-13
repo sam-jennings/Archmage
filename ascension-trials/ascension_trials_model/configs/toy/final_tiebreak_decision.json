@@ -1,0 +1,52 @@
+{
+  "id": "final_tiebreak_decision",
+  "version": "1.0",
+  "supported_player_counts": [2],
+  "declared_tiebreak_stats": ["spell_count", "largest_spell"],
+  "notes": [
+    "Toy configuration for VS3 Task 9 planted fixture BR-FINALTIE-1 (.kiro spec ascension-trials-scalable-two-player-analysis): a game decided only at the final Spellbook tiebreak (REQ-7.3 'a case decided only at the final tiebreak').",
+    "One fungible normal domain. Two Trials t1, t2, each reward first=2 (second=0), shared-full ties, local total_power tiebreak, optional allocation. The FINAL result chain is [spell_count, shared]: when the two sides' Recognition-Point totals are equal, the sole first place is decided by the derived-state spell_count statistic, not by Recognition Points.",
+    "Acting side A holds fungible=1 with spell_count=5; fixed opponent B holds fungible=1 with spell_count=1 and plays its unit on t1. With one unit A can only ever reach a 2-2 Recognition-Point tie (contest t1 for a shared 2-2, or take the uncontested t2 while B takes t1, again 2-2). On that Recognition-Point tie the final chain compares spell_count: A(5) > B(1), so A takes SOLE first and wins the game -- an outcome produced entirely by the final Spellbook tiebreak. Hand oracle: row win best response +1 (decided at the final spell_count tiebreak on a 2-2 RP tie); row margin best response 0 (A cannot out-score B on Recognition Points with equal budget and shared-full ties). Because an active final Spellbook tiebreak couples the decision, the margin oracle uses the exact exhaustive path (REQ-4.3), while the win oracle models the RP-tie -> A-wins sign directly. Oracle transcribed from the final-result rules (model v2.1 §8.2 spell_count; spec v1.1 §7.9), not reverse-engineered from engine output (REQ-9.4)."
+  ],
+  "power_formula": {
+    "profile": "declarative",
+    "standard_spell_power": {"type": "linear", "expression": "n"}
+  },
+  "domains": [
+    {"id": "fungible", "class": "fungible"}
+  ],
+  "trials": [
+    {
+      "id": "t1",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 0}}}
+    },
+    {
+      "id": "t2",
+      "active_player_counts": [2],
+      "eligibility": {
+        "allowed_domain_classes": ["fungible"],
+        "source_count": {"universe": "class:fungible", "minimum": 1}
+      },
+      "entry_floor": {"value": 0, "scope": "normal"},
+      "tie_award": {"type": "shared_full"},
+      "trial_tiebreaks": ["total_power", "shared"],
+      "rewards": {"by_player_count": {"2": {"first": 2, "second": 0}}}
+    }
+  ],
+  "allocation": {
+    "completion": "optional",
+    "residue_allowed": true,
+    "infeasible_full_fallback": "reject"
+  },
+  "final_result": {
+    "final_tiebreaks": ["spell_count", "shared"]
+  }
+}
