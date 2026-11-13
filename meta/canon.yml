@@ -15,9 +15,9 @@ energy_fifth: Echo — 5-6 player decks only (decision 2026-07-02); NOT in 2-4p 
 spell_types: Conjuration, Transfiguration, Enchantment, Perfect Transmutation
 deck_2_4p: 4 energies x ranks 1-15 + 2 wilds = 62 cards (unchanged, canon)
 deck_5_6p: 5 energies x ranks 1-15 + 4 wilds = 79 cards (under test)
-enchantment_ladder: 3-card = +1 counter / score 4; 4-card = +3 counters / score 10; 5-card = +5 counters / score 16 (counter grants are cumulative totals; Unlimited Capacity removed in v3.1; 5-card reachable in 5-6p/Echo only — decision 2026-07-06 F6, superseded UC clause 2026-07-09)
+enchantment_ladder: 3-card = +1 counter / score 4; 4-card = +3 counters / score 10; 5-card = +5 counters / score 16 (counter grants are cumulative totals; Unlimited Capacity removed in v3.1; Enchantment max size 4 at 2-4p, 5 at 5-6p/Echo — size cap per decision 2026-11-13, previously enforced via the wild-energy rule of F6 2026-07-06; superseded UC clause 2026-07-09)
 starting_counters: 2-4p = 1 counter; 5-6p = 2 counters (decision 2026-07-03)
-wild_rule: a wild must be declared (energy + value) as an energy present in the current deck, in ALL spell types; the declaration is fixed while the spell exists and is redeclared only if the spell is broken down and rebuilt; empowering does not redeclare existing wilds (decision 2026-07-06 F6)
+wild_rule: a wild is whatever the spell needs and never declares an energy; only in sequences (Transfiguration, Perfect Transmutation) does it declare a number, fixed while the spell exists and redeclared only if the spell is broken down and rebuilt; empowering does not redeclare (decision 2026-11-13, supersedes F6 wild scope; rulebook text pending the post-v3.1 rulebook pass)
 max_spell_size: 15 — no spell/configuration may exceed 15 components; Conjuration scoring is NOT extended to 16-17 (decision 2026-07-06 F6)
 primary_card_design: arcana (art) + beacon (connector) — decision 2026-07-02
 solo_direction: base-box automa — The Attuned Rival (expansion/solo-attuned-rival/, decision 2026-07-19); solo is 1p count-gated (Echo rule satisfied vacuously); deep solo/co-op stays with the co-op expansion direction (audit #9); numeric tuning gated on v3.1 confirm/kill
