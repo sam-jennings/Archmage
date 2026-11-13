@@ -57,7 +57,7 @@ Reorganized 2026-07-10 into subfolders (content unchanged, paths only):
 
 ### `schools-and-last-rites/` — v0.1 rulesets (most-developed pair; sequencing not settled)
 - **`schools-and-last-rites/Expansion - The Schools (v0.1).md`** — full rules: 8 suit-agnostic Schools (talent + lean), market draft, iteration log of 9 bugs fixed on paper.
-- **`schools-and-last-rites/Expansion - The Last Rites (v0.1).md`** — full rules: 8 once-each Drought Rites, banish costs, iteration log of 9 bugs fixed on paper.
+- **`schools-and-last-rites/Expansion - The Last Rites (v0.2).md`** — full rules: 8 once-each Drought Rites, banish costs, re-priced for rulebook v3.2 (2026-11-13) with a Drought-length desk check and a Schools interactions section; iteration logs B1–B9 and R1–R8.
 - **`schools-and-last-rites/Playtest Plans - Schools & Last Rites (templates).md`** — two single-variable session plans in the standard format, gated as templates until the Stage-3 counter fix is validated; copy into `playtests/` via aa-playtest-planner when the gate lifts.
 - *(Archived: `_archive/Expansion Directions - Echo and the High Frequencies (superseded 2026-07-02).md` — leaned on Echo as expansion design space, void now that Echo is the 5–6p extension suit.)*
 
