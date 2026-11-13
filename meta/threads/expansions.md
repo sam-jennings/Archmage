@@ -3,7 +3,7 @@ thread: expansions
 status: active
 updated: 2026-11-13
 goal: Develop the expansion line — Ascension Trials locked in; everything else is ideas at different stages, no settled sequencing
-next: Sam reviews each expansion concept one at a time with Arcane, using `_review/EXPANSION_READINESS_REVIEW_2026-11.md` (readiness-now ratings, recommended review order, Living Array recommendation) with the July audit `_review/EXPANSION_AUDIT_2026-07.md` as background, then picks one to develop.
+next: **Sam picked Schools + Last Rites (2026-11-13) as the next expansions to develop together** (same folder `expansion/schools-and-last-rites/`; readiness 9 + 9 in `_review/EXPANSION_READINESS_REVIEW_2026-11.md`). Round 1 in progress: refresh each to v0.2 against rulebook v3.2 (Schools: rewrite Lucent Order for flexible wilds, re-check Ashbinders/Menders; Last Rites: re-price all 8 Rites on the v3.2 score table, esp. Final Pattern and Sundering), each checking the Gravewright / Grave-Song tension. Then: update the shared playtest-plan templates, print paper aids, test each module ALONE, then together. Neither rides on the first v3.2 base-game playtest.
 hypothesis: The base loop stays light; strategic depth and audience breadth are delivered through modular expansions (Session-4 depth brief)
 ---
 
