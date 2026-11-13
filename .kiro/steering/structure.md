@@ -17,4 +17,4 @@ agent-written, script-checked, never hand-edited by the user. All rules:
 - Playtest sessions: `playtests/YYYY-MM-DD-session-NN.md` with `goal:`/`verdict:` front-matter (front-matter is the index — there is no index file).
 - Single sources of truth are listed in `meta/manifest.yml` under `sources_of_truth` — edit those files, never create parallel copies.
 - Generated artifacts (`outputs/`, `_archive/`, per-card PDFs, `node_modules/`) are gitignored.
-- Designer-only tools (`tools/`) never appear in player-facing material.
+- Designer-only tools (`tools/`) never appear in player sections or printed material; the site hub (`index.html`) lists them under its separate "Designer workshop" section (decision `2026-11-13-public-site-hub-includes-designer-pages`).

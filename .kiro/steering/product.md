@@ -20,4 +20,5 @@ nothing (see `working-system.md`). Highlights, for orientation only:
 - Decisions are captured same-turn in `meta/decisions/` with propagation checklists.
 - **Advise, don't gate:** surface stage/priority tradeoffs in a line or two, then do
   what the user asks. Maintenance of `meta/` is the agent's job, never the user's.
-- Keep designer-only tools (`tools/`) out of player-facing material.
+- Keep designer-only tools (`tools/`) out of player sections and printed material; the
+  site hub lists them only under its "Designer workshop" section.
