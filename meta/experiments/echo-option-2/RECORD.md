@@ -3,8 +3,10 @@ title: Experiment — Echo / Option 2 deck structure
 type: experiment
 decision: meta/decisions/2026-07-02-echo-option-2-deck.md
 started: 2026-07-02
-status: running
+status: concluded
 ---
+
+> **Concluded 2026-11-13 by designer approval** (`meta/decisions/2026-11-13-v3-2-designer-approval.md`): the Echo 5–6p deck is canon in rulebook v3.2. The live 5-player check below is no longer a confirm/kill gate; it stays a P1 to validate uptake and the open tunables (wild count 4 vs 6, Conjuration under suit dilution). Folder kept for its baseline copies.
 
 # Experiment: Echo / Option 2 deck structure
 

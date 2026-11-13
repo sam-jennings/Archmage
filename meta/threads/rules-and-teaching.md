@@ -3,7 +3,7 @@ thread: rules-and-teaching
 status: active
 updated: 2026-11-13
 goal: Players can learn, play, and track the game from written materials alone — no verbal patching
-next: **Sam answers the open questions in `playtests/plans/stranger-playtest-plan-2026-11.md` (in person or online, venues, how many strangers) so the first stranger session can be scheduled** — Sam has one printed set and has never run a stranger session; the recommended first session doubles as the v3.1 confirm/kill with TS1 (blind teach) and TS2 (replay choice) notes. The six-player French teaching test was **never run** (pack still ready in `_review/FR_6P_SESSION_2026-08/`); it stays a P1 for when that group meets. The printed-reference-card redesign stays the standing P1 and now carries the counter-comprehension retest (F1 arms parked, brief 1A).
+next: **Sam answers the open questions in `playtests/plans/stranger-playtest-plan-2026-11.md` (in person or online, venues, how many strangers) so the first stranger session can be scheduled** — Sam has one printed set and has never run a stranger session; the recommended first session doubles as the first v3.2 playtest with TS1 (blind teach) and TS2 (replay choice) notes. The six-player French teaching test was **never run** (pack still ready in `_review/FR_6P_SESSION_2026-08/`); it stays a P1 for when that group meets. The printed-reference-card redesign stays the standing P1 and now carries the counter-comprehension retest (F1 arms parked, brief 1A).
 hypothesis: Counter confusion is a printed-card/board legibility problem, not a mechanic or rule-text problem — a new player (Denise, Session 4) understood the dual-purpose counters from the ONLINE reference with zero explanation and no misplay, whereas Sessions 1 & 3 failed "from card or board." If the redesigned physical card also teaches the loop cleanly, F1 leans text/presentation (Option C) rather than a mechanic redesign.
 ---
 
@@ -67,7 +67,7 @@ Measurement instrument: the bilingual host answers questions only at a graded ti
 Three scripted probes: turn shape; **2 counters / cast 2 spells → how many learning
 actions** (F1, answer 2); and enchantment-timing (F3).
 
-Config is 6p Echo deck, v3.1 baseline — explicitly *not* the v3.1 confirm/kill, which
+Config is 6p Echo deck, rules v3.2 — explicitly *not* the first v3.2 playtest, which
 stays clean on Tabletopia at 2–4p. Side benefits: first live 5-card Enchantment, first
 6-player downtime observation, first new-player observation of the Drought transition.
 

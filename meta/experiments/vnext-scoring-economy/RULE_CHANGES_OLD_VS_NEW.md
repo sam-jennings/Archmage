@@ -2,12 +2,12 @@
 title: Rule changes still to be decided — old vs new
 type: reference
 updated: 2026-11-13
-status: draft
+status: decided-2026-11-13
 ---
 
 # Rule changes still to be decided — old vs new
 
-A table-side summary. It changes nothing: the rulebook, canon and decisions are untouched.
+A table-side summary. **Decided 2026-11-13** (Sam): each item now carries a status line — approved / amended / dropped / still open. Governing decision: `meta/decisions/2026-11-13-v3-2-designer-approval.md` (rulebook **v3.2**). OLD/NEW below are as written before that decision.
 
 - **OLD** = rulebook v3.0, read from the byte-exact backup in `_archive/*-v3.0-2026-07-09/`.
 - **NEW** = rulebook v3.1 (under test): `rulebook/Archmage Ascension - Complete Rulebook.md`,
@@ -26,6 +26,9 @@ All six (plus the two extras at A7–A8) are kept or rolled back **together**. S
 becomes `canon`. KILL → restore the v3.0 archive, decision becomes `reverted`.
 
 ### A1. Score table
+
+**2026-11-13: APPROVED** (as is) — canon in v3.2.
+
 
 Old: `_archive/Scoring System Reference.md-v3.0-2026-07-09`, "Recognition Points Table".
 New: `rulebook/Scoring System Reference.md`, same section. Shown as **old → new**.
@@ -60,6 +63,9 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
 
 ### A2. RESHAPE cost
 
+**2026-11-13: APPROVED** (as is) — canon in v3.2.
+
+
 - **Old** (v3.0 rulebook §Learning Phase › RESHAPE): "Break down any/all spells and rebuild them
   using the same components … Counts as one learning action regardless of how many spells affected."
   Breaking an Enchantment lost its whole grant (−1 / −3 / give back the Unlimited Capacity marker).
@@ -71,6 +77,9 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
   2026-07-09): this rule only bites if counters stay scarce.
 
 ### A3. Enchantment ladder and Unlimited Capacity
+
+**2026-11-13: APPROVED** (as is) — canon in v3.2.
+
 
 - **Old** (v3.0 §Enchantment, §Building Your Capacity): 3-card = +1 counter, 4-card = +3 counters,
   5-card = **Unlimited Capacity** ("take the Unlimited Capacity marker; set all counters aside"):
@@ -85,6 +94,9 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
 
 ### A4. Partial UNLEARN
 
+**2026-11-13: AMENDED, then approved** — returned components can be learned again the same turn (the "until your next turn" clause is removed). Canon in v3.2.
+
+
 - **Old** (v3.0 §UNLEARN): "Dissolve one spell completely, returning its components to your hand."
   1 counter per spell. An Enchantment lost its whole grant.
 - **New** (v3.1 §UNLEARN): "Return one or more components from a single spell to your hand. The
@@ -97,6 +109,9 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
 - **Status:** under test. **Decides:** the v3.1 playtest.
 
 ### A5. F3 timing and the "cannot afford → blocked" gate
+
+**2026-11-13: APPROVED** (as is) — canon in v3.2.
+
 
 - **Old** (v3.0 §LEARN, §RESHAPE, §UNLEARN): gains were **immediate** ("Immediately gain +1 counter
   (add to your pool now)"); losses immediate ("immediately lose 1 counter"). No affordability rule.
@@ -112,6 +127,9 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
 
 ### A6. EMPOWER conversion restriction
 
+**2026-11-13: DROPPED** — EMPOWER may extend a spell, grow an Enchantment to the next size, or convert one spell type to another. The ban sentence is removed in v3.2.
+
+
 - **Old** (v3.0 §EMPOWER): "Can make a Conjuration longer, extend a Transfiguration, or convert one
   spell type to another." (Any type to any type, Enchantment included.)
 - **New** (v3.1 §EMPOWER): extend a spell, grow an Enchantment to the next size, or convert among
@@ -122,10 +140,16 @@ one huge run ("T15"). Status: under test. Decides: the v3.1 playtest.
 
 ### A7. (extra) "Cast up to N" and Recall for all
 
+**2026-11-13: APPROVED** — canon in v3.2.
+
+
 Covered in A3: a direct result of removing Unlimited Capacity. Listed in the spec
 (`.kiro/specs/v3-1-scoring-economy/requirements.md`, Requirement 2.4).
 
 ### A8. (extra, wording only) "An Enchantment's capacity equals its current size"
+
+**2026-11-13: APPROVED** — canon in v3.2.
+
 
 Decision `2026-07-10-retire-dissolve-terminology.md` (status `canon`) rewrote the capacity-loss
 text as one principle instead of a ±ladder. Same maths, no rule change, no version bump. It rolls
@@ -138,6 +162,9 @@ back with v3.1 if v3.1 is killed.
 These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 rollback stays clean.
 
 ### B7. Flexible wilds + Enchantment size cap
+
+**2026-11-13: APPROVED** — written into the rulebook as v3.2 (decision now canon).
+
 
 - **Old** (v3.1 rulebook §Enchantment, unchanged from v3.0): "Wild-declaration rule: a wild used in
   an Enchantment must be declared as one of the energy types present in the current deck. A
@@ -159,6 +186,9 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 
 ### B8. Source emptying mid-turn
 
+**2026-11-13: APPROVED** — master rule + per-effect rulings written into v3.2 (decision now canon).
+
+
 - **Old** (v3.1 = v3.0 §The Drought): "Trigger: The instant The Source runs dry." Then the Array and
   Reserve are shuffled into the Released Reserve and "Turn order continues as normal." The only
   casting rule that touches it is generic: "If you can't legally resolve a spell's effects, you cannot
@@ -176,6 +206,9 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 
 ### B9. Array Attunement
 
+**2026-11-13: STILL OPEN** — a variant to test; not in canon.
+
+
 - **Old** (v3.1 §Collection Phase): "Draw 1 component from The Source, OR Take 1 component from The
   Array (immediately replace from The Source)." Anyone may take from the Array.
 - **New** (`2026-07-17-array-attunement-tf-gate.md`): you may take from the Array in Collection
@@ -190,11 +223,11 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 
 ### Also listed
 
-- **F5 — game end** (`2026-07-06-f5-game-end-procedure.md`): **no change.** Rulebook §End of The
+- **F5 — game end** (no change; unaffected by the approval) (`2026-07-06-f5-game-end-procedure.md`): **no change.** Rulebook §End of The
   Drought already says "When the Released Reserve is depleted (all cards drawn), the contest
   immediately ends." Kept; seat-order fairness is a playtest watch (worst case 6p + Echo + Trials).
   Finish-the-round wording is parked, not adopted.
-- **Size-15 cap** (F6): **already in, but only by implication.** The score table stops at 15 and
+- **Size-15 cap** (F6): **STILL OPEN as wording** — no explicit rule added (not approved). **Already in, but only by implication.** The score table stops at 15 and
   ranks run 1–15. There is **no sentence** in the rulebook saying "no spell may exceed 15 cards"
   (see "Gaps" below).
 
@@ -202,17 +235,17 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 
 ## C. Bigger changes on hold
 
-- **Echo 5–6p deck** (`2026-07-02-echo-option-2-deck.md`, status `experiment`). Old (v2.8,
+- **Echo 5–6p deck** — **2026-11-13: APPROVED** (decision now `canon`); the open tunables below **STILL OPEN** (QUEUE). (`2026-07-02-echo-option-2-deck.md`, was status `experiment`). Old (v2.8,
   `_archive/rulebook-v2.8-2026-07-06`): 5–7 players used 4 energies × ranks 1–20 + 4 wilds = 84
   cards. New (in the rulebook now): 5–6 players use 5 energies (adds **Echo**) × ranks 1–15 + 4 wilds
   = 79 cards; 2–4p deck unchanged; 5–6p start with 2 counters. Open tunables: wild count 4 vs 6;
   whether Conjuration still works with suits diluted. Decides: a live 5-player session (enchantment
   uptake above 2 of 5, no counter confusion from written rules) — QUEUE P1.
-- **Ascension Trials** (F8, `2026-07-06-f8-ascension-trials-reconcile.md`, thread `parked`). Old:
+- **Ascension Trials** — **STILL OPEN** (parked). (F8, `2026-07-06-f8-ascension-trials-reconcile.md`, thread `parked`). Old:
   `rulebook/Ascension Trials.md` (v2.8, power ×1 / ×1.5 / ×2 by size, secret allocation; some 5–7p
   text stale). New: a hybrid rebuild with a shortlist (C1 "Coherent Claim" recommended) in
   `ascension-trials/design-history/`. On hold until v3.1 is confirmed or rolled back.
-- **Counter redesign** (QUEUE Deferred, F1). Old/current: counters placed to cast, all picked up at
+- **Counter redesign** — **STILL OPEN** (QUEUE Deferred, F1). Old/current: counters placed to cast, all picked up at
   Recall, reused for learning. New candidate: round-trip counters (placing one casts a spell,
   picking one up pays for a learning action); alternatives are a Capacity Gauge or a text-only
   rewrite. Fixed as current counters for v3.1; reopens only if the reference-card redesign still
@@ -222,20 +255,20 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 
 ## Gaps and contradictions found
 
-1. **Size-15 cap not written down.** F6 says "no spell may exceed 15 components"; the spec says
+1. **(Still open — no size-15 rule was approved.)** **Size-15 cap not written down.** F6 says "no spell may exceed 15 components"; the spec says
    only "SHALL NOT award points beyond the size-15 value" (a scoring cap, not a build ban). The
    rulebook says neither. With wilds a 16- or 17-card Conjuration is possible on paper (15 ranks of
    one energy + wilds). QUEUE marks the cap "DONE" because the table stops at 15.
-2. **F3 gate vs multi-spell RESHAPE.** The gate names "the action's counter cost (1)", but RESHAPE now
+2. **(Still open.)** **F3 gate vs multi-spell RESHAPE.** The gate names "the action's counter cost (1)", but RESHAPE now
    costs N. Not ruled (also open question 3 below).
-3. **Dry-run drill D4** (`dry-run-and-session-template.md`) gives the reason for "no 5-card
+3. **(Fixed 2026-11-13: D4 now cites the size cap.)** **Dry-run drill D4** (`dry-run-and-session-template.md`) gives the reason for "no 5-card
    Enchantment at 2–4p" as the F6 wild-energy rule; the 2026-11-13 decision replaces that with a size
    cap. Same outcome at the table, different reason.
-4. **Scoring Reference** still explains the 2–4p Enchantment cap via deck energies — the explanation
+4. **(Fixed 2026-11-13 in v3.2.)** **Scoring Reference** still explains the 2–4p Enchantment cap via deck energies — the explanation
    the 2026-11-13 decision drops. Expected until the rulebook pass.
-5. **"Dissolved" still in the rulebook Quick Reference** ("Fully dissolved …", "3→dissolved") although
+5. **(Fixed 2026-11-13: now "taken apart".)** **"Dissolved" still in the rulebook Quick Reference** ("Fully dissolved …", "3→dissolved") although
    decision `2026-07-10-retire-dissolve-terminology.md` retired that wording. Cosmetic.
-6. **Echo decision file** still quotes the ladder as 6 / 12 / 18 with Unlimited Capacity, with no note
+6. **(Echo note fixed 2026-11-13; the F8 "UC is 5–6p-only" item is still stale, F8 is parked.)** **Echo decision file** still quotes the ladder as 6 / 12 / 18 with Unlimited Capacity, with no note
    that v3.1 replaced it. **F8 checklist** still asks for an "Unlimited Capacity is 5–6p-only" note —
    stale now that UC is gone.
 7. **Not found:** no other v3.1 rule change beyond A1–A8 in the decision, RECORD or spec.
@@ -243,6 +276,8 @@ These wait for **the rulebook pass after the v3.1 confirm/kill**, so the v3.0 ro
 ---
 
 ## Open v3.1 test questions
+
+**2026-11-13: STILL OPEN** — not answered by the approval; they now shape the first v3.2 playtest.
 
 From `dry-run-and-session-template.md` (listed, not answered):
 

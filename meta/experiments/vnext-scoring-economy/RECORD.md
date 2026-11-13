@@ -3,12 +3,20 @@ title: Experiment — vnext scoring & economy rebalance (bundle)
 type: experiment
 decision: meta/decisions/2026-07-08-vnext-scoring-economy-experiment.md
 started: 2026-07-08
-status: applied-under-test
+status: concluded
 ---
 
 # Experiment: vnext-scoring-economy
 
-**STATUS: APPLIED — UNDER-TEST.** This bundle has been **applied to canon as rulebook v3.1**
+> **CONCLUDED 2026-11-13 BY DESIGNER APPROVAL.** Sam approved the bundle without the live
+> confirm/kill: it is canon as rulebook **v3.2** (`meta/decisions/2026-11-13-v3-2-designer-approval.md`),
+> with A4 amended (returned components may be learned again the same turn) and A6 dropped (EMPOWER
+> may convert one spell type to another). The governing decision
+> `2026-07-09-v3-1-scoring-economy-bump.md` is now `canon`. This folder is **kept** (not retired) for
+> the playtest kit (`dry-run-and-session-template.md`, now the first v3.2 playtest) and the
+> old-vs-new summary (`RULE_CHANGES_OLD_VS_NEW.md`). The status block below is historical.
+
+**STATUS (historical, pre-2026-11-13): APPLIED — UNDER-TEST.** This bundle has been **applied to canon as rulebook v3.1**
 and is held **under-test** pending a live playtest. It was executed end-to-end via the Kiro spec
 `.kiro/specs/v3-1-scoring-economy/`; governing decision
 `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md` (status `experiment`). Canon

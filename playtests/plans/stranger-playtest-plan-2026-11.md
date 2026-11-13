@@ -11,7 +11,7 @@ sources: _review/STRANGER_EVIDENCE_PLAN_2026-07.md (TS1–TS6) · _review/STRANG
 
 Draft for Sam. No session with strangers has been run yet (the French six-player test was
 prepared but never played). This plan gets one stranger session onto the calendar with the
-kit that exists today, and makes that session also count as the v3.1 confirm/kill.
+kit that exists today, and makes that session also count as the first v3.2 playtest (2026-11-13: v3.1 was approved by designer decision as rulebook v3.2, so there is no confirm/kill verdict any more).
 
 ## 1. The constraint: one printed set
 
@@ -44,7 +44,7 @@ Notes:
 - (a) and (b) need nothing new. (c) is only worth it once a second table or a lend-out is
   actually planned.
 
-## 3. Recommended first session — doubles as the v3.1 confirm/kill
+## 3. Recommended first session — doubles as the first v3.2 playtest
 
 - **Route:** (b) Screentop, or (a) in person if Sam has a group within reach — both work with
   what exists. Pick by the open questions in §6.

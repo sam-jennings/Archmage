@@ -3,19 +3,21 @@
 Informational only — no rules live here (rules are in `meta/process.md`). This file exists so
 Kiro and other sessions see, at a glance, what is under experiment or applied-but-under-test.
 
-## vnext-scoring-economy — status: APPLIED as rulebook v3.1 (UNDER-TEST)
+## Current rules: rulebook v3.2 (canon) — nothing applied is under test
 
-The bundle has been **applied to canon as rulebook v3.1** and is held **under-test** pending a
-live confirm/kill playtest. Governing decision:
-`meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md` (status `experiment`), executed via the
-Kiro spec `.kiro/specs/v3-1-scoring-economy/`. What landed:
+Sam approved the v3.1 scoring/economy bundle as designer on 2026-11-13 (no live confirm/kill;
+A4 amended so returned cards can be learned the same turn; A6, the EMPOWER Enchantment-conversion
+ban, dropped) and added flexible wilds + the 2–4p Enchantment size cap and the Source-emptying
+timing. Governing decision: `meta/decisions/2026-11-13-v3-2-designer-approval.md`. The
+`vnext-scoring-economy` experiment is **concluded**; its folder stays only for the playtest kit
+and the old-vs-new summary. v3.1 copies: `_archive/*-v3.1-2026-11-13/`; v3.0: `_archive/*-v3.0-2026-07-09/`.
 
-1. Rebalanced score table (ceiling Conj15 = PT15 = 100, Transfiguration ~½ of PT / TF15 = 48, C3 = 0 floor, every other spell ≥ 1).
-2. RESHAPE redefined to cost **one counter per spell broken down** (N spells → N counters).
-3. Unlimited Capacity **removed**; finite enchantment ladder +1/+3/+5 scoring 4/10/16; plus partial UNLEARN (proportional capacity loss), the F3 "cannot afford → blocked" gate, and the EMPOWER conversion restriction.
+## Still open (not in canon, or canon with open tunables)
 
-Details in `meta/experiments/vnext-scoring-economy/RECORD.md`. **Canon (`meta/canon.yml`,
-`rulebook/Scoring System Reference.md`, the Complete Rulebook) is now v3.1 (under-test), not
-v3.0.** A byte-exact v3.0 rollback is in `_archive/*-v3.0-2026-07-09/` (authoritative list in
-`_archive/README.md`). On playtest PASS, Task 19 flips the decision to `canon` and retires the
-experiment folder; on FAIL, run the rollback and set the decision `reverted`.
+- **Array Attunement** (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`, proposed) — a
+  variant to test, off by default.
+- **Echo 5–6p deck** — canon, but two tunables stay open: wild count 4 vs 6, and Conjuration
+  viability under suit dilution (QUEUE).
+- **Ascension Trials** (F8) — parked; candidates in `ascension-trials/design-history/`.
+- **Counter redesign** (F1) — QUEUE Deferred.
+- The four v3.1 test questions in `meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md`.
