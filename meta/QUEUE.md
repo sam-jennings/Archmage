@@ -44,7 +44,6 @@ Migrated from BACKLOG.md (archived 2026-07-03).
 - [P2] [design] [thread:rules-and-teaching] Add a turn-stage tracker or clearer stage summary — deliberate players lose their place mid-turn.
 - [P2] [review] [decide] Integrate or drop the counter/tracker proposal (`_review/OPUS_TASK_counter_and_tracker.md` + `_review/OPUS_TASK_counter_and_tracker_RESPONSE.md`) — relates to the counter-refresh rewrite and the turn-stage tracker.
 - [P2] [rules] [decide] Counter refresh: rewrite (clarity fix) or redesign (mechanic change)? Depends on whether better text alone fixes comprehension next session; the round-trip redesign is the leading redesign candidate.
-- [P2] [software] `web-apps/v2/tools/serve.mjs` calls `.listen(PORT)` with no host, so the local preview serves the whole repo to the local network — bind `127.0.0.1` (split out of the resolved "Studio is public" item, 2026-11-13).
 - [P2] [meta] [decide] **Stale-thread confirmation (check.mjs, 2026-11-12)** — `capacity-economy` (since 2026-07-20), `expansions` (since 2026-07-19, reactivated by `2026-07-16-expansion-status-reset`), `ascension-trials` (since 2026-07-13, kept active by F8) and `rules-and-teaching` (since 2026-08-16) are all `active` but untouched 88–122 days; each `next` waits on Sam. Sam to say per thread: confirm active, park, or close. The agent did not park them because two were explicitly made active by Sam.
 
 ## Later (P3)
@@ -95,6 +94,8 @@ Migrated from BACKLOG.md (archived 2026-07-03).
 - **Tabletopia scene assembly + save** (~10 min manual, `card-design/export-tabletopia/TABLETOPIA_BUILD_GUIDE.md`; workshop game `tabletopia.com/workshop/games/azcps`, all objects already uploaded) — **ON HOLD 2026-11-13: Sam is not sure he will continue with Tabletopia.** Nothing deleted; resume from the build guide if he picks it back up. Until then the v3.1 confirm/kill venue is open (Screentop table still live). Moved off the open propagation list of `meta/decisions/2026-07-20-tabletopia-switch.md`.
 
 ## Archive (resolved)
+
+- [done 2026-11-13] `web-apps/v2/tools/serve.mjs` local-network exposure — already fixed 2026-11-12 (`.listen(PORT, '127.0.0.1', …)`); the P2 split out of the "Studio is public" item on 2026-11-13 was stale and is closed here.
 
 - 2026-11-13 - [P2] [software] **web-apps/v2 Studio + dev tools are public** (found 2026-11-12) resolved: Sam chose to publish designer material on purpose. The site hub `index.html` now lists it under a separate, labelled "Designer workshop" section, kept out of the player sections and printed material; the v2 footer Studio link stays. See `meta/decisions/2026-11-13-public-site-hub-includes-designer-pages.md`. The `serve.mjs` loopback-bind fix was split out as its own P2.
 
