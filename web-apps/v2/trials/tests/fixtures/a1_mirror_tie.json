@@ -1,0 +1,60 @@
+{
+  "id": "A1",
+  "name": "mirror_tie",
+  "player_count": 2,
+  "oracle": {
+    "source": "docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A1 'Mirror tie'; MATH-1; REQ-7.2, REQ-7.3",
+    "evidence_class": "exact-given-profile",
+    "independent_of_implementation": true
+  },
+  "provenance": "Adversarial fixture A1 (docs/ASCENSION_TRIALS_KIRO_IMPLEMENTATION_SPEC_V1_1.md \u00a714 A1 'Mirror tie': 'Identical states and allocations. Expected: identical RP, final shared result and player-swap symmetry'; MATH-1). Two players with identical Void-5 states each allocate Void 5 to a single mono-source Purity Trial worth 6. The resolver must award both the shared-full reward (6 each), report a shared final result with win/margin utility 0, and be invariant under swapping the two player labels (identical SHA-256 audit hash, REQ-7.3). Config, states, allocations and expected outcomes transcribed from source, not reverse-engineered from engine output (REQ-9.4).",
+  "config": {
+    "id": "a1_mirror",
+    "version": "1.0",
+    "supported_player_counts": [2],
+    "power_formula": {
+      "profile": "declarative",
+      "standard_spell_power": {"type": "linear", "expression": "n"}
+    },
+    "domains": [
+      {"id": "void", "class": "energy"},
+      {"id": "flux", "class": "energy"}
+    ],
+    "trials": [
+      {
+        "id": "purity",
+        "active_player_counts": [2],
+        "eligibility": {
+          "allowed_domain_classes": ["energy"],
+          "source_count": {"universe": "class:energy", "minimum": 1, "maximum": 1}
+        },
+        "entry_floor": {"value": 0, "scope": "normal"},
+        "tie_award": {"type": "shared_full"},
+        "trial_tiebreaks": ["total_power", "normal_power", "qualifying_source_count", "shared"],
+        "rewards": {"by_player_count": {"2": {"first": 6, "second": 0}}}
+      }
+    ],
+    "allocation": {"completion": "optional", "residue_allowed": true, "infeasible_full_fallback": "reject"}
+  },
+  "states": {
+    "A": {"player_id": "A", "normal_power": {"void": 5}, "wild_power": 0},
+    "B": {"player_id": "B", "normal_power": {"void": 5}, "wild_power": 0}
+  },
+  "allocations": {
+    "A": {"player_id": "A", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}},
+    "B": {"player_id": "B", "normal": {"purity": {"void": 5}}, "wild": {}, "residue": {"normal": {}, "wild": 0}}
+  },
+  "expected": {
+    "trial": "purity",
+    "shared_first": true,
+    "placements": [["A", "B"]],
+    "recognition": {"A": 6, "B": 6},
+    "win_utility": {"A": 0, "B": 0},
+    "margin_utility": {"A": 0, "B": 0},
+    "player_swap_symmetry": {
+      "swap": {"A": "B", "B": "A"},
+      "audit_hash_invariant": true,
+      "note": "The two players are identical, so relabelling A<->B leaves the normalized inputs unchanged and the resolver returns the identical SHA-256 audit hash (REQ-7.3)."
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "arcane-drought-site-v2",
+  "private": true,
+  "type": "module",
+  "description": "No dependencies and no build step. This file only tells node that the .js files here are ES modules, so the tests and tools can import the same modules the browser does.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs trials/tests/*.test.mjs",
+    "check": "node tools/check-rules-data.mjs",
+    "serve": "node tools/serve.mjs"
+  }
+}

@@ -1,0 +1,155 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ARCANE DROUGHT — design tokens (v2)
+   Evolved from web-apps/archmage-tokens.css: same night-violet field, engraved
+   gold and energy accents; now with colour ROLES, a daylight theme, self-hosted
+   fonts and explicit focus / motion / touch tokens.
+
+   Rule: components reference roles (--ax-text, --ax-surface…), never raw hex.
+   Energy colours appear only on the dark "card" surfaces (--ax-card-*), which
+   stay dark in both themes, so the canonical symbol art always sits on the
+   background it was drawn for.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Fonts: OFL, subset (Latin + Latin-1), variable weight. `optional` + preload =
+   no layout shift when they arrive; the service worker makes them instant after
+   the first visit. See assets/fonts/OFL.txt. */
+@font-face {
+  font-family: 'Cinzel';
+  src: url('fonts/cinzel-var.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('fonts/cormorant-garamond-var.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: optional;
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  src: url('fonts/cormorant-garamond-italic-var.woff2') format('woff2');
+  font-weight: 400 600;
+  font-style: italic;
+  font-display: optional;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* ── Surfaces ─────────────────────────────────────────────── */
+  --ax-bg-deep: #0c0918;
+  --ax-bg: #110d22;
+  --ax-surface: #1a1435;        /* panels, tiles                    */
+  --ax-surface-2: #241c47;      /* raised: pressed keys, popovers   */
+  --ax-line: #33285e;           /* hairlines, decorative            */
+  --ax-line-strong: #7566b3;    /* control boundaries (≥3:1 on bg)  */
+
+  /* ── Ink (all ≥ 4.5:1 on --ax-bg and --ax-surface) ────────── */
+  --ax-text: #ece6d8;
+  --ax-text-soft: #cdc3dd;
+  --ax-text-dim: #a79cc6;
+
+  /* ── Accents ──────────────────────────────────────────────── */
+  --ax-gold: #d9b560;           /* headings, primary accent         */
+  --ax-gold-bright: #f6c94a;    /* focus ring, current step         */
+  --ax-gold-wash: rgba(217, 181, 96, 0.10);
+  --ax-gold-line: rgba(217, 181, 96, 0.45);
+  --ax-link: #c3a6fa;
+  --ax-violet-wash: rgba(183, 148, 246, 0.10);
+  --ax-violet-line: rgba(183, 148, 246, 0.42);
+  --ax-on-accent: #1a1203;      /* text on a gold fill              */
+
+  /* ── Status (always paired with a word, never colour alone) ─ */
+  --ax-ok: #5fd0b3;
+  --ax-no: #f08a9a;
+
+  /* ── Card surfaces: dark in every theme ───────────────────── */
+  --ax-card-bg: #0d0a1a;
+  --ax-card-line: #3d3270;
+  --ax-card-text: #ece6d8;
+
+  /* ── Energies + wild (from the live card renderer) ────────── */
+  --ax-radiance: #f5c518;
+  --ax-void: #c060f0;
+  --ax-flux: #00c8b4;
+  --ax-aether: #e8304a;
+  --ax-echo: #d7d4c8;
+  --ax-wild: #c8d8f8;
+
+  /* ── Type ─────────────────────────────────────────────────── */
+  --ax-font-display: 'Cinzel', 'Trajan Pro', Georgia, 'Times New Roman', serif;
+  --ax-font-body: 'Cormorant Garamond', 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+
+  --ax-fs-label: 0.75rem;                       /* 12px engraved labels      */
+  --ax-fs-small: 1rem;                          /* 16px notes                */
+  --ax-fs-body: 1.1875rem;                      /* 19px — Cormorant runs small */
+  --ax-fs-lead: 1.3125rem;
+  --ax-fs-h3: 1.25rem;
+  --ax-fs-h2: clamp(1.5rem, 1.2rem + 1.4vw, 2rem);
+  --ax-fs-h1: clamp(2rem, 1.4rem + 3.2vw, 3.25rem);
+  --ax-lh-body: 1.45;
+  --ax-lh-tight: 1.2;
+  --ax-track-label: 0.12em;
+  --ax-track-title: 0.06em;
+
+  /* ── Space (4-based) ──────────────────────────────────────── */
+  --ax-sp-1: 4px;
+  --ax-sp-2: 8px;
+  --ax-sp-3: 12px;
+  --ax-sp-4: 16px;
+  --ax-sp-5: 24px;
+  --ax-sp-6: 32px;
+  --ax-sp-7: 48px;
+  --ax-sp-8: 64px;
+
+  /* ── Shape, elevation ─────────────────────────────────────── */
+  --ax-r-sm: 6px;
+  --ax-r-md: 10px;
+  --ax-r-lg: 14px;
+  --ax-elev-1: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 1px 2px rgba(0, 0, 0, 0.35);
+  --ax-elev-2: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  /* ── Interaction ──────────────────────────────────────────── */
+  --ax-tap: 44px;                               /* minimum touch target      */
+  --ax-focus: 2px solid var(--ax-gold-bright);
+  --ax-focus-offset: 2px;
+  --ax-ease: cubic-bezier(0.4, 0.1, 0.2, 1);
+  --ax-dur: 140ms;                              /* the only duration         */
+
+  /* ── Layout ───────────────────────────────────────────────── */
+  --ax-top-h: 52px;
+  --ax-tabs-h: 60px;
+  --ax-measure: 40rem;                          /* reading width             */
+}
+
+/* Daylight: for bright rooms and sunlit tables. Same roles, parchment field. */
+:root[data-theme='day'] {
+  color-scheme: light;
+  --ax-bg-deep: #e9e1cf;
+  --ax-bg: #f4eee0;
+  --ax-surface: #fffaf0;
+  --ax-surface-2: #efe6d2;
+  --ax-line: #d8cdb4;
+  --ax-line-strong: #7d7260;
+  --ax-text: #1d1633;
+  --ax-text-soft: #3a3156;
+  --ax-text-dim: #574c73;
+  --ax-gold: #7a560c;
+  --ax-gold-bright: #5b34b0;                    /* focus ring must contrast on parchment */
+  --ax-gold-wash: rgba(122, 86, 12, 0.08);
+  --ax-gold-line: rgba(122, 86, 12, 0.5);
+  --ax-link: #5b34b0;
+  --ax-violet-wash: rgba(91, 52, 176, 0.07);
+  --ax-violet-line: rgba(91, 52, 176, 0.45);
+  --ax-on-accent: #fffaf0;
+  --ax-ok: #0d6b58;
+  --ax-no: #a3213a;
+  --ax-elev-1: 0 1px 2px rgba(60, 40, 10, 0.12);
+  --ax-elev-2: 0 10px 30px rgba(60, 40, 10, 0.22);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --ax-dur: 0ms; }
+}

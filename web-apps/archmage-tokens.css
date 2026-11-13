@@ -5,8 +5,8 @@
 
    The physical A3 board is the anchor: a deep indigo-violet field,
    engraved gold titles, hairline rules, and the four energy accents
-   (plus the wild's moonstone silver) taken from the live card
-   renderer (card-design/art/arcana.js).
+   (plus Echo for 5-6 player games and the wild's moonstone silver)
+   taken from the live card renderer (card-design/art/arcana.js).
 
    Every surface imports THIS file. Do not restate these values
    locally — reference the variables.
@@ -79,6 +79,15 @@
   --ax-wild-bg1: #0a0d16;
   --ax-wild-bg2: #070910;
   --ax-wild-line: #506090;
+
+  /* Echo — the fifth energy (5-6 player decks only). Accent matches the
+     canonical symbol art (#d7d4c8), a pale, resonant bone-grey. */
+  --ax-echo: #d7d4c8;
+  --ax-echo-mid: #a29e90;
+  --ax-echo-dim: #24221b;
+  --ax-echo-bg1: #0d0d0a;
+  --ax-echo-bg2: #090907;
+  --ax-echo-line: #6b675b;
 
   /* ── Type families ─────────────────────────────────────────── */
   --ax-font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
@@ -218,6 +227,7 @@
 .ax-mini-card.flux     { --mini-bg-1: var(--ax-flux-bg1);     --mini-bg-2: var(--ax-flux-bg2);     --mini-bright: var(--ax-flux);     --mini-line: var(--ax-flux-line); }
 .ax-mini-card.aether   { --mini-bg-1: var(--ax-aether-bg1);   --mini-bg-2: var(--ax-aether-bg2);   --mini-bright: var(--ax-aether);   --mini-line: var(--ax-aether-line); }
 .ax-mini-card.wild     { --mini-bg-1: var(--ax-wild-bg1);     --mini-bg-2: var(--ax-wild-bg2);     --mini-bright: var(--ax-wild);     --mini-line: var(--ax-wild-line); }
+.ax-mini-card.echo     { --mini-bg-1: var(--ax-echo-bg1);     --mini-bg-2: var(--ax-echo-bg2);     --mini-bright: var(--ax-echo);     --mini-line: var(--ax-echo-line); }
 
 /* ── Monument label — the signature small heading ─────────────── */
 .ax-label {

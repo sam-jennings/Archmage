@@ -1,0 +1,401 @@
+{
+  "currentBase": "v3.1",
+  "modules": [
+    {
+      "title": "Ascension Trials",
+      "href": "ascension-trials.html",
+      "pitch": "The only locked-in expansion. Its scoring reconciliation remains open; use the versioned Trials companion.",
+      "players": "2–4 / 5–6 with Echo; candidate-dependent",
+      "metadata": {
+        "status": "locked-in",
+        "originalStatus": "Locked in by expansion index",
+        "base": "Not declared in expansion index",
+        "updated": "2026-07-19"
+      },
+      "source": "expansion/EXPANSION_INDEX.md"
+    },
+    {
+      "title": "Foci & Conduits",
+      "href": "foci-and-conduits-expansion-foci-conduits-v0-1.html",
+      "pitch": "Draft unique spell attachments, then chain smaller spells through Conduits.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2–4 / 5–6 with Echo (index compatibility rule)",
+      "source": "expansion/foci-and-conduits/Expansion - Foci & Conduits (v0.1).md"
+    },
+    {
+      "title": "Rituals & Mastery Seals",
+      "href": "rituals-and-seals-expansion-rituals-mastery-seals-v0-1.html",
+      "pitch": "Earn Seals from public Rituals; keep their abilities while the qualifying structures stand.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2–4 / 5–6 with Echo (index compatibility rule)",
+      "source": "expansion/rituals-and-seals/Expansion - Rituals & Mastery Seals (v0.1).md"
+    },
+    {
+      "title": "The Attuned Rival (v0.1)",
+      "href": "solo-attuned-rival-solo-mode-the-attuned-rival-v0-1.html",
+      "pitch": "Race a suit-based automa that competes for the Array and burns the Source.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "draft",
+        "version": "0.1",
+        "updated": "2026-07-19",
+        "updatedBasis": "front matter; later dated notes included",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "1",
+      "source": "expansion/solo-attuned-rival/Solo Mode - The Attuned Rival (v0.1).md"
+    },
+    {
+      "title": "The Last Rites",
+      "href": "schools-and-last-rites-expansion-the-last-rites-v0-1.html",
+      "pitch": "Sacrifice components for once-only Rites during the Drought.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2–4 / 5–6 with Echo (index compatibility rule)",
+      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.1).md"
+    },
+    {
+      "title": "The Null Cabal",
+      "href": "null-cabal-expansion-the-null-cabal-v0-1.html",
+      "pitch": "Use anonymous contributions to uncover a hidden Cabalist before the Drought vote.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "3–6",
+      "source": "expansion/null-cabal/Expansion - The Null Cabal (v0.1).md"
+    },
+    {
+      "title": "The Schism",
+      "href": "the-schism-expansion-the-schism-v0-1.html",
+      "pitch": "A two-player cut-and-choose market makes every Collection a contested decision.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-17",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2",
+      "source": "expansion/the-schism/Expansion - The Schism (v0.1).md"
+    },
+    {
+      "title": "The Schools",
+      "href": "schools-and-last-rites-expansion-the-schools-v0-1.html",
+      "pitch": "Draft a School for an always-on Talent and an endgame scoring Lean.",
+      "metadata": {
+        "status": "v0.1 ruleset",
+        "originalStatus": "shelf-ready-untested",
+        "version": "0.1",
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2–4 / 5–6 with Echo (index compatibility rule)",
+      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.1).md"
+    },
+    {
+      "title": "Spell Duels",
+      "href": "spell-duels-expansion-b-spell-duels-reconciled-tiered.html",
+      "pitch": "Stake components in frequency clashes, developed across five complexity tiers.",
+      "metadata": {
+        "status": "concept",
+        "originalStatus": "shelf-ready-untested",
+        "version": null,
+        "updated": "2026-07-02",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "players": "2–4 / 5–6 with Echo (index compatibility rule)",
+      "source": "expansion/spell-duels/Expansion B - Spell Duels (Reconciled & Tiered).md"
+    },
+    {
+      "title": "The Conclave",
+      "players": "2–7 in legacy draft; check current deck",
+      "pitch": "Negotiate through Agendas, Influence, Pacts and Edicts.",
+      "href": "the-conclave.html",
+      "metadata": {
+        "status": "concept",
+        "originalStatus": "draft-for-review",
+        "version": null,
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "source": "expansion/Expansion Concepts - Player Interaction.md"
+    },
+    {
+      "title": "The Convergence",
+      "players": "1–6 (co-op / solo concept)",
+      "pitch": "Meet shared demands before the Source collapses in a co-op or solo concept.",
+      "href": "the-convergence.html",
+      "metadata": {
+        "status": "concept",
+        "originalStatus": "ideas-stage",
+        "version": null,
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md"
+    },
+    {
+      "title": "The Living Array",
+      "players": "2–7 in legacy draft; check current deck",
+      "pitch": "Turn the shared Array into a source of indirect competition without new components.",
+      "href": "the-living-array.html",
+      "metadata": {
+        "status": "concept",
+        "originalStatus": "draft-for-review",
+        "version": null,
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "source": "expansion/Expansion Concepts - Player Interaction.md"
+    },
+    {
+      "title": "The Overtones",
+      "players": "2–4 / 5–6 with Echo",
+      "pitch": "Race to claim high-frequency components from a public prestige rack.",
+      "href": "the-overtones.html",
+      "metadata": {
+        "status": "concept",
+        "originalStatus": "ideas-stage",
+        "version": null,
+        "updated": "2026-07-16",
+        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "base": "Not declared",
+        "current": "v3.1"
+      },
+      "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md"
+    }
+  ],
+  "documents": [
+    {
+      "source": "expansion/Expansion Concepts - Player Interaction.md",
+      "href": "expansion-concepts-player-interaction.html",
+      "status": "concept",
+      "originalStatus": "draft-for-review",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/foci-and-conduits/Expansion - Foci & Conduits (v0.1).md",
+      "href": "foci-and-conduits-expansion-foci-conduits-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
+      "href": "future-directions-expansion-directions-post-echo-exploration.html",
+      "status": "concept",
+      "originalStatus": "ideas-stage",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/null-cabal/Expansion - The Null Cabal (v0.1).md",
+      "href": "null-cabal-expansion-the-null-cabal-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/old-expansion-thread-review.md",
+      "href": "old-expansion-thread-review.html",
+      "status": "concept",
+      "originalStatus": "complete",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/rituals-and-seals/Expansion - Rituals & Mastery Seals (v0.1).md",
+      "href": "rituals-and-seals-expansion-rituals-mastery-seals-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.1).md",
+      "href": "schools-and-last-rites-expansion-the-last-rites-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.1).md",
+      "href": "schools-and-last-rites-expansion-the-schools-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/schools-and-last-rites/Playtest Plans - Schools & Last Rites (templates).md",
+      "href": "schools-and-last-rites-playtest-plans-schools-last-rites-templates.html",
+      "status": "parked",
+      "originalStatus": "template-gated",
+      "version": "0.1",
+      "updated": "2026-07-02",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/solo-attuned-rival/Solo Mode - The Attuned Rival (v0.1).md",
+      "href": "solo-attuned-rival-solo-mode-the-attuned-rival-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "draft",
+      "version": "0.1",
+      "updated": "2026-07-19",
+      "updatedBasis": "front matter; later dated notes included",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/spell-duels/Expansion B - Spell Duels (Reconciled & Tiered).md",
+      "href": "spell-duels-expansion-b-spell-duels-reconciled-tiered.html",
+      "status": "concept",
+      "originalStatus": "shelf-ready-untested",
+      "version": null,
+      "updated": "2026-07-02",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/the-schism/Expansion - The Schism (v0.1).md",
+      "href": "the-schism-expansion-the-schism-v0-1.html",
+      "status": "v0.1 ruleset",
+      "originalStatus": "shelf-ready-untested",
+      "version": "0.1",
+      "updated": "2026-07-17",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/Expansion Concepts - Player Interaction.md",
+      "href": "the-living-array.html",
+      "status": "concept",
+      "originalStatus": "draft-for-review",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/Expansion Concepts - Player Interaction.md",
+      "href": "the-conclave.html",
+      "status": "concept",
+      "originalStatus": "draft-for-review",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
+      "href": "the-overtones.html",
+      "status": "concept",
+      "originalStatus": "ideas-stage",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
+      "href": "the-convergence.html",
+      "status": "concept",
+      "originalStatus": "ideas-stage",
+      "version": null,
+      "updated": "2026-07-16",
+      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "base": "Not declared",
+      "current": "v3.1"
+    },
+    {
+      "source": "expansion/EXPANSION_INDEX.md",
+      "href": "ascension-trials.html",
+      "status": "locked-in",
+      "originalStatus": "Locked in by expansion index",
+      "base": "Not declared in expansion index",
+      "updated": "2026-07-19"
+    }
+  ],
+  "lint": {
+    "lines": 34,
+    "occurrences": 40
+  },
+  "unresolvedLinks": []
+}

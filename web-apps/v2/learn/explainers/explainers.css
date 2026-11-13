@@ -1,0 +1,70 @@
+/* Explainer frame and stage pieces. Loaded on demand by engine.js. Tokens only; the one
+   transition uses --ax-dur, which is 0 under prefers-reduced-motion. */
+.xp { display: grid; gap: var(--ax-sp-3); padding-top: var(--ax-sp-1); }
+.xp-stage { display: grid; gap: var(--ax-sp-2); }
+.xp-say { margin: 0; padding: var(--ax-sp-3) var(--ax-sp-4); border-left: 3px solid var(--ax-gold); background: var(--ax-gold-wash); border-radius: 0 var(--ax-r-md) var(--ax-r-md) 0; color: var(--ax-text); line-height: 1.4; min-height: 4.2em; }
+.xp-facts { display: flex; flex-wrap: wrap; gap: var(--ax-sp-1) var(--ax-sp-5); margin: 0; }
+.xp-facts > div { display: flex; align-items: baseline; gap: var(--ax-sp-2); }
+.xp-facts dt { font-family: var(--ax-font-display); font-size: var(--ax-fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ax-text-dim); }
+.xp-facts dd { margin: 0; font-weight: 700; white-space: nowrap; }
+
+.xp-actions { display: grid; gap: var(--ax-sp-2); }
+.xp-row { display: flex; flex-wrap: wrap; gap: var(--ax-sp-2); }
+.xp-row .ax-btn { flex: 1 1 auto; text-transform: none; letter-spacing: 0.02em; font-size: 0.9375rem; padding: var(--ax-sp-2) var(--ax-sp-3); line-height: 1.2; }
+.xp-row .ax-btn[aria-pressed='true'] { background: var(--ax-gold); border-color: var(--ax-gold); color: var(--ax-on-accent); }
+.xp-row .ax-btn[data-blocked] { border-style: dashed; }
+.xp-row[data-group='energy'] .ax-btn { flex: 1 1 40%; }
+.xp-row[data-group='value'] .ax-btn { flex: 1 1 4.5rem; }
+.xp-row[data-group='mode'] .ax-btn { flex: 1 1 40%; }
+.xp-modes:empty { display: none; }
+.xp-nav { display: flex; justify-content: space-between; border-top: 1px solid var(--ax-line); padding-top: var(--ax-sp-1); }
+.xp-nav .ax-btn { text-transform: none; letter-spacing: 0.02em; font-size: 0.9375rem; }
+.xp-scrubrow { display: grid; gap: var(--ax-sp-1); }
+.xp-scrub { width: 100%; height: var(--ax-tap); margin: 0; accent-color: var(--ax-gold); }
+
+/* Counters */
+.xp-pool { display: flex; align-items: center; flex-wrap: wrap; gap: var(--ax-sp-2) var(--ax-sp-3); min-height: 40px; padding: var(--ax-sp-2) var(--ax-sp-3); border: 1px solid var(--ax-line); border-radius: var(--ax-r-md); background: var(--ax-bg); }
+.xp-tokens { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.xp-token { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--ax-gold); background: var(--ax-gold); transition: background var(--ax-dur) var(--ax-ease); }
+.xp-token[data-kind='used'] { background: transparent; opacity: 0.55; }
+.xp-token[data-kind='ghost'] { background: transparent; border-style: dashed; }
+
+/* Spells on the stage */
+.xp-spell { display: grid; gap: var(--ax-sp-2); width: 100%; text-align: left; padding: var(--ax-sp-3); border: 1px solid var(--ax-line); border-radius: var(--ax-r-md); background: var(--ax-bg); color: var(--ax-text); font: inherit; }
+button.xp-spell { border-color: var(--ax-line-strong); cursor: pointer; }
+button.xp-spell[data-cast] { border-color: var(--ax-gold); background: var(--ax-gold-wash); }
+.xp-spell-head { display: flex; align-items: center; gap: var(--ax-sp-2); min-height: 28px; }
+.xp-spell-name { font-family: var(--ax-font-display); font-weight: 600; letter-spacing: var(--ax-track-title); }
+.xp-badge { font-family: var(--ax-font-display); font-weight: 700; font-size: var(--ax-fs-label); color: var(--ax-gold); border: 1px solid var(--ax-gold-line); border-radius: 999px; padding: 1px 8px; }
+.xp-on { margin-left: auto; display: inline-flex; }
+.xp-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.xp-chips .ax-chip[aria-pressed='true'] { opacity: 0.45; transform: translateY(-4px); border-style: dashed; }
+.xp-chips .ax-chip { transition: transform var(--ax-dur) var(--ax-ease), opacity var(--ax-dur) var(--ax-ease); }
+.xp-loose { border-style: dashed; }
+.xp-loose[data-bad] { border-color: var(--ax-no); }
+.xp-bad { font-family: var(--ax-font-display); font-size: var(--ax-fs-label); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ax-no); }
+
+/* Turn track */
+.xp-track { display: flex; gap: 4px; padding: 0; margin: 0; list-style: none; }
+.xp-track li { margin: 0; flex: 1; text-align: center; padding: 6px 2px; font-family: var(--ax-font-display); font-size: 0.6875rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ax-text-dim); border-bottom: 3px solid var(--ax-line); }
+.xp-track li[aria-current='step'] { color: var(--ax-gold); border-bottom-color: var(--ax-gold); font-weight: 700; }
+
+/* Piles */
+.xp-piles { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ax-sp-2); }
+.xp-pile { display: grid; justify-items: center; gap: 2px; padding: var(--ax-sp-3) var(--ax-sp-1); border: 1px solid var(--ax-line-strong); border-radius: var(--ax-r-md); background: var(--ax-bg); text-align: center; }
+.xp-pile-n { font-family: var(--ax-font-display); font-weight: 700; font-size: 1.75rem; line-height: 1; color: var(--ax-text); font-variant-numeric: lining-nums tabular-nums; }
+.xp-pile-name { font-size: var(--ax-fs-small); line-height: 1.15; color: var(--ax-text-soft); }
+.xp-pile[data-tone='released'] { border-color: var(--ax-gold); background: var(--ax-gold-wash); }
+.xp-pile[data-tone='released'] .xp-pile-n { color: var(--ax-gold); }
+.xp-pile[data-gone] { border-style: dashed; border-color: var(--ax-line); }
+.xp-pile[data-gone] .xp-pile-n, .xp-pile[data-gone] .xp-pile-name { color: var(--ax-text-dim); }
+
+/* "Show me" disclosure wrapper */
+.ax-showme { margin-top: var(--ax-sp-2); border-color: var(--ax-gold-line); }
+.ax-showme > summary { min-height: var(--ax-tap); }
+/* Nested inside another disclosure (Play › Turn › Unlearn): win back the width. */
+.ax-disc-body .ax-showme { margin-inline: calc(-1 * var(--ax-sp-3)); }
+.ax-disc-body .ax-showme > summary, .ax-disc-body .ax-showme > .ax-disc-body { padding-inline: var(--ax-sp-3); }
+.ax-disc-body .ax-showme .xp-spell { padding: var(--ax-sp-2); }
+.ax-showme .ax-disc-title { font-size: 1rem; }
+@media print { .ax-showme { display: none; } }
