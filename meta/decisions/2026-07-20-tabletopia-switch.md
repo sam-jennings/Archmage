@@ -49,8 +49,15 @@ None — no vocabulary, version, or structural rule changes.
 - [x] `meta/QUEUE.md`: P1 confirm/kill item retargeted Screentop → Tabletopia
 - [x] `meta/threads/capacity-economy.md`: campsite update (platform switch,
   table state)
-- [ ] Tabletopia scene assembled and SAVED (board, 62-card deck on Source
-  shuffled face-down, 20-counter supply; Array deal optional) — **manual step
-  for Sam**, ~10 min per `card-design/export-tabletopia/TABLETOPIA_BUILD_GUIDE.md`.
-  Game/objects/setup-shell already created in the workshop (2026-07-20).
-  Then verify via the setup's Objects Usage tab (every card ×1, counter ×20).
+
+## On hold (2026-11-13)
+
+Sam put Tabletopia **on hold** — not sure he will continue with it. The
+switch's propagation edits above are done; the one remaining step, the manual
+scene assembly + save (~10 min per
+`card-design/export-tabletopia/TABLETOPIA_BUILD_GUIDE.md`, then verify via the
+setup's Objects Usage tab: every card ×1, counter ×20), moved to the QUEUE
+**Deferred** section. Nothing on Tabletopia was deleted (workshop game
+`azcps`, objects and setup shell remain). The Screentop table stays live, so
+the v3.1 confirm/kill venue is open again. If Sam drops Tabletopia for good,
+set this decision `superseded` with a pointer to whatever replaces it.
