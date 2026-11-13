@@ -29,7 +29,9 @@ retired_terms: Convergence, Unlimited Capacity
 vocab_scan_dirs: rulebook, card-design, web-apps, board, pitch
 vocab_scan_files: index.html
 # PROMPT_1_FABLE lists retired terms in an explicit "Never use" deny-list (intended mention, not drift).
-vocab_exclude: node_modules, snapshots, uploads, dist, .git, .claude, outputs, generated, incoming, export-cs3/svg-cards, web-apps/v2/_plan/PROMPT_1_FABLE_foundation-and-player-site.md
+# web-apps/v2/studio (+ its builder, test and REPORT_4) is the designer-only mirror of expansion/ design
+# history (expansion/ itself is outside the scan scope) and its LINT files list retired terms on purpose.
+vocab_exclude: node_modules, snapshots, uploads, dist, .git, .claude, outputs, generated, incoming, export-cs3/svg-cards, web-apps/v2/_plan/PROMPT_1_FABLE_foundation-and-player-site.md, web-apps/v2/studio, web-apps/v2/tools/build-studio.mjs, web-apps/v2/REPORT_4.md
 
 # Files carrying front-matter `version:` that must stay in lockstep with
 # rulebook_version above. check.mjs flags any mismatch (process.md §3a).
