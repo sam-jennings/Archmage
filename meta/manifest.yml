@@ -59,6 +59,7 @@ sources_of_truth:
 purposes:
   meta/: all process state — agent-written, script-checked
   playtests/: one detail file per session; front-matter goal/verdict is the index
+  playtests/plans/: forward-looking session plans (type: plan, status: draft|active|done) — not session logs, so outside the playtests/ filename pattern
   rulebook/: rules, glossary, scoring, trials variant, lore
   board/: physical components — A3 board PDF, printable reference cards
   card-design/: card visuals — renderer, procedural art (arcana), connector (beacon), exports

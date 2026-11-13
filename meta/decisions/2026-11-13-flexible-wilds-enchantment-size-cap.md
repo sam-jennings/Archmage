@@ -53,8 +53,8 @@ Applied to `meta/canon.yml` this turn:
 - [x] `2026-07-06-f6-wild-scope-and-max-size.md` — supersession banner on the wild-scope
   rulings; its two open wild-wording items moved here (2026-11-13)
 - [x] `meta/review-briefs-2026-11.md` — brief 2 marked decided (2026-11-13)
-- [ ] `meta/QUEUE.md` — the F6 wild-wording P1 retargeted to this decision, demoted to
-  the post-confirm/kill rulebook pass
+- [x] `meta/QUEUE.md` — the F6 wild-wording P1 retargeted to this decision, demoted to
+  the post-confirm/kill rulebook pass (2026-11-13, now P2)
 - [ ] Complete Rulebook — Components (wild cards) + each spell type: replace the
   Enchantment-only "Wild-declaration rule" with the flexible rule; add "max 4 components
   at 2–4 players, max 5 at 5–6 players" to Enchantment requirements (after v3.1

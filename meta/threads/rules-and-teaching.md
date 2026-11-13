@@ -1,9 +1,9 @@
 ---
 thread: rules-and-teaching
 status: active
-updated: 2026-08-16
+updated: 2026-11-13
 goal: Players can learn, play, and track the game from written materials alone — no verbal patching
-next: **Run the six-player French-language teaching test** — prep pack complete in `_review/FR_6P_SESSION_2026-08/` (plan + FR reference + host script/glossary + FR feedback sheet + tier-tally grid). Four new non-English-speaking players learn from materials alone; the bilingual host answers only at graded tiers and every intervention is tallied. This tests the thread goal directly rather than by proxy. The printed-reference-card redesign stays the standing P1 and should be informed by the tier-1/tier-2 tallies this session produces — do the redesign after, with located evidence.
+next: **Sam answers the open questions in `playtests/plans/stranger-playtest-plan-2026-11.md` (in person or online, venues, how many strangers) so the first stranger session can be scheduled** — Sam has one printed set and has never run a stranger session; the recommended first session doubles as the v3.1 confirm/kill with TS1 (blind teach) and TS2 (replay choice) notes. The six-player French teaching test was **never run** (pack still ready in `_review/FR_6P_SESSION_2026-08/`); it stays a P1 for when that group meets. The printed-reference-card redesign stays the standing P1 and now carries the counter-comprehension retest (F1 arms parked, brief 1A).
 hypothesis: Counter confusion is a printed-card/board legibility problem, not a mechanic or rule-text problem — a new player (Denise, Session 4) understood the dual-purpose counters from the ONLINE reference with zero explanation and no misplay, whereas Sessions 1 & 3 failed "from card or board." If the redesigned physical card also teaches the loop cleanly, F1 leans text/presentation (Option C) rather than a mechanic redesign.
 ---
 
@@ -47,7 +47,12 @@ from prose repo-wide (decision `2026-07-10-retire-dissolve-terminology.md`), and
 wrong "Enchantments can't be Empowered" line was corrected (Empower **can** grow one).
 The **printed cards** (`board/*.png`) still need the same treatment — the remaining P1.
 
-## 2026-08-16 — six-player French session prepped (not yet played)
+## 2026-08-16 — six-player French session prepped (NOT RUN — Sam, 2026-11-13)
+
+**Update 2026-11-13:** Sam confirmed this session never happened; there is nothing to log.
+The pack in `_review/FR_6P_SESSION_2026-08/` is still valid (v3.1 baseline) and the FR P1
+stays open. Sam's real blocker is planning any session with strangers while owning only one
+printed set — draft plan in `playtests/plans/stranger-playtest-plan-2026-11.md`.
 
 Sam has a board-game afternoon with six people, four of whom speak French only and none of
 whom have played. Rather than treat the language gap as an obstacle, the session is set up

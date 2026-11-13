@@ -1,9 +1,9 @@
 ---
 thread: expansions
 status: active
-updated: 2026-07-19
+updated: 2026-11-13
 goal: Develop the expansion line — Ascension Trials locked in; everything else is ideas at different stages, no settled sequencing
-next: Sam reads `_review/EXPANSION_AUDIT_2026-07.md` and makes its two remaining open calls — which module gets the first expansion playtest slot (audit shape: v3.1 confirm/kill first, then Schools / Last Rites / Foci per what he wants to learn) and whether Living Array is reclassified as a free variant/test instrument. (The audit's third open question — 2p base-vs-box — was answered 2026-07-16: The Schism, `expansion/the-schism/`.) The per-module fit reviews (Rituals / Cabal / Foci / Schism) fold into this read.
+next: Sam reviews each expansion concept one at a time with Arcane (audit `_review/EXPANSION_AUDIT_2026-07.md` as the reference), then picks one to develop.
 hypothesis: The base loop stays light; strategic depth and audience breadth are delivered through modular expansions (Session-4 depth brief)
 ---
 
