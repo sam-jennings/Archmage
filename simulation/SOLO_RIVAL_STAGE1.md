@@ -131,3 +131,100 @@ the Rival's Drought draws, max-of-two-readings scoring, Archmage, Hoard.
 - The player does not read the Rival: no deliberate denial grabs, no counting the Stack, no
   baiting. Those are the Stage 2 deviations the live test measures.
 - Upkeep time, teachability and fun are not modelled.
+
+---
+
+## Stage 1b — tuning levers (2026-11-13)
+
+Reproduce: `python solo_rival_sim.py stage1b --trials 2000 --seed 20261114` (17 levers x 3
+pace profiles x 2,000 games; one core, ~4–5 minutes on the shared machine). The refactor
+that added the levers gives output identical to the Stage 1 version when they are off
+(checked on three configs).
+
+Targets (from Sam): Adept Rival ~35–55 at normal pace, player win ~55–70%, slow play
+punished, fast play not strictly best. Levers simulated:
+
+- **Drought flip, top N:** when the Drought begins, flip the top N leftover Stack cards
+  through the normal keep test (kept cards join the row); remove the rest as written.
+- **Earlier/bigger Ravening:** the Ravening starts when the Source (or the Stack) falls to a
+  threshold. While Ravening, the Rival flips 2 (or 3) cards a turn, each through the keep
+  test. "burn 2" keeps the written extra Burn; "burn 1" drops it (no extra clock pressure).
+
+| Lever | Rival slow (p10–p90) | Rival normal (p10–p90) | Rival fast (p10–p90) | Player win slow / normal / fast | Keep rate (normal) | Drought-flip keeps | Rejects/game (normal) | Pace spread (Rival slow − fast) | Fast strictly best? |
+|---|---|---|---|---|---|---|---|---|---|
+| Baseline (as written) | 53.8 (38–74) | 22.5 (5–47) | 18.1 (5–31) | 68% / 93% / 97% | 58% | 0.0 | 3.9 | +35.7 | yes |
+| (a) Drought flip, top 2 | 61.5 (38–97) | 32.3 (11–56) | 27.5 (11–50) | 56% / 86% / 90% | 58% | 1.1 | 3.9 | +34.0 | yes |
+| (a) Drought flip, top 3 | 61.0 (38–97) | 38.0 (16–65) | 33.6 (13–56) | 56% / 83% / 87% | 58% | 1.6 | 3.9 | +27.4 | yes |
+| (a) Drought flip, top 4 | 62.1 (38–97) | 43.6 (20–74) | 40.4 (18–65) | 53% / 78% / 81% | 58% | 2.1 | 3.9 | +21.8 | yes |
+| (a) Drought flip, top 6 | 61.4 (38–97) | 51.5 (29–79) | 50.2 (29–79) | 56% / 72% / 73% | 58% | 2.9 | 3.8 | +11.3 | no |
+| (b) Ravening at Stack ≤5, flip 2 | 62.2 (38–97) | 25.6 (5–56) | 20.9 (5–39) | 52% / 89% / 92% | 58% | 0.0 | 4.0 | +41.3 | yes |
+| (b) Ravening at Source ≤10, flip 2, burn 2 | 63.0 (38–97) | 34.6 (13–63) | 28.7 (11–50) | 50% / 85% / 89% | 59% | 0.0 | 4.5 | +34.3 | yes |
+| (b) Ravening at Source ≤15, flip 2, burn 2 | 62.4 (38–97) | 39.7 (16–65) | 34.9 (13–63) | 49% / 79% / 83% | 59% | 0.0 | 4.9 | +27.5 | yes |
+| (b) Ravening at Source ≤12, flip 2, burn 1 | 63.2 (38–97) | 40.2 (16–65) | 34.5 (13–63) | 53% / 81% / 84% | 59% | 0.0 | 4.9 | +28.8 | yes |
+| (b) Ravening at Source ≤15, flip 2, burn 1 | 62.7 (38–97) | 44.8 (20–74) | 39.8 (18–65) | 54% / 78% / 81% | 59% | 0.0 | 5.1 | +22.9 | yes |
+| (c) top 3 + Ravening ≤15 flip 2 burn 1 | 62.4 (38–97) | 55.9 (29–85) | 53.6 (29–85) | 55% / 68% / 70% | 59% | 0.9 | 5.2 | +8.8 | yes (by 2 pts) |
+| (c) top 3 + Ravening ≤15 flip 3 burn 1 | 62.0 (38–97) | 58.6 (35–85) | 58.4 (31–85) | 53% / 66% / 66% | 59% | 0.1 | 5.6 | +3.6 | no |
+| **(c) top 4 + Ravening ≤12 flip 2 burn 1** | 62.8 (38–97) | **56.2 (29–85)** | 54.5 (29–85) | 53% / **69%** / 70% | 59% | 1.4 | 4.9 | +8.3 | no |
+| (d) leftover Stack shuffled into the Released Reserve | 59.1 (38–85) | 41.4 (20–63) | 38.6 (20–63) | 59% / 85% / 87% | 58% | 0.0 | 3.9 | +20.5 | no |
+| Adept (c top 4 + ≤12) + Hoard | 58.3 (37–87) | 53.7 (33–77) | 53.1 (32–75) | 35% / 54% / 55% | 58% | 1.3 | 5.0 | +5.1 | no |
+| Adept (c top 4 + ≤12) + ±2 adjacency | 86.6 (63–100) | 81.5 (52–100) | 79.5 (50–100) | 17% / 32% / 38% | 82% | 2.3 | 2.1 | +7.0 | yes |
+| top 6 + Ravening ≤18 flip 2 burn 1 | 62.1 (38–97) | 58.0 (31–85) | 57.4 (31–85) | 53% / 67% / 69% | 59% | 0.8 | 5.3 | +4.7 | no |
+
+"Fast strictly best" = the fast win rate is more than 2 points above both normal and slow.
+The player proxy averages ~70–73 at normal pace in every row except Hoard (57.5).
+
+### What the levers do
+
+- **Neither lever alone is enough.** (a) alone needs top 6 to reach the band; at top 2–4
+  rushing is still strictly best. (b) alone tops out at ~45 at normal pace, and keeping the
+  extra Burn ("burn 2") makes it weaker, because the faster clock cuts the Rival's own
+  turns.
+- **The Stack-triggered Ravening is useless**: the Stack is rarely down to 5 before the
+  Drought except in slow games, so it only feeds the slow Rival (+41 pace spread).
+- **Combined, they hit the target.** The Ravening grows the row before the Drought in every
+  game, and the Drought flip charges the player for whatever the rush stranded. Slow play
+  stays the worst choice (53% win vs 69–70%), normal and fast are level, and the pace spread
+  drops from +36 to +8.
+- **The Rival saturates around 56–58.** A one-energy row built by the keep test rarely goes
+  past 11–12 cards, so piling on more Rival levers barely moves it (top 6 + ≤18: 58.0).
+  The only levers that move the win rate further are Hoard (it lowers the player's score)
+  and ±2 adjacency (a cliff: 69% → 32%).
+- Scattering the leftover Stack into the Released Reserve (d) helps less than a capped
+  flip; the player draws half of it.
+
+### Recommended change (proposal; not applied)
+
+**(c) top 4 + Ravening at Source ≤12, flip 2, burn 1.** In rules terms:
+
+1. *Ravening (replaces §6).* From the start of the Rival's turn on which the Source holds
+   12 or fewer cards, the Rival flips **2** cards each turn instead of 1, each through the
+   keep test. It still Tithes once and Burns once. If its Stack runs out, it simply skips
+   the Flip.
+2. *The Drought (amends §7).* The moment the Drought begins, flip the top **4** cards of
+   the Rival's remaining Stack through the keep test; kept cards join its row. Then remove
+   the rest of the Stack from the game.
+
+Result at normal pace: Rival 56.2 (29–85), player win 69%. Slow 53%, fast 70%. Pace spread
++8 (was +36). Upkeep cost: a second flip in the last few turns and up to 4 flips at the
+Drought, all forced, with no new decisions.
+
+Caveats: the Rival mean sits just above the 35–55 band because the win-rate target is
+measured against the proxy (~72). If real v3.2 books come in nearer the draft's 35–55, top
+2–3 and Source ≤10 would be the starting point instead. The three pace profiles are a
+crude stand-in for a human choosing the Drought's timing.
+
+### Difficulty table, re-derived from levers (no multipliers)
+
+| Level | Rule | Rival normal (p10–p90) | Player win slow / normal / fast |
+|---|---|---|---|
+| Apprentice | Ravening at Source ≤12, flip 2 — **no Drought flip** | 40.2 (16–65) | 53% / 81% / 84% |
+| Adept (standard) | Apprentice **+ Drought flip, top 4** | 56.2 (29–85) | 53% / 69% / 70% |
+| Archmage | Adept **+ Hoard** (tithed cards go under the Rival, never return, +1 each) | 53.7 (33–77) | 35% / 54% / 55% |
+
+- The steps are about 15 win-rate points apart. Apprentice keeps the old pace lesson
+  (rushing pays), which suits a teaching level.
+- ±2 adjacency is too steep for a standard level (32%). Keep it as an optional "Grand
+  Archmage" challenge.
+- The draft's ×0.75 multiplier, the wilds-in-Stack Archmage and Hasten are all dropped.
+  Hasten weakens the Rival, and the wilds-in-Stack Archmage did not raise difficulty
+  (Stage 1).

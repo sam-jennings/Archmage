@@ -15,6 +15,9 @@ Usage
 Full Stage 1 report (markdown tables to stdout):
     python solo_rival_sim.py report --trials 4000 --seed 20261113
 
+Stage 1b tuning levers (Drought flip of the top N leftover cards, earlier/bigger Ravening):
+    python solo_rival_sim.py stage1b --trials 2000 --seed 20261114
+
 One configuration:
     python solo_rival_sim.py run --profile normal --adjacency 2 --trials 2000
 
@@ -125,6 +128,13 @@ class Config:
     drought_stack: str = "remove"  # remove (as written) | sweep: at the Drought the Rival flips its
                                    # remaining Stack through the keep test (candidate fix, not in v0.1)
     hoard: bool = False          # optional lever (section 8): tithed cards never return, +1 each
+    # Stage 1b tuning levers (all off = rules as written)
+    sweep_n: int = 0             # at the Drought, flip the top N leftover Stack cards through the
+                                 # keep test (kept ones join the row); the rest are removed
+    rav_at: int = 0              # Ravening also starts when the Stack holds <= N cards (0 = only when empty)
+    rav_src: int = 0             # ... or when the Source holds <= N cards at the start of the Rival's turn
+    rav_flips: int = 1           # flips per Ravening turn while the Stack still has cards
+    rav_burns: int = 0           # total burns per Ravening turn (0 = as written: 2, Archmage 3)
 
     def label(self) -> str:
         bits = [f"±{self.adjacency}", self.profile]
@@ -140,6 +150,11 @@ class Config:
             bits.append(f"stack={self.drought_stack}")
         if self.hoard:
             bits.append("hoard")
+        if self.sweep_n:
+            bits.append(f"sweep{self.sweep_n}")
+        if self.rav_at or self.rav_src or self.rav_flips != 1 or self.rav_burns:
+            trig = f"stack≤{self.rav_at}" if self.rav_at else f"source≤{self.rav_src}" if self.rav_src else "empty"
+            bits.append(f"raven[{trig} flip{self.rav_flips} burn{self.rav_burns or 2}]")
         return " ".join(bits)
 
 
@@ -417,7 +432,7 @@ class Game:
         deck += [] if archmage else [(WILD, 0)] * 2
         rng.shuffle(deck)
         self.stack = stack
-        self.ravening_burns = 3 if archmage else 2
+        self.ravening_burns = self.cfg.rav_burns or (3 if archmage else 2)
         self.metronome = int(cfg.profile[1]) if cfg.profile.startswith("m") else 0
         self.player = Player(cfg.profile if not self.metronome else "slow", cfg.policy)
         self.player.hand = [deck.pop() for _ in range(7)]
@@ -450,13 +465,17 @@ class Game:
             self.st["stranded"] = sum(1 for c in self.stack if c[0] != WILD)
             self.st["row_at_drought"] = len(self.row)
             self.st["rejects_left_in_array"] = sum(1 for c in self.array if c in self.reject_cards)
-            if self.cfg.drought_stack == "sweep":
-                for c in reversed(self.stack):
+            if self.cfg.drought_stack == "sweep" or self.cfg.sweep_n:
+                n = len(self.stack) if self.cfg.drought_stack == "sweep" else self.cfg.sweep_n
+                for c in list(reversed(self.stack))[:n]:     # top of the Stack first
                     if c[0] == WILD or any(abs(c[1] - x) <= self.cfg.adjacency for x in self.row):
                         self._rival_take(c)
                         self.st["sweep_kept"] += 1
+                self.stack = self.stack[:max(0, len(self.stack) - n)]   # failed flips are removed
+            # scatter: the leftover Stack is shuffled into the Released Reserve instead of removed
+            scattered = self.stack if self.cfg.drought_stack == "scatter" else []
             self.stack = []
-            self.rr = self.array + self.reserve
+            self.rr = self.array + self.reserve + scattered
             self.rng.shuffle(self.rr)
             self.array, self.reserve = [], []
 
@@ -502,26 +521,15 @@ class Game:
             if not self.rr:
                 self.over = True
             return
-        if self.stack:
-            card = self.stack.pop()
-            self.st["flips"] += 1
-            if card[0] == WILD:
-                keep = True
-            else:
-                keep = len(self.row) < 3 or any(abs(card[1] - x) <= self.cfg.adjacency for x in self.row)
-            if len(self.row) >= 3 and card[0] != WILD:
-                self.st["tested"] += 1
-                self.st["tested_kept"] += keep
-            self.keep_by_flip.append(int(keep))
-            if keep:
-                self._rival_take(card)
-                self.st["keeps"] += 1
-            else:
-                self.array.append(card)
-                self.reject_cards.add(card)
-                self.st["rejects"] += 1
-        else:
+        cfg = self.cfg
+        rav = (not self.stack or len(self.stack) <= cfg.rav_at
+               or (cfg.rav_src and len(self.source) <= cfg.rav_src))
+        if rav:
             self.st["ravening"] += 1
+        for _ in range((cfg.rav_flips if rav else 1) if self.stack else 0):
+            if self.stack:
+                self._flip()
+        if rav:
             for _ in range(self.ravening_burns - 1):
                 self.burn()
             if self.drought:
@@ -531,6 +539,25 @@ class Game:
         if self.drought:
             return
         self.burn()
+
+    def _flip(self):
+        card = self.stack.pop()
+        self.st["flips"] += 1
+        if card[0] == WILD:
+            keep = True
+        else:
+            keep = len(self.row) < 3 or any(abs(card[1] - x) <= self.cfg.adjacency for x in self.row)
+        if len(self.row) >= 3 and card[0] != WILD:
+            self.st["tested"] += 1
+            self.st["tested_kept"] += keep
+        self.keep_by_flip.append(int(keep))
+        if keep:
+            self._rival_take(card)
+            self.st["keeps"] += 1
+        else:
+            self.array.append(card)
+            self.reject_cards.add(card)
+            self.st["rejects"] += 1
 
     def _extends(self, s: Spell, c) -> bool:
         e, r = c
@@ -836,6 +863,49 @@ def report(trials: int, seed: int):
     print(f"\n_Elapsed {time.time() - t0:.1f}s, {len(results)} configs x {trials} games._")
 
 
+STAGE1B = [
+    ("Baseline (as written)", {}),
+    ("(a) Drought flip, top 2", dict(sweep_n=2)),
+    ("(a) Drought flip, top 3", dict(sweep_n=3)),
+    ("(a) Drought flip, top 4", dict(sweep_n=4)),
+    ("(a) Drought flip, top 6", dict(sweep_n=6)),
+    ("(b) Ravening at Stack ≤5, flip 2", dict(rav_at=5, rav_flips=2)),
+    ("(b) Ravening at Source ≤10, flip 2, burn 2", dict(rav_src=10, rav_flips=2)),
+    ("(b) Ravening at Source ≤15, flip 2, burn 2", dict(rav_src=15, rav_flips=2)),
+    ("(b) Ravening at Source ≤12, flip 2, burn 1", dict(rav_src=12, rav_flips=2, rav_burns=1)),
+    ("(b) Ravening at Source ≤15, flip 2, burn 1", dict(rav_src=15, rav_flips=2, rav_burns=1)),
+    ("(c) top 3 + Ravening ≤15 flip 2 burn 1", dict(sweep_n=3, rav_src=15, rav_flips=2, rav_burns=1)),
+    ("(c) top 3 + Ravening ≤15 flip 3 burn 1", dict(sweep_n=3, rav_src=15, rav_flips=3, rav_burns=1)),
+    ("(c) top 4 + Ravening ≤12 flip 2 burn 1", dict(sweep_n=4, rav_src=12, rav_flips=2, rav_burns=1)),
+    ("(d) leftover Stack scattered into the Released Reserve", dict(drought_stack="scatter")),
+    ("Archmage candidate: Adept (c top 4 + ≤12) + Hoard", dict(sweep_n=4, rav_src=12, rav_flips=2, rav_burns=1, hoard=True)),
+    ("Archmage candidate: Adept (c top 4 + ≤12) + ±2", dict(sweep_n=4, rav_src=12, rav_flips=2, rav_burns=1, adjacency=2)),
+    ("Archmage candidate: top 6 + Ravening ≤18 flip 2 burn 1", dict(sweep_n=6, rav_src=18, rav_flips=2, rav_burns=1)),
+]
+
+
+def stage1b(trials: int, seed: int):
+    t0 = time.time()
+    print(f"# Attuned Rival Stage 1b — trials {trials}/profile, seed {seed}\n")
+    print("| Lever | Rival slow (p10–p90) | Rival normal (p10–p90) | Rival fast (p10–p90) | Player win slow / normal / fast | "
+          "Player mean (normal) | Keep rate (normal) | Drought-flip keeps | Rejects/game (normal) | Pace spread (Rival slow − fast) | Fast strictly best? |")
+    print("|---|---|---|---|---|---|---|---|---|---|---|")
+    for i, (name, kw) in enumerate(STAGE1B):
+        res = {p: simulate(Config(profile=p, **kw), trials, seed + 100 * i) for p in ("slow", "normal", "fast")}
+        riv = {p: [r["rival"] for r in rs] for p, rs in res.items()}
+        win = {p: sum(1 for r in rs if r["player"] > r["rival"]) / len(rs) for p, rs in res.items()}
+        n = res["normal"]
+        keep = sum(r.get("keeps", 0) for r in n) / max(1, sum(r.get("flips", 0) for r in n))
+        cell = lambda p: f"{statistics.fmean(riv[p]):.1f} ({q(riv[p], .1)}–{q(riv[p], .9)})"
+        fast_best = win["fast"] > win["normal"] + 0.02 and win["fast"] > win["slow"] + 0.02
+        print(f"| {name} | {cell('slow')} | {cell('normal')} | {cell('fast')} | "
+              f"{win['slow']:.0%} / {win['normal']:.0%} / {win['fast']:.0%} | {mean(n, 'player'):.1f} | {keep:.0%} | "
+              f"{mean(n, 'sweep_kept'):.1f} | {mean(n, 'rejects'):.1f} | "
+              f"{statistics.fmean(riv['slow']) - statistics.fmean(riv['fast']):+.1f} | {'yes' if fast_best else 'no'} |")
+    print("\n'Fast strictly best' = fast win rate more than 2 points above both normal and slow.")
+    print(f"\n_Elapsed {time.time() - t0:.1f}s, {len(STAGE1B)} levers x 3 profiles x {trials} games._")
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -848,9 +918,14 @@ def main(argv=None):
     for f, d in (("adjacency", 1), ("profile", "normal"), ("difficulty", "adept"), ("tithe_mode", "full"),
                  ("policy", "honest"), ("ench_extend", "match")):
         one.add_argument("--" + f.replace("_", "-"), type=type(d), default=d)
+    tb = sub.add_parser("stage1b")
+    tb.add_argument("--trials", type=int, default=2000)
+    tb.add_argument("--seed", type=int, default=20261114)
     a = ap.parse_args(argv)
     if a.cmd == "report":
         report(a.trials, a.seed)
+    elif a.cmd == "stage1b":
+        stage1b(a.trials, a.seed)
     else:
         cfg = Config(adjacency=a.adjacency, profile=a.profile, difficulty=a.difficulty,
                      tithe_mode=a.tithe_mode, policy=a.policy, ench_extend=a.ench_extend)

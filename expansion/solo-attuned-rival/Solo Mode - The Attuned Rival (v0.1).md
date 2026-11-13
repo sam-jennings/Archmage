@@ -383,14 +383,26 @@ The Stage 2 confirm/kill criteria are live-only and were not tested.
 
 ## 17. Proposed changes (not applied; for Sam)
 
-1. **Strengthen the Adept Rival by ~25–30 points at normal pace without flattening the
-   pace dial.** The "sweep" test (the stranded Stack is flipped through the keep test at the
-   Drought) closes the gap (Rival ~54, player wins 68%) but makes pace irrelevant. Candidates
-   for a Stage 1b sim: a partial sweep (keep at most N stranded cards), a stronger Ravening
-   or an earlier one, or a score bonus per Stack card still unflipped *only* if the player
-   delayed — each judged on strength AND on rushing no longer being free.
-2. **Re-derive the difficulty table** after (1): Archmage as written is not harder; Hasten
-   points the wrong way; Apprentice ×0.75 is premature.
+1. **Strengthen the Adept Rival — Stage 1b recommendation (sim, 2026-11-13; details in
+   `simulation/SOLO_RIVAL_STAGE1.md`, "Stage 1b").** Two forced changes, no new decisions:
+   - *Ravening (would replace §6):* from the Rival's turn on which the Source holds **12 or
+     fewer** cards, it flips **2** cards a turn instead of 1, each through the keep test;
+     it still Tithes once and Burns once (no extra Burn). With an empty Stack it skips the
+     Flip.
+   - *Drought (would amend §7):* when the Drought begins, flip the **top 4** cards of the
+     remaining Stack through the keep test (kept cards join the row), then remove the rest.
+
+   Sim result at normal pace: Rival 56.2 (p10–p90 29–85, was 22.5), player proxy wins 69%
+   (was 93%); slow play 53%, fast 70%, so slow play is punished and rushing is no longer
+   strictly best (pace spread +8, was +36). Neither lever alone reached the target, and an
+   uncapped Drought flip made pace irrelevant. If real v3.2 books come in near 35–55
+   rather than the proxy's ~72, start from top 2–3 and Source ≤10 instead.
+2. **Difficulty table from levers (replaces §8's table if (1) is adopted):** Apprentice =
+   the new Ravening only (Rival ~40, player wins ~81%); Adept = Ravening + Drought flip
+   top 4 (~56, ~69%); Archmage = Adept + Hoard (~54, player score −15, ~54%). Drop the
+   ×0.75 multiplier, the wilds-in-Stack Archmage (not harder in the sim) and Hasten (it
+   weakens the Rival). ±2 adjacency is a cliff (~32%), so keep it only as an optional
+   extra challenge.
 3. **§7 wild wording for v3.2:** "A wild takes the Rival's energy and declares only a number
    (it never declares an energy)." Add: if the longest run ends at 15, extend at the low
    end; equal runs → the lower one; a natural card arriving on a wild's declared rank still

@@ -87,8 +87,13 @@ Work done 2026-11-13 (Attuned Rival Stage 1 sim):
   §17 (rules text untouched). Headline: the Adept Rival is too weak (~23 at normal pace,
   greedy proxy wins 92%) and rushing the Drought is dominant, so the pace dial — the
   mode's central decision — is absent; ±1 adjacency stays; the decoy-largest-spell exploit
-  is not dominant (the Tithe is worth ~9 points of denial in total). Next for this module
-  (QUEUE P2): Sam picks Stage 1b strength-lever sim vs a first live solo session.
+  is not dominant (the Tithe is worth ~9 points of denial in total).
+- Stage 1b (same day, `stage1b` subcommand): neither a capped Drought flip nor an
+  earlier/bigger Ravening reaches the target alone; combined (Ravening from Source ≤12
+  flipping 2, no extra Burn + Drought flip of the top 4) gives Adept ~56, proxy win 69%,
+  slow 53% / fast 70%. Lever-based difficulty table proposed (doc §17 item 2). Next for
+  this module (QUEUE P2): Sam decides on adopting it as v0.2, then a first live solo
+  session.
 
 Work done 2026-07-16 (third session — portfolio audit):
 - **Full expansion audit** → `_review/EXPANSION_AUDIT_2026-07.md`: stage ladder S0–S5 for all
