@@ -9,12 +9,13 @@ updated: 2026-07-06
 A competitive tabletop card game (rulebook v2.8, Stage 3 — Core Loop Testing).
 Wizards build patterns in their Spellbook from four energy types — Radiance, Void,
 Flux, Aether (plus Echo in 5–6 player decks, under test) — racing the depleting
-Source to ascend to Archmage when it runs dry.
+Source to become the Renewer when it runs dry.
 
-> **Working title.** "Archmage Ascension" is provisional — it collides with the board
-> game *Archmage* and the card game *Ascension*, so the name (and the end-narrative that
-> refers to an Archmage ascending) will change. Tracked as DR-NAME; the title is
-> finalized late (with the pitch) to avoid renaming every surface twice.
+> **Title.** Final name chosen 2026-07-16: **Arcane Drought** (DR-NAME resolved — see
+> `meta/decisions/2026-07-16-dr-name-arcane-drought.md`). "Archmage Ascension" stays as
+> the working title on repo surfaces until the one-pass rename, still gated with the
+> pitch (DR-PITCH / F14). End-narrative already reworked: the winner is the **Renewer**
+> who breaks the Arcane Drought (`rulebook/Story.md`).
 
 **The hook (protected — DR-HOOK, 2026-07-06):** *It's rummy where your melds stay alive
 as spell engines — but every spell you cast burns down the shared Source, and when it

@@ -42,8 +42,9 @@ flows. Used as poetic/flavor synonym for \"the Source.\"
 **Capacity** *(Mechanical)* How many spells you can cast per turn and
 how many learning actions you can perform. Represented by counters.
 Starts at 1 (2-4 players) or 2 (5-6 players), increases by learning
-Enchantments (+1 / +3 / +5 counters by size), decreases when an
-Enchantment is reduced or dissolved (by the ladder difference).
+Enchantments (+1 / +3 / +5 counters by size), and decreases if you
+Unlearn or Reshape one smaller or take it apart — its capacity always
+matches the Enchantment's current size.
 
 **Cast** *(Mechanical)* To activate a spell from your Spellbook during
 the Casting Phase by placing a counter on it. Effects resolve
@@ -199,9 +200,9 @@ triggers the Ascension.
 across multiple spells in your Spellbook. Break down one or more spells
 and rebuild using the same components. All components must remain in
 valid spell arrangements. Costs one counter per spell broken down
-(breaking N spells costs N counters). Warning: reducing an Enchantment
-via Reshape loses capacity proportionally by the ladder difference (not
-a flat full loss), applied immediately.
+(breaking N spells costs N counters). Warning: if a Reshape makes an
+Enchantment smaller, its capacity drops to match the new size, applied
+immediately.
 
 **Resonance** *(Story + Mechanical)* The power measurement used during
 the Ascension. Each spell pattern generates resonance strength based on
@@ -239,10 +240,11 @@ components flow to Arcane Reserve. Cannot be cast during the Drought.
 
 **Unlearn** *(Mechanical)* A learning action. Return one or more
 components from a single spell to your hand; the remainder must still
-form a valid spell, or the spell fully dissolves. Costs 1 counter
+form a valid spell, or the whole spell comes apart and its components
+return to your hand. Costs 1 counter
 regardless of how many components are returned from that one spell. For
 runs (Transfiguration, Perfect Transmutation), a single-component
-partial Unlearn may only remove an end component. If it reduces or
-dissolves an Enchantment, capacity is lost by the ladder difference
-(5→4 = −2, 4→3 = −2, 3→dissolved = −1), applied immediately. Returned
+partial Unlearn may only remove an end component. If it makes an
+Enchantment smaller or takes it apart, its capacity drops to match the
+new size (or to none), applied immediately. Returned
 components can't be learned into new spells until your next turn.
