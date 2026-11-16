@@ -1,13 +1,23 @@
 ---
 thread: capacity-economy
 status: active
-updated: 2026-11-13
+updated: 2026-11-16
 goal: Make enchantment pursuit viable without collapsing Drought tension
-next: **Run the first v3.2 playtest — check how the approved rules feel (VENUE OPEN).** Sam approved the v3.1 bundle by designer decision on 2026-11-13; canon is rulebook **v3.2** (`meta/decisions/2026-11-13-v3-2-designer-approval.md`; A4 amended so returned cards can be learned the same turn, A6 dropped, flexible wilds + 2–4p Enchantment cap and Source-emptying timing written in). No confirm/kill or rollback any more. Venue options unchanged: the live Screentop table `@samjennings/Arcane-Drought` (board reminder panel predates v3.2), in person, or resume Tabletopia (ON HOLD, scene assembly in QUEUE Deferred). Kit: `meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md` (drills D4/D6/D8 updated, D9–D10 added). Play the baseline CLEAN; Array Attunement (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`, proposed) stays a variant for a second half or follow-on session. Still open: Echo tunables (5–6p wild count 4 vs 6; Conjuration under suit dilution), and the four test questions in the kit.
+next: **Run the first v3.2 playtest — check how the approved rules feel (VENUE OPEN).** Sam approved the v3.1 bundle by designer decision on 2026-11-13; canon is rulebook **v3.2** (now **v3.3**, clarifications only, 2026-11-16) (`meta/decisions/2026-11-13-v3-2-designer-approval.md`; A4 amended so returned cards can be learned the same turn, A6 dropped, flexible wilds + 2–4p Enchantment cap and Source-emptying timing written in). No confirm/kill or rollback any more. Venue options unchanged: the live Screentop table `@samjennings/Arcane-Drought` (board reminder panel predates v3.2), in person, or resume Tabletopia (ON HOLD, scene assembly in QUEUE Deferred). Kit: `meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md` (drills D4/D6/D8 updated, D9–D10 added). Play the baseline CLEAN; Array Attunement (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`, proposed) stays a variant for a second half or follow-on session. Still open: Echo tunables (5–6p wild count 4 vs 6; Conjuration under suit dilution), and the four test questions in the kit.
 hypothesis: If the round-trip counter redesign (placing a counter casts a spell; picking one up pays for a learning action — Recall becomes the payment, not a step) is pre-validated in the solo rig alongside partial unlearn, then a single combined fix can be chosen on paper and the next live session spent confirming experience rather than exploring options.
 ---
 
 # Capacity economy
+
+## v3.3 clarifications - 2026-11-16
+
+Rules-gaps rulings 1A–4A (`meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`) made the
+rulebook **v3.3** without touching scores, ladder, costs or decks. The one that matters here
+is **2A**: after any learning action, compare Enchantment capacity before and after; more
+arrives next turn, less is lost now behind the gate, and capacity not yet arrived is never
+charged (Empower 3→4 then Unlearn back to 3 in one turn costs only the two actions). The
+digital build now does this for Empower, Unlearn and Reshape with one shared helper. The first
+v3.2 playtest keeps its name and plays v3.3; nothing it measures changed.
 
 ## v3.2 canon by designer approval — 2026-11-13
 

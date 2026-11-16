@@ -1,13 +1,27 @@
 ---
 thread: rules-and-teaching
 status: active
-updated: 2026-11-13
+updated: 2026-11-16
 goal: Players can learn, play, and track the game from written materials alone — no verbal patching
 next: **Sam answers the open questions in `playtests/plans/stranger-playtest-plan-2026-11.md` (in person or online, venues, how many strangers) so the first stranger session can be scheduled** — Sam has one printed set and has never run a stranger session; the recommended first session doubles as the first v3.2 playtest with TS1 (blind teach) and TS2 (replay choice) notes. The six-player French teaching test was **never run** (pack still ready in `_review/FR_6P_SESSION_2026-08/`); it stays a P1 for when that group meets. The printed-reference-card redesign stays the standing P1 and now carries the counter-comprehension retest (F1 arms parked, brief 1A).
 hypothesis: Counter confusion is a printed-card/board legibility problem, not a mechanic or rule-text problem — a new player (Denise, Session 4) understood the dual-purpose counters from the ONLINE reference with zero explanation and no misplay, whereas Sessions 1 & 3 failed "from card or board." If the redesigned physical card also teaches the loop cleanly, F1 leans text/presentation (Option C) rather than a mechanic redesign.
 ---
 
 # Rules and teaching
+
+## Rules-gaps rulings 1A–8A → rulebook v3.3 (2026-11-16)
+
+Sam answered `_review/RULES_GAPS_BRIEF_2026-11.md` items 1–8, all A
+(`meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`, canon). Rulebook **v3.3**
+(clarifications only): Unlearn keeps any valid spell (no "ends only" rule), capacity is
+compared before/after every learning action (unarrived capacity is never lost), the cards
+set a spell's type (only two-wild spells are named), and the last Released Reserve drawer
+finishes the turn. Rulebook, glossary, v2 site (`rules.v3.3.js`, explainers no longer flag
+items 1, 2, 4), classic references, digital build and the French six-player pack all
+updated; v3.2 copies in `_archive/*-v3.2-2026-11-16/`. Session 3's Unlearn-scope questions
+are what item 1 answers: watch whether new players still ask. **Items 9–17 (Group 3) still
+await Sam** (QUEUE P2). Trials rulings 5A–8A are recorded on the parked `ascension-trials`
+thread.
 
 ## Where this stands
 
