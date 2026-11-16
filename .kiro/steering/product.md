@@ -1,6 +1,6 @@
 # Product
 
-**Archmage Ascension** is a competitive tabletop card game (currently rulebook v3.2). Wizards build patterns in their Spellbook from four energy types (Radiance, Void, Flux, Aether — plus Echo in 5–6 player decks) and race a depleting Source, ascending to Archmage when the Source runs dry.
+**Archmage Ascension** is a competitive tabletop card game (currently rulebook v3.3). Wizards build patterns in their Spellbook from four energy types (Radiance, Void, Flux, Aether — plus Echo in 5–6 player decks) and race a depleting Source, ascending to Archmage when the Source runs dry.
 
 ## What this repository is
 

@@ -1,12 +1,15 @@
 # Machine-checkable canon. The agent updates this in the same turn as any decision
 # that changes vocabulary, versions, or structural facts ("canon delta", process.md §3).
 # check.mjs greps retired_terms across the vocab scan scope.
-# CURRENT RULES: rulebook v3.2 (canon, decision meta/decisions/2026-11-13-v3-2-designer-approval.md).
+# CURRENT RULES: rulebook v3.3 (canon, decision meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md).
+# v3.3 = v3.2 plus rules-gaps rulings 1A-4A (clarifications only: Unlearn scope, capacity timing,
+# spell type set by its cards, last Released Reserve card). Byte-exact v3.2 copies are in
+# _archive/*-v3.2-2026-11-16/.
 # v3.2 = the v3.1 scoring/economy bundle approved by Sam as designer (no live confirm/kill; A4 amended,
 # A6 dropped) + flexible wilds / Enchantment size cap (B7) + Source-emptying timing (B8). Byte-exact
 # v3.1 copies are in _archive/*-v3.1-2026-11-13/; v3.0 copies stay in _archive/*-v3.0-2026-07-09/.
 
-rulebook_version: v3.2
+rulebook_version: v3.3
 energies_base: Radiance, Void, Flux, Aether
 energy_fifth: Echo — 5-6 player decks only (decision 2026-07-02, canon 2026-11-13); NOT in 2-4p decks
 spell_types: Conjuration, Transfiguration, Enchantment, Perfect Transmutation
@@ -17,6 +20,11 @@ starting_counters: 2-4p = 1 counter; 5-6p = 2 counters (decision 2026-07-03)
 wild_rule: a wild is whatever the spell needs and never declares an energy; only in sequences (Transfiguration, Perfect Transmutation) does it declare a number, fixed while the spell exists and redeclared only if the spell is broken down and rebuilt; empowering does not redeclare (decision 2026-11-13, supersedes F6 wild scope; in the rulebook from v3.2)
 source_emptying: if a draw or Array refill empties the Source, finish the current Collection choice or spell effect, then the Drought begins at once; the active player skips remaining Casting and goes to Learning under Drought rules; Conjuration/PT castable only if the Source can complete them in full (decision 2026-07-06, canon 2026-11-13)
 returned_components: components returned by UNLEARN may be learned again the same turn (v3.2, A4 amended)
+unlearn_scope: return one or more components from one spell; what stays must be a valid spell of any type, else the whole spell returns to hand; no separate "ends only" rule for runs; wilds that stay in a run keep their number (ruling 1A, v3.3)
+capacity_timing: after any learning action compare Enchantment capacity before vs after; more arrives next turn (keep what you had until then), less is lost now behind the affordability gate (full action cost + loss); capacity not yet arrived is cancelled, never charged (ruling 2A, v3.3)
+spell_type: set by the components, not chosen; most specific wins (a same-energy sequence is always a Perfect Transmutation); only a spell with 2+ wilds is named by its owner at learning and stays that until rebuilt (ruling 3A, v3.3)
+game_end: the player who draws the last Released Reserve card finishes that turn including Learning, then the contest ends (ruling 4A, v3.3; F5 finish-the-round stays deferred)
+trials_rulings: Ascension Trials (variant, thread PARKED) — 5-6p Trials games use candidate package C1 Coherent Claim; the v2.8/2.9 draft text stays a 2-5p historical text (5A); Echo is a fifth power domain, same formula (6A); Complete Mastery is in play at 5-6p, with the Echo deck (7A); each Enchantment of 4+ components grants +1 wild power (8A). Rulings 2026-11-16; items 9-17 of the rules-gaps brief still open
 empower_scope: extend a spell, grow an Enchantment to the next size, or convert one spell type to another (v3.2; the v3.1 Enchantment-conversion ban, A6, was dropped)
 max_spell_size: 15 — no spell/configuration may exceed 15 components; Conjuration scoring is NOT extended to 16-17 (decision 2026-07-06 F6)
 primary_card_design: arcana (art) + beacon (connector) — decision 2026-07-02

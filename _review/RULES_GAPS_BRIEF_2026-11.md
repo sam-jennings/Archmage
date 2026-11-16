@@ -2,12 +2,16 @@
 title: Rules-gaps rulings brief (Nov 2026)
 type: review-brief
 date: 2026-11-16
-status: awaiting-Sam (recommendations only; nothing here is decided or applied)
+status: items 1–8 decided 2026-11-16 (all A; applied as rulebook v3.3, meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md); items 9–17 awaiting Sam (recommendations only; nothing from Group 3 applied)
 sources: web-apps/v2/REPORT_1.md §6, REPORT_2.md §4, REPORT_3.md §3
 rules-read-against: rulebook v3.2 (canon 2026-11-13)
 ---
 
 # Rules gaps: 17 rulings for Sam
+
+> **Status 2026-11-16:** Sam answered **1A 2A 3A 4A 5A 6A 7A 8A**. Applied as rulebook v3.3
+> (`meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`). **Group 3 (items 9–17) is still
+> open** — nothing below item 8 has been applied. Line numbers below are the v3.2 ones.
 
 Reply with numbers and letters, e.g. "1A 2A 4B". The recommended option is always **A**, so
 "all A" accepts everything. I recommend; you decide. Nothing in the rulebook, `meta/` or

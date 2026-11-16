@@ -40,6 +40,12 @@ proceed to final evaluation."*
 
 None — current rule (immediate end) stands.
 
+> **Update 2026-11-16 (ruling 4A, rulebook v3.3 — `2026-11-16-rules-gaps-rulings-1-8.md`):**
+> "immediate end" now reads precisely: the player who draws the last Released Reserve card
+> **finishes that turn, including their Learning Phase**, then the contest ends (what the
+> digital build and the simulation already did). This settles the wording only. The
+> seat-order watch above and the deferred finish-the-round alternative stay open, unchanged.
+
 ## Propagation
 
 - [x] `_review/DECISION_REGISTER_2026-07.md` F5 reframed to playtest-watch (2026-07-06)

@@ -1,7 +1,7 @@
 ---
 title: Glossary
 type: reference
-updated: 2026-11-13
+updated: 2026-11-16
 status: canon
 ---
 
@@ -44,7 +44,10 @@ how many learning actions you can perform. Represented by counters.
 Starts at 1 (2-4 players) or 2 (5-6 players), increases by learning
 Enchantments (+1 / +3 / +5 counters by size), and decreases if you
 Unlearn or Reshape one smaller or take it apart — its capacity always
-matches the Enchantment's current size.
+matches the Enchantment's current size. After any learning action,
+compare the capacity your Enchantments give before and after it: more
+arrives from your next turn, less is lost immediately, and capacity that
+has not arrived yet is never a loss.
 
 **Cast** *(Mechanical)* To activate a spell from your Spellbook during
 the Casting Phase by placing a counter on it. Effects resolve
@@ -116,7 +119,8 @@ players. Always active---never needs to be
 cast. Permanently increases capacity: 3-component grants +1 counter
 (scores 4), 4-component grants +3 counters (scores 10), 5-component
 grants +5 counters (scores 16). Added capacity becomes available from
-the start of your next turn. A wild in an Enchantment takes its value
+the start of your next turn; capacity lost by making it smaller goes
+at once, unless it had not arrived yet. A wild in an Enchantment takes its value
 and needs no energy. Represents
 internal metamorphosis woven into the
 wizard\'s being.
@@ -178,7 +182,9 @@ components in sequential values, all from the same energy. When cast,
 provides BOTH Conjuration effect (draw from Source) AND Transfiguration
 effect (drain catalysts, claim from Array). Both effects are mandatory.
 Represents absolute mastery within one energy. Cannot be cast during
-the Drought.
+the Drought. A same-energy sequence is always a Perfect Transmutation:
+a spell's type is set by its components, and only a spell holding two
+or more wilds is named by its owner when learned.
 
 **R**
 
@@ -190,8 +196,9 @@ Recall each turn.
 
 **The Released Reserve** *(Mechanical)* The final draw pile, formed when
 the Drought begins by shuffling the Array and Arcane Reserve together.
-Limited, unstable magical energy for final preparations. When depleted,
-triggers the Ascension.
+Limited, unstable magical energy for final preparations. The player who
+draws its last card finishes that turn, including Learning; then the
+contest ends and the Ascension follows.
 
 **Reshape** *(Mechanical)* A learning action. Reorganize components
 across multiple spells in your Spellbook. Break down one or more spells
@@ -236,14 +243,15 @@ components flow to Arcane Reserve. Cannot be cast during the Drought.
 **U**
 
 **Unlearn** *(Mechanical)* A learning action. Return one or more
-components from a single spell to your hand; the remainder must still
-form a valid spell, or the whole spell comes apart and its components
-return to your hand. Costs 1 counter
-regardless of how many components are returned from that one spell. For
-runs (Transfiguration, Perfect Transmutation), a single-component
-partial Unlearn may only remove an end component. If it makes an
+components from a single spell to your hand. What stays must still be a
+valid spell, of any type (take the middle out of a Perfect
+Transmutation and a Conjuration stays); if it would not be, the whole
+spell returns to your hand. Wilds that stay in a run keep their number.
+Costs 1 counter regardless of how many components are returned from
+that one spell. If it makes an
 Enchantment smaller or takes it apart, its capacity drops to match the
-new size (or to none), applied immediately. Returned
+new size (or to none), applied immediately unless that capacity had not
+arrived yet. Returned
 components can be learned into a new spell straight away, this turn.
 
 **W**

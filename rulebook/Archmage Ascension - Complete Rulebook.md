@@ -2,8 +2,8 @@
 title: Archmage Ascension - Complete Rulebook
 aliases:
   - Archmage Ascension Rulebook
-  - Complete Rulebook v3.2
-version: v3.2
+  - Complete Rulebook v3.3
+version: v3.3
 type: rulebook
 status: canon
 tags:
@@ -121,6 +121,8 @@ This binding ensures that when the Source eventually runs dry, sufficient unstru
 
 *Throughout the contest, you'll learn four types of spells. Each represents a different approach to magical mastery. Your Spellbook - the arrangement of components in front of you - demonstrates what you've mastered.*
 
+A spell's type is set by its components, not chosen. If they fit more than one type, it is the most specific: a same-energy sequence is always a Perfect Transmutation. Only a spell holding two or more wilds can still be read two ways. Say which spell it is when you learn it; it stays that spell until you rebuild it.
+
 ### 🔮 Conjuration (Same Energy)
 
 *Drawing additional energy from the Source*
@@ -199,7 +201,7 @@ You increase capacity by learning Enchantments. Added capacity becomes available
 - 4-component Enchantment: +3 counters.
 - 5-component Enchantment: +5 counters (5-6 player / Echo decks only).
 
-You can also lose capacity. An Enchantment's capacity always equals its current size — a 3-card gives 1, a 4-card gives 3, a 5-card gives 5 — so using Unlearn or Reshape to make one smaller drops its capacity to the smaller size's value, and taking it apart entirely removes all of it. The components themselves aren't destroyed: Unlearn returns them to your hand, and Reshape rebuilds them into other spells. Any such loss applies immediately.
+You can also lose capacity. An Enchantment's capacity always equals its current size — a 3-card gives 1, a 4-card gives 3, a 5-card gives 5 — so using Unlearn or Reshape to make one smaller drops its capacity to the smaller size's value, and taking it apart entirely removes all of it. The components themselves aren't destroyed: Unlearn returns them to your hand, and Reshape rebuilds them into other spells. Any such loss applies immediately (see Enchantment Effect Timing).
 
 Example: a 4-card Enchantment gives 3. Take it down to a 3-card and it gives 1 (a loss of 2); take it apart entirely and you lose all 3.
 
@@ -211,11 +213,15 @@ Example: a 4-card Enchantment gives 3. Take it down to a 3-card and it gives 1 (
 
 ### Enchantment Effect Timing
 
-Enchantments change your Magical Capacity. The timing depends on whether capacity is gained or lost:
+Enchantments change your Magical Capacity. Whenever a learning action changes your Enchantments, compare the capacity they gave you before the action with the capacity they give after it.
 
-- **Gains** (learning or empowering an Enchantment): the added capacity becomes available only from the **start of your next turn**.
-- **Losses** (using Unlearn or Reshape to make an Enchantment smaller or take it apart): the capacity loss applies **immediately**.
-- **Affordability gate:** you may not make an Enchantment smaller or take it apart unless you can both pay the action's counter cost (1) AND absorb the immediate capacity loss from the counters you currently have available. If you cannot afford the action plus the loss, the action is blocked.
+- **More:** the extra becomes available from the start of your next turn. Until then you keep what you already had.
+- **Less:** you lose the difference immediately.
+- Capacity that has not arrived yet is never a loss. If you make an Enchantment smaller before its new capacity arrives, that capacity simply never arrives.
+
+This applies to every learning action: Learn, Empower, Reshape and Unlearn.
+
+**Affordability gate:** you may not take an action that loses capacity unless you can pay the action's full counter cost and absorb the loss from the counters you have available.
 
 **Worked example:** Your only Enchantment is a 4-card [8,8,8,8], giving capacity 4 (1 starting + 3 from the Enchantment). Taking it apart entirely costs 1 action + 3 capacity loss = 4 — possible only if you have spent no capacity this turn. Stepping it down to a 3-card costs 1 action + 2 capacity loss = 3, leaving a scoring 3-card Enchantment and +1 capacity.
 
@@ -334,18 +340,17 @@ Reorganize components across spells in your Spellbook.
 - Costs one counter per spell broken down — breaking N spells costs N counters (this replaces the old "any or all spells for one action").
 - All freed components must be redistributed into valid spell arrangements; every component must end in a valid spell.
 - Rebuilt sequences declare the numbers of their wilds again.
-- If a RESHAPE makes an Enchantment smaller, its capacity drops to match the new size; that loss applies immediately (see Enchantment Effect Timing).
+- If a RESHAPE changes your Enchantments, compare the capacity they give before and after it: less is lost immediately, more arrives from your next turn (see Enchantment Effect Timing).
 
 #### UNLEARN
 
-Return one or more components from a single spell to your hand. The remainder must still form a valid spell, or the whole spell comes apart and its components return to your hand.
+Return one or more components from a single spell to your hand. What stays must still be a valid spell. It may be a different type: take the middle out of a Perfect Transmutation and a Conjuration stays. If what would stay is not a valid spell, the whole spell returns to your hand. Wilds that stay in a run keep their number.
 
 - Costs 1 counter regardless of how many components you return from that one spell.
 - Targets a single spell. Unlearning from two different spells in the same turn requires 2 separate UNLEARN actions at 1 counter each.
-- For runs (Transfiguration, Perfect Transmutation), a single-component partial UNLEARN may only remove an end component — you cannot pull a component out of the middle of a run.
 - Returned components go back to your hand and can be learned into a new spell straight away, this turn.
 - Useful for reclaiming components for a different strategy, or for stepping a spell down a size.
-- If the UNLEARN makes an Enchantment smaller or takes it apart, its capacity drops to match the new size (or to none); that loss applies immediately (see Enchantment Effect Timing).
+- If the UNLEARN makes an Enchantment smaller or takes it apart, its capacity drops to match the new size (or to none); that loss applies immediately, except for capacity that had not arrived yet (see Enchantment Effect Timing).
 
 #### 💡 The Recall Step
 
@@ -400,7 +405,7 @@ With no spells able to be cast, this phase simply doesn't exist during the Droug
 
 #### End of The Drought
 
-When the Released Reserve is depleted (all cards drawn), the contest immediately ends. Proceed to the final evaluation.
+When a player draws the last card of the Released Reserve, they finish that turn, including their Learning Phase. Then the contest ends. Proceed to the final evaluation.
 
 ---
 
@@ -432,13 +437,13 @@ Tiebreakers: Most spells, then most components in largest single spell.
 
 **Arcane Reserve:** The discard pile. Contains unstructured magical potential from spent components. Released when The Source empties.
 
-**The Drought:** The final phase when The Source empties. The Array and Arcane Reserve merge into the Released Reserve. No casting occurs - only collection and learning.
+**The Drought:** The final phase when The Source empties. The Array and Arcane Reserve merge into the Released Reserve. No casting occurs - only collection and learning. Ends when a player draws the last Released Reserve card and finishes that turn.
 
 **Released Reserve:** The final draw pile (Array + Arcane Reserve shuffled together). Limited, unstable magic for final preparations.
 
-**Conjuration:** Spell using 3+ components of the same energy (not sequential). When cast, draws bonus components from The Source.
+**Conjuration:** Spell using 3+ components of the same energy (they need not be sequential). When cast, draws bonus components from The Source.
 
-**Transfiguration:** Spell using 3+ sequential components of different energies. When cast, must exchange components using The Array.
+**Transfiguration:** Spell using 3+ sequential components, any energies. When cast, must exchange components using The Array.
 
 **Enchantment:** Spell using 3-5 matching components (max 4 at 2-4 players, 5 at 5-6 players). Always active (never cast). Permanently increases capacity.
 
