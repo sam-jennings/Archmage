@@ -72,11 +72,12 @@ for (const group of R.players.groups) {
       if (max > 4) assert.equal(X.capacity(play(four, 'grow', 'next')), S + grant(5));
     });
 
-    await t.test('shrinking before the gain arrives is flagged as unclear, not decided silently', () => {
+    await t.test('ruling 2A: shrinking before the gain arrives loses nothing now, and the gain never arrives', () => {
       const s = play(start, 'learn', 'next', 'grow', 'shrink');
       assert.equal(s.size, 3);
       assert.equal(X.capacity(s), S + grant(3));
-      assert.equal(s.notes[0].kind, 'unclear');
+      assert.equal(s.notes[0].kind, 'ruled');
+      assert.equal(X.capacity(X.apply(s, 'next')), S + grant(3), 'the cancelled gain does not arrive next turn');
     });
 
     await t.test('every state has a text equivalent', () => {

@@ -10,6 +10,7 @@ export const X = {
     reset: 'Start again',
     unclear: 'Rulebook unclear',
     implied: 'Implied, not stated',
+    ruled: 'Rulebook clarification',
     loading: 'Loading…',
     failed: 'This explainer could not load. The rule text is still correct.',
     scrub: 'Move through the steps',
@@ -70,7 +71,7 @@ export const X = {
     blocked: 'Blocked. You need {need} free: {cost} for the action and {loss} for the capacity you would lose. You have {free}.',
     spent: 'One action used on something else. {free} free.',
     noFree: 'No free counters left this turn. End the turn.',
-    pendingNote: 'You shrank an Enchantment whose extra capacity had not arrived yet. The rulebook does not say whether that counts as a loss. This explainer treats it as losing nothing now.',
+    pendingNote: 'You shrank an Enchantment whose extra capacity had not arrived yet. Capacity that has not arrived is never a loss: it simply never arrives.',
   },
 
   unlearn: {
@@ -82,15 +83,11 @@ export const X = {
     back: 'Back to hand',
     stays: 'Stays in your Spellbook',
     ok: 'Allowed. What is left is still a spell: {spell}, {size} ({pts}). Cost: {cost}, however many you take.',
-    retype: 'What is left is a valid spell, but no longer a {was}: it is a {spell}, {size} ({pts}).',
-    retypeNote: 'The rulebook says what is left "must still form a valid spell". It does not say whether the spell may change type when you Unlearn, the way it says so for Empower. Agree at the table before you play.',
-    retypeMiddleNote: 'Two rulebook lines meet here. What is left is a valid spell (a {spell}), which one line asks for. Another line says a single component "may only" come off the end of a run. The rulebook does not say which wins, or whether Unlearn may change a spell\'s type at all. Agree at the table before you play.',
+    retype: 'Allowed. What is left is a valid spell, but no longer a {was}: it is now a {spell}, {size} ({pts}). A spell may change type when you Unlearn. Cost: {cost}.',
     okEnch: 'Its capacity drops from +{from} to +{to} at once, so you also need {loss} free to absorb that.',
     all: 'Allowed. You take the whole spell back. Cost: {cost}.',
     collapse: 'What is left would not be a valid spell, so the whole spell comes apart and every component returns to your hand. Cost: {cost}.',
     collapseEnch: 'All +{from} of its capacity goes at once.',
-    middle: 'You picked a single component from the middle of a run.',
-    middleNote: 'The rulebook gives two answers. One line says the remainder must still be a valid spell "or the whole spell comes apart". Another says a single component "may only" come off an end, and you "cannot" pull one from the middle. So this is either not allowed, or it breaks the whole spell. Agree at the table before you play.',
     later: 'Components you take back can be learned into a new spell straight away, this turn.',
     done: 'Unlearned. {later}',
     again: 'Try another',
@@ -156,7 +153,7 @@ export const X = {
     works: 'Spells that needed the Source or the Array stop. Enchantments keep giving their full capacity.',
     low: ['{n} card left in the Released Reserve.', '{n} cards left in the Released Reserve.'],
     end: 'It is drawn. {end}',
-    endNote: 'The rulebook says the contest "immediately ends" when the last card is drawn. Read strictly, the player who draws it gets no Learning phase that turn. The rulebook does not confirm that. The current decision is to keep the immediate end and watch whether it feels unfair.',
+    endNote: 'The player who draws the last card still has their Learning phase. Only then does the contest end.',
   },
 };
 

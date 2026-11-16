@@ -118,7 +118,7 @@ export async function mountExplainer(container, id) {
     const s = history.at(-1);
     put(clear(stage), model.stage(s, kit, (actionId) => act(actionId, false)));
     say.textContent = s.say;
-    put(clear(notes), (s.notes || []).map((note) => callout(note.kind === 'implied' ? 'clarification' : 'variant', note.text, tx('frame.' + note.kind))));
+    put(clear(notes), (s.notes || []).map((note) => callout(note.kind === 'implied' || note.kind === 'ruled' ? 'clarification' : 'variant', note.text, tx('frame.' + note.kind))));
     put(clear(facts), model.facts(s).filter(Boolean).map((f) => h('div', null, h('dt', null, f.label), h('dd', null, f.value))));
 
     // Choices. `stage: true` actions are tapped on the stage itself, so they get no button.

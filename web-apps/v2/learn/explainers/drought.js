@@ -35,7 +35,7 @@ const at = (s, i) => {
   const list = frames(s.group);
   const index = Math.max(0, Math.min(i, list.length - 1));
   const frame = list[index];
-  return step(s, { i: index, total: list.length, say: frame.say, notes: frame.note ? [{ kind: 'unclear', text: frame.note }] : [] });
+  return step(s, { i: index, total: list.length, say: frame.say, notes: frame.note ? [{ kind: 'ruled', text: frame.note }] : [] });
 };
 
 export const init = (group) => at({ group }, 0);

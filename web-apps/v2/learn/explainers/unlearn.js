@@ -13,15 +13,14 @@ export const PRESETS = [
   { kind: 'conjuration', cards: [2, 5, 9, 13].map((v) => ({ e: 'void', v })) },
   { kind: 'enchantment', cards: ['radiance', 'void', 'flux', 'aether'].map((e) => ({ e, v: 7 })) },
 ];
-const isRun = (kind) => kind === 'transfiguration' || kind === 'perfect';
 
 /**
  * What taking these components back does. Pure: used by the explainer and by its test.
- * status: none | ok | retype | all | collapse | conflict
+ * status: none | ok | retype | all | collapse
  *   retype   — what is left is a valid spell of a DIFFERENT type (a same-energy run with a
- *              hole is still a Conjuration). The rulebook does not say if that is allowed.
- *   conflict — one component from inside a run, nothing valid left: the rulebook says both
- *              "cannot" and "the whole spell comes apart".
+ *              hole is still a Conjuration). Allowed (ruling 1A, rulebook v3.3).
+ *   collapse — what is left is not a valid spell, so the whole spell returns to hand. This
+ *              includes one component pulled from inside a mixed-energy run.
  */
 export function evaluate(preset, picked, group) {
   const cost = actionCost('unlearn');
@@ -33,20 +32,16 @@ export function evaluate(preset, picked, group) {
   if (!picked.length) return { ...base, status: 'none' };
   if (!rest.length) return { ...base, status: 'all', to: 0, loss: base.from };
   const left = classify(rest, group, kind);
-  const single = picked.length === 1 && picked[0] > 0 && picked[0] < cards.length - 1;
-  const middle = isRun(kind) && single;
   if (left) {
     const to = left.kind === 'enchantment' ? grant(left.size) : 0;
-    return { ...base, status: left.kind === kind ? 'ok' : 'retype', left, to, loss: base.from - to, middle };
+    return { ...base, status: left.kind === kind ? 'ok' : 'retype', left, to, loss: base.from - to };
   }
-  // One component, from inside a run: the rulebook's two sentences disagree (see REPORT_2).
-  if (middle) return { ...base, status: 'conflict', rest: [], taken: cards, to: 0, loss: base.from };
   return { ...base, status: 'collapse', rest: [], taken: cards, to: 0, loss: base.from };
 }
 
 function describe(result) {
   const cost = n.counters(result.cost);
-  const later = plain(RULES.learning.find((a) => a.key === 'unlearn').details[3]);
+  const later = plain(RULES.learning.find((a) => a.key === 'unlearn').details[2]);
   if (result.status === 'none') return { say: T('pick'), notes: [] };
   if (result.status === 'all') return { say: T('all', { cost }) + (result.from ? ' ' + T('collapseEnch', { from: result.from }) : '') + ' ' + later, notes: [] };
   if (result.status === 'ok') {
@@ -54,10 +49,9 @@ function describe(result) {
     return { say: T('ok', { spell: spellName(result.left.kind), size: n.components(result.left.size), pts: n.pts(result.left.pts), cost }) + ench + ' ' + later, notes: [] };
   }
   if (result.status === 'retype') {
-    const vars = { was: spellName(result.kind), spell: spellName(result.left.kind), size: n.components(result.left.size), pts: n.pts(result.left.pts) };
-    return { say: T('retype', vars), notes: [{ kind: 'unclear', text: T(result.middle ? 'retypeMiddleNote' : 'retypeNote', vars) }] };
+    const vars = { was: spellName(result.kind), spell: spellName(result.left.kind), size: n.components(result.left.size), pts: n.pts(result.left.pts), cost };
+    return { say: T('retype', vars) + ' ' + later, notes: [] };
   }
-  if (result.status === 'conflict') return { say: T('middle'), notes: [{ kind: 'unclear', text: T('middleNote') }] };
   return { say: T('collapse', { cost }) + (result.from ? ' ' + T('collapseEnch', { from: result.from }) : '') + ' ' + later, notes: [] };
 }
 

@@ -155,7 +155,7 @@ check(SR, 'front-matter status ↔ data status', frontMatter(scoring).status ===
   }
   must(RB, 'Perfect Transmutation is both effects, mandatory', /Receives BOTH Conjuration and Transfiguration benefits \(both mandatory\)/.test(rulebook) && R.spells.perfect.cast.kind === 'both');
   must(RB, 'Reshape costs one counter per spell broken down', /Costs one counter per spell broken down/.test(rulebook) && R.learning.find((a) => a.key === 'reshape').cost.per === 'spell broken down');
-  must(RB, 'capacity gains arrive next turn, losses apply immediately', /start of your next turn/.test(rulebook) && /capacity loss applies \*\*immediately\*\*/.test(rulebook) && R.capacity.gain === 'next-turn' && R.capacity.loss === 'immediate');
+  must(RB, 'capacity gains arrive next turn, losses apply immediately', /start of your next turn/.test(rulebook) && /\*\*Less:\*\* you lose the difference immediately/.test(rulebook) && R.capacity.gain === 'next-turn' && R.capacity.loss === 'immediate');
   const tb = grab(rulebook, /Tiebreakers: (.+)\./, RB, 'tiebreakers');
   if (tb) check(RB, 'tiebreakers', tb[1].split(/, then /).map((s) => s.trim().toLowerCase()), R.tiebreakers.map((s) => s.toLowerCase().replace(' the ', ' ')));
   check(RB, 'learning actions', ['LEARN', 'EMPOWER', 'RESHAPE', 'UNLEARN'].filter((a) => new RegExp('^#### ' + a + '$', 'm').test(rulebook)), R.learning.map((a) => a.name.toUpperCase()));

@@ -1,11 +1,11 @@
-// RULES DATA — rulebook v3.2 (current rules).
+// RULES DATA — rulebook v3.3 (current rules).
 //
 // Every number, table and short rule string the v2 pages show comes from this module.
 // Pages never hard-code a rule. Verified against the rulebook, the Scoring System
 // Reference and meta/canon.yml by tools/check-rules-data.mjs.
 //
-// A new rules version is a new file (rules.v3.3.js, or rules.v3.1.js for a rollback — the
-// v3.1 copy is in _archive/rules.v3.1.js-v3.1-2026-11-13/) and one changed import in
+// A new rules version is a new file (rules.v3.4.js, or rules.v3.2.js for a rollback — the
+// v3.2 copy is in _archive/rules.v3.2.js-v3.2-2026-11-16/) and one changed import in
 // data/current.js. Variants are flagged entries in `variants`; they never edit the base
 // values in this file.
 //
@@ -16,10 +16,10 @@
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 export const RULES = {
-  id: 'v3.2',
-  version: '3.2',
+  id: 'v3.3',
+  version: '3.3',
   status: 'canon', // 'canon' | 'under-test'
-  statusNote: 'Rules v3.2 are the current rules.',
+  statusNote: 'Rules v3.3 are the current rules.',
   sources: {
     canon: 'meta/canon.yml',
     rulebook: 'rulebook/Archmage Ascension - Complete Rulebook.md',
@@ -63,7 +63,7 @@ export const RULES = {
       short: 'Conj.',
       pattern: 'Same energy',
       requirement: '{minSpellSize}+ components of the same energy.',
-      note: 'Values need not be in sequence.',
+      note: 'Values need not be in sequence. If they are, the spell is a Perfect Transmutation.',
       flavour: 'A sustained connection to one energy, drawing more of it from the Source.',
       example: [{ e: 'void', v: 2 }, { e: 'void', v: 5 }, { e: 'void', v: 9 }, { e: 'void', v: 13 }],
       exampleNote: 'Four Void components. The values do not matter.',
@@ -116,7 +116,7 @@ export const RULES = {
       short: 'Perfect',
       pattern: 'Same energy, in sequence',
       requirement: '{minSpellSize}+ components with consecutive values, all of one energy.',
-      note: 'Cannot loop around.',
+      note: 'Cannot loop around. A same-energy run is always a Perfect Transmutation.',
       flavour: 'Pure power and transformation at once: perfect alignment within one energy.',
       example: [{ e: 'aether', v: 8 }, { e: 'aether', v: 9 }, { e: 'aether', v: 10 }],
       exampleNote: 'Aether 8-9-10.',
@@ -214,7 +214,7 @@ export const RULES = {
         'One counter for each spell you break down: break three, pay three.',
         'Every freed component must end in a valid spell.',
         'Rebuilt runs declare the numbers of their wilds again.',
-        'Make an Enchantment smaller and its capacity drops at once.',
+        'If it changes your Enchantments, compare their capacity before and after: less is lost at once, more arrives next turn.',
       ],
     },
     {
@@ -223,11 +223,10 @@ export const RULES = {
       cost: { counters: 1 },
       short: 'Take one or more components from a single spell back to your hand.',
       details: [
-        'What is left must still be a valid spell. If not, the whole spell comes apart and all of it returns to your hand.',
+        'What stays must still be a valid spell, of any type: take the middle out of a Perfect Transmutation and a Conjuration stays. If not, the whole spell returns to your hand. Wilds that stay in a run keep their number.',
         'One counter however many components you take, but only from one spell. A second spell is a second Unlearn.',
-        'From a run (Transfiguration or Perfect Transmutation), a single component must come off an end. You cannot pull one out of the middle.',
         'Components you take back can be learned into a new spell straight away, this turn.',
-        'Make an Enchantment smaller, or take it apart, and its capacity drops at once.',
+        'Make an Enchantment smaller, or take it apart, and its capacity drops at once. Capacity that had not arrived yet is simply cancelled.',
       ],
     },
   ],
@@ -243,9 +242,9 @@ export const RULES = {
       'You gain capacity by learning Enchantments. An Enchantment’s capacity always matches its current size.',
     ],
     timing: [
-      '**Gains** (Learn or Empower an Enchantment) arrive at the start of your **next turn**.',
-      '**Losses** (Unlearn or Reshape an Enchantment smaller, or take it apart) apply **immediately**.',
-      'You may only shrink or take apart an Enchantment if you can pay the action’s counter **and** absorb the lost capacity from the counters you still have free this turn. If you cannot, the action is blocked.',
+      'Whenever a learning action (Learn, Empower, Reshape or Unlearn) changes your Enchantments, compare the capacity they gave before it with what they give after. **More** arrives at the start of your **next turn**; until then you keep what you had.',
+      '**Less** is lost **immediately**. Capacity that has not arrived yet is never a loss: shrink an Enchantment before its new capacity arrives and that capacity simply never arrives.',
+      'You may only take an action that loses capacity if you can pay its full counter cost **and** absorb the loss from the counters you still have free this turn. If you cannot, the action is blocked.',
     ],
     workedExample:
       'Your only Enchantment is a 4-component set of 8s at 2–4 players, so your capacity is 4 (1 to start, 3 from the Enchantment). Taking it apart costs 1 action and 3 lost capacity: 4 in all, possible only if you have used no capacity this turn. Stepping it down to 3 components costs 1 action and 2 lost capacity: 3 in all, and leaves a scoring Enchantment worth 1 counter.',
@@ -280,7 +279,7 @@ export const RULES = {
       { kind: 'perfect', works: false, text: 'Perfect Transmutations needed both.' },
       { kind: 'enchantment', works: true, text: 'Enchantments still work. They are always active and keep giving their full capacity.' },
     ],
-    end: 'When the Released Reserve is empty, the contest ends at once. Evaluate your Spellbooks.',
+    end: 'When a player draws the last card of the Released Reserve, they finish that turn, including their Learning. Then the contest ends. Evaluate your Spellbooks.',
   },
 
   keyReminders: [
@@ -333,7 +332,7 @@ export const RULES = {
     { term: 'Arcane Reserve', def: 'The discard pile. It is released when the Source runs dry.' },
     { term: 'The Opening', def: 'Before the first turn, every player places {openingDiscard} component from their hand into the Arcane Reserve.' },
     { term: 'The Drought', def: 'The final phase. The Array and Arcane Reserve merge into the Released Reserve. No casting: only Collection and Learning.' },
-    { term: 'Released Reserve', def: 'The last draw pile: the Array and the Arcane Reserve shuffled together. When it is empty the contest ends.' },
+    { term: 'Released Reserve', def: 'The last draw pile: the Array and the Arcane Reserve shuffled together. Whoever draws its last card finishes that turn; then the contest ends.' },
     { term: 'Spellbook', def: 'The spells laid out in front of you. It is what gets scored.' },
     { term: 'Conjuration', def: '{minSpellSize}+ components of the same energy. Cast it to draw extra components from the Source.' },
     { term: 'Transfiguration', def: '{minSpellSize}+ components with consecutive values, any energies. Cast it to trade through the Array.' },
@@ -394,6 +393,7 @@ export const RULES = {
       blocks: [
         { t: 'flavour', x: 'Four ways to arrange what you hold. Your Spellbook is the proof.' },
         { t: 'p', x: 'A spell is {minSpellSize} or more components in one of four patterns. No spell may hold more than {maxSpellSize}.' },
+        { t: 'p', x: 'A spell’s type is set by its components, not chosen. If they fit more than one type, it is the most specific: a same-energy run is always a Perfect Transmutation. Only a spell holding two or more wilds can still be read two ways: say which spell it is when you learn it, and it stays that spell until you rebuild it.' },
         { t: 'ref', name: 'spell:conjuration' },
         { t: 'ref', name: 'spell:transfiguration' },
         { t: 'ref', name: 'spell:enchantment' },

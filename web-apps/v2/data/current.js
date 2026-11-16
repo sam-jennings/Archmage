@@ -2,7 +2,7 @@
 // Rolling back to v3.1, or moving to v3.3, is: add data/rules.vX.Y.js and change the
 // import on the next line. Nothing else in the site names a version file (sw.js lists it
 // for offline caching; the check tool tells you if that list is stale).
-import { RULES as BASE } from './rules.v3.2.js';
+import { RULES as BASE } from './rules.v3.3.js';
 import { SITE } from './site.js';
 
 const clone = (o) => JSON.parse(JSON.stringify(o));

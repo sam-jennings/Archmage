@@ -8,7 +8,7 @@
 // tools/check-rules-data.mjs verifies that every file here exists and that every page,
 // script, style and the ACTIVE rules file is listed.
 
-const VERSION = '2026-11-13.1';
+const VERSION = '2026-11-16.1';
 const CACHE = 'arcane-drought-v2-' + VERSION;
 
 const PRECACHE = [
@@ -61,7 +61,7 @@ const PRECACHE = [
   'trials/net/transport-firebase.js',
   'trials/net/transport-memory.js',
   'data/current.js',
-  'data/rules.v3.2.js',
+  'data/rules.v3.3.js',
   'data/site.js',
   'data/strings.en.js',
   'assets/fonts/cinzel-var.woff2',
