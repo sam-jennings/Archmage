@@ -3,7 +3,7 @@ title: Ascension Trials
 aliases:
   - The Ascension Trial
   - Ascension Trial Advanced Variant
-version: 2.8
+version: 2.9
 type: variant-rules
 status: working-draft
 tags:
@@ -24,6 +24,14 @@ related:
 > **stale** until the reconciliation pass is complete. Use only the reconciled test notes
 > for live Echo playtests. Reconciliation checklist:
 > `meta/decisions/2026-07-06-f8-ascension-trials-reconcile.md`.
+
+> [!important] Rulings 2026-11-16 (rules-gaps brief items 5–8; made while the Trials thread is parked)
+> - **5–6 players:** play the Trials with candidate package **C1 "Coherent Claim"**
+>   (`ascension-trials/design-history/ASCENSION_TRIALS_07_CANDIDATE_SHORTLIST_2026-07-11.md`).
+>   This text stays a **2–5 player historical draft** until a package replaces it.
+> - **Echo** is a fifth power domain (Power Domains table). **Complete Mastery** is in play at
+>   5–6 players, with the Echo deck. **Each Enchantment of 4 or more components** grants +1
+>   wild magic power. Decision: `meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`.
 
 The Ascension Trials are the advanced endgame variant for experienced players. Instead of using only the standard final evaluation, players calculate power across domains and secretly allocate that power to trials.
 
@@ -65,6 +73,7 @@ Neither path is automatically better. As you build, keep asking: am I creating m
 | Flux Power | Flux Conjuration spell lengths |
 | Radiance Power | Radiance Conjuration spell lengths |
 | Aether Power | Aether Conjuration spell lengths |
+| Echo Power | Echo Conjuration spell lengths (5–6 player games) |
 | Transformation Power | All Transfiguration spell lengths |
 | Enchantment Power | All Enchantment spell sizes |
 
@@ -74,9 +83,9 @@ Neither path is automatically better. As you build, keep asking: am I creating m
 - Counts as a Transfiguration for Transformation domain (+formula power).
 - Grants +1 wild magic power.
 
-### 4-Component Enchantment Bonus
+### Enchantment Bonus (4 or more components)
 
-- Grants +1 wild magic power.
+- Each Enchantment of 4 or more components grants +1 wild magic power.
 
 ---
 
@@ -91,7 +100,7 @@ Neither path is automatically better. As you build, keep asking: am I creating m
 | Focused Power | Exactly ONE domain (any type) | True specialization |
 | Universal Power | 2+ different domains (any mix) | Versatility |
 
-### 7th Trial (5-7 Players Only)
+### 7th Trial (5–6 players, with the Echo deck)
 
 | Trial | Power Source Requirement | Proves |
 |-------|--------------------------|--------|
@@ -101,7 +110,7 @@ Neither path is automatically better. As you build, keep asking: am I creating m
 
 ## Wild Magic Rules
 
-- Earned by: each Perfect Transmutation (+1), each 4-component Enchantment (+1).
+- Earned by: each Perfect Transmutation (+1), each Enchantment of 4 or more components (+1).
 - Can only be added to trials you're **already attempting** (must have 1+ normal power).
 - Does NOT count as an extra source (won't make Harmony/Universal legal alone).
 - Does NOT violate mono requirements (safe to add to Purity or Focused).
@@ -112,19 +121,19 @@ Neither path is automatically better. As you build, keep asking: am I creating m
 
 ## Recognition Points by Player Count
 
-| Trial | 2p | 3p | 4p | 5p | 6p (1st/2nd) | 7p (1st/2nd) |
-|-------|:--:|:--:|:--:|:--:|:------------:|:------------:|
-| Energy Purity | 6 | 8 | 8 | 8 | — | — |
-| Energy Harmony | 4 | 5 | 6 | 6 | — | — |
-| Transformation | 7 | 9 | 9 | 9 | — | — |
-| Enchantment | 4 | 5 | 6 | 6 | — | — |
-| Focused Power | 6 | 7 | 7 | 7 | — | — |
-| Universal Power | 3 | 4 | 5 | 5 | — | — |
-| Complete Mastery | — | — | — | 6 | — | — |
-| **Total Pool** | **30** | **38** | **41** | **47** | **62 (45+17)** | **69 (45+24)** |
+| Trial | 2p | 3p | 4p | 5p | 6p (1st/2nd) |
+|-------|:--:|:--:|:--:|:--:|:------------:|
+| Energy Purity | 6 | 8 | 8 | 8 | — |
+| Energy Harmony | 4 | 5 | 6 | 6 | — |
+| Transformation | 7 | 9 | 9 | 9 | — |
+| Enchantment | 4 | 5 | 6 | 6 | — |
+| Focused Power | 6 | 7 | 7 | 7 | — |
+| Universal Power | 3 | 4 | 5 | 5 | — |
+| Complete Mastery | — | — | — | 6 | — |
+| **Total Pool** | **30** | **38** | **41** | **47** | **62 (45+17)** |
 
-> [!warning] 6-7 player detail
-> The source scoring reference records total 6p/7p Recognition Point pools, but the per-trial 1st/2nd splits are not specified in the table. Keep this unresolved until the final trial reward table is confirmed.
+> [!warning] 6-player detail
+> The source scoring reference records a total 6p Recognition Point pool, but the per-trial 1st/2nd splits are not specified in this table. By ruling 5A (2026-11-16) a 6-player Trials game uses candidate package C1's reward table instead; this table is not extended.
 
 ---
 

@@ -32,12 +32,12 @@ the Archspell, TM/EM repricing). The earlier entry-cap variant at
 playtest and its own decision file. Open sub-decisions: D-AT2/D-AT3 in file 01 §7 and the
 critique's tiered fix package (smallest viable vs bolder) in file 03 §7.
 
-- [ ] Add **Echo Power** as a fifth energy domain (Echo Conjuration spell lengths, standard power formula)
-- [ ] Remove / hide / explicitly mark stale the **7-player** support
-- [ ] Define **6p reward splits** if 6p AT is being tested
+- [x] Add **Echo Power** as a fifth energy domain (Echo Conjuration spell lengths, standard power formula) — ruling 6A, 2026-11-16 (`2026-11-16-rules-gaps-rulings-1-8.md`): Trials text Power Domains row; companion draft option on by default
+- [x] Remove / hide / explicitly mark stale the **7-player** support — ruling 7A, 2026-11-16: 7th Trial heading now "5–6 players, with the Echo deck"; 7-player reward column dropped
+- [x] Define **6p reward splits** if 6p AT is being tested — ruling 5A, 2026-11-16: a 5–6 player Trials game uses candidate C1, which carries its own 6-player rewards; the draft's table is not extended
 - [ ] Align energy terminology with the current game (Radiance / Void / Flux / Aether / Echo)
-- [ ] Rule on whether **Complete Mastery** is 5p-only, 5–6p, or all Echo games (AT-specific decision — do not settle silently in a cleanup pass)
-- [ ] Confirm wild-magic and 4-component Enchantment bonuses behave under the current ladder
+- [x] Rule on whether **Complete Mastery** is 5p-only, 5–6p, or all Echo games — ruling 7A, 2026-11-16: 5–6 players, with the Echo deck (under canon the two are the same)
+- [x] Confirm wild-magic and 4-component Enchantment bonuses behave under the current ladder — ruling 8A, 2026-11-16: each Enchantment of 4 or more components grants +1 (the 5-component one included)
 - [ ] Add compatibility note: Unlimited Capacity is 5–6p-only (see F6)
 
 ## Canon delta
@@ -54,3 +54,6 @@ None yet — AT is a variant; reconciliation edits land against the checklist ab
 - [x] `web-apps/trials-multiplayer.html` + new `web-apps/config.js` — **crash-fix only** (2026-07-07). App threw `Cannot read properties of undefined (reading 'filter')` on entering the voting phase because the HTML expected a `config.js` (`GameConfig`) that had never been committed. Restored to functional against the **live** rulebook — 6 standard trials + Complete Mastery (5+p), RP table 2–5p. **Deliberately omitted (still F8-gated):** Echo as fifth energy, 6p/7p 1st-2nd splits (rulebook flags them unresolved), and everything from the hybrid rebuild pair (`ascension-trials/design-history/ASCENSION_TRIALS_02_HYBRID_REBUILD_PROPOSAL_2026-07-06.md` + `..._03_HYBRID_REBUILD_CRITIQUE_2026-07-06.md`). Full "align" (this line above) still to do.
 
 Open sub-question (do not silently decide): Complete Mastery availability by player count.
+**Answered 2026-11-16 by Sam (ruling 7A): 5–6 players, with the Echo deck.** Rulings 5A–8A
+were made while the Trials thread is parked (brief 6C); they do not unpark it or schedule
+Trials playtests.
