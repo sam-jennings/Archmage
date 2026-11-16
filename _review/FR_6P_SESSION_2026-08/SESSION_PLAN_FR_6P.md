@@ -5,7 +5,7 @@ created: 2026-08-16
 updated: 2026-11-16
 thread: rules-and-teaching
 goal: Can the game teach itself? Four new players who share no language with the designer must learn and play from translated materials + demonstration alone. Every verbal explanation needed is a logged defect with a location.
-configuration: 6 players, 5–6p Echo deck (79 cards, 4 wilds), v3.2 rules (canon), baseline (no Array Attunement variant)
+configuration: 6 players, 5–6p Echo deck (79 cards, 4 wilds), v3.3 rules (canon; v3.2 plus rules-gaps rulings 1A–4A), baseline (no Array Attunement variant)
 ---
 
 # Six-player French session — the plan
@@ -43,7 +43,8 @@ Run that one clean, as planned.
 You will still get *free* v3.2 signal (Transfiguration uptake, whether scores read
 sensibly, enchantment pursuit, and how new players handle the v3.2 wild and
 Source-emptying rules). Record it as observation, not verdict. That's the one
-heads-up; it's your call.
+heads-up; it's your call. (Rules are now v3.3: four clarifications on 2026-11-16 that
+change nothing the v3.2 playtest is meant to measure.)
 
 ## 3. Configuration — decided in advance, do not change on the day
 
@@ -54,7 +55,7 @@ heads-up; it's your call.
 | Deal | 7 each · Array 5 face-up · rest = Source |
 | Starting counters | **2 each** (5–6p) |
 | Opening | each player binds 1 card to the Arcane Reserve, simultaneously |
-| Rules version | v3.2 baseline (canon) |
+| Rules version | v3.3 baseline (canon): v3.2 plus the 2026-11-16 clarifications (Unlearn scope, capacity before/after, spell type set by its cards, last Released Reserve card) |
 | Variants | **none** — no Array Attunement, no Ascension Trials |
 
 **Expect a short game in rounds.** 79 − 42 dealt − 5 Array = 32 in the Source, against six
@@ -180,6 +181,7 @@ yourself re-reading the afternoon to suit your mood.
 - **The Drought transition.** Does the table understand the game has changed phase without being told? This has never been observed with new players at all.
 - **Transfiguration uptake** (v3.2 signal, observation only).
 - **The v3.2 rule changes, read cold.** Nobody at the table has an older version to unlearn, so these are clean reads: wilds declare only a value, and only in sequences (Transfiguration / Perfect Transmutation), fixed until the spell is broken down; cards returned by UNLEARN may be learned again the same turn; EMPOWER may convert one spell type into another; and when The Source runs dry mid-turn, does the active player finish the effect and stop casting without being told?
+- **The v3.3 clarifications, read cold** (rulings 1A–4A, `meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`). UNLEARN: what stays must be a valid spell of any type, else the whole spell returns (no "ends only" rule; the middle out of a same-energy run leaves a Conjuration). Capacity: compare before and after any learning action; capacity that has not arrived yet is never lost. Spell type: the cards decide (a same-energy run is always a Perfect Transmutation; only a two-wild spell is named). Last Released Reserve card: that player finishes their turn, Learning included. Session 3 players asked about Unlearn scope; watch whether these players need to.
 - **The English zone labels** — hesitation, wrong-pile errors, asking what a word means.
 
 ## 9. It's still a party
