@@ -2,9 +2,10 @@
 title: Six-player French-language session — plan
 type: playtest-plan
 created: 2026-08-16
+updated: 2026-11-16
 thread: rules-and-teaching
 goal: Can the game teach itself? Four new players who share no language with the designer must learn and play from translated materials + demonstration alone. Every verbal explanation needed is a logged defect with a location.
-configuration: 6 players, 5–6p Echo deck (79 cards), v3.1 rules, baseline (no Array Attunement variant)
+configuration: 6 players, 5–6p Echo deck (79 cards, 4 wilds), v3.2 rules (canon), baseline (no Array Attunement variant)
 ---
 
 # Six-player French session — the plan
@@ -25,20 +26,23 @@ explanation. This session is n=4 under materially harder conditions.
 The four French speakers are not a problem to work around. They are the strictest test
 panel the project has had access to.
 
-**Second prize, still valuable:** a 6-player Echo game. Echo is `under test` in
-`canon.yml` and has never been played at full count. The 5-card Enchantment tier
+**Second prize, still valuable:** a 6-player Echo game. Echo is canon since 2026-11-13
+(two tunables still open: wild count 4 vs 6, and Conjuration under suit dilution) and has
+never been played at full count. The 5-card Enchantment tier
 (+5 counters, 16 RP) is *only* reachable here — you have literally never seen one in play.
 
 ## 2. What this session is NOT
 
-**It is not the v3.1 confirm/kill.** That P1 is the top of the queue and it is tempting to
-collapse the two, but they fight each other: v3.1's confirm criteria were written for
-2–4p, four new players generate enormous noise, and the Echo deck changes the very
-economy v3.1 is trying to measure. Confounding them would waste the confirm/kill rather
-than accelerate it — run that clean on Tabletopia as planned.
+**It is not the first v3.2 playtest.** There is no v3.1 confirm/kill any more: you approved
+the bundle by designer decision on 2026-11-13 (rulebook v3.2), and the P1 is now a first
+v3.2 playtest that checks how the approved rules feel. It is tempting to collapse the two,
+but they fight each other: that playtest's kit was written for 2–4p, four new players
+generate enormous noise, and the Echo deck changes the very economy it is looking at.
+Run that one clean, as planned.
 
-You will still get *free* v3.1 signal (Transfiguration uptake, whether scores read
-sensibly, enchantment pursuit). Record it as observation, not verdict. That's the one
+You will still get *free* v3.2 signal (Transfiguration uptake, whether scores read
+sensibly, enchantment pursuit, and how new players handle the v3.2 wild and
+Source-emptying rules). Record it as observation, not verdict. That's the one
 heads-up; it's your call.
 
 ## 3. Configuration — decided in advance, do not change on the day
@@ -46,11 +50,11 @@ heads-up; it's your call.
 | | |
 |---|---|
 | Players | 6 (you + host + 4 new) |
-| Deck | 5–6p: five energies incl. Echo × 1–15 (75) + 4 wilds = **79 cards** |
+| Deck | 5–6p: five energies incl. Echo × 1–15 (75) + 4 wilds = **79 cards** (the rulebook's count; 4 vs 6 wilds is still an open Echo tunable — play 4) |
 | Deal | 7 each · Array 5 face-up · rest = Source |
 | Starting counters | **2 each** (5–6p) |
 | Opening | each player binds 1 card to the Arcane Reserve, simultaneously |
-| Rules version | v3.1 baseline |
+| Rules version | v3.2 baseline (canon) |
 | Variants | **none** — no Array Attunement, no Ascension Trials |
 
 **Expect a short game in rounds.** 79 − 42 dealt − 5 Array = 32 in the Source, against six
@@ -174,7 +178,8 @@ yourself re-reading the afternoon to suit your mood.
 - **The 5-card Enchantment.** First sighting ever. Does anyone go for it? Does +5 counters break the turn open in a way that isn't fun for the other five?
 - **Six-player downtime.** Time one full round in the middle of the game. Watch whether people are looking at their hand or at their phone while waiting.
 - **The Drought transition.** Does the table understand the game has changed phase without being told? This has never been observed with new players at all.
-- **Transfiguration uptake** (v3.1 signal, observation only).
+- **Transfiguration uptake** (v3.2 signal, observation only).
+- **The v3.2 rule changes, read cold.** Nobody at the table has an older version to unlearn, so these are clean reads: wilds declare only a value, and only in sequences (Transfiguration / Perfect Transmutation), fixed until the spell is broken down; cards returned by UNLEARN may be learned again the same turn; EMPOWER may convert one spell type into another; and when The Source runs dry mid-turn, does the active player finish the effect and stop casting without being told?
 - **The English zone labels** — hesitation, wrong-pile errors, asking what a word means.
 
 ## 9. It's still a party
@@ -188,7 +193,7 @@ Four people came for a board game afternoon with a friend, not for a lab. Non-ne
 
 ## 10. Afterwards — same day if you can
 
-1. Log it as `playtests/2026-08-XX-session-05.md` with `goal:` and `verdict:` in front-matter (process §7).
+1. Log it as `playtests/YYYY-MM-DD-session-05.md` (the date you play) with `goal:` and `verdict:` in front-matter (process §7).
 2. Every actionable item written as `ACTION:` in the log and mirrored to `meta/QUEUE.md` in the same pass (process §2).
 3. Campsite update on `meta/threads/rules-and-teaching.md` — this session's result moves the F1 hypothesis one way or the other (process §1).
 4. The tier-3 tally goes into the P1 *"Redesign the printed reference cards for legibility"* item as located evidence.
