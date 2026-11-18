@@ -1,9 +1,9 @@
 ---
 thread: capacity-economy
 status: active
-updated: 2026-11-16
+updated: 2026-11-18
 goal: Make enchantment pursuit viable without collapsing Drought tension
-next: **Run the first v3.2 playtest — check how the approved rules feel (VENUE OPEN).** Sam approved the v3.1 bundle by designer decision on 2026-11-13; canon is rulebook **v3.2** (now **v3.3**, clarifications only, 2026-11-16) (`meta/decisions/2026-11-13-v3-2-designer-approval.md`; A4 amended so returned cards can be learned the same turn, A6 dropped, flexible wilds + 2–4p Enchantment cap and Source-emptying timing written in). No confirm/kill or rollback any more. Venue options unchanged: the live Screentop table `@samjennings/Arcane-Drought` (board reminder panel predates v3.2), in person, or resume Tabletopia (ON HOLD, scene assembly in QUEUE Deferred). Kit: `meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md` (drills D4/D6/D8 updated, D9–D10 added). Play the baseline CLEAN; Array Attunement (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`, proposed) stays a variant for a second half or follow-on session. Still open: Echo tunables (5–6p wild count 4 vs 6; Conjuration under suit dilution), and the four test questions in the kit.
+next: **Run the first v3.2 playtest — check how the approved rules feel (VENUE OPEN).** Sam approved the v3.1 bundle by designer decision on 2026-11-13; canon is rulebook **v3.2** (now **v3.3**, clarifications only, 2026-11-16) (`meta/decisions/2026-11-13-v3-2-designer-approval.md`; A4 amended so returned cards can be learned the same turn, A6 dropped, flexible wilds + 2–4p Enchantment cap and Source-emptying timing written in). No confirm/kill or rollback any more. Venue options unchanged: the live Screentop table `@samjennings/Arcane-Drought` (still shows the v3.1 board panel — a v3.3-correct board image `card-design/export-screentop/board/board-a3-150dpi-v33.png` exists locally since 2026-11-18; Sam re-uploads it before the session), in person, or resume Tabletopia (ON HOLD, scene assembly in QUEUE Deferred). Kit: `meta/experiments/vnext-scoring-economy/dry-run-and-session-template.md` (drills D4/D6/D8 updated, D9–D10 added). Play the baseline CLEAN; Array Attunement (`meta/decisions/2026-07-17-array-attunement-tf-gate.md`, proposed) stays a variant for a second half or follow-on session. Still open: Echo tunables (5–6p wild count 4 vs 6; Conjuration under suit dilution), and the four test questions in the kit.
 hypothesis: If the round-trip counter redesign (placing a counter casts a spell; picking one up pays for a learning action — Recall becomes the payment, not a step) is pre-validated in the solo rig alongside partial unlearn, then a single combined fix can be chosen on paper and the next live session spent confirming experience rather than exploring options.
 ---
 
@@ -40,6 +40,21 @@ Tabletopia scene assembly + save (whether it was done is unknown), solo dry-run,
 open questions for Sam are listed at the end of that file (no measurable thresholds; 5p vs the
 2–4p Tabletopia table; F3 gate cost for a multi-spell RESHAPE; one session enough?).
 No rules or experiment status changed.
+
+## Board image brought to v3.3 — 2026-11-18
+
+Every line `card-design/export-screentop/pipeline/patch-board.mjs` draws was checked
+against rulebook v3.3 + Scoring System Reference. Score table, Enchantment capacity/cap
+notes, deck/deal/counter set-up lines and tiebreaker were already correct. Fixed: the wild
+reminder ("declare energy + value" → wilds never declare an energy; in a sequence a wild
+declares only its number, fixed until broken down), the panel tag ("v3.1 — under test" →
+"rulebook v3.3"), the missing binding step (1 card from hand to the Arcane Reserve before
+the first turn), and the PDF's "The Contest Ends" box ("contest ends immediately" → the
+player who draws the last Released Reserve card finishes that turn, ruling 4A). New image:
+`card-design/export-screentop/board/board-a3-150dpi-v33.png` (local only — that folder is
+gitignored); the v31 file is kept. **The live Screentop table still shows the v3.1 board
+until Sam re-uploads the v33 image**; nothing was uploaded. The board's Normal/Drought turn
+panels come from the PDF and were not part of this pass (board PDF regeneration stays P2).
 
 ## Online playtest route ready — 2026-07-19
 
