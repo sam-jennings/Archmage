@@ -1,13 +1,32 @@
 ---
 thread: ascension-trials
-status: active
-updated: 2026-07-13
+status: parked
+updated: 2026-11-16
 goal: Reconcile and implement the Ascension Trials configuration model (advanced endgame variant) through the approved Kiro spec, without losing test-functional playability of the current rules.
-next: **Sam picks candidate(s) from `ascension-trials/design-history/ASCENSION_TRIALS_07_CANDIDATE_SHORTLIST_2026-07-11.md` and schedules the playtests** (C1 "Coherent Claim" recommended: flat Minimum Claim 3 all counts, +1 baseline Wild, TM/EM 7, Focused at 2p, local tiebreaks; C4 "Archspell Bold" is the one-variable follow-up). Selection-plan Stages 0–5 were executed 2026-07-11 in scratch harnesses on the committed package (no source touched): 2p exact screening, realistic sampler, seeded 3–6p S1 simulation — findings F1–F8 in the shortlist file. Standing model status unchanged: VS1+VS2+VS2-C approved (milestone commit per `docs/VS2C_MILESTONE_VERIFICATION.md`); VS3 complete awaiting review; VS4 stop-for-review; VS5/VS6 out of scope (and per the selection plan, VS5 stays a spreadsheet, VS6 a single seeded script). Sampler assumptions should be spot-checked against 3–5 real final books from session logs before trusting Stage-4/5 frequencies.
+next: **PARKED 2026-11-13 (Sam, brief 6C, confirmed explicitly): hold all Ascension Trials playtests until v3.1 is confirmed or rolled back.** On resume: Sam picks candidate(s) from `ascension-trials/design-history/ASCENSION_TRIALS_07_CANDIDATE_SHORTLIST_2026-07-11.md` and schedules the playtests (C1 "Coherent Claim" recommended: flat Minimum Claim 3 all counts, +1 baseline Wild, TM/EM 7, Focused at 2p, local tiebreaks; C4 "Archspell Bold" is the one-variable follow-up). Selection-plan Stages 0–5 were executed 2026-07-11 in scratch harnesses on the committed package (no source touched): 2p exact screening, realistic sampler, seeded 3–6p S1 simulation — findings F1–F8 in the shortlist file. Standing model status unchanged: VS1+VS2+VS2-C approved (milestone commit per `docs/VS2C_MILESTONE_VERIFICATION.md`); VS3 complete awaiting review; VS4 stop-for-review; VS5/VS6 out of scope (and per the selection plan, VS5 stays a spreadsheet, VS6 a single seeded script). Sampler assumptions should be spot-checked against 3–5 real final books from session logs before trusting Stage-4/5 frequencies.
 hypothesis: The hybrid rebuild (secret allocation retained, 2n-3 power formula, Enchantments 4/8/12, 7 trials) resolves D-AT1; D-AT2 (PT double-count) and D-AT3 (RP tuning) remain open, gated on a live 5-6p + AT playtest.
 ---
 
 # Ascension Trials
+
+## Rulings made while parked - 2026-11-16 (still PARKED)
+
+Sam answered the rules-gaps brief items 5–8, all A
+(`meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`). **These rulings were made while the
+thread is parked; they do not unpark it, and no Trials playtest is scheduled.**
+
+- **5A** — any 5–6 player Trials game uses candidate **C1 "Coherent Claim"**; the draft
+  stays a 2–5 player historical text (`rulebook/Ascension Trials.md`, now 2.9).
+- **6A** — Echo is a fifth power domain (same formula).
+- **7A** — Complete Mastery is in play at 5–6 players, with the Echo deck.
+- **8A** — each Enchantment of 4 or more components grants +1 wild power.
+
+Applied: Trials text (banner, Echo row, 7th Trial heading, 7-player column dropped, 4+
+Enchantment bonus), companion `rulesets/current-draft.js` (Echo + 4+ Enchantment options on
+by default, model config untouched), `rulesets/index.js` (`RULESET_FOR_5_6` = C1, no global
+default), tests; F8 checklist boxes 1, 2, 3, 5, 6 ticked. Still open on F8: energy
+terminology, the Unlimited Capacity compatibility note, and the brief's Trials items 11–16
+(Group 3). The "wild magic" → "Wild power" rename is item 13 and was **not** applied.
 
 ## Where this stands
 
@@ -17,8 +36,8 @@ endgame variant, far enough into development that it warrants its own thread
 rather than living under the parked `expansions` thread.
 
 Three locations, three distinct jobs:
-- **Rules (canon):** `rulebook/Ascension Trials.md` (v2.8, working-draft, under
-  reconciliation).
+- **Rules (canon):** `rulebook/Ascension Trials.md` (v2.9, working-draft, under
+  reconciliation; 2–5p historical text per ruling 5A).
 - **Design history / proposals:** `ascension-trials/design-history/` — the numbered
   ASCENSION_TRIALS_01–08 docs: entry-cap rebuild (superseded), hybrid rebuild
   proposal, critique, the adversarial math review of the config model, the VS2
@@ -50,6 +69,22 @@ point-in-time snapshots superseded by the live package. Full detail:
 `meta/decisions/2026-07-13-ascension-trials-consolidation.md`.
 
 ## Context needed to resume
+
+- **Parked 2026-11-13 (brief 6C, Sam confirmed explicitly). Resume trigger: the v3.1
+  confirm/kill is decided** (decision `meta/decisions/2026-07-09-v3-1-scoring-economy-bump.md`
+  flips to `canon` or `reverted`) — v3.1 changes the scores Trials reads from, so no Trials
+  playtest before then.
+- **Recommended first pick: C1 "Coherent Claim"** — flat Minimum Claim 3 at all counts,
+  +1 baseline Wild at the Trials, TM/EM 7, Focused at 2p, local tiebreaks. Known caveat:
+  worst-case tie rate 10.3% vs the ≤5% target.
+- **Follow-up: C4 "Archspell Bold"** — changes one variable from C1; run after C1, not
+  alongside it.
+- **Shortlist file:** `ascension-trials/design-history/ASCENSION_TRIALS_07_CANDIDATE_SHORTLIST_2026-07-11.md`
+  (appendix `ASCENSION_TRIALS_08_SHORTLIST_APPENDIX_2026-07-11.md`; candidate JSONs in
+  `ascension-trials/ascension_trials_model/configs/candidates/`). The QUEUE item sits in
+  Deferred with this reason.
+- If v3.1 is rolled back to v3.0, re-check the shortlist's sampler assumptions against the
+  restored score table before scheduling.
 
 - The Kiro specs are the source of truth for implementation status — read
   `task-1-reconciliation.md` in each spec folder for the honest per-module

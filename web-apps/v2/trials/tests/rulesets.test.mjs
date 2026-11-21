@@ -4,7 +4,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { RULESETS, DEFAULT_RULESET_ID, loadRuleset, findRuleset, playableCounts, optionValues, rulesetStamp } from '../rulesets/index.js';
+import { RULESETS, DEFAULT_RULESET_ID, RULESET_FOR_5_6, rulingRulesetFor, loadRuleset, findRuleset, playableCounts, optionValues, rulesetStamp } from '../rulesets/index.js';
 import { LOCAL_TOKENS, RATIO_TOKENS } from '../engine/resolve.js';
 import { HERE, modelFile } from './helpers.mjs';
 
@@ -62,16 +62,31 @@ test('Recognition Point pools match the proposal (30 / 37 / 43 / 52, 6 players 5
   assert.equal(pool(6, 'second'), 20);
 });
 
-test('the current draft runs 2–5 players, and Echo is an explicit option', () => {
+test('the current draft runs 2–5 players, and Echo is a fifth energy by default (ruling 6A)', () => {
   const plain = loadRuleset('current-draft');
   assert.deepEqual(playableCounts(plain), [2, 3, 4, 5]);
-  assert.ok(!plain.config.domains.some((d) => d.id === 'echo'));
-  const echo = loadRuleset('current-draft', { echo_domain: true });
-  assert.deepEqual(echo.config.domains.map((d) => d.id), ['void', 'flux', 'radiance', 'aether', 'echo', 'transformation', 'enchantment']);
+  assert.deepEqual(plain.config.domains.map((d) => d.id), ['void', 'flux', 'radiance', 'aether', 'echo', 'transformation', 'enchantment']);
+  const asWritten = loadRuleset('current-draft', { echo_domain: false, enchantment_wild_4plus: false });
+  assert.ok(!asWritten.config.domains.some((d) => d.id === 'echo'), 'switching the options off shows the v2.8 text');
+  assert.deepEqual(asWritten.config.power_formula.enchantment_wild_sizes, [4]);
+  assert.deepEqual(plain.config.power_formula.enchantment_wild_sizes, [4, 5], 'ruling 8A on by default');
   assert.ok(!findRuleset('current-draft').config.domains.some((d) => d.id === 'echo'), 'the registry copy is never mutated');
-  assert.deepEqual(optionValues(findRuleset('current-draft')), { echo_domain: false });
-  assert.match(rulesetStamp(echo), /Current draft.*v2\.8.*Echo/);
+  assert.deepEqual(optionValues(findRuleset('current-draft')), { echo_domain: true, enchantment_wild_4plus: true });
+  assert.match(rulesetStamp(plain), /Current draft.*v2\.8.*Echo.*Enchantment of 4 or more/);
   for (const id of ['c1-coherent-claim', 'c2-guarded-table', 'c3-open-skies', 'c4-archspell-bold', 'hybrid-rebuild']) assert.deepEqual(playableCounts(loadRuleset(id)), [2, 3, 4, 5, 6]);
+});
+
+test('ruling 5A: a 5–6 player Trials game uses C1, which can award points at 5 and 6', () => {
+  assert.equal(RULESET_FOR_5_6, 'c1-coherent-claim');
+  assert.deepEqual([2, 3, 4, 5, 6, 7].map(rulingRulesetFor), [null, null, null, RULESET_FOR_5_6, RULESET_FOR_5_6, null]);
+  const c1 = loadRuleset(RULESET_FOR_5_6);
+  assert.ok([5, 6].every((n) => playableCounts(c1).includes(n)));
+  assert.ok(c1.config.domains.some((d) => d.id === 'echo'), 'C1 already counts Echo');
+});
+
+test('ruling 7A: Complete Mastery is in play at 5–6 players (with the Echo deck) in the draft', () => {
+  const cm = loadRuleset('current-draft').config.trials.find((tr) => tr.id === 'complete_mastery');
+  assert.deepEqual(cm.active_player_counts, [5, 6]);
 });
 
 test('switching the package is one line, and every package file is registered', () => {

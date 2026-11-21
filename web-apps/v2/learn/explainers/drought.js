@@ -22,7 +22,7 @@ export function frames(group) {
     f('setup', { source: source0, array: S.arraySize, reserve: reserve0, released: null }, { say: T('setup', { players, source: source0, reserve: reserve0, opening: S.openingDiscard }) }),
     f('late', { source: 2, array: S.arraySize, reserve: late, released: null }, { say: T('late'), example: true }),
     f('last', { source: 1, array: S.arraySize, reserve: late, released: null }, { say: T('last', { n: 1 }), example: true }),
-    f('dry', { source: 0, array: S.arraySize, reserve: late, released: null }, { say: T('dry', { trigger: D.trigger }), note: T('dryNote'), example: true }),
+    f('dry', { source: 0, array: S.arraySize, reserve: late, released: null }, { say: T('dry', { trigger: D.trigger }) + ' ' + plain(D.midTurn), example: true }),
     f('release', { source: null, array: null, reserve: null, released }, { say: T('release', { array: S.arraySize, reserve: late, released }) + ' ' + plain(D.steps[3]), example: true }),
     f('turn', { source: null, array: null, reserve: null, released: released - 1 }, { say: RULES.turn.drought.map((p) => p.name + ': ' + plain(p.short)).join(' '), turn: true, example: true }),
     f('works', { source: null, array: null, reserve: null, released: released - 1 }, { say: T('works'), works: true, example: true }),
@@ -35,7 +35,7 @@ const at = (s, i) => {
   const list = frames(s.group);
   const index = Math.max(0, Math.min(i, list.length - 1));
   const frame = list[index];
-  return step(s, { i: index, total: list.length, say: frame.say, notes: frame.note ? [{ kind: 'unclear', text: frame.note }] : [] });
+  return step(s, { i: index, total: list.length, say: frame.say, notes: frame.note ? [{ kind: 'ruled', text: frame.note }] : [] });
 };
 
 export const init = (group) => at({ group }, 0);

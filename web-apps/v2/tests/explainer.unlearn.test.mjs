@@ -34,19 +34,29 @@ test('too few left: the whole spell comes apart and every component returns', ()
   assert.equal(r.rest.length, 0);
 });
 
-test('FINDING: one from the middle of a mixed run — the rulebook gives two answers', () => {
+test('ruling 1A: one from the middle of a mixed run leaves no spell, so the whole spell returns', () => {
   const r = X.evaluate(TRANSFIG, [2], G);
-  assert.equal(r.status, 'conflict');
-  const s = X.apply(X.init(G, TRANSFIG), 'toggle:2');
-  assert.equal(s.notes[0].kind, 'unclear');
+  assert.equal(r.status, 'collapse');
+  assert.equal(r.taken.length, X.PRESETS[TRANSFIG].cards.length);
+  assert.equal(r.rest.length, 0);
+  assert.deepEqual(X.apply(X.init(G, TRANSFIG), 'toggle:2').notes, []);
 });
 
-test('FINDING: one from the middle of a same-energy run leaves a valid spell of another type', () => {
+test('ruling 1A: one from the middle of a same-energy run leaves a valid spell of another type, allowed', () => {
   const r = X.evaluate(PERFECT, [2], G);
   assert.equal(r.status, 'retype');
   assert.equal(r.left.kind, 'conjuration');
   assert.equal(r.left.pts, points('conjuration', 4, R));
-  assert.equal(X.apply(X.init(G, PERFECT), 'toggle:2').notes[0].kind, 'unclear');
+  assert.equal(r.cost, cost);
+  assert.deepEqual(X.apply(X.init(G, PERFECT), 'toggle:2').notes, []);
+});
+
+test('no Unlearn outcome is flagged as unclear any more', () => {
+  for (let preset = 0; preset < X.PRESETS.length; preset++) {
+    for (let i = 0; i < X.PRESETS[preset].cards.length; i++) {
+      assert.ok(!X.apply(X.init(G, preset), 'toggle:' + i).notes.some((note) => note.kind === 'unclear'), `${preset}/${i}`);
+    }
+  }
 });
 
 test('a Conjuration gives up any component', () => {

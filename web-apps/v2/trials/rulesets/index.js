@@ -20,6 +20,14 @@ import c4 from './c4-archspell-bold.js';
 
 export const DEFAULT_RULESET_ID = null;
 
+// Ruling 5A (2026-11-16): any 5–6 player Trials game uses candidate C1. The v2.9 draft stays
+// a 2–5 player historical text. The host still picks the package (the Trials thread is
+// parked, so no package is the default at 2–4); this names the one to pick at 5–6.
+export const RULESET_FOR_5_6 = c1.id;
+
+/** The package ruling 5A names for a player count, or null where no ruling applies. */
+export const rulingRulesetFor = (count) => (count >= 5 && count <= 6 ? RULESET_FOR_5_6 : null);
+
 export const RULESETS = [c1, c4, c2, c3, hybridRebuild, currentDraft];
 
 const clone = (o) => JSON.parse(JSON.stringify(o));

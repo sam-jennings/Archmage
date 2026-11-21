@@ -44,6 +44,11 @@
     const available = player.spellbook.filter(sp => {
       if (sp.spec.type === 'ench') return false;
       if (state.castSpellsThisTurn.includes(sp.id)) return false;
+      // v3.2: Conjuration needs its full draw in the Source; Perfect Transmutation
+      // needs the draw plus the Array refill (the reducer refuses anything less).
+      const draw = sp.cards.length >= 6 ? 2 : 1;
+      if (sp.spec.type === 'conj' && state.source.length < draw) return false;
+      if (sp.spec.type === 'perf' && state.source.length < draw + 1) return false;
       // Trans/perf require an Array exchange — skip if infeasible (e.g. drought
       // dissolved the Array, or the hand can't cover the discard cost).
       if (sp.spec.type === 'trans' || sp.spec.type === 'perf'){
@@ -114,8 +119,10 @@
           for (const combo of combos){
             const adds = combo.map(i => player.hand[i]);
             const newCards = sp.cards.concat(adds);
-            const spec = E.classify(newCards);
+            const spec = E.classify(newCards, E.wildNumbers(sp.spec));
             if (!spec) continue;
+            // Heuristic: never convert an Enchantment away (it would throw capacity away).
+            if (sp.spec.type === 'ench' && spec.type !== 'ench') continue;
             const oldScore = E.spellScore(sp.spec);
             const newScore = E.spellScore(spec);
             const gain = newScore - oldScore;
@@ -150,7 +157,7 @@
         const adds = player.hand.filter(c=>ids.has(c.id));
         player.hand = player.hand.filter(c=>!ids.has(c.id));
         sp.cards = sp.cards.concat(adds);
-        sp.spec = E.classify(sp.cards);
+        sp.spec = E.classify(sp.cards, E.wildNumbers(sp.spec));
         working.learningCountersUsed += 1;
       } else {
         break;

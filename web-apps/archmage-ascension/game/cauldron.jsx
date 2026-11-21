@@ -24,7 +24,7 @@ function Cauldron({
     if (empowering){
       // try classify the merged set
       const merged = empowering.spell.cards.concat(cards);
-      return E.classify(merged);
+      return E.classify(merged, E.wildNumbers(empowering.spell.spec));
     }
     return E.classify(cards);
   }, [cards, empowering]);

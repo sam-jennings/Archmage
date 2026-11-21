@@ -112,10 +112,10 @@ export function playerSwitch() {
 export const energy = (key) => (key === 'wild' ? RULES.wild : RULES.energies.find((e) => e.key === key));
 export const cardName = (card) => (card.e === 'wild' ? RULES.wild.name : energy(card.e).name + ' ' + card.v);
 
-/** A component chip: symbol + value, coloured border, spoken name. `as` shows a wild's declaration. */
+/** A component chip: symbol + value, coloured border, spoken name. `as` shows a wild's declared number (a run only). */
 export function chip(card, opts = {}) {
   const name = cardName(card);
-  const declaredAs = card.as && card.as.e ? cardName(card.as) : null;
+  const declaredAs = card.as && card.as.v != null ? (card.as.e ? cardName(card.as) : String(card.as.v)) : null;
   const label = opts.label || (declaredAs ? name + ' ' + t('play.check.wildAs', { card: declaredAs }) : name);
   const node = h(opts.onclick ? 'button' : 'span', {
     class: 'ax-chip', dataset: { e: card.e }, type: opts.onclick ? 'button' : null, onclick: opts.onclick,

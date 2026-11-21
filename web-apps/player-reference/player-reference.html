@@ -269,7 +269,7 @@
         <span class="ax-label">Key reminders</span>
         <div class="panel gold">
           <ul class="plain">
-            <li><b>Wilds</b> substitute for any energy and value.</li>
+            <li><b>Wilds</b> are whatever the spell needs — in a sequence, declare the number.</li>
             <li><b>Enchantments</b> are always active — never cast.</li>
             <li><b>Counters are capacity</b>, not a resource — all return at Learning.</li>
           </ul>
@@ -362,7 +362,7 @@
         </div>
         <div class="panel" style="margin-top: 4px;">
           <span class="ax-label" style="display:block; margin-bottom: 8px;">The Drought has begun</span>
-          <p class="step-body">The instant the Source runs dry, shuffle the Array and the Arcane Reserve together into the <b>Released Reserve</b>. When the Released Reserve is fully depleted, the contest ends immediately — evaluate your Spellbooks.</p>
+          <p class="step-body">The instant the Source runs dry, shuffle the Array and the Arcane Reserve together into the <b>Released Reserve</b>. If it empties mid-turn, finish the current effect, cast nothing more, and go on to Learning. When the Released Reserve's last card is drawn, that player finishes their turn, then the contest ends — evaluate your Spellbooks.</p>
         </div>
       </div>
 
@@ -376,7 +376,7 @@
           </div>
           <div class="action-tile">
             <p class="action-name">Empower</p>
-            <p class="action-body">Add components from your hand to an existing spell. It may change type among Conjuration, Transfiguration, and Perfect Transmutation (never into or out of an Enchantment).</p>
+            <p class="action-body">Add components from your hand to an existing spell: extend it, grow an Enchantment to the next size, or convert it to another spell type. Wilds keep their declared number.</p>
           </div>
           <div class="action-tile">
             <p class="action-name">Reshape</p>
@@ -385,7 +385,7 @@
           </div>
           <div class="action-tile">
             <p class="action-name">Unlearn</p>
-            <p class="action-body">Return one or more components from a single spell to your hand; the remainder stays a valid spell, or the whole spell comes apart (its components return to your hand too). For runs, remove only an end component. Components can't be learned again until next turn.</p>
+            <p class="action-body">Return one or more components from a single spell to your hand; what stays must be a valid spell of any type, or the whole spell returns to your hand. Returned components can be learned again straight away.</p>
             <p class="action-warn">1 counter regardless of how many you return.</p>
           </div>
         </div>
@@ -423,7 +423,7 @@
     <section class="screen" id="screen-score" role="tabpanel" aria-labelledby="tab-score">
       <div class="sect">
         <span class="ax-label">Recognition Points</span>
-        <p class="lede" style="font-size: var(--ax-fs-body);">When the Released Reserve is fully depleted, the contest ends immediately. Tally Recognition Points from every spell in your Spellbook — highest total wins.</p>
+        <p class="lede" style="font-size: var(--ax-fs-body);">When the Released Reserve's last card is drawn, that player finishes their turn, then the contest ends. Tally Recognition Points from every spell in your Spellbook — highest total wins.</p>
         <table class="rp" id="rpTable" aria-label="Recognition Points by spell size"></table>
         <p class="flavor">Tiebreaker: most spells → most components in largest single spell.</p>
       </div>
@@ -468,7 +468,7 @@ const ENERGIES = {
   aether:   { name: 'Aether',   tone: 'var(--ax-aether)',   bg1: 'var(--ax-aether-bg1)',   bg2: 'var(--ax-aether-bg2)',   symbol: ART + 'symbol_aether_simple.svg', icon: ART + 'symbol_aether_icon.svg',   blurb: 'The stabilizing current — crimson, exact, binding.' },
   echo:     { name: 'Echo',     tone: 'var(--ax-echo)',     bg1: 'var(--ax-echo-bg1)',     bg2: 'var(--ax-echo-bg2)',     symbol: ART + 'symbol_echo_simple.svg', icon: ART + 'symbol_echo_icon.svg',     blurb: 'The resonant current — a pale, returning echo. Fifth energy, 5–6 player games only.' },
 };
-const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card substitutes for any energy and value.' };
+const WILD = { name: 'Wild', tone: 'var(--ax-wild)', bg1: 'var(--ax-wild-bg1)', bg2: 'var(--ax-wild-bg2)', symbol: ART + 'symbol_wild_simple.svg', icon: ART + 'symbol_wild_icon.svg', blurb: 'A wild card is whatever the spell needs; in a sequence it declares a number.' };
 
 /* Recognition Points — exactly the board's table. */
 const RP = {
@@ -490,7 +490,7 @@ const SPELLS = [
     ] },
   { key: 'transfiguration', name: 'Transfiguration', dot: 'var(--ax-flux)',
     tagline: 'Sequential values, exchanged through the regulated Array.',
-    req: '3+ components in sequence, any energies.', reqNote: 'Cannot loop around — 13-14-15 is valid; 15-1-2 is not.',
+    req: '3+ components in sequence, any energies.', reqNote: 'Cannot loop around — 13-14-15 is valid; 15-1-2 is not. A wild declares its number when learned; it stays fixed.',
     example: [{e:'void',v:6},{e:'flux',v:7},{e:'aether',v:8}],
     effect: [
       { range: '3 components', result: 'Discard 2 from hand, take 1 from the Array.' },
@@ -499,7 +499,7 @@ const SPELLS = [
     ] },
   { key: 'enchantment', name: 'Enchantment', dot: 'var(--ax-void)',
     tagline: 'Matching values, woven permanently into your capacity.',
-    req: '3–5 components of the same value.', reqNote: 'Always active — never cast.',
+    req: '3–5 components of the same value. Max 4 at 2–4 players, 5 at 5–6 players.', reqNote: 'Always active — never cast. A wild takes the value and needs no energy.',
     example: [{e:'radiance',v:10},{e:'void',v:10},{e:'flux',v:10}],
     effect: [
       { range: '3 components', result: 'Gain +1 counter — one more cast and one more learning action every turn.' },
@@ -508,7 +508,7 @@ const SPELLS = [
     ] },
   { key: 'perfect', name: 'Perfect Transmutation', dot: 'var(--ax-gold)',
     tagline: 'Sequential values within a single energy — perfect alignment.',
-    req: '3+ components in sequence, one energy only.', reqNote: 'Cannot loop around.',
+    req: '3+ components in sequence, one energy only.', reqNote: 'Cannot loop around. A wild declares its number when learned; it stays fixed.',
     example: [{e:'flux',v:6},{e:'flux',v:7},{e:'flux',v:8}],
     effect: [
       { range: 'When cast', result: 'Both Conjuration and Transfiguration effects, in order. Both mandatory.' },

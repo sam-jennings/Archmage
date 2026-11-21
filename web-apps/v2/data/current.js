@@ -1,8 +1,8 @@
 // THE ONE PLACE THAT PICKS THE RULES VERSION.
-// Rolling back to v3.0, or moving to v3.2, is: add data/rules.vX.Y.js and change the
+// Rolling back to v3.1, or moving to v3.3, is: add data/rules.vX.Y.js and change the
 // import on the next line. Nothing else in the site names a version file (sw.js lists it
 // for offline caching; the check tool tells you if that list is stale).
-import { RULES as BASE } from './rules.v3.1.js';
+import { RULES as BASE } from './rules.v3.3.js';
 import { SITE } from './site.js';
 
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -56,10 +56,11 @@ export const groupById = (id, rules = RULES) => rules.players.groups.find((g) =>
 
 export const deckSize = (deck) => deck.energies.length * (deck.maxValue - deck.minValue + 1) + deck.wilds;
 
-/** The largest Enchantment a deck allows: the ladder's top rung that this deck may use. */
+/** The largest Enchantment a deck allows: the ladder's top rung that this deck may use
+ *  (the player-count size cap: 4 at 2–4 players, 5 at 5–6). Wilds never change it. */
 export function enchantmentMax(deckKey, rules = RULES) {
   const sizes = rules.enchantmentLadder.filter((r) => !r.decks || r.decks.includes(deckKey)).map((r) => r.size);
-  return Math.min(Math.max(...sizes), rules.decks[deckKey].energies.length);
+  return Math.max(...sizes);
 }
 
 /** Everything the hand checker needs to know about one deck. */
@@ -119,10 +120,11 @@ export function fill(text, rules = RULES) {
     wildEnchantment: rules.wildRule.enchantmentConsequence,
     capacityExample: rules.capacity.workedExample,
     droughtTrigger: rules.drought.trigger,
+    droughtMidTurn: rules.drought.midTurn,
     droughtEnd: rules.drought.end,
     trialsSummary: rules.trials.summary,
     trialsStatus: rules.trials.statusNote,
-    echoStatus: rules.decks.echo ? rules.decks.echo.statusNote : '',
+    echoStatus: (rules.decks.echo && rules.decks.echo.statusNote) || '',
   };
   let out = String(text);
   for (let pass = 0; pass < 2; pass++) {

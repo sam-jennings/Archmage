@@ -166,4 +166,4 @@ The pairwise matrix. "Clean" = no rules contact, coexist freely. "Synergy" = eac
 3. **They answer different questions**, so testing both is parallel not redundant: Schools tests *does asymmetric identity fit this game at all* (a strategic question), Rites tests *can the Drought carry content* (a structural question). Overtones and Convergence each partially depend on those answers.
 4. **They're the two the current playtest cadence can feed.** Sessions are 2–3 weeks apart; both modules can be validated in a single session each (Schools even piggybacks on any base-game test for free).
 
-Rulesets: [[Expansion - The Schools (v0.1)]] and [[Expansion - The Last Rites (v0.1)]].
+Rulesets: [[Expansion - The Schools (v0.2)]] and [[Expansion - The Last Rites (v0.2)]].

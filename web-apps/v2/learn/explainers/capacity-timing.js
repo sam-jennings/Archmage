@@ -58,7 +58,7 @@ export function apply(s, actionId) {
     const say = check.loss > 0
       ? plain(RULES.capacity.timing[1]) + ' ' + T('lost', { cost: n.counters(check.cost), loss: check.loss, capacity: capacity(t) })
       : T('lostNone', { cost: n.counters(check.cost) });
-    return { ...t, say, notes: check.pending ? [{ kind: 'unclear', text: T('pendingNote') }] : [] };
+    return { ...t, say, notes: check.pending ? [{ kind: 'ruled', text: T('pendingNote') }] : [] };
   }
   if (actionId === 'other') {
     if (free(s) < actionCost('learn')) return step(s, { say: T('noFree') });

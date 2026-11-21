@@ -2,7 +2,7 @@
 title: Solo Mode — The Attuned Rival (v0.1)
 type: expansion-concept
 status: draft
-updated: 2026-07-19
+updated: 2026-11-13
 ---
 
 # Solo Mode — The Attuned Rival (v0.1)
@@ -353,3 +353,64 @@ solo.
   Tithe with Reserve return (Drought texture); the row scored as
   max(Conjuration, PT-runs) on the real table after checking v3.1 values — no bespoke
   scoring machinery; growth-costs-the-Source refill rule added.
+
+---
+
+## 16. Stage 1 results (sim, 2026-11-13)
+
+Full numbers, assumptions and limits: `simulation/SOLO_RIVAL_STAGE1.md`
+(`simulation/solo_rival_sim.py`, 2,000 seeded games per config, rulebook v3.2). The rules
+above are unchanged; this section only reports.
+
+- **Strength: fails.** Adept Rival at ±1 averages 23 at normal pace (p90 47) and 18 when
+  the player rushes, against the ~35–55 expected player books in Q2 and ~71 for the sim's
+  greedy player proxy (player wins 92%). Only a player who never casts faces a Rival of ~55.
+- **Pace dial: fails.** Rushing is dominant (Rival 55 → 18 from slow to fast; player proxy
+  65 → 72). The Ravening fires in ≤6% of games, so slow play is never punished.
+- **Stack outlasts the game: passes** (normal pace: 9.7 rounds, 4.8 cards stranded).
+- **Q1 adjacency:** ±2 keeps 79% of flips (±1: 58%) but adds only ~3 points and halves the
+  rejects. Keep ±1.
+- **Q4 reject supply: passes on count** (±1: 3.9 per game, p10–p90 2–6) **but the prize is
+  barely felt** — the player takes 0.55 per game; the Rival's own Tithe buries 2.05.
+- **Q3 decoy largest spell: not dominant.** A perfect shield is worth ~+2 points; the
+  concrete decoy line costs ~15. The Tithe as a whole is worth ~9 points of denial.
+- **Q5:** confirmed harmless; no mixed run split ever beats max(a, b).
+- **Difficulty:** Archmage does not raise difficulty (Rival 19 vs 23; win rate unchanged);
+  Hasten would make the Rival weaker (shorter game).
+- §9's example scores match the v3.2 table.
+
+The Stage 2 confirm/kill criteria are live-only and were not tested.
+
+## 17. Proposed changes (not applied; for Sam)
+
+1. **Strengthen the Adept Rival — Stage 1b recommendation (sim, 2026-11-13; details in
+   `simulation/SOLO_RIVAL_STAGE1.md`, "Stage 1b").** Two forced changes, no new decisions:
+   - *Ravening (would replace §6):* from the Rival's turn on which the Source holds **12 or
+     fewer** cards, it flips **2** cards a turn instead of 1, each through the keep test;
+     it still Tithes once and Burns once (no extra Burn). With an empty Stack it skips the
+     Flip.
+   - *Drought (would amend §7):* when the Drought begins, flip the **top 4** cards of the
+     remaining Stack through the keep test (kept cards join the row), then remove the rest.
+
+   Sim result at normal pace: Rival 56.2 (p10–p90 29–85, was 22.5), player proxy wins 69%
+   (was 93%); slow play 53%, fast 70%, so slow play is punished and rushing is no longer
+   strictly best (pace spread +8, was +36). Neither lever alone reached the target, and an
+   uncapped Drought flip made pace irrelevant. If real v3.2 books come in near 35–55
+   rather than the proxy's ~72, start from top 2–3 and Source ≤10 instead.
+2. **Difficulty table from levers (replaces §8's table if (1) is adopted):** Apprentice =
+   the new Ravening only (Rival ~40, player wins ~81%); Adept = Ravening + Drought flip
+   top 4 (~56, ~69%); Archmage = Adept + Hoard (~54, player score −15, ~54%). Drop the
+   ×0.75 multiplier, the wilds-in-Stack Archmage (not harder in the sim) and Hasten (it
+   weakens the Rival). ±2 adjacency is a cliff (~32%), so keep it only as an optional
+   extra challenge.
+3. **§7 wild wording for v3.2:** "A wild takes the Rival's energy and declares only a number
+   (it never declares an energy)." Add: if the longest run ends at 15, extend at the low
+   end; equal runs → the lower one; a natural card arriving on a wild's declared rank still
+   joins the row (it scores in the Conjuration reading only).
+4. **§4 Tithe priority 2 wording:** say whether an off-energy card adjacent to a Perfect
+   Transmutation counts, and how equal largest spells of the same type tie.
+5. **Stale v3.1 references:** the header ("tuning gated on the v3.1 confirm/kill"), §7
+   ("pending Source-emptying timing patch" — canon in v3.2), §11 "v3.1 dependency", §13 Q2
+   ("under v3.1") and §14 Stage 2 ("after the v3.1 confirm/kill playtest") all predate the
+   2026-11-13 designer approval. Stage 2 could now sequence after the first v3.2 playtest
+   or simply run.

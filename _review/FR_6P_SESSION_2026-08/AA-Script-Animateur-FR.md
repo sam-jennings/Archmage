@@ -171,7 +171,21 @@ the first player to do it.]*
 - Vers le milieu de partie, notez si les gens regardent leur main ou leur téléphone
   pendant le tour des autres. *[Six-player downtime — Sam has never tested this count.]*
 - Quand **The Source** se vide, ne l'annoncez pas. Attendez de voir si quelqu'un le
-  remarque. *[The Drought transition has never been observed with new players.]*
+  remarque. *[The Drought transition has never been observed with new players. v3.2 (still so in v3.3): if it
+  empties mid-turn, the active player finishes the current effect, casts nothing more and
+  goes straight to Learning. Watch whether they stop on their own. If they try to cast
+  after it has emptied, that breaks the game — correct it then (tier ladder as usual) and
+  tell Sam.]*
+- Si quelqu'un **désapprend** (UNLEARN) une partie d'un sort, ne dites rien : regardez s'il
+  sait que ce qui reste doit être un sort valide, de n'importe quel type, sinon tout revient
+  en main. *[v3.3 (ruling 1A): no separate "ends only" rule for runs any more. Taking the
+  middle out of a same-energy run leaves a Conjuration. Also v3.3 (2A): shrinking an
+  Enchantment whose new capacity has not arrived yet costs no capacity, it just never
+  arrives; and (3A) the cards decide a spell's type: a same-energy run is always a Perfect
+  Transmutation, only a spell with two or more wilds is named by its owner. Note any
+  question on these as usual.]*
+- Quand le joueur pioche la **dernière carte** de Released Reserve, il termine son tour, y
+  compris l'Apprentissage, puis la partie s'arrête. *[v3.3 (ruling 4A).]*
 
 ---
 
@@ -244,6 +258,7 @@ n'y figure pas.
 | Perfect Transmutation | **Transmutation Parfaite** |
 | Recognition Points | **points de reconnaissance** |
 | sequence / sequential | **suite / qui se suivent** |
+| to declare (a wild's value) | **annoncer** *(un joker n'annonce qu'une valeur, et seulement dans une suite)* |
 
 *[Note for Sam: almost the entire vocabulary is Latin-root cognate — Conjuration,
 Transfiguration, Enchantement, Transmutation, Rappel, capacité. If comprehension fails

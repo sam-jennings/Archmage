@@ -79,7 +79,7 @@
 <!-- ============ PAGE 1 ============ -->
 <div class="page">
   <h1>ARCHMAGE ASCENSION</h1>
-  <p class="sub">Référence du joueur — partie à 6 joueurs · v3.1<br>
+  <p class="sub">Référence du joueur — partie à 6 joueurs · v3.3<br>
   <strong>Les mots en gras et en anglais</strong> (The Source, The Array…) sont ceux imprimés sur le plateau et les cartes. Gardez-les tels quels : c'est ce que vous verrez sur la table.</p>
 
   <div class="goal">
@@ -119,9 +119,9 @@
     </div>
     <div class="card">
       <h3 style="margin-top:0">Le joker (<span class="en">Wild</span>)</h3>
-      <p>Un joker remplace <strong>n'importe quelle énergie et n'importe quelle valeur</strong>.</p>
-      <p>Quand vous le posez dans un sort, <strong>annoncez à voix haute</strong> ce qu'il représente (énergie + valeur). Ce choix est <strong>fixé</strong> tant que le sort existe.</p>
-      <p>L'énergie annoncée doit exister dans le jeu en cours.</p>
+      <p>Un joker est <strong>ce dont le sort a besoin</strong>. Il n'annonce <strong>jamais d'énergie</strong>.</p>
+      <p><strong>Dans une suite</strong> (Transfiguration, Transmutation Parfaite) : quand vous apprenez le sort, <strong>annoncez à voix haute la valeur</strong> du joker, et seulement sa valeur. Elle reste <strong>fixée</strong> tant que le sort existe ; on ne l'annonce à nouveau que si le sort est défait puis reconstruit.</p>
+      <p><strong>Dans une Conjuration ou un Enchantement</strong> : il n'annonce rien. Il prend l'énergie du sort (Conjuration) ou sa valeur (Enchantement).</p>
       <div class="note">Aucun sort ne peut dépasser <strong>15 composants</strong>.</div>
     </div>
   </div>
@@ -132,7 +132,7 @@
 <!-- ============ PAGE 2 ============ -->
 <div class="page">
   <h1>LES QUATRE SORTS</h1>
-  <p class="sub">Vous posez ces sorts devant vous, dans votre <span class="en">Spellbook</span>. Ce sont eux qui rapportent les points.</p>
+  <p class="sub">Vous posez ces sorts devant vous, dans votre <span class="en">Spellbook</span>. Ce sont eux qui rapportent les points. <strong>Les cartes décident du type :</strong> une suite de même énergie est toujours une Transmutation Parfaite. Seul un sort avec deux jokers ou plus s'annonce, quand on l'apprend.</p>
 
   <div class="grid2">
     <div class="card spell">
@@ -141,7 +141,8 @@
       <p class="req"><strong>Il faut :</strong> 3 composants ou plus de la <strong>même énergie</strong> (valeurs quelconques).</p>
       <p class="ex">Radiance 4 · Radiance 9 · Radiance 13</p>
       <div class="eff"><strong>Quand vous le lancez :</strong> piochez dans <span class="en">The Source</span> —<br>
-      3 à 5 composants : <strong>+1 carte</strong> · 6 composants ou plus : <strong>+2 cartes</strong></div>
+      3 à 5 composants : <strong>+1 carte</strong> · 6 composants ou plus : <strong>+2 cartes</strong><br>
+      <span class="fr">Seulement si <span class="en">The Source</span> contient assez de cartes pour toute la pioche.</span></div>
     </div>
     <div class="card spell">
       <p class="name">🔄 Transfiguration</p>
@@ -156,7 +157,7 @@
     <div class="card spell">
       <p class="name">⚡ Enchantement</p>
       <p class="tag">valeurs identiques</p>
-      <p class="req"><strong>Il faut :</strong> 3 à 5 composants de la <strong>même valeur</strong> (énergies différentes).</p>
+      <p class="req"><strong>Il faut :</strong> 3 à 5 composants de la <strong>même valeur</strong> (énergies différentes). <strong>5 au maximum</strong> à 5–6 joueurs (4 à 2–4 joueurs).</p>
       <p class="ex">Radiance 10 · Void 10 · Flux 10</p>
       <div class="eff"><strong>Ne se lance jamais — il est toujours actif.</strong> Il augmente votre capacité :<br>
       3 composants : <strong>+1 jeton</strong> · 4 composants : <strong>+3 jetons</strong> · 5 composants : <strong>+5 jetons</strong><br>
@@ -167,7 +168,8 @@
       <p class="tag">valeurs qui se suivent, même énergie</p>
       <p class="req"><strong>Il faut :</strong> 3 composants ou plus qui <strong>se suivent</strong> et sont de la <strong>même énergie</strong>.</p>
       <p class="ex">Flux 6 · Flux 7 · Flux 8</p>
-      <div class="eff"><strong>Quand vous le lancez :</strong> les <strong>deux</strong> effets, dans cet ordre, et les deux sont obligatoires — d'abord la pioche de la Conjuration, puis l'échange de la Transfiguration. Cela ne coûte qu'<strong>1 jeton</strong>.</div>
+      <div class="eff"><strong>Quand vous le lancez :</strong> les <strong>deux</strong> effets, dans cet ordre, et les deux sont obligatoires — d'abord la pioche de la Conjuration, puis l'échange de la Transfiguration. Cela ne coûte qu'<strong>1 jeton</strong>.<br>
+      <span class="fr">Seulement si <span class="en">The Source</span> contient assez de cartes pour tout le sort : la pioche complète <em>et</em> le remplacement de la carte de l'étal. Il ne se résout jamais à moitié.</span></div>
     </div>
   </div>
 
@@ -197,6 +199,7 @@
         <li>Résolvez son effet <strong>immédiatement</strong>, avant de lancer le suivant.</li>
         <li>Chaque sort ne peut être lancé qu'<strong>une fois par tour</strong>.</li>
         <li>Les Enchantements ne se lancent pas et ne prennent jamais de jeton.</li>
+        <li>Si <span class="en">The Source</span> se vide pendant votre tour : terminez l'effet en cours, puis <span class="en">The Drought</span> commence aussitôt. Vous ne lancez plus aucun sort et passez directement à l'Apprentissage.</li>
       </ul>
     </li>
     <li class="recall">
@@ -213,22 +216,24 @@
     <div class="card">
       <h3 style="margin-top:0"><span class="en">LEARN</span> <span class="fr">— apprendre</span></h3>
       <p>Posez un <strong>nouveau sort</strong> depuis votre main devant vous. Il doit former un sort valide (l'un des quatre types).</p>
+      <p class="fr" style="font-size:12.5px">Si c'est une suite, annoncez maintenant la valeur de chaque joker.</p>
     </div>
     <div class="card">
       <h3 style="margin-top:0"><span class="en">EMPOWER</span> <span class="fr">— renforcer</span></h3>
-      <p>Ajoutez des composants de votre main à un sort <strong>déjà posé</strong> : pour l'agrandir, ou pour le changer de type.</p>
-      <p class="fr" style="font-size:12.5px">Impossible de transformer un sort en Enchantement, ou un Enchantement en autre chose, avec cette action.</p>
+      <p>Ajoutez des composants de votre main à un sort <strong>déjà posé</strong> : pour l'agrandir, pour faire passer un Enchantement à la taille suivante, ou pour changer le sort d'un type à un autre.</p>
+      <p class="fr" style="font-size:12.5px">Les jokers déjà dans le sort gardent leur valeur annoncée.</p>
     </div>
     <div class="card">
       <h3 style="margin-top:0"><span class="en">RESHAPE</span> <span class="fr">— remodeler</span></h3>
       <p>Défaites un ou plusieurs de vos sorts et <strong>reconstruisez-les autrement</strong> avec les mêmes composants.</p>
       <p><strong>Coût : 1 jeton par sort défait.</strong> Chaque composant libéré doit finir dans un sort valide.</p>
+      <p class="fr" style="font-size:12.5px">Dans une suite reconstruite, annoncez à nouveau la valeur de chaque joker.</p>
     </div>
     <div class="card">
       <h3 style="margin-top:0"><span class="en">UNLEARN</span> <span class="fr">— désapprendre</span></h3>
-      <p>Reprenez en main un ou plusieurs composants d'<strong>un seul</strong> sort. Ce qui reste doit rester un sort valide, sinon le sort entier revient en main.</p>
-      <p><strong>Coût : 1 jeton</strong>, quel que soit le nombre de composants repris. Dans une suite, on ne peut retirer qu'une carte <strong>d'un bout</strong>, jamais du milieu.</p>
-      <p class="fr" style="font-size:12.5px">Les cartes reprises ne peuvent pas être reposées avant votre prochain tour.</p>
+      <p>Reprenez en main un ou plusieurs composants d'<strong>un seul</strong> sort. Ce qui reste doit être un sort valide, <strong>de n'importe quel type</strong> (retirez le milieu d'une Transmutation Parfaite : une Conjuration reste). Sinon, le sort entier revient en main.</p>
+      <p><strong>Coût : 1 jeton</strong>, quel que soit le nombre de composants repris. Les jokers qui restent dans une suite gardent leur valeur.</p>
+      <p class="fr" style="font-size:12.5px">Les cartes reprises reviennent en main et peuvent être apprises dans un nouveau sort tout de suite, ce tour-ci.</p>
     </div>
   </div>
 
@@ -247,9 +252,9 @@
       <p><strong>Un Enchantement donne de la capacité selon sa taille actuelle :</strong> 3 composants → 1 · 4 → 3 · 5 → 5.</p>
     </div>
     <div class="card">
-      <p style="margin-top:0"><strong>Gain de capacité :</strong> utilisable seulement <strong>à partir de votre prochain tour</strong>.</p>
-      <p><strong>Perte de capacité :</strong> effet <strong>immédiat</strong>. Si vous réduisez un Enchantement, sa capacité tombe à celle de sa nouvelle taille ; si vous le défaites entièrement, elle disparaît.</p>
-      <p class="fr" style="font-size:12.5px">Vous ne pouvez pas réduire un Enchantement si vous n'avez pas de quoi payer l'action <em>et</em> encaisser la perte.</p>
+      <p style="margin-top:0">Après chaque action d'apprentissage, comparez la capacité de vos Enchantements <strong>avant</strong> et <strong>après</strong>.</p>
+      <p><strong>Plus :</strong> utilisable seulement <strong>à partir de votre prochain tour</strong>. <strong>Moins :</strong> perte <strong>immédiate</strong>.</p>
+      <p class="fr" style="font-size:12.5px">Une capacité pas encore arrivée n'est jamais une perte : elle n'arrive simplement pas. Vous ne pouvez pas faire une action qui fait perdre de la capacité sans pouvoir payer l'action <em>et</em> encaisser la perte.</p>
     </div>
   </div>
 
@@ -257,6 +262,7 @@
   <div class="grid2">
     <div class="card">
       <p style="margin-top:0"><strong>Déclencheur :</strong> l'instant où <span class="en">The Source</span> est vide.</p>
+      <p style="font-size:12.5px">Si une pioche, ou le remplacement d'une carte de l'étal, prend la dernière carte : terminez d'abord la Collecte ou l'effet de sort en cours, puis la Sécheresse commence aussitôt. Aucun sort ne se résout à moitié et plus aucun sort n'est lancé : le joueur actif passe directement à l'Apprentissage.</p>
       <ol style="padding-left:18px;margin:5px 0">
         <li>Mélangez <span class="en">The Array</span> avec <span class="en">Arcane Reserve</span> (la défausse).</li>
         <li>Cela devient <span class="en">Released Reserve</span> — la dernière pioche.</li>
@@ -270,7 +276,7 @@
         <li><strong>Plus aucun lancement de sort</strong> — cette phase disparaît.</li>
         <li><strong>Apprentissage :</strong> normal, avec toute votre capacité.</li>
       </ul>
-      <p><strong>Quand <span class="en">Released Reserve</span> est vide, la partie s'arrête immédiatement.</strong> On compte les points.</p>
+      <p><strong>Le joueur qui pioche la dernière carte de <span class="en">Released Reserve</span> termine son tour</strong> (Apprentissage compris), puis la partie s'arrête. On compte les points.</p>
     </div>
   </div>
 
@@ -280,7 +286,7 @@
     <tr><td class="lbl">🔮 Conjuration</td><td>0</td><td>1</td><td>2</td><td>3</td><td>7</td><td>13</td><td>20</td><td>29</td><td>38</td><td>50</td><td>63</td><td>79</td><td>100</td></tr>
     <tr><td class="lbl">🔄 Transfiguration</td><td>3</td><td>4</td><td>5</td><td>7</td><td>8</td><td>10</td><td>13</td><td>16</td><td>20</td><td>25</td><td>31</td><td>38</td><td>48</td></tr>
     <tr><td class="lbl">✨ Transm. Parfaite</td><td>5</td><td>11</td><td>18</td><td>24</td><td>31</td><td>39</td><td>47</td><td>56</td><td>65</td><td>74</td><td>85</td><td>97</td><td>100</td></tr>
-    <tr><td class="lbl">⚡ Enchantement</td><td>4</td><td>10</td><td>16</td><td colspan="10">— (maximum 5 composants)</td></tr>
+    <tr><td class="lbl">⚡ Enchantement</td><td>4</td><td>10</td><td>16</td><td colspan="10">— (maximum 5 composants à 5–6 joueurs)</td></tr>
   </table>
   <p style="font-size:12.5px;margin-top:6px">Additionnez tous les sorts posés devant vous. <strong>Le total le plus élevé gagne.</strong><br>
   Égalité : le plus grand nombre de sorts, puis le sort le plus grand.</p>
@@ -290,7 +296,7 @@
     <ul>
       <li>Les <strong>Enchantements</strong> ne se lancent jamais : ils sont toujours actifs.</li>
       <li>Les <strong>jetons</strong> ne s'épuisent pas — vous les reprenez tous au <strong>Rappel</strong>, chaque tour.</li>
-      <li>Un <strong>joker</strong> doit être annoncé (énergie + valeur) et ce choix reste fixé.</li>
+      <li>Un <strong>joker</strong> n'annonce jamais d'énergie. Dans une suite, il annonce seulement sa <strong>valeur</strong>, fixée tant que le sort existe.</li>
       <li>Un sort lancé ne peut pas l'être <strong>deux fois dans le même tour</strong>.</li>
       <li>Aucun sort ne dépasse <strong>15 composants</strong>.</li>
     </ul>

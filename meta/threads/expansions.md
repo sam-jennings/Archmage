@@ -1,9 +1,9 @@
 ---
 thread: expansions
 status: active
-updated: 2026-07-19
+updated: 2026-11-13
 goal: Develop the expansion line — Ascension Trials locked in; everything else is ideas at different stages, no settled sequencing
-next: Sam reads `_review/EXPANSION_AUDIT_2026-07.md` and makes its two remaining open calls — which module gets the first expansion playtest slot (audit shape: v3.1 confirm/kill first, then Schools / Last Rites / Foci per what he wants to learn) and whether Living Array is reclassified as a free variant/test instrument. (The audit's third open question — 2p base-vs-box — was answered 2026-07-16: The Schism, `expansion/the-schism/`.) The per-module fit reviews (Rituals / Cabal / Foci / Schism) fold into this read.
+next: **Sam picked Schools + Last Rites (2026-11-13) as the next expansions to develop together** (same folder `expansion/schools-and-last-rites/`; readiness 9 + 9 in `_review/EXPANSION_READINESS_REVIEW_2026-11.md`). Round 1 in progress: refresh each to v0.2 against rulebook v3.2 (Schools: rewrite Lucent Order for flexible wilds, re-check Ashbinders/Menders; Last Rites: re-price all 8 Rites on the v3.2 score table, esp. Final Pattern and Sundering), each checking the Gravewright / Grave-Song tension. Then: update the shared playtest-plan templates, print paper aids, test each module ALONE, then together. Neither rides on the first v3.2 base-game playtest.
 hypothesis: The base loop stays light; strategic depth and audience breadth are delivered through modular expansions (Session-4 depth brief)
 ---
 
@@ -81,11 +81,37 @@ Work done 2026-07-19 (solo mode):
   state change the player's decision this turn?* Severance parked as a possible Schism
   1–2p extension; deck brain is the production form if the chassis confirms.
 
+Work done 2026-11-13 (Attuned Rival Stage 1 sim):
+- `simulation/solo_rival_sim.py` + `simulation/SOLO_RIVAL_STAGE1.md` (v3.2 rules, seeded,
+  41 configs x 2,000 games). Results appended to the v0.1 doc as §16, proposed changes as
+  §17 (rules text untouched). Headline: the Adept Rival is too weak (~23 at normal pace,
+  greedy proxy wins 92%) and rushing the Drought is dominant, so the pace dial — the
+  mode's central decision — is absent; ±1 adjacency stays; the decoy-largest-spell exploit
+  is not dominant (the Tithe is worth ~9 points of denial in total).
+- Stage 1b (same day, `stage1b` subcommand): neither a capped Drought flip nor an
+  earlier/bigger Ravening reaches the target alone; combined (Ravening from Source ≤12
+  flipping 2, no extra Burn + Drought flip of the top 4) gives Adept ~56, proxy win 69%,
+  slow 53% / fast 70%. Lever-based difficulty table proposed (doc §17 item 2). Next for
+  this module (QUEUE P2): Sam decides on adopting it as v0.2, then a first live solo
+  session.
+
 Work done 2026-07-16 (third session — portfolio audit):
 - **Full expansion audit** → `_review/EXPANSION_AUDIT_2026-07.md`: stage ladder S0–S5 for all
   11 concepts, audiences, axes owned, unowned axes (2p-dedicated, team, campaign, scenario,
   content-only), combination matrix + bundles, potential scores. Modifier-stacking rule
   promoted to EXPANSION_INDEX governance rule 5 as a side-effect.
+
+Work done 2026-11-13 (readiness review, analysis only — nothing changed in rules,
+expansion docs or decisions):
+- **`_review/EXPANSION_READINESS_REVIEW_2026-11.md`** — all 13 concepts (incl. Living Array,
+  Conclave, the Schism, the Attuned Rival, Trials, and the co-op "Direction 4" whose working
+  title is a retired term) scored on one 5-criterion /10 "suitable to start now" scale
+  (independence from unsettled base rules, maturity, test cost, fit, learning value).
+  Top: Last Rites 9, Schools 9, Attuned Rival 8, Living Array 8, Schism 7. New findings vs
+  the July audit: Schools' Lucent Order clashes with the 2026-11-13 flexible-wilds rule;
+  Last Rites' Final Pattern is worth far more on the v3.1 table (Conj 14→15 = +21); no
+  session log shows any live expansion play, Trials included. Recommends (doesn't decide)
+  reclassifying Living Array as a free base variant / test tool.
 
 Concept inventory: Trials (locked), Spell Duels (reconciled + tiered), Schools (v0.1),
 Last Rites (v0.1), Rituals & Seals (v0.1), Null Cabal (v0.1), Foci & Conduits (v0.1),

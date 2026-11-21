@@ -1,10 +1,11 @@
-// "Current draft" — rulebook/Ascension Trials.md v2.8 exactly as written, gaps included.
-// Mirrors ascension-trials/ascension_trials_model/configs/baseline_v28_stale.json.
+// "Current draft" — rulebook/Ascension Trials.md v2.9: the v2.8 text plus rulings 6A and 8A
+// (2026-11-16). `config` mirrors ascension-trials/ascension_trials_model/configs/
+// baseline_v28_stale.json exactly (the v2.8 text); the two rulings are options that are
+// on by default, so the loaded package plays v2.9 and the model stays pinned.
 //
 // What the draft does not define is NOT invented here:
-//   • no Echo power (the draft predates the fifth energy) — offered as a labelled option;
 //   • no Recognition Points at 6 players (the draft gives pool totals only), so 6 is not
-//     offered with this package;
+//     offered with this package — ruling 5A: a 5–6 player Trials game uses C1;
 //   • no rule for a tie on the final total.
 
 const ALL = [2, 3, 4, 5, 6];
@@ -94,23 +95,32 @@ const config = {
 
 export default {
   id: 'current-draft',
-  label: 'Current draft (rulebook v2.8)',
+  label: 'Current draft (rulebook text)',
   status: 'draft',
-  summary: 'The rulebook text as written: power ×1 / ×1.5 / ×2 by spell size, six trials plus Complete Mastery at 5 players.',
+  summary: 'The rulebook text: power ×1 / ×1.5 / ×2 by spell size, six trials plus Complete Mastery at 5 players, Echo as a fifth energy. A 2–5 player historical text: at 5–6 players play C1.',
   source: 'rulebook/Ascension Trials.md',
   modelConfig: 'baseline_v28_stale.json',
   config,
   extras: {},
-  // Host-selectable patches for things the draft leaves open. Off = the text as written.
+  // Host-selectable patches for things the draft leaves open. Off = the v2.8 text as written.
   options: [
     {
       id: 'echo_domain',
       label: 'Count Echo as a fifth energy',
-      note: 'The draft has no Echo power. This adds it with the same formula as the other energies (first item on the F8 reconciliation checklist; not yet in the rulebook).',
-      default: false,
+      note: 'Echo power with the same formula as the other energies (ruling 6A, 2026-11-16; on by default). Switch it off to see the v2.8 text as written.',
+      default: true,
       apply(cfg) {
         const at = cfg.domains.findIndex((d) => d.class !== 'energy');
         cfg.domains.splice(at < 0 ? cfg.domains.length : at, 0, { id: 'echo', class: 'energy' });
+      },
+    },
+    {
+      id: 'enchantment_wild_4plus',
+      label: 'Wild power from every Enchantment of 4 or more',
+      note: 'The v2.8 text names the 4-component Enchantment only. Ruling 8A (2026-11-16; on by default): each Enchantment of 4 or more components grants +1 Wild power.',
+      default: true,
+      apply(cfg) {
+        cfg.power_formula.enchantment_wild_sizes = [4, 5];
       },
     },
   ],
@@ -126,9 +136,8 @@ export default {
     },
   },
   caveats: [
-    'The rulebook marks this text as stale for the current 2–6 player game.',
+    'This text is a 2–5 player historical draft. At 5–6 players the ruling is to play C1 Coherent Claim (ruling 5A).',
     'No Recognition Points are defined at 6 players, so this package runs 2–5 only.',
-    'A 5-component Enchantment earns no Wild power here: the draft names the 4-component one only.',
     'The draft has no rule for a tied final total; tied players share the place.',
   ],
 };

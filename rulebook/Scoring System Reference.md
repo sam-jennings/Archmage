@@ -3,9 +3,9 @@ title: Scoring System Reference
 aliases:
   - Archmage Ascension Scoring
   - Recognition Points Table
-version: v3.1
+version: v3.3
 type: reference
-status: under-test
+status: canon
 tags:
   - archmage-ascension
   - scoring
@@ -42,7 +42,7 @@ related:
 | 14 | 79  | 38 | 97  | — |
 | 15 | 100 | 48 | 100 | — |
 
-**Enchantment max size is 5 components** — reachable only at 5-6 players, where the Echo suit supplies a fifth energy (one component per value per energy). At 2-4 players there are only four energies, so Enchantments cap at 4 components. Enchantments grant Magical Capacity on a fixed ladder — 3-card = +1 counter, 4-card = +3 counters, 5-card = +5 counters (cumulative totals) — and score 4 / 10 / 16 respectively.
+**Enchantments: max 4 components at 2-4 players, max 5 at 5-6 players** — so the 5-component row only comes up in 5-6 player games. Enchantments grant Magical Capacity on a fixed ladder — 3-card = +1 counter, 4-card = +3 counters, 5-card = +5 counters (cumulative totals) — and score 4 / 10 / 16 respectively.
 
 **Tally all spells. Highest total wins.**
 
@@ -58,7 +58,7 @@ Tiebreaker: most spells → most components in largest single spell.
 
 ## Balance Notes
 
-- v3.1 rebalance: scoring ceiling set to Conjuration-15 = Perfect Transmutation-15 = 100, defusing the end-game concentration exploit.
+- v3.1 rebalance (approved as canon in v3.2, 2026-11-13): scoring ceiling set to Conjuration-15 = Perfect Transmutation-15 = 100, defusing the end-game concentration exploit.
 - Perfect Transmutations of 9-10 components were identified as overpowered and rebalanced.
 - Easy Conjuration extensions also rebalanced in v2.x iterations.
 - Any changes to the scoring table require rebalancing analysis across all player counts.

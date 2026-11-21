@@ -1,5 +1,5 @@
 {
-  "currentBase": "v3.1",
+  "currentBase": "v3.2",
   "modules": [
     {
       "title": "Ascension Trials",
@@ -25,7 +25,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2–4 / 5–6 with Echo (index compatibility rule)",
       "source": "expansion/foci-and-conduits/Expansion - Foci & Conduits (v0.1).md"
@@ -41,7 +41,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2–4 / 5–6 with Echo (index compatibility rule)",
       "source": "expansion/rituals-and-seals/Expansion - Rituals & Mastery Seals (v0.1).md"
@@ -57,26 +57,26 @@
         "updated": "2026-07-19",
         "updatedBasis": "front matter; later dated notes included",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "1",
       "source": "expansion/solo-attuned-rival/Solo Mode - The Attuned Rival (v0.1).md"
     },
     {
       "title": "The Last Rites",
-      "href": "schools-and-last-rites-expansion-the-last-rites-v0-1.html",
+      "href": "schools-and-last-rites-expansion-the-last-rites-v0-2.html",
       "pitch": "Sacrifice components for once-only Rites during the Drought.",
       "metadata": {
-        "status": "v0.1 ruleset",
+        "status": "v0.2 ruleset",
         "originalStatus": "shelf-ready-untested",
-        "version": "0.1",
-        "updated": "2026-07-16",
-        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "version": "0.2",
+        "updated": "2026-11-13",
+        "updatedBasis": "front matter; later dated notes included",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2–4 / 5–6 with Echo (index compatibility rule)",
-      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.1).md"
+      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.2).md"
     },
     {
       "title": "The Null Cabal",
@@ -89,7 +89,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "3–6",
       "source": "expansion/null-cabal/Expansion - The Null Cabal (v0.1).md"
@@ -105,26 +105,26 @@
         "updated": "2026-07-17",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2",
       "source": "expansion/the-schism/Expansion - The Schism (v0.1).md"
     },
     {
       "title": "The Schools",
-      "href": "schools-and-last-rites-expansion-the-schools-v0-1.html",
+      "href": "schools-and-last-rites-expansion-the-schools-v0-2.html",
       "pitch": "Draft a School for an always-on Talent and an endgame scoring Lean.",
       "metadata": {
-        "status": "v0.1 ruleset",
+        "status": "v0.2 ruleset",
         "originalStatus": "shelf-ready-untested",
-        "version": "0.1",
-        "updated": "2026-07-16",
-        "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+        "version": "0.2",
+        "updated": "2026-11-13",
+        "updatedBasis": "front matter; later dated notes included",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2–4 / 5–6 with Echo (index compatibility rule)",
-      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.1).md"
+      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.2).md"
     },
     {
       "title": "Spell Duels",
@@ -137,7 +137,7 @@
         "updated": "2026-07-02",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "players": "2–4 / 5–6 with Echo (index compatibility rule)",
       "source": "expansion/spell-duels/Expansion B - Spell Duels (Reconciled & Tiered).md"
@@ -154,7 +154,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "source": "expansion/Expansion Concepts - Player Interaction.md"
     },
@@ -170,7 +170,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md"
     },
@@ -186,7 +186,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "source": "expansion/Expansion Concepts - Player Interaction.md"
     },
@@ -202,7 +202,7 @@
         "updated": "2026-07-16",
         "updatedBasis": "latest date recorded in document/index (not filesystem time)",
         "base": "Not declared",
-        "current": "v3.1"
+        "current": "v3.2"
       },
       "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md"
     }
@@ -217,7 +217,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/foci-and-conduits/Expansion - Foci & Conduits (v0.1).md",
@@ -228,7 +228,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
@@ -239,7 +239,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/null-cabal/Expansion - The Null Cabal (v0.1).md",
@@ -250,7 +250,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/old-expansion-thread-review.md",
@@ -261,7 +261,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/rituals-and-seals/Expansion - Rituals & Mastery Seals (v0.1).md",
@@ -272,29 +272,29 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
-      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.1).md",
-      "href": "schools-and-last-rites-expansion-the-last-rites-v0-1.html",
-      "status": "v0.1 ruleset",
+      "source": "expansion/schools-and-last-rites/Expansion - The Last Rites (v0.2).md",
+      "href": "schools-and-last-rites-expansion-the-last-rites-v0-2.html",
+      "status": "v0.2 ruleset",
       "originalStatus": "shelf-ready-untested",
-      "version": "0.1",
-      "updated": "2026-07-16",
-      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "version": "0.2",
+      "updated": "2026-11-13",
+      "updatedBasis": "front matter; later dated notes included",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
-      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.1).md",
-      "href": "schools-and-last-rites-expansion-the-schools-v0-1.html",
-      "status": "v0.1 ruleset",
+      "source": "expansion/schools-and-last-rites/Expansion - The Schools (v0.2).md",
+      "href": "schools-and-last-rites-expansion-the-schools-v0-2.html",
+      "status": "v0.2 ruleset",
       "originalStatus": "shelf-ready-untested",
-      "version": "0.1",
-      "updated": "2026-07-16",
-      "updatedBasis": "latest date recorded in document/index (not filesystem time)",
+      "version": "0.2",
+      "updated": "2026-11-13",
+      "updatedBasis": "front matter; later dated notes included",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/schools-and-last-rites/Playtest Plans - Schools & Last Rites (templates).md",
@@ -302,10 +302,10 @@
       "status": "parked",
       "originalStatus": "template-gated",
       "version": "0.1",
-      "updated": "2026-07-02",
+      "updated": "2026-11-13",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/solo-attuned-rival/Solo Mode - The Attuned Rival (v0.1).md",
@@ -316,7 +316,7 @@
       "updated": "2026-07-19",
       "updatedBasis": "front matter; later dated notes included",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/spell-duels/Expansion B - Spell Duels (Reconciled & Tiered).md",
@@ -327,7 +327,7 @@
       "updated": "2026-07-02",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/the-schism/Expansion - The Schism (v0.1).md",
@@ -338,7 +338,7 @@
       "updated": "2026-07-17",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/Expansion Concepts - Player Interaction.md",
@@ -349,7 +349,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/Expansion Concepts - Player Interaction.md",
@@ -360,7 +360,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
@@ -371,7 +371,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/future-directions/Expansion Directions - Post-Echo Exploration.md",
@@ -382,7 +382,7 @@
       "updated": "2026-07-16",
       "updatedBasis": "latest date recorded in document/index (not filesystem time)",
       "base": "Not declared",
-      "current": "v3.1"
+      "current": "v3.2"
     },
     {
       "source": "expansion/EXPANSION_INDEX.md",

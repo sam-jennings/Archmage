@@ -3,6 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import * as X from '../learn/explainers/drought.js';
 import { BASE_RULES as R, deckSize } from '../data/current.js';
+import { plain } from '../learn/explainers/kit.js';
 
 for (const group of R.players.groups) {
   test(`drought · ${group.id} players`, async (t) => {
@@ -42,10 +43,13 @@ for (const group of R.players.groups) {
       assert.equal(frames.at(-1).key, 'end');
     });
 
-    await t.test('the two unwritten timings are flagged, not decided', () => {
-      assert.ok(by.dry.note && by.end.note);
-      const s = X.apply(X.init(group.id), 'goto:' + frames.indexOf(by.dry));
-      assert.equal(s.notes[0].kind, 'unclear');
+    await t.test('the mid-turn Source-emptying rule is stated (v3.2); ruling 4A: the last drawer finishes the turn (v3.3)', () => {
+      assert.ok(!by.dry.note && by.end.note);
+      assert.ok(by.dry.say.includes(plain(R.drought.midTurn)), by.dry.say);
+      assert.ok(by.end.say.includes(plain(R.drought.end)), by.end.say);
+      assert.match(plain(R.drought.end), /finish that turn, including their Learning/);
+      const s = X.apply(X.init(group.id), 'goto:' + frames.indexOf(by.end));
+      assert.equal(s.notes[0].kind, 'ruled');
     });
 
     await t.test('stepping and scrubbing reach every frame with text', () => {

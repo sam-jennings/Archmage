@@ -39,16 +39,23 @@ test('baseline Wild power is added once per wizard, and says where it came from'
 });
 
 test('a spell the package cannot place is reported, never guessed', () => {
-  const draft = loadRuleset('current-draft').config;
+  // The v2.8 text as written (Echo option off) has no Echo domain.
+  const draft = loadRuleset('current-draft', { echo_domain: false }).config;
   const echoConj = { id: 'e', type: 'conjuration', size: 5, energy_domain: 'echo' };
   const state = deriveState(draft, [echoConj, { id: 'pt', type: 'perfect_transmutation', size: 4, energy_domain: 'echo' }]);
   assert.deepEqual(state.unplaced.map((u) => [u.spell, u.code, u.domain]), [['e', 'no-such-domain', 'echo'], ['pt', 'no-such-domain', 'echo']]);
   assert.equal(state.normal_power.transformation, 4, 'the Perfect Transmutation still feeds Transformation');
-  const withEcho = deriveState(loadRuleset('current-draft', { echo_domain: true }).config, [echoConj]);
+  // Ruling 6A: Echo is a fifth energy, on by default.
+  const withEcho = deriveState(loadRuleset('current-draft').config, [echoConj]);
   assert.equal(withEcho.normal_power.echo, 8);
   assert.equal(withEcho.unplaced.length, 0);
-  // The draft gives Wild power for a 4-component Enchantment only.
-  assert.equal(spellContribution(draft, { id: 'x', type: 'enchantment', size: 5 }).wild, 0);
+});
+
+test('ruling 8A: every Enchantment of 4 or more components grants +1 Wild power', () => {
+  const draft = loadRuleset('current-draft').config;
+  assert.deepEqual([3, 4, 5].map((size) => spellContribution(draft, { id: 'x', type: 'enchantment', size }).wild || 0), [0, 1, 1]);
+  const asWritten = loadRuleset('current-draft', { enchantment_wild_4plus: false }).config;
+  assert.equal(spellContribution(asWritten, { id: 'x', type: 'enchantment', size: 5 }).wild || 0, 0, 'the v2.8 text named the 4-component one only');
   assert.equal(spellContribution(loadRuleset('c1-coherent-claim').config, { id: 'x', type: 'enchantment', size: 5 }).wild, 1);
 });
 

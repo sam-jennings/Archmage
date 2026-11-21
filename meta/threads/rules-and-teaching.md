@@ -1,13 +1,27 @@
 ---
 thread: rules-and-teaching
 status: active
-updated: 2026-08-16
+updated: 2026-11-16
 goal: Players can learn, play, and track the game from written materials alone — no verbal patching
-next: **Run the six-player French-language teaching test** — prep pack complete in `_review/FR_6P_SESSION_2026-08/` (plan + FR reference + host script/glossary + FR feedback sheet + tier-tally grid). Four new non-English-speaking players learn from materials alone; the bilingual host answers only at graded tiers and every intervention is tallied. This tests the thread goal directly rather than by proxy. The printed-reference-card redesign stays the standing P1 and should be informed by the tier-1/tier-2 tallies this session produces — do the redesign after, with located evidence.
+next: **Sam answers the open questions in `playtests/plans/stranger-playtest-plan-2026-11.md` (in person or online, venues, how many strangers) so the first stranger session can be scheduled** — Sam has one printed set and has never run a stranger session; the recommended first session doubles as the first v3.2 playtest with TS1 (blind teach) and TS2 (replay choice) notes. The six-player French teaching test was **never run** (pack still ready in `_review/FR_6P_SESSION_2026-08/`); it stays a P1 for when that group meets. The printed-reference-card redesign stays the standing P1 and now carries the counter-comprehension retest (F1 arms parked, brief 1A).
 hypothesis: Counter confusion is a printed-card/board legibility problem, not a mechanic or rule-text problem — a new player (Denise, Session 4) understood the dual-purpose counters from the ONLINE reference with zero explanation and no misplay, whereas Sessions 1 & 3 failed "from card or board." If the redesigned physical card also teaches the loop cleanly, F1 leans text/presentation (Option C) rather than a mechanic redesign.
 ---
 
 # Rules and teaching
+
+## Rules-gaps rulings 1A–8A → rulebook v3.3 (2026-11-16)
+
+Sam answered `_review/RULES_GAPS_BRIEF_2026-11.md` items 1–8, all A
+(`meta/decisions/2026-11-16-rules-gaps-rulings-1-8.md`, canon). Rulebook **v3.3**
+(clarifications only): Unlearn keeps any valid spell (no "ends only" rule), capacity is
+compared before/after every learning action (unarrived capacity is never lost), the cards
+set a spell's type (only two-wild spells are named), and the last Released Reserve drawer
+finishes the turn. Rulebook, glossary, v2 site (`rules.v3.3.js`, explainers no longer flag
+items 1, 2, 4), classic references, digital build and the French six-player pack all
+updated; v3.2 copies in `_archive/*-v3.2-2026-11-16/`. Session 3's Unlearn-scope questions
+are what item 1 answers: watch whether new players still ask. **Items 9–17 (Group 3) still
+await Sam** (QUEUE P2). Trials rulings 5A–8A are recorded on the parked `ascension-trials`
+thread.
 
 ## Where this stands
 
@@ -47,7 +61,12 @@ from prose repo-wide (decision `2026-07-10-retire-dissolve-terminology.md`), and
 wrong "Enchantments can't be Empowered" line was corrected (Empower **can** grow one).
 The **printed cards** (`board/*.png`) still need the same treatment — the remaining P1.
 
-## 2026-08-16 — six-player French session prepped (not yet played)
+## 2026-08-16 — six-player French session prepped (NOT RUN — Sam, 2026-11-13)
+
+**Update 2026-11-13:** Sam confirmed this session never happened; there is nothing to log.
+The pack in `_review/FR_6P_SESSION_2026-08/` is still valid (v3.1 baseline) and the FR P1
+stays open. Sam's real blocker is planning any session with strangers while owning only one
+printed set — draft plan in `playtests/plans/stranger-playtest-plan-2026-11.md`.
 
 Sam has a board-game afternoon with six people, four of whom speak French only and none of
 whom have played. Rather than treat the language gap as an obstacle, the session is set up
@@ -62,7 +81,7 @@ Measurement instrument: the bilingual host answers questions only at a graded ti
 Three scripted probes: turn shape; **2 counters / cast 2 spells → how many learning
 actions** (F1, answer 2); and enchantment-timing (F3).
 
-Config is 6p Echo deck, v3.1 baseline — explicitly *not* the v3.1 confirm/kill, which
+Config is 6p Echo deck, rules v3.2 — explicitly *not* the first v3.2 playtest, which
 stays clean on Tabletopia at 2–4p. Side benefits: first live 5-card Enchantment, first
 6-player downtime observation, first new-player observation of the Drought transition.
 

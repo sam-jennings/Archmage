@@ -47,7 +47,7 @@ Scanned 16 Markdown documents, including 3 linked source-material files. Exclude
 
 ## Base-rules version declarations
 
-Current canon is v3.1. 16 of 17 generated design documents do not declare a base-rules version. A mention of a version in a gate, rollback, or historical comparison is not treated as a declaration.
+Current canon is v3.2. 16 of 17 generated design documents do not declare a base-rules version. A mention of a version in a gate, rollback, or historical comparison is not treated as a declaration.
 
 ## Link notes
 

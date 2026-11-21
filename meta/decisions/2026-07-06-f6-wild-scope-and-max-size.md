@@ -7,6 +7,11 @@ status: proposed
 
 # 2026-07-06 — F6 Wild scope and maximum spell size
 
+> **PARTLY SUPERSEDED (2026-11-13)** — the **wild-declaration-scope** rulings below are
+> replaced by `2026-11-13-flexible-wilds-enchantment-size-cap.md`: wilds declare only a
+> number, only in sequences; no energy declaration; Enchantment max 4 at 2–4p, 5 at 5–6p.
+> The **max-spell-size-15** ruling stands.
+
 Source: `_review/ARCHMAGE_SAM_DECISIONS_F3_F14_2026-07.md`, §F6 + Unlimited Capacity ruling.
 
 **Reverses the Decision Register's prior F6 recommendation** (which was: extend the
@@ -64,9 +69,9 @@ Applied to `meta/canon.yml` this turn:
 - [x] `meta/canon.yml` — wild_rule scope, max_spell_size, UC-is-5–6p note (2026-07-06)
 - [x] `_review/DECISION_REGISTER_2026-07.md` F6 reframed (cap 15, no 16–17) (2026-07-06)
 - [x] `meta/QUEUE.md` — score-table P1 re-reframed from "extend to 16–17" to "confirm cap 15" (2026-07-06)
-- [ ] Rulebook Components / Wild Cards — move wild-declaration rule out of Enchantment-only, add one example per spell type (Conjuration / Transfiguration / Enchantment / Perfect Transmutation)
+- [x] ~~Rulebook Components / Wild Cards — move wild-declaration rule out of Enchantment-only, add one example per spell type~~ — superseded 2026-11-13; moved to `2026-11-13-flexible-wilds-enchantment-size-cap.md` propagation
 - [x] Rulebook — delete/mark-5–6p-only any 2–4p example reaching a 5-card Enchantment / UC (verified 2026-11-12: none remain; rulebook, GLOSSARY, both html references scope the 5-card tier to 5–6p)
 - [x] Scoring System Reference — confirm max size 15 (no 16–17 column) (verified 2026-11-12: table stops at 15; `archmage-reference.html` likewise)
-- [ ] `web-apps/archmage-reference.html` — wild scope wording (covers sizes 3–15)
+- [x] ~~`web-apps/archmage-reference.html` — wild scope wording (covers sizes 3–15)~~ — superseded 2026-11-13; moved to the 2026-11-13 decision
 
 Per-spell-type example wording is recorded in the source addendum, §F6.

@@ -31,9 +31,15 @@
   }
 
   // ── Spell validation ──────────────────────────────────────
-  // Returns { type, length, declarations } or null. declarations is { wildId: {suit, value} }
-  // Cards may include wilds (suit:'wild'). We try to assign suit/value to each wild
-  // such that the set forms a valid spell. Prefers Perfect > Trans > Conj > Ench by score.
+  // Returns { type, length, declarations } or null. declarations is { wildId: {value} }.
+  // Flexible wilds (rulebook v3.2): a wild never declares an energy. In a sequence
+  // (Transfiguration / Perfect Transmutation) it declares only a number, fixed while the
+  // spell exists; in a Conjuration or Enchantment it declares nothing (it takes the
+  // spell's energy or value), so those specs carry empty declarations.
+  // classify() prefers the highest-scoring valid type.
+
+  // Enchantment size cap: max 4 components at 2-4 players (5 at 5-6, not in this 2p build).
+  const ENCH_MAX = 4;
 
   function isWild(c){ return c.suit === 'wild'; }
   function realCards(cards){ return cards.filter(c => !isWild(c)); }
@@ -45,50 +51,38 @@
     if (real.length === 0) return null; // can't be all wilds (no suit reference)
     const suit = real[0].suit;
     if (real.some(c => c.suit !== suit)) return null;
-    const wilds = wildCards(cards);
-    const decls = {};
-    // assign each wild a unique value at this suit (use unused values 1..MAX)
-    const usedV = new Set(real.map(c=>c.value));
-    let v = 1;
-    for (const w of wilds){
-      while (usedV.has(v) && v<=MAX_VALUE) v++;
-      if (v > MAX_VALUE) return null;
-      decls[w.id] = { suit, value:v };
-      usedV.add(v); v++;
-    }
-    return { type:'conj', length:cards.length, declarations:decls, suit };
+    return { type:'conj', length:cards.length, declarations:{}, suit };
   }
 
   function validateEnchantment(cards){
-    if (cards.length < 3 || cards.length > 4) return null;
+    if (cards.length < 3 || cards.length > ENCH_MAX) return null;
     const real = realCards(cards);
     if (real.length === 0) return null;
     const value = real[0].value;
     if (real.some(c => c.value !== value)) return null;
-    // each real card must have a unique suit
+    // each real card must have a unique suit; wilds take the value and need no energy
     const usedSuits = new Set(real.map(c=>c.suit));
     if (usedSuits.size !== real.length) return null;
-    const wilds = wildCards(cards);
-    const decls = {};
-    const remaining = SUITS.filter(s => !usedSuits.has(s));
-    if (wilds.length > remaining.length) return null;
-    wilds.forEach((w,i) => { decls[w.id] = { suit:remaining[i], value }; });
-    return { type:'ench', length:cards.length, declarations:decls, value };
+    return { type:'ench', length:cards.length, declarations:{}, value };
   }
 
-  // For sequential spells: determine if assigning values to wilds yields consecutive run
-  // real cards have fixed values, must have unique values. Wilds fill any missing.
-  function validateSequence(cards, sameSuit){
+  // For sequential spells: determine if assigning values to wilds yields consecutive run.
+  // Real cards have fixed values and must be unique. `fixed` ({wildId: value}, optional)
+  // holds numbers wilds already declared (EMPOWER / partial UNLEARN keep them); those
+  // wilds count as fixed values, and only the remaining wilds declare a number now.
+  function validateSequence(cards, sameSuit, fixed){
     if (cards.length < 3) return null;
     const real = realCards(cards);
-    const wilds = wildCards(cards);
+    const isFixed = (w) => !!fixed && fixed[w.id] != null;
+    const fixedWilds = wildCards(cards).filter(isFixed);
+    const wilds = wildCards(cards).filter(w => !isFixed(w));
     if (sameSuit){
       if (real.length === 0) return null;
       const suit = real[0].suit;
       if (real.some(c => c.suit !== suit)) return null;
     }
-    // real values must be unique
-    const realVals = real.map(c=>c.value).sort((a,b)=>a-b);
+    // real (and already-declared wild) values must be unique
+    const realVals = real.map(c=>c.value).concat(fixedWilds.map(w => fixed[w.id])).sort((a,b)=>a-b);
     if (new Set(realVals).size !== realVals.length) return null;
     // we need a consecutive run of length cards.length covering all realVals
     // Find a starting value V such that [V, V+1, ..., V+L-1] contains all realVals.
@@ -106,13 +100,8 @@
     for (let v=V; v<V+L; v++) if (!realSet.has(v)) fill.push(v);
     if (fill.length !== wilds.length) return null;
     const decls = {};
-    const fillSuit = sameSuit ? real[0].suit : null;
-    wilds.forEach((w,i)=>{
-      decls[w.id] = {
-        suit: fillSuit || real[0]?.suit || 'radiance', // for cross-suit, pick anything; engine doesn't care
-        value: fill[i]
-      };
-    });
+    fixedWilds.forEach(w => { decls[w.id] = { value: fixed[w.id] }; });
+    wilds.forEach((w,i)=>{ decls[w.id] = { value: fill[i] }; });
     return {
       type: sameSuit ? 'perf' : 'trans',
       length: L,
@@ -124,10 +113,11 @@
   }
 
   // Best spell type for a set of cards. Prefers higher-scoring type.
-  function classify(cards){
+  // `fixed` = wild numbers already declared by the spell these cards came from.
+  function classify(cards, fixed){
     const candidates = [
-      validateSequence(cards, true),  // perf
-      validateSequence(cards, false), // trans
+      validateSequence(cards, true, fixed),  // perf
+      validateSequence(cards, false, fixed), // trans
       validateConjuration(cards),
       validateEnchantment(cards)
     ].filter(Boolean);
@@ -137,12 +127,20 @@
     return candidates[0];
   }
 
-  function classifyAs(cards, type){
-    if (type === 'perf')  return validateSequence(cards, true);
-    if (type === 'trans') return validateSequence(cards, false);
+  function classifyAs(cards, type, fixed){
+    if (type === 'perf')  return validateSequence(cards, true, fixed);
+    if (type === 'trans') return validateSequence(cards, false, fixed);
     if (type === 'conj')  return validateConjuration(cards);
     if (type === 'ench')  return validateEnchantment(cards);
     return null;
+  }
+
+  // Wild numbers a spell has declared ({wildId: value}); only sequences declare any.
+  function wildNumbers(spec){
+    const out = {};
+    if (!spec || (spec.type !== 'trans' && spec.type !== 'perf')) return out;
+    for (const [id, d] of Object.entries(spec.declarations || {})) out[id] = d.value;
+    return out;
   }
 
   // ── Scoring ──────────────────────────────────────────────
@@ -194,10 +192,10 @@
 
   // ── Public ───────────────────────────────────────────────
   window.AAEngine = {
-    SUITS, MAX_VALUE,
+    SUITS, MAX_VALUE, ENCH_MAX,
     uid,
     makeDeck, shuffle,
-    classify, classifyAs,
+    classify, classifyAs, wildNumbers,
     validateConjuration, validateEnchantment, validateSequence,
     spellScore, SCORE,
     findBestLearnable, kCombos,

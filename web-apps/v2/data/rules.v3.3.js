@@ -1,12 +1,13 @@
-// RULES DATA — rulebook v3.1 (UNDER TEST).
+// RULES DATA — rulebook v3.3 (current rules).
 //
 // Every number, table and short rule string the v2 pages show comes from this module.
 // Pages never hard-code a rule. Verified against the rulebook, the Scoring System
 // Reference and meta/canon.yml by tools/check-rules-data.mjs.
 //
-// A new rules version is a new file (rules.v3.2.js, or rules.v3.0.js for a rollback) and
-// one changed import in data/current.js. Variants are flagged entries in `variants`; they
-// never edit the base values in this file.
+// A new rules version is a new file (rules.v3.4.js, or rules.v3.2.js for a rollback — the
+// v3.2 copy is in _archive/rules.v3.2.js-v3.2-2026-11-16/) and one changed import in
+// data/current.js. Variants are flagged entries in `variants`; they never edit the base
+// values in this file.
 //
 // Text conventions: **bold**, *italic*, [label](#section-id), and {placeholders} filled
 // from this data ({title} comes from data/site.js). Blocks: p, ul, ol, flavour, callout,
@@ -15,11 +16,10 @@
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 export const RULES = {
-  id: 'v3.1',
-  version: '3.1',
-  status: 'under-test', // 'canon' | 'under-test'
-  statusNote:
-    'Rules v3.1 are in play but still under test: one live session will confirm or revert them. If they are reverted, this site switches back to v3.0 in one step.',
+  id: 'v3.3',
+  version: '3.3',
+  status: 'canon', // 'canon' | 'under-test'
+  statusNote: 'Rules v3.3 are the current rules.',
   sources: {
     canon: 'meta/canon.yml',
     rulebook: 'rulebook/Archmage Ascension - Complete Rulebook.md',
@@ -33,7 +33,7 @@ export const RULES = {
     max: 6,
     groups: [
       { id: '2-4', min: 2, max: 4, deck: 'base', startingCounters: 1 },
-      { id: '5-6', min: 5, max: 6, deck: 'echo', startingCounters: 2, status: 'under-test' },
+      { id: '5-6', min: 5, max: 6, deck: 'echo', startingCounters: 2 },
     ],
   },
 
@@ -44,11 +44,11 @@ export const RULES = {
     { key: 'aether', name: 'Aether', colour: 'crimson', mark: 'bound lattice', blurb: 'The stabilising current. Crimson, exact, binding.' },
     { key: 'echo', name: 'Echo', colour: 'bone grey', mark: 'returning rings', blurb: 'The resonant current. A pale, returning echo.', decks: ['echo'] },
   ],
-  wild: { key: 'wild', name: 'Wild', glyph: '✶', blurb: 'Stands in for any energy and value in the deck you are playing with.' },
+  wild: { key: 'wild', name: 'Wild', glyph: '✶', blurb: 'Whatever the spell needs. In a run it declares a number.' },
 
   decks: {
     base: { energies: ['radiance', 'void', 'flux', 'aether'], minValue: 1, maxValue: 15, wilds: 2 },
-    echo: { energies: ['radiance', 'void', 'flux', 'aether', 'echo'], minValue: 1, maxValue: 15, wilds: 4, status: 'under-test', statusNote: 'The 5–6 player deck with Echo is under test.' },
+    echo: { energies: ['radiance', 'void', 'flux', 'aether', 'echo'], minValue: 1, maxValue: 15, wilds: 4 },
   },
 
   setup: { handSize: 7, arraySize: 5, openingDiscard: 1 },
@@ -63,14 +63,14 @@ export const RULES = {
       short: 'Conj.',
       pattern: 'Same energy',
       requirement: '{minSpellSize}+ components of the same energy.',
-      note: 'Values need not be in sequence.',
+      note: 'Values need not be in sequence. If they are, the spell is a Perfect Transmutation.',
       flavour: 'A sustained connection to one energy, drawing more of it from the Source.',
       example: [{ e: 'void', v: 2 }, { e: 'void', v: 5 }, { e: 'void', v: 9 }, { e: 'void', v: 13 }],
       exampleNote: 'Four Void components. The values do not matter.',
       minSize: 3,
       maxSize: 15,
       cast: { kind: 'draw', tiers: [{ min: 3, max: 5, draw: 1 }, { min: 6, max: 15, draw: 2 }] },
-      castNotes: [],
+      castNotes: ['You can cast it only if the Source holds enough cards for the full draw.'],
     },
     transfiguration: {
       key: 'transfiguration',
@@ -88,7 +88,7 @@ export const RULES = {
       castNotes: [
         'The trade is mandatory once you cast.',
         'Discarded components go to the Arcane Reserve, not back to the Array.',
-        'Refill the Array from the Source straight away.',
+        'Refill the Array from the Source straight away. That refill may be what empties the Source.',
         'If you cannot discard enough components, you cannot cast this spell.',
       ],
     },
@@ -97,7 +97,7 @@ export const RULES = {
       name: 'Enchantment',
       short: 'Enchant.',
       pattern: 'Matching values',
-      requirement: '{minSpellSize} to {enchantmentMaxAny} components of the same value.',
+      requirement: '{minSpellSize} to {enchantmentMaxAny} components of the same value. At most 4 at 2–4 players, 5 at 5–6 players.',
       note: 'Always active. Never cast, never takes a counter.',
       flavour: 'Energy bound into yourself: capacity that stays.',
       example: [{ e: 'radiance', v: 7 }, { e: 'void', v: 7 }, { e: 'flux', v: 7 }],
@@ -107,7 +107,7 @@ export const RULES = {
       cast: { kind: 'always-active' },
       castNotes: [
         'Capacity you gain arrives at the start of your next turn.',
-        'Each energy has one component of each value, and a wild must be declared as an energy in the deck, so an Enchantment can be no larger than the number of energies in play.',
+        'A wild in an Enchantment takes its value and needs no energy.',
       ],
     },
     perfect: {
@@ -116,7 +116,7 @@ export const RULES = {
       short: 'Perfect',
       pattern: 'Same energy, in sequence',
       requirement: '{minSpellSize}+ components with consecutive values, all of one energy.',
-      note: 'Cannot loop around.',
+      note: 'Cannot loop around. A same-energy run is always a Perfect Transmutation.',
       flavour: 'Pure power and transformation at once: perfect alignment within one energy.',
       example: [{ e: 'aether', v: 8 }, { e: 'aether', v: 9 }, { e: 'aether', v: 10 }],
       exampleNote: 'Aether 8-9-10.',
@@ -126,6 +126,7 @@ export const RULES = {
       castNotes: [
         'Both effects are mandatory, in that order, for a single counter.',
         'If you cannot complete the trade, you cannot cast this spell.',
+        'You can cast it only if the Source holds enough cards for both the draw and the Array refill. It never half-resolves.',
       ],
     },
   },
@@ -177,6 +178,7 @@ export const RULES = {
       'Order matters: each effect resolves before you cast the next spell.',
       'Enchantments are never cast. They are always active.',
       'If you cannot legally resolve a spell’s effect, you cannot cast it.',
+      'If the Source runs dry during your turn, finish the current effect, then the Drought begins: cast nothing more and go on to Learning.',
     ],
   },
 
@@ -188,7 +190,7 @@ export const RULES = {
       short: 'Place a new, valid spell from your hand into your Spellbook.',
       details: [
         'It must be a Conjuration, Transfiguration, Enchantment or Perfect Transmutation.',
-        'Declare any wilds in it now: an energy and a value.',
+        'In a run (Transfiguration or Perfect Transmutation), declare the number of each wild now. Anywhere else a wild declares nothing.',
         'A new Enchantment raises your capacity from the start of your next turn.',
       ],
     },
@@ -198,9 +200,9 @@ export const RULES = {
       cost: { counters: 1 },
       short: 'Add components from your hand to a spell you already have.',
       details: [
-        'The spell may grow and keep its type, or change among Conjuration, Transfiguration and Perfect Transmutation.',
-        'Empower can never turn a spell into an Enchantment, or an Enchantment into anything else. That takes Learn or Unlearn.',
-        'Wilds already in the spell keep their declaration.',
+        'The spell may grow and keep its type, grow an Enchantment to the next size, or change to another spell type.',
+        'Growing an Enchantment raises your capacity from the start of your next turn.',
+        'Wilds already in the spell keep their declared number.',
       ],
     },
     {
@@ -211,8 +213,8 @@ export const RULES = {
       details: [
         'One counter for each spell you break down: break three, pay three.',
         'Every freed component must end in a valid spell.',
-        'Rebuilt spells declare their wilds again.',
-        'Make an Enchantment smaller and its capacity drops at once.',
+        'Rebuilt runs declare the numbers of their wilds again.',
+        'If it changes your Enchantments, compare their capacity before and after: less is lost at once, more arrives next turn.',
       ],
     },
     {
@@ -221,11 +223,10 @@ export const RULES = {
       cost: { counters: 1 },
       short: 'Take one or more components from a single spell back to your hand.',
       details: [
-        'What is left must still be a valid spell. If not, the whole spell comes apart and all of it returns to your hand.',
+        'What stays must still be a valid spell, of any type: take the middle out of a Perfect Transmutation and a Conjuration stays. If not, the whole spell returns to your hand. Wilds that stay in a run keep their number.',
         'One counter however many components you take, but only from one spell. A second spell is a second Unlearn.',
-        'From a run (Transfiguration or Perfect Transmutation), a single component must come off an end. You cannot pull one out of the middle.',
-        'Components you take back cannot be learned into a new spell until your next turn.',
-        'Make an Enchantment smaller, or take it apart, and its capacity drops at once.',
+        'Components you take back can be learned into a new spell straight away, this turn.',
+        'Make an Enchantment smaller, or take it apart, and its capacity drops at once. Capacity that had not arrived yet is simply cancelled.',
       ],
     },
   ],
@@ -241,29 +242,31 @@ export const RULES = {
       'You gain capacity by learning Enchantments. An Enchantment’s capacity always matches its current size.',
     ],
     timing: [
-      '**Gains** (Learn or Empower an Enchantment) arrive at the start of your **next turn**.',
-      '**Losses** (Unlearn or Reshape an Enchantment smaller, or take it apart) apply **immediately**.',
-      'You may only shrink or take apart an Enchantment if you can pay the action’s counter **and** absorb the lost capacity from the counters you still have free this turn. If you cannot, the action is blocked.',
+      'Whenever a learning action (Learn, Empower, Reshape or Unlearn) changes your Enchantments, compare the capacity they gave before it with what they give after. **More** arrives at the start of your **next turn**; until then you keep what you had.',
+      '**Less** is lost **immediately**. Capacity that has not arrived yet is never a loss: shrink an Enchantment before its new capacity arrives and that capacity simply never arrives.',
+      'You may only take an action that loses capacity if you can pay its full counter cost **and** absorb the loss from the counters you still have free this turn. If you cannot, the action is blocked.',
     ],
     workedExample:
       'Your only Enchantment is a 4-component set of 8s at 2–4 players, so your capacity is 4 (1 to start, 3 from the Enchantment). Taking it apart costs 1 action and 3 lost capacity: 4 in all, possible only if you have used no capacity this turn. Stepping it down to 3 components costs 1 action and 2 lost capacity: 3 in all, and leaves a scoring Enchantment worth 1 counter.',
   },
 
   wildRule: {
-    summary: 'A wild stands in for any energy and value in the deck you are playing with.',
+    summary: 'A wild is whatever the spell needs. It never declares an energy.',
     lines: [
-      'When a wild becomes part of a learned spell, declare what it is: an energy and a value.',
-      'It can only be an energy that is in the deck you are playing with. It cannot stand for an energy that is not in play.',
-      'The declaration is fixed for as long as that spell exists. Empowering the spell does not change it.',
+      'In a run (Transfiguration or Perfect Transmutation) a wild declares only a number, when the spell is learned.',
+      'In a Conjuration or an Enchantment it declares nothing: it takes the spell’s energy or value.',
+      'The number is fixed for as long as that spell exists. Empowering the spell does not change it.',
       'If the spell is broken down and rebuilt, its wilds are declared again.',
-      'No spell may hold more than {maxSpellSize} components. Wilds cannot push a spell past the 1–{maxValue} span.',
+      'No spell may hold more than {maxSpellSize} components. Wilds cannot push a run past the 1–{maxValue} span.',
     ],
     enchantmentConsequence:
-      'So a wild cannot be a “fifth energy” in a four-energy deck: at 2–4 players an Enchantment stops at 4 components. The 5-component Enchantment needs Echo, at 5–6 players.',
+      'An Enchantment holds at most 4 components at 2–4 players and 5 at 5–6 players, wilds included.',
   },
 
   drought: {
     trigger: 'The instant the Source runs dry.',
+    midTurn:
+      'If a draw or an Array refill takes the last card, finish that Collection choice or spell effect first. No spell half-resolves. Then the Drought begins: the active player casts nothing more and goes on to Learning, under Drought rules.',
     steps: [
       'Shuffle the Array together with the Arcane Reserve.',
       'That pile is the **Released Reserve**.',
@@ -276,11 +279,11 @@ export const RULES = {
       { kind: 'perfect', works: false, text: 'Perfect Transmutations needed both.' },
       { kind: 'enchantment', works: true, text: 'Enchantments still work. They are always active and keep giving their full capacity.' },
     ],
-    end: 'When the Released Reserve is empty, the contest ends at once. Evaluate your Spellbooks.',
+    end: 'When a player draws the last card of the Released Reserve, they finish that turn, including their Learning. Then the contest ends. Evaluate your Spellbooks.',
   },
 
   keyReminders: [
-    'Wilds stand in for any energy and value.',
+    'Wilds are whatever the spell needs. In a run, declare the number.',
     'Enchantments are always active. Never cast.',
     'Counters are capacity, not a resource. All return at Learning.',
   ],
@@ -329,13 +332,13 @@ export const RULES = {
     { term: 'Arcane Reserve', def: 'The discard pile. It is released when the Source runs dry.' },
     { term: 'The Opening', def: 'Before the first turn, every player places {openingDiscard} component from their hand into the Arcane Reserve.' },
     { term: 'The Drought', def: 'The final phase. The Array and Arcane Reserve merge into the Released Reserve. No casting: only Collection and Learning.' },
-    { term: 'Released Reserve', def: 'The last draw pile: the Array and the Arcane Reserve shuffled together. When it is empty the contest ends.' },
+    { term: 'Released Reserve', def: 'The last draw pile: the Array and the Arcane Reserve shuffled together. Whoever draws its last card finishes that turn; then the contest ends.' },
     { term: 'Spellbook', def: 'The spells laid out in front of you. It is what gets scored.' },
     { term: 'Conjuration', def: '{minSpellSize}+ components of the same energy. Cast it to draw extra components from the Source.' },
     { term: 'Transfiguration', def: '{minSpellSize}+ components with consecutive values, any energies. Cast it to trade through the Array.' },
-    { term: 'Enchantment', def: '{minSpellSize} to {enchantmentMaxAny} components of the same value. Always active, never cast. Raises your capacity.' },
+    { term: 'Enchantment', def: '{minSpellSize} to {enchantmentMaxAny} components of the same value (at most 4 at 2–4 players). Always active, never cast. Raises your capacity.' },
     { term: 'Perfect Transmutation', def: '{minSpellSize}+ consecutive values of one energy. Cast it for both the Conjuration and the Transfiguration effect.' },
-    { term: 'Wild', def: 'A card that stands in for any energy and value in the current deck. Declared when learned; fixed while the spell exists.' },
+    { term: 'Wild', def: 'A card that is whatever the spell needs. In a run it declares a number when learned, fixed while the spell exists.' },
     { term: 'Counter', def: 'A token for one unit of capacity. Placed on a spell to cast it, picked up at the Recall, then used to pay for a learning action.' },
     { term: 'Capacity', def: 'How many spells you may cast and how many learning actions you may take each turn. One of each per counter.' },
     { term: 'Casting', def: 'Placing a counter on a spell in your Spellbook and resolving its effect at once.' },
@@ -359,7 +362,6 @@ export const RULES = {
         { t: 'p', x: '**The goal.** {goal}' },
         { t: 'h', id: 'deck', x: 'Choose the deck' },
         { t: 'ref', name: 'deckTable' },
-        { t: 'callout', kind: 'under-test', x: '{echoStatus}' },
         { t: 'h', id: 'deal', x: 'Deal and lay out' },
         { t: 'ref', name: 'setupSteps' },
         { t: 'h', id: 'the-opening', x: 'The Opening' },
@@ -391,6 +393,7 @@ export const RULES = {
       blocks: [
         { t: 'flavour', x: 'Four ways to arrange what you hold. Your Spellbook is the proof.' },
         { t: 'p', x: 'A spell is {minSpellSize} or more components in one of four patterns. No spell may hold more than {maxSpellSize}.' },
+        { t: 'p', x: 'A spell’s type is set by its components, not chosen. If they fit more than one type, it is the most specific: a same-energy run is always a Perfect Transmutation. Only a spell holding two or more wilds can still be read two ways: say which spell it is when you learn it, and it stays that spell until you rebuild it.' },
         { t: 'ref', name: 'spell:conjuration' },
         { t: 'ref', name: 'spell:transfiguration' },
         { t: 'ref', name: 'spell:enchantment' },
@@ -439,6 +442,7 @@ export const RULES = {
         { t: 'flavour', x: 'The Source is dry. What remains is the Reserve, released for the last preparations.' },
         { t: 'h', id: 'the-drought-has-begun', x: 'The Drought has begun' },
         { t: 'p', x: '**Trigger.** {droughtTrigger}' },
+        { t: 'p', x: '**Mid-turn.** {droughtMidTurn}' },
         { t: 'ref', name: 'droughtSteps' },
         { t: 'h', id: 'drought-turns', x: 'Turns during the Drought' },
         { t: 'ref', name: 'turnSteps:drought' },
@@ -457,7 +461,6 @@ export const RULES = {
         { t: 'p', x: 'Tally Recognition Points for every spell in your Spellbook. The highest total wins.' },
         { t: 'ref', name: 'scoreTable' },
         { t: 'ref', name: 'tiebreakers' },
-        { t: 'callout', kind: 'under-test', x: 'This is the v{version} table. It is under test.' },
         { t: 'h', id: 'scoring-example', x: 'Example' },
         { t: 'ref', name: 'scoringExample' },
         { t: 'h', id: 'score-calculator', x: 'Score calculator' },

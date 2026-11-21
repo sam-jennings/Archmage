@@ -1,16 +1,21 @@
 ---
-title: Source-emptying mid-turn timing (proposed rulebook patch)
+title: Source-emptying mid-turn timing (rulebook v3.2)
 type: decision
 date: 2026-07-06
-status: proposed
+status: canon
 ---
 
-# 2026-07-06 — Source-emptying timing (proposed rulebook patch)
+# 2026-07-06 — Source-emptying timing
+
+> **CANON 2026-11-13** — approved by Sam (item B8) and written into rulebook v3.2 via
+> `2026-11-13-v3-2-designer-approval.md`: master rule in The Drought, per-effect rulings in the
+> Casting Phase spell effects. PT uses the "cleanest rule" below (castable only if the Source can
+> complete both effects); the not-recommended edge case was not adopted.
 
 Source: `_review/ARCHMAGE_SAM_DECISIONS_F3_F14_2026-07.md`, "Source-emptying timing mid-turn".
 
-New ruling not previously tracked as a fork. Recorded here as a **proposed rulebook
-patch** — not yet written into the rulebook (status `proposed`, boxes exempt).
+New ruling not previously tracked as a fork. Originally recorded as a **proposed rulebook
+patch**.
 
 ## Recommended master timing rule
 
@@ -47,10 +52,10 @@ cleanliness.
 
 ## Canon delta
 
-None yet — proposed text; lands in the rulebook on Sam approval.
+Applied 2026-11-13: `meta/canon.yml` gains `source_emptying` (master rule + Conj/PT castability).
 
 ## Propagation
 
-- [x] `meta/QUEUE.md` — tracked as an open [decide] rules item (2026-07-06)
-- [ ] Rulebook — Casting Phase / End-of-the-Drought: add the master timing rule + per-effect rulings
-- [ ] `simulation/ASSUMPTIONS.md` — align Source-depletion handling if the sim models it
+- [x] `meta/QUEUE.md` — tracked as an open [decide] rules item (2026-07-06); closed 2026-11-13
+- [x] Rulebook — Casting Phase / End-of-the-Drought: add the master timing rule + per-effect rulings (v3.2, 2026-11-13; also in both classic web references, the v2 rules data and the Drought explainer)
+- [x] `simulation/ASSUMPTIONS.md` — align Source-depletion handling if the sim models it (2026-11-13: the sim already stops casting when the Source empties; one noted gap, a 6+ Conjuration may still draw the last single card)

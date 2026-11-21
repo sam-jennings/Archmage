@@ -44,7 +44,7 @@ export function documentMetadata(doc,index,current) {
     doc.body.match(/(?:written\s+(?:against|for)|base[- ]rules(?:\s+version)?\s*[:=]|rulebook\s+version\s*[:=])\s*\*{0,2}(v\d+\.\d+)/i)?.[1];
   const dates=[doc.meta.updated,doc.meta.created,...all.matchAll(/\b(20\d{2}-\d{2}-\d{2})\b/g)].map(value=>Array.isArray(value)?value[1]:value).filter(Boolean).sort();
   const version=doc.meta.version||doc.title.match(/\bv(0\.\d+)\b/)?.[1]||(/v0\.1 ruleset/i.test(section)?'0.1':null);
-  let status=version?'v0.1 ruleset':'concept';
+  let status=version?`v${version} ruleset`:'concept';
   if(/^(parked|shelved|template-gated)$/.test(doc.meta.status||''))status='parked';
   if(doc.meta.status==='locked-in')status='locked-in';
   return {status,originalStatus:doc.meta.status||'Not declared',version,updated:dates.at(-1)||'Not recorded',
@@ -149,7 +149,7 @@ async function build() {
   for(const doc of pages) {
     const filename=path.posix.basename(doc.source);
     if(/^(old-expansion-thread-review|Playtest Plans|Expansion Concepts|Expansion Directions)/i.test(filename))supporting.push(doc);
-    else modules.push({title:doc.title.replace(/^(Expansion B|Expansion|Solo Mode)\s*[–—-]\s*/,'').replace(/\s*[–—-]\s*(?:v0\.1 Rules|Reconciled Ruleset & Complexity Tiers)$/,''),href:doc.href,
+    else modules.push({title:doc.title.replace(/^(Expansion B|Expansion|Solo Mode)\s*[–—-]\s*/,'').replace(/\s*[–—-]\s*(?:v0\.\d+ Rules|Reconciled Ruleset & Complexity Tiers)$/,''),href:doc.href,
       pitch:doc.meta.pitch||pitches[doc.source.includes('The Schools')?'schools-and-last-rites/schools':doc.source.includes('The Last Rites')?'schools-and-last-rites/rites':doc.source.split('/')[1]]||pitchFrom(doc.body,doc.title),
       metadata:doc.metadata,players:/null-cabal\//.test(doc.source)?'3–6':/solo-attuned-rival\//.test(doc.source)?'1':/the-schism\//.test(doc.source)?'2':'2–4 / 5–6 with Echo (index compatibility rule)',source:doc.source});
   }
@@ -180,8 +180,9 @@ async function build() {
     doc.rendered=renderMarkdown(body);pages.push(doc);
     modules.unshift({title:locked,href:doc.href,pitch:'The only locked-in expansion. Its scoring reconciliation remains open; use the versioned Trials companion.',players:doc.players,metadata,source:index.source});
   }
-  const order=['locked-in','v0.1 ruleset','concept','parked'];
-  modules.sort((a,b)=>order.indexOf(a.metadata.status)-order.indexOf(b.metadata.status)||a.title.localeCompare(b.title,'en'));
+  const order=['locked-in','ruleset','concept','parked'];
+  const rank=status=>order.indexOf(/ ruleset$/.test(status)?'ruleset':status);
+  modules.sort((a,b)=>rank(a.metadata.status)-rank(b.metadata.status)||a.title.localeCompare(b.title,'en'));
   const card=m=>`<article class="studio-card">${statusHtml(m.metadata.status)}<h3><a href="${esc(m.href)}">${esc(m.title)}</a></h3><p>${esc(m.pitch)}${m.pitch.length>=210?'…':''}</p>${metadataHtml(m.metadata,m.players)}</article>`;
   const indexHtml=shell('Expansion designs',`<header class="studio-hero"><p class="ax-label">Designer studio</p><h1>Expansion designs</h1><p class="ax-lead">Optional modules, paper rulesets and directions for the game’s next chapters.</p><p>Only Ascension Trials is locked in. The rest are untested designs; no development sequence is settled.</p><p class="ax-note">Base-version labels describe the documents, not compatibility certification. “Not declared” means the source never states what it was written against.</p></header><section class="studio-governance" id="combination-governance"><h2>Rules for combining modules</h2>${governance}<p><strong>Deck compatibility:</strong> the index requires identical play at 2–4 players without Echo and 5–6 with Echo. Count-gated designs (The Schism at 2; The Attuned Rival at 1) record exceptions in that index.</p></section><section aria-labelledby="modules"><h2 id="modules">Modules <span class="ax-note">${modules.length} designs</span></h2><div class="studio-grid">${modules.map(card).join('\n')}</div></section><section class="studio-hero"><h2>Design context & supporting notes</h2><ul>${supporting.map(d=>`<li><a href="${esc(d.href)}">${esc(d.title)}</a></li>`).join('')}</ul><p><a href="lint.html">Read the vocabulary and metadata notes</a> · <a href="${esc(sourceUrl(index.source))}">Original expansion index</a></p></section>`);
   await mkdir(OUTPUT,{recursive:true});
