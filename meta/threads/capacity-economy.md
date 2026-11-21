@@ -63,7 +63,7 @@ The v3.1 confirm/kill no longer depends on getting people around a physical tabl
 rendered fresh from the canonical arcana+beacon renderer (2–4p deck per canon),
 card back, counter token, spritesheets, and the A3 board raster with its stale
 Recognition Points / Set-up panels replaced by v3.1-correct ones (the board PDF
-itself is still pre-v3.1 — queued P2). `SCREENTOP_BUILD_GUIDE.md` covers table
+itself was brought to v3.3 on 2026-11-21 by `board/regen_board_v33.py`). `SCREENTOP_BUILD_GUIDE.md` covers table
 assembly, v3.1 setup, the confirm/kill criteria, and stranger-recruitment venues.
 Decision: `meta/decisions/2026-07-19-screentop-online-playtest.md` (F14 print hold
 untouched — this is a screen-only export target).

@@ -10,7 +10,11 @@ tucked inside `art/ref cards + board/` and hard to find.
 ## Contents
 
 - **`archmage_a3_landscape_board.pdf`** — the main game board.
-  A3 landscape orientation.
+  A3 landscape orientation. Content matches rulebook v3.3 (2026-11-21).
+- **`regen_board_v33.py`** — rewrites the board PDF's text in place to v3.3
+  (the original ReportLab source was never in the repo; art and layout are
+  kept). Run `python board/regen_board_v33.py` from the repo root, once, on
+  the pre-v3.3 PDF from git history — it is not idempotent on its own output.
 - **`spell_ref.png`** — printable player-facing spell reference card.
   Note: per `web-apps/REFERENCE_SITE_PLAN.md`, the symbols on this image
   are out of date. The canonical source of energy artwork is
